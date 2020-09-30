@@ -1,27 +1,113 @@
-import React from 'react';
-import { View , Text} from 'react-native';
-// 1.
-import { GiftedChat } from 'react-native-gifted-chat';
-class Chat extends React.Component {
-  state = {
-    messages: [],
-  };
-  // 2.
-  static navigationOptions = ({ navigation }) => ({
-    title: (navigation.state.params || {}).name || 'Chat!',
-  });
-  // 3.
-  
+// @refresh reset
+
+import React, { useState, useEffect, useCallback } from 'react'
+import { GiftedChat } from 'react-native-gifted-chat'
+import AsyncStorage from '@react-native-community/async-storage'
+import { StyleSheet, TextInput, View, LogBox, Button } from 'react-native'
+import * as firebase from 'firebase'
+import 'firebase/firestore'
+
+const firebaseConfig = {
  
-  render() {
-    // 4.
-    return (  
-      <GiftedChat
-        messages={this.state.messages}
-      />
-    
-    );
-  }
+    apiKey: "AIzaSyDRItqqCOKaYRO3hMHpIc_m1V61oOQcfSY",
+    authDomain: "help-recover-3984c.firebaseapp.com",
+    databaseURL: "https://help-recover-3984c.firebaseio.com",
+    projectId: "help-recover-3984c",
+    storageBucket: "help-recover-3984c.appspot.com",
+    messagingSenderId: "200817849391",
+    appId: "1:200817849391:web:80c54f2a630d75ce5682da"
+ 
 }
 
-export default Chat;
+//prevent us from initialising the app every time we refresh screen
+if (firebase.apps.length === 0) {
+    firebase.initializeApp(firebaseConfig)
+}
+
+LogBox.ignoreLogs(['Setting a timer for a long period of time'])
+
+const db = firebase.firestore()
+const chatsRef = db.collection('chats')
+
+export default function Chat() {
+    const [user, setUser] = useState(null)
+    const [name, setName] = useState('')
+    const [messages, setMessages] = useState([])
+
+    useEffect(() => {
+        readUser()
+        //onSnapshot serves as an observer so it is called any time we have an update on our collection(table)
+        const unsubscribe = chatsRef.onSnapshot((querySnapshot) => {
+          //we listen to the doc changes
+            const messagesFirestore = querySnapshot
+                .docChanges()
+                .filter(({ type }) => type === 'added')
+                .map(({ doc }) => {
+                    const message = doc.data()
+                    //createdAt is firebase.firestore.Timestamp instance
+                    //https://firebase.google.com/docs/reference/js/firebase.firestore.Timestamp
+                    return { ...message, createdAt: message.createdAt.toDate() }
+                })
+                .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
+            appendMessages(messagesFirestore)
+            //the 2 lines above sort the message by creation time so that recent messages are sent first
+        })
+        return () => unsubscribe()
+    }, [])
+
+    const appendMessages = useCallback(
+      //prevent recent message from replacing previouse one 
+        (messages) => {
+            setMessages((previousMessages) => GiftedChat.append(previousMessages, messages))
+        },
+        [messages]
+    )
+
+    async function readUser() {
+      //we get the user from async storage
+        const user = await AsyncStorage.getItem('user')
+        if (user) {
+            setUser(JSON.parse(user))
+        }
+    }
+    async function handlePress() {
+        //we generate a unique id for each user
+        const _id = Math.random().toString(36).substring(7)
+        const user = { _id, name }
+        await AsyncStorage.setItem('user', JSON.stringify(user))
+        setUser(user)
+    }
+    async function handleSend(messages) {
+        const writes = messages.map((m) => chatsRef.add(m))
+        await Promise.all(writes)
+    }
+
+    if (!user) {
+      //no user in async storage
+        return (
+            <View style={styles.container}>
+                <TextInput style={styles.input} placeholder="Enter your name" value={name} onChangeText={setName} />
+                <Button onPress={handlePress} title="Enter the chat" />
+            </View>
+        )
+    }
+    return <GiftedChat messages={messages} user={user} onSend={handleSend} />
+}
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        alignItems: 'center',
+        justifyContent: 'center',
+        padding: 30,
+    },
+    input: {
+        height: 50,
+        width: '100%',
+        borderWidth: 1,
+        padding: 15,
+        marginBottom: 20,
+        borderColor: 'gray',
+    },
+})

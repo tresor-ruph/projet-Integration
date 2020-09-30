@@ -1,20 +1,29 @@
 import React from 'react';
-import { StyleSheet, Text, View } from 'react-native';
+import { StyleSheet, Text, View,TouchableOpacity } from 'react-native';
 
-const HomeScreen = () => (
+
+
+class HomeScreen extends React.Component {
+
+  click_esp_pers = () => {this.props.navigation.navigate('MainChat') }
+  render(){
+    return(
   <View style={styles.container}>
-    <View style={styles.box1}>
+    <TouchableOpacity style={styles.box1}>
       <Text style={styles.text}>Demande de Service</Text>
-    </View>
-    <View style={styles.box2}>
-      <Text style={styles.text}>Offre de Service</Text>
-
-    </View>
-    <View style={styles.box3}>
-      <Text style={styles.text}>Espace personnel</Text>
-    </View>
+    </TouchableOpacity>
+  
+      <TouchableOpacity style={styles.box2}>
+        <Text style={styles.text}>Offre de Service</Text>
+      </TouchableOpacity>
+      <TouchableOpacity style={styles.box3} onPress = {this.click_esp_pers} >
+        <Text style={styles.text}>Espace personnel</Text>
+      </TouchableOpacity>
+    
   </View>
-);
+  )
+}
+}
 
 const styles = StyleSheet.create({
   container: {

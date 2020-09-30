@@ -44,6 +44,9 @@ const styles = StyleSheet.create({
   buttonText: { // 5.
     marginLeft: offset,
     fontSize: offset,
+    backgroundColor : 'rgba(0,0,255,0.3)',
+    borderRadius : 10,
+    width : 75,
   },
 });
 export default MainChat;
