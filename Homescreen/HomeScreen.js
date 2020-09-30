@@ -6,6 +6,7 @@ import { StyleSheet, Text, View,TouchableOpacity } from 'react-native';
 class HomeScreen extends React.Component {
 
   click_esp_pers = () => {this.props.navigation.navigate('MainChat') }
+  click_cat_O = () => {this.props.navigation.navigate('catalogueOffre') }
   render(){
     return(
   <View style={styles.container}>
@@ -13,7 +14,7 @@ class HomeScreen extends React.Component {
       <Text style={styles.text}>Demande de Service</Text>
     </TouchableOpacity>
   
-      <TouchableOpacity style={styles.box2}>
+      <TouchableOpacity style={styles.box2} onPress = {this.click_cat_O}>
         <Text style={styles.text}>Offre de Service</Text>
       </TouchableOpacity>
       <TouchableOpacity style={styles.box3} onPress = {this.click_esp_pers} >
