@@ -1,73 +1,164 @@
-import React from 'react';
-import { StyleSheet, Text, View,TouchableOpacity } from 'react-native';
+import React, { Component } from "react";
+import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
+import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import chat from './../Messenger/Chat'
 
-
-
-class HomeScreen extends React.Component {
-
-  click_esp_pers = () => {this.props.navigation.navigate('MainChat') }
-  click_cat_D = () => {this.props.navigation.navigate('FaireDemande') }
-  click_cat_O =() => {this.props.navigation.navigate('ListeDem')}
-  render(){
-    return(
-  <View style={styles.container}>
-    <TouchableOpacity style={styles.box1} onPress = {this.click_cat_D}>
-      <Text style={styles.text}>Demande de Service</Text>
-    </TouchableOpacity>
-
-      <TouchableOpacity style={styles.box2} onPress = {this.click_cat_O}>
-        <Text style={styles.text}>Offre de Service</Text>
-      </TouchableOpacity>
-      <TouchableOpacity style={styles.box3} onPress = {this.click_esp_pers} >
-        <Text style={styles.text}>Espace personnel</Text>
-      </TouchableOpacity>
-
-  </View>
-  )
-}
+function Mainscreen(props) {
+  return (
+    <View style={styles.container}>
+      <View style={styles.buttonRow}>
+        <TouchableOpacity style={styles.button}>
+          <Text style={styles.joffreMonService1}>
+            J&#39;offre mon{"\n"}service
+          </Text>
+        </TouchableOpacity>
+        <TouchableOpacity style={styles.button2}>
+          <Text style={styles.demandeDaide}>Demande {"\n"}d&#39;aide</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.button3Row}>
+        <TouchableOpacity style={styles.button3}>
+          <Text style={styles.profile}>Profile</Text>
+        </TouchableOpacity>
+        <TouchableOpacity
+          onPress={() => props.navigation.navigate("DiscussionMain")}
+          style={styles.button4}
+        >
+          <Text style={styles.discussion}>Discussion</Text>
+        </TouchableOpacity>
+      </View>
+      <View style={styles.iconStack}>
+        <MaterialCommunityIconsIcon
+          name="home"
+          style={styles.icon}
+        ></MaterialCommunityIconsIcon>
+        <MaterialCommunityIconsIcon
+          name="home"
+          style={styles.icon3}
+        ></MaterialCommunityIconsIcon>
+        <MaterialCommunityIconsIcon
+          name="account-circle"
+          style={styles.icon4}
+        ></MaterialCommunityIconsIcon>
+      </View>
+      <MaterialCommunityIconsIcon
+        name="home"
+        style={styles.icon2}
+      ></MaterialCommunityIconsIcon>
+    </View>
+  );
 }
 
 const styles = StyleSheet.create({
   container: {
-      width : "100%",
-      height : "100%",
-    backgroundColor: 'rgba(106,106,255,0.6)',
+    flex: 1
   },
-  box1: {
-    position: 'absolute',
-    top: 140,
-    left: 25,
-    width: 150,
-    height: 150,
-    backgroundColor: 'rgba(242,100,107,1)',
-    borderRadius : 20,
+  button: {
+    width: '46%',
+    height: 194,
+    backgroundColor: "rgba(227,144,153,1)",
+    borderRadius: 22
   },
-  box2: {
-    ...StyleSheet.absoluteFill,
-    width: 150,
-    height: 150,
-    top: 140,
-    left: 185,
-    backgroundColor: 'rgba(94,94,205,1)',
-
-    borderRadius : 20,
-  },
-  box3: {
-    position: 'absolute',
-    top: 310,
-    left: 25,
-    width: 310,
-    height: 150,
-    backgroundColor: 'rgba(0,128,0,0.5)',
-
-    borderRadius : 20,
-  },
-  text: {
-    color: '#FFF',
-    fontSize: 25,
+  joffreMonService1: {
+    fontFamily: "roboto-300",
+    color: "#121212",
+    lineHeight: 18,
     textAlign: "center",
-    marginTop: 40,
+    fontSize: 18,
+    marginTop: 77,
+    marginLeft: 40
+  },
+  button2: {
+    width: '46%',
+    height: 194,
+    backgroundColor: "rgba(118,171,227,1)",
+    borderRadius: 22,
+    marginLeft: 23,
+    marginTop: 2
+  },
+  demandeDaide: {
+    fontFamily: "roboto-300",
+    color: "#121212",
+    fontSize: 18,
+    textAlign: "center",
+    marginTop: 75,
+    marginLeft: 41
+  },
+  buttonRow: {
+    height: 196,
+    flexDirection: "row",
+    marginTop: 157,
+    marginLeft: 9,
+    marginRight: 4
+  },
+  button3: {
+    width: '46%',
+    height: 194,
+    backgroundColor: "rgba(189,244,123,1)",
+    borderRadius: 22
+  },
+  profile: {
+    fontFamily: "arial-regular",
+    color: "#121212",
+    fontSize: 18,
+    marginTop: 73,
+    marginLeft: 58
+  },
+  button4: {
+    width: '46%',
+    height: 194,
+    backgroundColor: "rgba(183,154,209,1)",
+    borderRadius: 22,
+    marginLeft: 23
+  },
+  discussion: {
+    fontFamily: "roboto-300",
+    color: "#121212",
+    fontSize: 21,
+    textAlign: "center",
+    marginTop: 73,
+    marginLeft: 30
+  },
+  button3Row: {
+    height: 194,
+    flexDirection: "row",
+    marginTop: 10,
+    marginLeft: 9,
+    marginRight: 4
+  },
+  icon: {
+    top: 0,
+    left: 38,
+    position: "absolute",
+    color: "rgba(128,128,128,1)",
+    fontSize: 40
+  },
+  icon3: {
+    top: 36,
+    left: 33,
+    position: "absolute",
+    color: "rgba(128,128,128,1)",
+    fontSize: 40
+  },
+  icon4: {
+    top: 42,
+    left: 0,
+    position: "absolute",
+    color: "rgba(128,128,128,1)",
+    fontSize: 40
+  },
+  iconStack: {
+    width: 78,
+    height: 85,
+    marginTop: -576,
+    marginLeft: -105
+  },
+  icon2: {
+    color: "rgba(128,128,128,1)",
+    fontSize: 40,
+    marginTop: -143,
+    marginLeft: 344
   }
 });
 
-export default HomeScreen;
+export default Mainscreen;

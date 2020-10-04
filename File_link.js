@@ -2,10 +2,7 @@ import React from "react"
 import 'react-native-gesture-handler';
 import HomeScreen from './Homescreen/HomeScreen'
 import Chat  from './Messenger/Chat'
-import MainChat  from './Messenger/Main_Chat'
-import catalogueOffre from './Catalogue/catalogueOffre'
-import Demande from './DemandeFormulaire/Demande'
-import ListeDem from './Catalogue/ListeDem'
+import DiscussionMain from './Messenger/Dicussion_Main'
 import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
@@ -20,10 +17,8 @@ render() {
         <NavigationContainer>
             <Stack.Navigator>
             <Stack.Screen name = "HomeScreen" component = {HomeScreen} />
-            <Stack.Screen name = "MainChat" component = {MainChat} />
-            <Stack.Screen name = "FaireDemande" component = {Demande} />
             <Stack.Screen name = "Chat" component = {Chat} />
-            <Stack.Screen name = "ListeDem" component = {ListeDem} />
+            <Stack.Screen name = "DiscussionMain" component = {DiscussionMain} />
 
             </Stack.Navigator>
         </NavigationContainer>
