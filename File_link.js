@@ -4,7 +4,7 @@ import HomeScreen from './Homescreen/HomeScreen'
 import Chat  from './Messenger/Chat'
 import MainChat  from './Messenger/Main_Chat'
 import catalogueOffre from './Catalogue/catalogueOffre'
-import Demande from './DemandeFormulaire/Demande'
+import Demande from './demandeFormulaire/Demande'
 import ListeDem from './Catalogue/ListeDem'
 import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
