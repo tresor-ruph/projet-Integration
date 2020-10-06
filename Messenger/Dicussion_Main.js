@@ -1,11 +1,17 @@
 import React, { Component ,Text,useState} from "react";
 import { StyleSheet, View } from "react-native";
-import FooterDisc from "./footer_discuss";
-import Svg, { Ellipse } from "react-native-svg";
+import FooterDisc from "./Discussion_Screen";
 import Chat from "./Chat";
 
 function DiscussionMain(props) {
-   
+  
+  const [disp , setDisp] = useState(' ');
+  function handleChange(newValue) {
+    console.log(newValue)
+    setDisp(newValue);
+    console.log({disp})
+  }
+
   return (
     <View style={styles.container}>
         
@@ -19,6 +25,7 @@ function DiscussionMain(props) {
         activeIcon="account-group"
         buttonWrapper2="Untitled1"
         icon2="contacts"
+        onChange = {handleChange}
         
         style={styles.materialIconTextButtonsFooter1}
       ></FooterDisc> 
@@ -38,36 +45,7 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: 678
   },
-  ellipse1: {
-    width: 66,
-    height: 83,
-    marginTop: -651,
-    marginLeft: 16
-  },
-  ellipse2: {
-    width: 66,
-    height: 83,
-    marginTop: 27,
-    marginLeft: 16
-  },
-  ellipse3: {
-    width: 66,
-    height: 83,
-    marginTop: 21,
-    marginLeft: 16
-  },
-  ellipse4: {
-    width: 66,
-    height: 83,
-    marginTop: 31,
-    marginLeft: 16
-  },
-  ellipse5: {
-    width: 66,
-    height: 83,
-    marginTop: 42,
-    marginLeft: 10
-  },
+ 
   cupertinoHeaderWithActionButton1: {
     height: 44,
     width: 375,

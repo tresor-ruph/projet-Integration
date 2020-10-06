@@ -1,41 +1,69 @@
-import React, { Component } from "react";
+import React, { Component, useState } from "react";
 import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import Chat from './Chat'
+
+
+
 function FooterDisc(props) {
-  return (
-    <View style={[styles.container, props.style]}>
-      <TouchableOpacity
-        onPress={() => console.log("Navigate to Discussion")}
+
+   
+    const  [disp, setDisp] = useState('disc');
+
+    function handleChange(event){
+      props.onChange(event.target.value)
+      console.log(value)
+      
+    }
+
+    function renderScreen() {
+      if(disp === 'disc'){
+        return (<Text>Hello</Text>)
+      }else if(disp === 'groups'){
+        return (<Text>Hi</Text>)
+      }else if(disp === 'contacts'){
+        return (<Text>Yup</Text>)
+      }
+    }
+
+    return (  
+      <View> 
+        {renderScreen()}
+    <View style={[styles.container, styles.materialIconTextButtonsFooter1]}>
+      
+      <View style ={styles.content}>
+      </View>
+      <TouchableOpacity  onPress = {() =>{setDisp('disc');console.log({disp})}}
+        
         style={styles.buttonWrapper1}
       >
         <MaterialCommunityIconsIcon
-          name={props.icon1 || "timer"}
+          name={"wechat"}
           style={styles.icon1}
         ></MaterialCommunityIconsIcon>
         <Text style={styles.btn1Text}>Recent</Text>
       </TouchableOpacity>
-      <TouchableOpacity /* Conditional navigation not supported at the moment */
-        onPress={() => console.log("Navigate to Groups")}
+      <TouchableOpacity onPress = {() =>{setDisp('groups');console.log({disp})}}
+        
         style={styles.activeButtonWrapper}
       >
         <MaterialCommunityIconsIcon
-          name={props.activeIcon || "heart"}
+          name={"account-group" }
           style={styles.activeIcon}
         ></MaterialCommunityIconsIcon>
         <Text style={styles.activeContent}>Favorites</Text>
       </TouchableOpacity>
-      <TouchableOpacity /* Conditional navigation not supported at the moment */
-        onPress={() => console.log("Navigate to Contacts")}
+      <TouchableOpacity  onPress = {() =>{setDisp('contacts');console.log({disp})}}
         style={styles.buttonWrapper2}
       >
         <MaterialCommunityIconsIcon
-          name={props.icon2 || "map-marker-radius"}
+          name={"contacts"}
           style={styles.icon2}
         ></MaterialCommunityIconsIcon>
         <Text style={styles.btn2Text}>Nearby</Text>
       </TouchableOpacity>
     </View>
+    </View>   
   );
 }
 
@@ -49,9 +77,15 @@ const styles = StyleSheet.create({
         width: 0,
         height: -2
       },
+    
       shadowOpacity: 0.2,
       shadowRadius: 1.2,
       elevation: 3
+    },
+    materialIconTextButtonsFooter1: {
+      height: 62,
+      width: "100%",
+      marginTop: 678
     },
     buttonWrapper1: {
       flex: 1,
