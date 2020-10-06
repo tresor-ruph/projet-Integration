@@ -21,7 +21,7 @@ function Mainscreen(props) {
           <Text style={styles.profile}>Profile</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => props.navigation.navigate("FooterDisc")}
+          onPress={() => props.navigation.navigate("Discussion_Repo")}
           style={styles.button4}
         >
           <Text style={styles.discussion}>Discussion</Text>

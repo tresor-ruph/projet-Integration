@@ -6,7 +6,7 @@ import DiscussionMain from './Messenger/Dicussion_Main'
 import DiscussionScreen from './Messenger/Discussion_Screen'
 import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
-import FooterDisc from './Messenger/Discussion_Screen'
+import Discussion_Repo from './Messenger/Discussion_Screen'
 
 
 
@@ -20,7 +20,7 @@ render() {
             <Stack.Navigator>
             <Stack.Screen name = "HomeScreen" component = {HomeScreen} />
             <Stack.Screen name = "Chat" component = {Chat} />
-            <Stack.Screen name = "FooterDisc" component = {FooterDisc} />
+            <Stack.Screen name = "Discussion_Repo" component = {Discussion_Repo} />
 
             </Stack.Navigator>
         </NavigationContainer>

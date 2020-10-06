@@ -1,11 +1,14 @@
+//this component is the home screen of our chat component
+
 import React, { Component, useState } from "react";
 import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import Chat from './Chat'
+import Contact from "./contact";
 
 
 
-function FooterDisc(props) {
+function Discussion_Repo(props) {
 
    
     const  [disp, setDisp] = useState('disc');
@@ -16,9 +19,15 @@ function FooterDisc(props) {
       
     }
 
-    function renderScreen() {
+    function renderScreen(props) {
       if(disp === 'disc'){
-        return (<Text>Hello</Text>)
+        return (
+        <View>
+        <Contact />  
+        <Contact />
+        <Contact />
+        <Contact />
+        </View>)
       }else if(disp === 'groups'){
         return (<Text>Hi</Text>)
       }else if(disp === 'contacts'){
@@ -51,7 +60,7 @@ function FooterDisc(props) {
           name={"account-group" }
           style={styles.activeIcon}
         ></MaterialCommunityIconsIcon>
-        <Text style={styles.activeContent}>Favorites</Text>
+        <Text style={styles.activeContent}>Groups</Text>
       </TouchableOpacity>
       <TouchableOpacity  onPress = {() =>{setDisp('contacts');console.log({disp})}}
         style={styles.buttonWrapper2}
@@ -60,7 +69,7 @@ function FooterDisc(props) {
           name={"contacts"}
           style={styles.icon2}
         ></MaterialCommunityIconsIcon>
-        <Text style={styles.btn2Text}>Nearby</Text>
+        <Text style={styles.btn2Text}>Contacts</Text>
       </TouchableOpacity>
     </View>
     </View>   
@@ -70,6 +79,7 @@ function FooterDisc(props) {
 
 const styles = StyleSheet.create({
     container: {
+      
       backgroundColor: "#FFF",
       flexDirection: "row",
       shadowColor: "#111",
@@ -94,12 +104,14 @@ const styles = StyleSheet.create({
       paddingHorizontal: 12,
       minWidth: 80,
       maxWidth: 168,
-      alignItems: "center"
+      alignItems: "center",
+      
     },
     icon1: {
       backgroundColor: "transparent",
       color: "#616161",
       fontSize: 24,
+     
       opacity: 0.8
     },
     btn1Text: {
@@ -151,4 +163,4 @@ const styles = StyleSheet.create({
       paddingTop: 4
     }
   });
-export default FooterDisc;
+export default Discussion_Repo;
