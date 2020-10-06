@@ -20,10 +20,11 @@ function Login(props) {
             ry={62}
           ></Ellipse>
         </Svg>
-        <MaterialFixedLabelTextbox
-          label="email"
-          style={styles.materialFixedLabelTextbox}
-        ></MaterialFixedLabelTextbox>
+<MaterialRightIconTextbox
+          inputStyle="Label"
+          inputStyle="Mail"
+          style={styles.materialRightIconTextbox}
+        ></MaterialRightIconTextbox>
         <MaterialRightIconTextbox
           inputStyle="Label"
           inputStyle="Password"
@@ -34,11 +35,7 @@ function Login(props) {
         ></MaterialButtonSuccess>
         <View style={styles.rect5}>
           <View style={styles.loremIpsumRow}>
-            <Text style={styles.loremIpsum} onPress={() => props.navigation.navigate("Form")}>Pas encore de compte ?</Text>
-            <TextInput
-              placeholder="Inscrivez-vous."
-              style={styles.textInput}
-            ></TextInput>
+            <Text style={styles.loremIpsum} onPress={() => props.navigation.navigate("Form")}>Pas encore de compte ? Inscription</Text>
           </View>
         </View>
       </View>
