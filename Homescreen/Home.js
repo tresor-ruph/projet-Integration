@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   rect: {
     flex: 1,
     backgroundColor: "rgba(231,225,225,1)",
-    marginTop: 24
+    marginTop: 0
   },
   button: {
     width: 241,
@@ -46,7 +46,6 @@ const styles = StyleSheet.create({
     marginLeft: 59
   },
   connectezVous: {
-    fontFamily: "roboto-regular",
     color: "#121212",
     fontSize: 23,
 
@@ -69,7 +68,6 @@ const styles = StyleSheet.create({
     marginLeft: 59
   },
   inscrivezVous: {
-    fontFamily: "roboto-regular",
     color: "#121212",
     fontSize: 23,
     marginTop: 18,
