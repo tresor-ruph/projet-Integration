@@ -50,7 +50,7 @@ const styles = StyleSheet.create({
   rect: {
     flex: 1,
     backgroundColor: "#E6E6E6",
-    marginTop: 23
+    marginTop: 0
   },
   ellipse1: {
     width: 114,
@@ -79,19 +79,17 @@ const styles = StyleSheet.create({
   },
   rect5: {
     width: 328,
-    height: 19,
+    height: 50,
     backgroundColor: "rgba(230,230,230,1)",
     flexDirection: "row",
     marginTop: 120,
     marginLeft: 16
   },
   loremIpsum: {
-    fontFamily: "roboto-regular",
     color: "#121212",
     marginTop: 2
   },
   textInput: {
-    fontFamily: "roboto-regular",
     color: "rgba(208,27,27,1)",
     textDecorationLine: "underline",
     width: 92,
@@ -99,7 +97,7 @@ const styles = StyleSheet.create({
     marginLeft: 19
   },
   loremIpsumRow: {
-    height: 19,
+    height: 30,
     flexDirection: "row",
     flex: 1,
     marginRight: 43,
