@@ -27,7 +27,7 @@ function Home(props) {
         </View>
   );
 }
-
+//sqetqstrt
 const styles = StyleSheet.create({
   container: {
     flex: 1
