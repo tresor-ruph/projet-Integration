@@ -24,9 +24,7 @@ function Discussion_Repo(props) {
         return (
         <View>
         <Contact />  
-        <Contact />
-        <Contact />
-        <Contact />
+        
         </View>)
       }else if(disp === 'groups'){
         return (<Text>Hi</Text>)

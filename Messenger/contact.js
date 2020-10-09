@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 
 //import all the components we are going to use
 import {
@@ -14,13 +14,34 @@ import { useNavigation } from '@react-navigation/native';
 
 function Contact(props){
     const navigation = useNavigation();
+
+    const  [name , setName] = useState(" tresor")
+    const [imgUrl , setImgUrl] = useState("https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png ")
+
+    const getUser = () => {
+     
+    };
+
+    useEffect(() => {
+       fetch('http://localhost:3000/user/1')
+        .then((response) => response.json())
+        .then((json) => {
+         
+            console.log(json[0])
+            setName(json[0].Nom)
+            setImgUrl(json[0].PhotoProfil)
+        })
+        .catch((error) => {
+          console.error(error);
+        });
+    }, [name]);
   return (
     <View style={{flex: 1}}>
       <View style={styles.container}>
         <Image
           source={{
-            uri:
-              'https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png',
+            uri:`${imgUrl}`
+              
           }}
           //borderRadius style will help us make the Round Shape Image
           
@@ -31,7 +52,7 @@ function Contact(props){
           }}
         />
         <TouchableOpacity style ={styles.mess} onPress={() => navigation.navigate("Chat")}>
-        <Text>Last message heredfsdfsdfsdfsd</Text>
+        <Text>{name}</Text>
         </TouchableOpacity>
         <View/>
       </View>

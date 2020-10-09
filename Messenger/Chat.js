@@ -48,8 +48,7 @@ export default function Chat() {
                     return { ...message, createdAt: message.createdAt.toDate() }
                 })
                 .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-                console.log('test');
-                console.log(messagesFirestore[0].user.reciever);
+                
 
             getUserMsg(messagesFirestore);
             //the 2 lines above sort the message by creation time so that recent messages are sent first

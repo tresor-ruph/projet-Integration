@@ -8,15 +8,16 @@ user.findById = (id , result) => {
     sql.query(`select * from Utilisateurs where Id = ${id}` , (err,res) => {
         if(err) {
             console.log("error : ", err);
-            result = (err ,null);
+            result (null ,err);
             return;
         }
         if(res.length){
-            console.log("found customer:", res[0])
-            result = (null , res[0]);
+            console.log("user :" , res);
+            result (null, res);
             return;
+
         }
-        result({kind : "not_found"},null);
+          result({kind : "not_found"},null);
     });
 };
 
