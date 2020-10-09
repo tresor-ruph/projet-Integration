@@ -1,11 +1,11 @@
 const express = require("express");
 //const bodyParser = require("body-parser");
-//const cors = require("cors");
+const cors = require("cors");
 const mysql = require('mysql');
 //const dotenv = require('dotenv');
 const app = express();
 //dotenv.config({ path: './env'})
-/*
+
 var corsOptions = {
   origin: "http://localhost:8081"
 };
@@ -13,7 +13,7 @@ var corsOptions = {
 
 
 app.use(cors(corsOptions));
-
+/*
 // parse requests of content-type - application/json
 app.use(bodyParser.json());
 
@@ -46,10 +46,10 @@ db.connect( (err) =>{
     }
 } );
 //si besoin
-//app.use(express.urlencoded({extended: false}));
+app.use(express.urlencoded({extended: false}));
 
 app.use('/',require('./routes/routes'));
-app.use('/auth',require('./routes/routes'));
+app.use('/auth',require('./routes/au'));
 //require("./app/routes/routes")(app);
 // set port, listen for requests
 const PORT = process.env.PORT || 8080;
