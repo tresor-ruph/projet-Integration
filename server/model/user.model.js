@@ -4,21 +4,30 @@ const user = function(user) {
     this.id = user.id
 }
 
-user.findById = (id , result) => {
-    sql.query(`select * from Utilisateurs where Id = ${id}` , (err,res) => {
+user.findContacts = ( result) => {
+    sql.query("select * from Utilisateurs"  , (err,res) => {
         if(err) {
             console.log("error : ", err);
             result (null ,err);
             return;
         }
-        if(res.length){
-            console.log("user :" , res);
+            console.log("contacts :" , res);
             result (null, res);
-            return;
-
-        }
-          result({kind : "not_found"},null);
+            
     });
 };
+
+user.findById = (id,result) => {
+
+    sql.query(`select * from Utilisateurs where Id = ${id}`,(err,res) =>{
+    if(err){
+        console.log("error : ", err)
+        result(null , err);
+        return;
+    }
+    console.log("contacts :", res);
+    result(null, res);
+});
+}
 
 module.exports = user;

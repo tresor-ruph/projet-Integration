@@ -15,26 +15,8 @@ import { useNavigation } from '@react-navigation/native';
 function Contact(props){
     const navigation = useNavigation();
 
-    const  [name , setName] = useState(" tresor")
-    const [imgUrl , setImgUrl] = useState("https://raw.githubusercontent.com/AboutReact/sampleresource/master/old_logo.png ")
-
-    const getUser = () => {
-     
-    };
-
-    useEffect(() => {
-       fetch('http://localhost:3000/user/1')
-        .then((response) => response.json())
-        .then((json) => {
-         
-            console.log(json[0])
-            setName(json[0].Nom)
-            setImgUrl(json[0].PhotoProfil)
-        })
-        .catch((error) => {
-          console.error(error);
-        });
-    }, [name]);
+    const  [name , setName] = useState(props.name)
+    const [imgUrl , setImgUrl] = useState(props.imgUrl)
   return (
     <View style={{flex: 1}}>
       <View style={styles.container}>

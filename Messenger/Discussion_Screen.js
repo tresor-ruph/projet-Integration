@@ -1,17 +1,34 @@
 //this component is the home screen of our chat component
 
-import React, { Component, useState } from "react";
-import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
+import React, {  useEffect, useState } from "react";
+import { StyleSheet, View, TouchableOpacity, Text,SafeAreaView, ScrollView } from "react-native";
 import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
+import MaterialButtonShare from "./components/MaterialButtonShare";
+
 import Chat from './Chat'
 import Contact from "./contact";
-
+import Constants from 'expo-constants';
 
 
 function Discussion_Repo(props) {
 
    
     const  [disp, setDisp] = useState('disc');
+    const  [contacts, setContact] = useState(" ");
+    const [loaded, setLoaded] = useState(false)
+
+    useEffect(() =>{
+      fetch('http://localhost:3000/contacts')
+        .then((response) => response.json())
+        .then((json) => {
+         
+            setContact(json)
+            setLoaded(true)
+            
+    }) .catch((error) => {
+      console.error(error);
+    });
+  }, [name])
 
     function handleChange(event){
       props.onChange(event.target.value)
@@ -19,12 +36,20 @@ function Discussion_Repo(props) {
       
     }
 
+    
+
     function renderScreen(props) {
-      if(disp === 'disc'){
+      let arr = [];
+
+      for(let i=0; i< contacts.length; i++ ){
+        arr.push(<Contact key= {i} name= {contacts[i].Nom} imgUrl ={contacts[i].PhotoProfil}  />)
+
+}      if(disp === 'disc'){
+
         return (
         <View>
-        <Contact />  
-        
+        {arr} 
+      
         </View>)
       }else if(disp === 'groups'){
         return (<Text>Hi</Text>)
@@ -34,12 +59,21 @@ function Discussion_Repo(props) {
     }
 
     return (  
-      <View> 
-        {renderScreen()}
-    <View style={[styles.container, styles.materialIconTextButtonsFooter1]}>
-      
-      <View style ={styles.content}>
-      </View>
+      <SafeAreaView style={styles.container}>
+      <ScrollView style={styles.scrollView}> 
+        {loaded ? renderScreen() : <Text> </Text>}
+        </ScrollView>   
+        <View>
+        <TouchableOpacity  style={styles.buttonAdd} >
+      <MaterialButtonShare 
+        iconName="share-variant"
+        icon="account-multiple-plus"
+        style={styles.materialButtonShare}
+      ></MaterialButtonShare>
+      </TouchableOpacity>
+    </View>
+
+    <View style={[styles.footer, styles.materialIconTextButtonsFooter1]}>
       <TouchableOpacity  onPress = {() =>{setDisp('disc');console.log({disp})}}
         
         style={styles.buttonWrapper1}
@@ -69,15 +103,27 @@ function Discussion_Repo(props) {
         ></MaterialCommunityIconsIcon>
         <Text style={styles.btn2Text}>Contacts</Text>
       </TouchableOpacity>
+     
     </View>
-    </View>   
+    </SafeAreaView>
   );
 }
 
 
 const styles = StyleSheet.create({
-    container: {
-      
+  container: {
+    flex: 1,
+    marginTop: Constants.statusBarHeight,
+  },
+  scrollView: {
+  flex : .8,    
+  },
+    footer: {
+    position: 'fixed',
+     flex:0.1,
+     left: 0,
+     right: 0,
+     bottom: -10,
       backgroundColor: "#FFF",
       flexDirection: "row",
       shadowColor: "#111",
@@ -88,7 +134,6 @@ const styles = StyleSheet.create({
     
       shadowOpacity: 0.2,
       shadowRadius: 1.2,
-      elevation: 3
     },
     materialIconTextButtonsFooter1: {
       height: 62,
@@ -159,6 +204,19 @@ const styles = StyleSheet.create({
       color: "#9E9E9E",
       backgroundColor: "transparent",
       paddingTop: 4
+    },
+    buttonAdd :{
+    width: 56,
+    height: 56,
+    position: 'fixed',
+    flex: 0.1,
+    left : "80%",
+    right: 0,
+    bottom:80,
+    },
+    materialButtonShare: {
+      height: 56,
+      width: 56
     }
   });
 export default Discussion_Repo;

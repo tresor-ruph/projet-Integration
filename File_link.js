@@ -7,6 +7,7 @@ import DiscussionScreen from './Messenger/Discussion_Screen'
 import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Discussion_Repo from './Messenger/Discussion_Screen'
+import addContact from './Messenger/addContact'
 
 
 
@@ -21,7 +22,7 @@ render() {
             <Stack.Screen name = "HomeScreen" component = {HomeScreen} />
             <Stack.Screen name = "Chat" component = {Chat} />
             <Stack.Screen name = "Discussion_Repo" component = {Discussion_Repo} />
-
+            <Stack.Screen name = "addContact" component = {addContact} />
             </Stack.Navigator>
         </NavigationContainer>
     )
