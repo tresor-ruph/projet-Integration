@@ -2,12 +2,12 @@ import React from 'react';
 import { StyleSheet, Text, View,TouchableOpacity } from 'react-native';
 
 
-
 class HomeScreen extends React.Component {
 
   click_esp_pers = () => {this.props.navigation.navigate('MainChat') }
   click_cat_D = () => {this.props.navigation.navigate('FaireDemande') }
   click_cat_O =() => {this.props.navigation.navigate('ListeDem')}
+  click_SignIn =() => {this.props.navigation.navigate('Form')}
   render(){
     return(
   <View style={styles.container}>
@@ -21,7 +21,6 @@ class HomeScreen extends React.Component {
       <TouchableOpacity style={styles.box3} onPress = {this.click_esp_pers} >
         <Text style={styles.text}>Espace personnel</Text>
       </TouchableOpacity>
-
   </View>
   )
 }
