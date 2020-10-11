@@ -1,28 +1,71 @@
-import React, { Component } from "react";
-import { StyleSheet, View, TouchableOpacity, TextInput } from "react-native";
+import React, { Component, useState } from "react";
+import { StyleSheet, View,  TouchableOpacity, TextInput, Button } from "react-native";
+import AsyncStorage from '@react-native-community/async-storage';
+import { useNavigation } from '@react-navigation/native';
+
 
 function CupertinoFooter1(props) {
+  const navigation = useNavigation();
+const [contact , setContact] = useState(" ");
+ 
+
+
+ function enregistrer() {
+  async function getContact (x){
+    try {
+     const value =  await AsyncStorage.getItem('contact')
+     console.log(value);
+     let value2 = JSON.parse(value);
+     if(value2[0].Id === x[0].Id) {
+
+     console.log("le contact ci existe deja")
+      }else {
+        value2.push(x);   
+        console.log(value2);
+        await AsyncStorage.setItem('contact',JSON.stringify(value2))
+
+      }
+      
+    } catch(e) {
+      console.log(e)
+    }
+  
+  
+  }
+
+ let nom = "'"+ props.name + "'";
+ let tel = props.tel
+
+  try {
+    fetch(`http://localhost:3000/contacts/${(nom)}`)
+    .then(response => response.json())
+    .then(json => {
+      if(json.length === 1) { 
+     
+     
+        getContact(json)
+      
+      }else {
+    
+        
+      }
+    })
+  } catch (error) {
+    console.error(error)
+  }
+
+}
   return (
     <View style={[styles.container, props.style]}>
       <View style={styles.btnWrapper1Row}>
         <TouchableOpacity style={styles.btnWrapper1}>
-          <TextInput
-            placeholder="Annuler"
-            placeholderTextColor="rgba(211,15,15,1)"
-            style={[
-              styles.textInput2,
-              {
-                color: props.active ? "#007AFF" : "#9E9E9E"
-              }
-            ]}
-          ></TextInput>
+        <Button title = "Annuler"  onPress={() => navigation.navigate("Discussion_Repo")} />
+
         </TouchableOpacity>
         <TouchableOpacity style={styles.btnWrapper4}>
-          <TextInput
-            placeholder="Enregistrer"
-            placeholderTextColor="rgba(244,11,11,1)"
-            style={styles.textInput}
-          ></TextInput>
+        <Button title = "Enregistrer" onPress = {() => enregistrer()} />
+
+  
         </TouchableOpacity>
       </View>
     </View>

@@ -16,17 +16,21 @@ contacts.findContacts( (err, data) => {
 });
 };
 
-exports.findOne =(req,res) => {
-  contacts.findById(req.params.id, (err, data) => {
-    if(err){
-      res.status(500).send({
-            message: "Error retrieving Customer with id " + req.params.id
-
-      })
-    }else {
-      res.header("Access-Control-Allow-Origin","*");
-        res.send(data);
+exports.findOne = (req, res) => {
+  contacts.findById(req.params.name, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found user with id ${req.params.userId}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving user with id " + req.params.userId
+        });
+      }
+    } else{
+      res.header("Access-Control-Allow-Origin", "*")
+       res.send(data);
     }
-  })
-}
-
+  });
+};

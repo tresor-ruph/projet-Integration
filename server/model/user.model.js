@@ -17,9 +17,9 @@ user.findContacts = ( result) => {
     });
 };
 
-user.findById = (id,result) => {
+user.findById = (name,result) => {
 
-    sql.query(`select * from Utilisateurs where Id = ${id}`,(err,res) =>{
+    sql.query(`SELECT * FROM Utilisateurs WHERE Nom = ${name}`, (err, res) =>{
     if(err){
         console.log("error : ", err)
         result(null , err);

@@ -8,6 +8,7 @@ import MaterialButtonShare from "./components/MaterialButtonShare";
 import Chat from './Chat'
 import Contact from "./contact";
 import Constants from 'expo-constants';
+import AsyncStorage from "@react-native-community/async-storage";
 
 
 function Discussion_Repo(props) {
@@ -17,32 +18,28 @@ function Discussion_Repo(props) {
     const  [contacts, setContact] = useState(" ");
     const [loaded, setLoaded] = useState(false)
 
-    useEffect(() =>{
-      fetch('http://localhost:3000/contacts')
-        .then((response) => response.json())
-        .then((json) => {
-         
-            setContact(json)
-            setLoaded(true)
-            
-    }) .catch((error) => {
-      console.error(error);
-    });
-  }, [name])
+    useEffect(  () =>{
+      async function getContact() {
+     let contact = await AsyncStorage.getItem('contact');
+     if(contact == null) {
+      let test = ["tets"];
+      await AsyncStorage.setItem('contact', JSON.stringify(test))
+     }else {
+      contact = JSON.parse(contact);
+      setContact(contact) 
+      setLoaded(true)
+     }
 
-    function handleChange(event){
-      props.onChange(event.target.value)
-      console.log(value)
-      
     }
-
+    getContact();
+  }, [loaded])
     
 
     function renderScreen(props) {
       let arr = [];
-
-      for(let i=0; i< contacts.length; i++ ){
-        arr.push(<Contact key= {i} name= {contacts[i].Nom} imgUrl ={contacts[i].PhotoProfil}  />)
+     
+      for(let i=1; i< contacts.length; i++ ){
+        arr.push(<Contact key= {i} name= {contacts[i][0].Nom} imgUrl ={contacts[i][0].PhotoProfil}  />)
 
 }      if(disp === 'disc'){
 
