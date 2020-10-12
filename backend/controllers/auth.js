@@ -9,7 +9,6 @@ const db = mysql.createConnection({
 
 exports.register = (req,res) =>{
     console.log(req);
-    //const { nom , prenom , adresse , codePostal } = req.body;
-    //db.query('INSERT INTO Utilisateurs (Nom , Prenom , Adresse , CodePostal) VALUES ?',[nom,prenom,adresse,codePostal])
-
+    //const { nom , email , password } = req.body;
+    //db.query('SELECT...')
 }
