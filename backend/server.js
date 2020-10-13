@@ -1,10 +1,11 @@
 const express = require("express");
-//const bodyParser = require("body-parser");
 const cors = require("cors");
 const mysql = require('mysql');
-//const dotenv = require('dotenv');
 const app = express();
-//dotenv.config({ path: './env'})
+
+const session = require('express-session')
+var Sync = require('sync');
+
 const bodyParser = require('body-parser')
 var corsOptions = {
   origin: "http://localhost:8081"
@@ -13,20 +14,7 @@ var corsOptions = {
 
 
 app.use(cors(corsOptions));
-/*
-// parse requests of content-type - application/json
-app.use(bodyParser.json());
 
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
-
-const db = mysql.createConnection({
-    host: process.env.HOST ,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE
-})
-*/
 
 
 const db = mysql.createConnection({
@@ -45,17 +33,37 @@ db.connect( (err) =>{
         console.log("connection établie")
     }
 } );
-//si besoin
+
 //app.use(express.urlencoded({extended: false}));
 app.use( bodyParser.json() );
-app.use(bodyParser.urlencoded({     // to support URL-encoded bodies
+app.use(bodyParser.urlencoded({     
   extended: true
 })); 
-//app.use(express.json());       // to support JSON-encoded bodies
+
+
+app.use(session({secret: "its a secret!"}));
+//app.use(express.json());       
 //app.use(express.urlencoded());
 
 app.use('/',require('./routes/routes'));
 //app.use('/auth',require('./routes/au'));
+app.get('/Mail', (req,res) =>{
+  var rechsql = 'SELECT Mail from Utilisateurs';
+  var spotted = '';
+  var Mail = req.param('Mail',null);
+  db.query(rechsql, function (err, result, fields) {
+    if (err) {throw err;}else{
+    
+    for(var i = 0;i<result.length;i++){
+      if(result[i].Mail==Mail){
+          console.log(result[i].Mail);
+          spotted = result[i].Mail;
+          res.json({message: "email deja utilisé"});
+      }
+  }
+  res.json({message: 'ok'});
+}})
+  });
 app.post('/auth',(req, res) => {
     var nom = req.param('nom',null);
     var prenom = req.param('prenom',null);
@@ -63,47 +71,49 @@ app.post('/auth',(req, res) => {
     var codePostal = req.param('codePostal',null);
     var Mail = req.param('Mail',null);
 
-    var rechsql = 'SELECT Mail from Utilisateurs';
-    var spotted = "";
-
-    db.query(rechsql, function (err, result, fields) {
-      if (err) {throw err;}else{
-      console.log('ensuite il viens la');
-      for(var i = 0;i<result.length;i++){
-        if(result[i].Mail==Mail){
-            console.log(result[i].Mail);
-            spotted = result[i].Mail;
-        }
-    }
-    console.log('==for====');
-    console.log(spotted);
-    console.log('===for===');
-    console.log('et fini ici');
-  }
-    });
-    console.log('======');
-    console.log(spotted);
-    console.log('======');
-    console.log('passe d abord par la');
-    if(spotted == ""){
+    
       console.log("passse direct ici");
-      var sql = 'INSERT INTO Utilisateurs(Nom , Prenom , Adresse , CodePostal,Mail) VALUES ?';
+      var sql = 'INSERT INTO Utilisateurs(Nom , Prenom , Adresse , CodePostal,Mail) VALUES ? ';
       var values = [[nom,prenom,adresse,codePostal,Mail]];
       db.query(sql,[values]);
+      req.session.email = Mail;
       res.json({ message: "inscription finie" });
+  });
+
+  app.get('/appli',(req,res)=>{
+    if(req.session.email){
+    res.json({ message: "entrée dans l'appli" });
     }else{
-      res.json({message: "email deja utilisé"});
+      res.json({ message: "vous n'êtes pas autorisé à etre ici" });
     }
   });
-//require("./app/routes/routes")(app);
-// set port, listen for requests
+
+
+  app.get('/login',(req,res) => {
+    // faire la verif de password
+    var Mail = req.param('Mail',null);
+    req.session.email = Mail;
+    return res.redirect('/appli');
+});
+
+  app.get('/logout',(req,res) => {
+    req.session.destroy((err) => {
+        if(err) {
+            return console.log(err);
+        }
+        res.redirect('/');
+    });
+
+});
+
+
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
 
-//const db = require("./app/models");
-//db.sequelize.sync();
+
 
 
 
