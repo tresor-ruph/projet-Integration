@@ -1,5 +1,9 @@
 import React, { Component } from "react";
-import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
+
+import {View} from "react-native";
+import {TouchableOpacity} from "react-native";
+import { Text} from "react-native";
+import { StyleSheet} from "react-native";
 import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
 //import chat from './../Messenger/Chat'
 
