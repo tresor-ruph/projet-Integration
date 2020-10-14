@@ -90,6 +90,12 @@ appendMessages(chatMess)
         await Promise.all(writes)
     }
 
+
+
+
+
+    
+
     if (!user) {
       //no user in async storage
         return (

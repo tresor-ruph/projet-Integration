@@ -1,21 +1,19 @@
-import React, { Component ,Text,useState} from "react";
-import { StyleSheet, View } from "react-native";
-import FooterDisc from "./Discussion_Screen";
-import Chat from "./Chat";
+import React, { useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import FooterDisc from './Discussion_Screen';
 
-function DiscussionMain(props) {
-  
-  const [disp , setDisp] = useState(' ');
+function DiscussionMain() {
+  const [disp, setDisp] = useState(' ');
   function handleChange(newValue) {
-    console.log(newValue)
+    console.log(newValue);
     setDisp(newValue);
-    console.log({disp})
+    console.log({ disp });
   }
 
   return (
     <View style={styles.container}>
         
-      <FooterDisc
+      < FooterDisc
         icon1Name="timer"
         activeIconName="heart"
         icon2Name="map-marker-radius"
@@ -25,13 +23,11 @@ function DiscussionMain(props) {
         activeIcon="account-group"
         buttonWrapper2="Untitled1"
         icon2="contacts"
-        onChange = {handleChange}
+        onChange={handleChange}
         
         style={styles.materialIconTextButtonsFooter1}
-      ></FooterDisc> 
-      <View>
-    
-    </View>
+      / >
+     
     </View>
   );
 }
@@ -42,7 +38,7 @@ const styles = StyleSheet.create({
   },
   materialIconTextButtonsFooter1: {
     height: 62,
-    width: "100%",
+    width: '100%',
     marginTop: 678
   },
  

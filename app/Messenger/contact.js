@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 //import all the components we are going to use
 import {
@@ -9,20 +9,22 @@ import {
   TouchableOpacity 
 } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
-//Since we cannot access navigation props directly when called in a child component ,we will use navigation hooks
+//Since we cannot access navigation props directly when called in a child component ,
+//we will use navigation hooks
 
-
-function Contact(props){
+function Contact(props) {
     const navigation = useNavigation();
 
-    const  [name , setName] = useState(props.name)
-    const [imgUrl , setImgUrl] = useState(props.imgUrl)
+    // eslint-disable-next-line no-unused-vars
+    const [name, setName] = useState(props.name);
+    // eslint-disable-next-line no-unused-vars
+    const [imgUrl, setImgUrl] = useState(props.imgUrl);
   return (
-    <View style={{flex: 1}}>
+    <View style={{ flex: 1 }}>
       <View style={styles.container}>
         <Image
           source={{
-            uri:`${imgUrl}`
+            uri: `${imgUrl}`
               
           }}
           //borderRadius style will help us make the Round Shape Image
@@ -33,36 +35,36 @@ function Contact(props){
             borderRadius: 200 / 2
           }}
         />
-        <TouchableOpacity style ={styles.mess} onPress={() => navigation.navigate("Chat")}>
+        <TouchableOpacity style={styles.mess} onPress={() => navigation.navigate('Chat')}>
         <Text>{name}</Text>
         </TouchableOpacity>
-        <View/>
+        <View />
       </View>
-      <View style = {styles.viewStyleForLine}></View>        
+      <View style={styles.viewStyleForLine} />     
+    </View>  
 
-    </View>
   );
-};
+}
 
 const styles = StyleSheet.create({
   container: {
-    width : '100%',
-    flexDirection : "row",
-    marginTop : 20,
+    width: '100%',
+    flexDirection: 'row',
+    marginTop: 20,
    
   },
-  mess : {
-      width : '100%',
-      marginLeft:'10%',
-      marginTop : '10%',
+  mess: {
+      width: '100%',
+      marginLeft: '10%',
+      marginTop: '10%',
         
   },
   viewStyleForLine: {
-      marginTop : 8,
-    borderBottomColor: "rgba(177,175,184,0.3)", 
+      marginTop: 8,
+    borderBottomColor: 'rgba(177,175,184,0.3)', 
     borderBottomWidth: StyleSheet.hairlineWidth, 
-    alignSelf:'stretch',
-    width: "100%"
+    alignSelf: 'stretch',
+    width: '100%'
   },
   textHeadingStyle: {
     marginTop: 30,
