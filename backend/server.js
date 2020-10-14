@@ -52,17 +52,21 @@ app.get('/Mail', (req,res) =>{
   var spotted = '';
   var Mail = req.param('Mail',null);
   db.query(rechsql, function (err, result, fields) {
-    if (err) {throw err;}else{
+    //if (err) {throw err;}else{
     
     for(var i = 0;i<result.length;i++){
       if(result[i].Mail==Mail){
           console.log(result[i].Mail);
           spotted = result[i].Mail;
-          res.json({message: "email deja utilisé"});
+          return res.status(400).json({
+            status: 'error',
+            error: 'email deja utilisé',
+          });
+          //res.json({message: "email deja utilisé"});
       }
   }
   res.json({message: 'ok'});
-}})
+})
   });
 app.post('/auth',(req, res) => {
     var nom = req.param('nom',null);
@@ -70,11 +74,11 @@ app.post('/auth',(req, res) => {
     var adresse = req.param('adresse',null);
     var codePostal = req.param('codePostal',null);
     var Mail = req.param('Mail',null);
-
+    var password = req.param('password',null);
     
       console.log("passse direct ici");
-      var sql = 'INSERT INTO Utilisateurs(Nom , Prenom , Adresse , CodePostal,Mail) VALUES ? ';
-      var values = [[nom,prenom,adresse,codePostal,Mail]];
+      var sql = 'INSERT INTO Utilisateurs(Nom , Prenom , Adresse , CodePostal,Mail,password) VALUES ? ';
+      var values = [[nom,prenom,adresse,codePostal,Mail,password]];
       db.query(sql,[values]);
       req.session.email = Mail;
       res.json({ message: "inscription finie" });
@@ -91,10 +95,20 @@ app.post('/auth',(req, res) => {
 
   app.get('/login',(req,res) => {
     // faire la verif de password
+    var password = req.param('password',null);
     var Mail = req.param('Mail',null);
-    req.session.email = Mail;
-    return res.redirect('/appli');
-});
+    var sql = 'SELECT password from Utilisateurs where Mail = "'+Mail+'"';
+    console.log(sql);
+    db.query(sql, function (err, result, fields) {
+    console.log(result[0].password);
+    if(password == result[0].password){
+      req.session.email = Mail;
+      return res.redirect('/appli');
+    }else{
+      res.json({message: 'erreur de mot de passe'});
+    }
+  })
+  });
 
   app.get('/logout',(req,res) => {
     req.session.destroy((err) => {
