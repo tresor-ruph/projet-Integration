@@ -1,5 +1,9 @@
 import React from 'react'
+<<<<<<< HEAD
 import {StyleSheet, View, TextInput,TouchableOpacity, Text, Alert, Picker } from 'react-native'
+=======
+import {StyleSheet, View, TextInput, TouchableOpacity, Text, Alert } from 'react-native'
+>>>>>>> fa36ff2092f36b2e69285c01e51e82a292293ad3
 import { Title, Paragraph } from 'react-native-paper';
 
 
@@ -85,8 +89,4 @@ const styles = StyleSheet.create({
  
 });
 
-
-
-
-
-export default Demande
+export default Demande;

@@ -24,7 +24,10 @@ if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig)
 }
 
+<<<<<<< HEAD
 
+=======
+>>>>>>> fa36ff2092f36b2e69285c01e51e82a292293ad3
 
 const db = firebase.firestore()
 const chatsRef = db.collection('chats')

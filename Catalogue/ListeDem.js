@@ -1,17 +1,27 @@
 import React, { Component } from 'react';
 import {Title} from 'react-native-paper';
-import {View} from 'react-native';
 import { ListItem, Avatar } from 'react-native-elements';
+import { View, StyleSheet,TextInput,Text,TouchableOpacity} from 'react-native';
+
 
 
 class ListeDem extends React.Component {
-  state = { demande : [
-    { Titre: 'Salim', Description: 'Lave-vaisselle' },
-    { Titre: 'Bilel', Description: 'Courir' },
-    { Titre: 'Adel', Description: 'Sortir' },
-    { Titre: 'Souhaib', Description: 'Sourire' },
-    { Titre: 'Florian', Description: 'Courses' },
-  ]}
+
+  constructor(props){
+    super(props);
+    this.state = { demande : []};
+  }  
+  
+  componentDidMount(){
+    fetch('http://localhost:3000/contacts/')
+    .then(response => response.json())
+    .then(json => {
+      this.setState({demande: json})
+      console.log(json)
+      console.log(this.state.demande)
+  })
+  }
+
   render(){
     return(
       <View>
@@ -20,8 +30,8 @@ class ListeDem extends React.Component {
           <ListItem key={i} bottomDivider>
             <Avatar source={{uri: l.avatar_url}} />
             <ListItem.Content>
-              <ListItem.Title>{l.Titre}</ListItem.Title>
-              <ListItem.Subtitle>{l.Description}</ListItem.Subtitle>
+              <ListItem.Title>{l.Nom}</ListItem.Title>
+              <ListItem.Subtitle>{l.Prenom}</ListItem.Subtitle>
             </ListItem.Content>
           </ListItem>
         ))
@@ -31,4 +41,4 @@ class ListeDem extends React.Component {
   };
 };
 
-export default ListeDem
+export default ListeDem;
