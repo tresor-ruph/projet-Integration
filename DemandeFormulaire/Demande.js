@@ -15,7 +15,7 @@ class Demande extends React.Component{
     return (
       <View style={styles.container}>
 
-        <Title style={{height:100, fontSize:30, textAlign: 'center', fontWeight:"bold"}}> Formulaire de demande de service</Title>
+        <Title style={{height:'5%', fontSize:20, textAlign: 'center', fontWeight:"bold"}}> Formulaire de demande de service</Title>
 
         <Paragraph style={styles.para}> Type de demande</Paragraph>
 
@@ -55,24 +55,24 @@ const styles = StyleSheet.create({
   },
 
   bout: {
-    width: '80%',
-    height : 150,
+    width: '98%',
+    height : '20%',
     backgroundColor: 'rgba(242,100,107,1)',
     borderRadius:20,
-    marginTop:'70%',
-    marginLeft: '10%'
+    marginTop:'80%',
+    marginLeft: '1%', 
   },
 
   para:{
-    left:30,
-    fontSize:30,
+    fontSize:20,
     fontWeight:"bold",
+    marginTop: '5%'
   },
   textBout: {
     color: '#FFF',
-    fontSize: 25,
+    fontSize: 35,
     textAlign: "center",
-    marginTop: '20%',
+    marginTop: '7%',
   },
 
   desc:{
@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
     height : '35%',
     width : '90%',
     marginLeft: '5%',
-    marginTop: '55%',
+    marginTop: '45%',
     fontSize: 40,
     fontWeight :'bold',
     borderWidth: 2,
