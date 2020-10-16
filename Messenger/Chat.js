@@ -24,7 +24,7 @@ if (firebase.apps.length === 0) {
     firebase.initializeApp(firebaseConfig)
 }
 
-LogBox.ignoreLogs(['Setting a timer for a long period of time'])
+
 
 const db = firebase.firestore()
 const chatsRef = db.collection('chats')

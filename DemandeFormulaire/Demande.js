@@ -1,18 +1,40 @@
 import React from 'react'
-import {StyleSheet, View, TextInput, CheckBox,TouchableOpacity, Text, Alert } from 'react-native'
+import {StyleSheet, View, TextInput,TouchableOpacity, Text, Alert, Picker } from 'react-native'
 import { Title, Paragraph } from 'react-native-paper';
 
 
+
 class Demande extends React.Component{
+
+  state = {service : 'Aller faire des courses'}
+   updateService = (service) => {
+      this.setState({ service: service })
+   }
+
   render(){
     return (
       <View style={styles.container}>
+
         <Title style={{height:100, fontSize:30, textAlign: 'center'}}> Formulaire de demande de service</Title>
-        <Paragraph style={styles.para}> Descriptif </Paragraph>
+
+        <Paragraph style={styles.para}> Type de demande</Paragraph>
+
+        <Picker selectedValue = {this.state.service} onValueChange = {this.updateService}>
+            <Picker.Item label="Aller faire des courses" value="courses" />
+            <Picker.Item label="Aller chercher à manger" value="Resto" />
+            <Picker.Item label="Aller chercher les enfants" value="Enfants" />
+            <Picker.Item label="Aller faire des lessives" value="Lessive" />
+            <Picker.Item label="Autres" value="others" />
+         </Picker>
+         
         <TextInput multiline={true} numberOfLines={5} style={styles.desc} placeholder="Entrez un descriptif du service"/>
+
         <TouchableOpacity style={styles.bout} onPress={() => Alert.alert('Appuyé')}>
+
           <Text style={styles.textBout}> Envoyer votre demande </Text>
+
         </TouchableOpacity>
+
       </View>
     );
   };
@@ -36,13 +58,10 @@ const styles = StyleSheet.create({
   },
 
   para:{
-    height:50,
-    left : 40,
-    fontSize: 20,
-    marginTop:40,
-    fontWeight :'bold',
+    left:30,
+    fontSize:20,
+    fontWeight:"bold",
   },
-
   textBout: {
     color: '#FFF',
     fontSize: 25,
@@ -51,6 +70,7 @@ const styles = StyleSheet.create({
   },
 
   desc:{
+    flex:1,
     position:'absolute',
     height : 110,
     width : 300,
@@ -60,7 +80,9 @@ const styles = StyleSheet.create({
     borderWidth: 2,
     borderColor: "#20232a",
     textAlign: "center",
-  }
+  },
+
+ 
 });
 
 
