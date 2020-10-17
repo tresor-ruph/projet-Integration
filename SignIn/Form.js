@@ -40,9 +40,6 @@ class Form extends React.Component {
       });
 */
 
-
-
-
       fetch('http://localhost:8080/auth/', {
         method: 'POST',
         mode: 'no-cors',
