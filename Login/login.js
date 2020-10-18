@@ -1,9 +1,11 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text, TextInput } from "react-native";
+import { StyleSheet, View, Text, TextInput, Alert} from "react-native";
 import Svg, { Ellipse } from "react-native-svg";
 import MaterialFixedLabelTextbox from "../components/MaterialFixedLabelTextbox";
 import MaterialRightIconTextbox from "../components/MaterialRightIconTextbox";
 import MaterialButtonSuccess from "../components/MaterialButtonSuccess";
+import axios from 'axios';
+
 
 function Login(props) {
   return (
@@ -28,10 +30,21 @@ function Login(props) {
         <MaterialRightIconTextbox
           inputStyle="Label"
           inputStyle="Password"
+          password={true}
           style={styles.materialRightIconTextbox}
         ></MaterialRightIconTextbox>
         <MaterialButtonSuccess
           style={styles.materialButtonSuccess}
+          onPress = {() =>  {
+            axios.get("",{
+              email: "test1",
+              password: "test2"
+            }).then(response => {
+              console.log(response)
+            }).catch(error =>{
+              console.log(error)
+            })
+          }}
         ></MaterialButtonSuccess>
         <View style={styles.rect5}>
           <View style={styles.loremIpsumRow}>
