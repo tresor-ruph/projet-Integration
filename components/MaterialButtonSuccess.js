@@ -1,10 +1,22 @@
 import React, { Component } from "react";
 import { StyleSheet, TouchableOpacity, Text } from "react-native";
+import axios from 'axios';
+
 
 function MaterialButtonSuccess(props) {
   return (
     <TouchableOpacity style={[styles.container, props.style]}>
-      <Text style={styles.connexion}>Connexion</Text>
+      <Text style={styles.connexion}
+                onPress = { () =>  
+                  axios.get("",{
+                  email: "emailUtilisateur",
+                  password: "passwordUtilisateur"
+                }).then(response => {
+                  console.log(response)
+                }).catch(error =>{
+                  console.log(error)
+                })}
+      >Connexion</Text>
     </TouchableOpacity>
   );
 }
