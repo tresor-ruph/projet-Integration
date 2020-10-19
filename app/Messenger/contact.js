@@ -20,28 +20,20 @@ function Contact(props) {
   const [del, setDel] = useState(false);
 
   const handleDel = async () => {
-     await AsyncStorage.getItem('contact')
-    .then((res) =>{
-      let contact = JSON.parse(res);
-      console.log(contact);
-      console.log("before done");
-      for(let i= 0; i < contact.length; i ++){
-        if( contact[i].Nom === name){
+    await AsyncStorage.getItem('contact').then((res) => {
+      const contact = JSON.parse(res);
+      for (let i = 0; i < contact.length; i++) {
+        if (contact[i].Nom === name) {
           contact.splice(i, 1);
         }
       }
       AsyncStorage.setItem('contact', JSON.stringify(contact));
-    })
-   // console.log(contact.length)
-    //console.log(name);
-    
-    console.log("delete");
+    }); 
   };
   const handleCancel = () => {
     setDel(false);
   };
   const handlerLongClick = () => {
-    console.log(name);
     setDel(true);
   };
   return (
@@ -71,25 +63,22 @@ function Contact(props) {
       </View>
       {del ? (
         <View style={styles.del}>
-        <TouchableOpacity style={styles.buttonWrapper1} onPress={handleDel}>
-          <MaterialCommunityIconsIcon
-            name='delete'
-            style={styles.icon1}
-          />
-          <Text style={styles.textInput}>Suprimer</Text>
-        </TouchableOpacity>
-        <TouchableOpacity style={styles.buttonWrapper2} onPress={handleCancel}>
-          <MaterialCommunityIconsIcon
-            name='cancel'
-            style={styles.icon2}
-          />
-          <Text
-            
-            //placeholderTextColor="rgba(100,173,19,1)"
-            style={styles.textInput2}
-          >Annuler</Text>
-        </TouchableOpacity>
-      </View>
+          <TouchableOpacity style={styles.buttonWrapper1} onPress={handleDel}>
+            <MaterialCommunityIconsIcon name='delete' style={styles.icon1} />
+            <Text style={styles.textInput}>Suprimer</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.buttonWrapper2}
+            onPress={handleCancel}
+          >
+            <MaterialCommunityIconsIcon name='cancel' style={styles.icon2} />
+            <Text
+              style={styles.textInput2}
+            >
+              Annuler
+            </Text>
+          </TouchableOpacity>
+        </View>
       ) : (
         <View />
       )}
@@ -120,30 +109,29 @@ const styles = StyleSheet.create({
     marginTop: 10,
     flexDirection: 'row',
     height: 56,
-    width: 395
+    width: 395,
   },
-  
+
   annuler: {
     backgroundColor: 'green',
-    //width: '35%',
   },
   buttonWrapper1: {
     flex: 0.04,
-   // paddingHorizontal: 12,
+    // paddingHorizontal: 12,
     minWidth: 80,
     maxWidth: 168,
     alignItems: 'center',
     padding: 0,
     margin: 0,
     left: 40,
-    overflow: 'visible'
+    overflow: 'visible',
   },
   icon1: {
     backgroundColor: 'transparent',
     color: 'rgba(250,19,19,1)',
     fontSize: 24,
     opacity: 1,
-    margin: 0
+    margin: 0,
   },
   textInput: {
     fontSize: 12,
@@ -152,11 +140,11 @@ const styles = StyleSheet.create({
     paddingTop: 4,
     margin: 0,
     width: 50,
-    height: 18
+    height: 18,
   },
   buttonWrapper2: {
     flex: 1.17,
-   // paddingTop: 8,
+    // paddingTop: 8,
     paddingBottom: 10,
     paddingHorizontal: 12,
     minWidth: 80,
@@ -165,13 +153,13 @@ const styles = StyleSheet.create({
     left: 40,
     width: 279,
     top: 0,
-    height: 56
+    height: 56,
   },
   icon2: {
     backgroundColor: 'transparent',
     color: 'rgba(100,176,11,1)',
     fontSize: 24,
-    opacity: 0.8
+    opacity: 0.8,
   },
   textInput2: {
     fontSize: 12,
@@ -179,7 +167,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'transparent',
     paddingTop: 4,
     width: 49,
-    height: 18
+    height: 18,
   },
 });
 

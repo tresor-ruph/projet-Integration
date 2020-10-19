@@ -1,37 +1,35 @@
-const contacts = require('./../model/user.model')
+const contacts = require("./../model/user.model");
 
 // find a all contacts
 
-exports.findAll = (req,res) => {
-contacts.findContacts( (err, data) => {
+exports.findAll = (req, res) => {
+  contacts.findContacts((err, data) => {
     if (err) {
-          res.status(500).send({
-            message: "Error retrieving * users "
-          });
-        }
-       else {
-        res.header("Access-Control-Allow-Origin","*");
-        res.send(data);
-      }
-});
+      res.status(500).send({
+        message: "Error retrieving * users ",
+      });
+    } else {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.send(data);
+    }
+  });
 };
 
 exports.findOne = (req, res) => {
   contacts.findById(req.params.email, (err, data) => {
-    console.log(req.params)
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found user with email ${req.params.email}.`
+          message: `Not found user with email ${req.params.email}.`,
         });
       } else {
         res.status(500).send({
-          message: "Error retrieving user with email " + req.params.email
+          message: "Error retrieving user with email " + req.params.email,
         });
       }
-    } else{
-      res.header("Access-Control-Allow-Origin", "*")
-       res.send(data);
+    } else {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.send(data);
     }
   });
 };
@@ -40,7 +38,7 @@ exports.create = (req, res) => {
   // Validate request
   if (!req.body) {
     res.status(400).send({
-      message: "Content can not be empty!"
+      message: "Content can not be empty!",
     });
   }
 
@@ -55,8 +53,8 @@ exports.create = (req, res) => {
     if (err)
       res.status(500).send({
         message:
-          err.message || "Some error occurred while creating the Customer."
+          err.message || "Some error occurred while creating the Customer.",
       });
     else res.send(data);
   });
-}
+};

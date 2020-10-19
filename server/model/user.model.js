@@ -1,39 +1,37 @@
-const sql = require('./db');
+const sql = require("./db");
 
-const user = function(user) {
-    this.id = user.id
-}
-
-user.findContacts = ( result) => {
-    sql.query("select * from Utilisateurs"  , (err,res) => {
-        if(err) {
-            console.log("error : ", err);
-            result (null ,err);
-            return;
-        }
-            console.log("contacts :" , res);
-            result (null, res);
-            
-    });
+const user = function (user) {
+  this.id = user.id;
 };
 
-user.findById = (email,result) => {
-    console.log(email)
-    email = "'" + email + "'"
-
-    sql.query(`SELECT * FROM Utilisateurs WHERE Mail = ${email}`, (err, res) =>{
-    if(err){
-        console.log("error : ", err)
-        result(null , err);
-        return;
+user.findContacts = (result) => {
+  sql.query("select * from Utilisateurs", (err, res) => {
+    if (err) {
+      console.log("error : ", err);
+      result(null, err);
+      return;
     }
     console.log("contacts :", res);
     result(null, res);
-});
-}
+  });
+};
+
+user.findById = (email, result) => {
+  email = "'" + email + "'";
+
+  sql.query(`SELECT * FROM Utilisateurs WHERE Mail = ${email}`, (err, res) => {
+    if (err) {
+      console.log("error : ", err);
+      result(null, err);
+      return;
+    }
+    console.log("contacts :", res);
+    result(null, res);
+  });
+};
 
 user.create = (newCustomer, result) => {
-    console.log(newCustomer);
+  console.log(newCustomer);
   /*  sql.query("INSERT INTO login SET ?", newCustomer, (err, res) => {
       if (err) {
         console.log("error: ", err);
@@ -44,6 +42,6 @@ user.create = (newCustomer, result) => {
       console.log("created customer: ", { id: res.insertId, ...newCustomer });
       result(null, { id: res.insertId, ...newCustomer });
     });*/
-  };
+};
 
 module.exports = user;

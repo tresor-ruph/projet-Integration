@@ -27,39 +27,31 @@ function Addcontact(props) {
         try {
           const value = await AsyncStorage.getItem("contact");
           let value2 = JSON.parse(value);
-          if(value2.length === 0){
+          if (value2.length === 0) {
             value2.push(x[0]);
             await AsyncStorage.setItem("contact", JSON.stringify(value2));
             setMess("contact ajouté !");
-          }else {
-          if (value2[0].Id === x[0].Id) {
-            setMess("le contact ci existe deja");
           } else {
-            console.log("ahhahah")
-            console.log(x);
-            value2.push(x[0]);
-            console.log(value2);
-            await AsyncStorage.setItem("contact", JSON.stringify(value2));
-            setMess("contact ajouté !");
+            if (value2[0].Id === x[0].Id) {
+              setMess("le contact ci existe deja");
+            } else {
+              value2.push(x[0]);
+              await AsyncStorage.setItem("contact", JSON.stringify(value2));
+              setMess("contact ajouté !");
+            }
           }
-        }
         } catch (e) {
           console.log(e);
         }
       }
 
-
       try {
-        console.log(email)
-
         fetch(`http://localhost:3000/contacts/${email}`)
           .then((response) => response.json())
           .then((json) => {
             if (json.length === 1) {
-              console.log("hahha");
-              console.log(json)
+
               json[0].Nom = name;
-              console.log(json)
               getContact(json);
             } else {
               setMess("Ce contact n'existe pas !");
@@ -94,7 +86,6 @@ function Addcontact(props) {
           placeholder="Email"
           style={styles.inputStyle}
           onChange={handleEmail}
-
         ></TextInput>
       </View>
       <View style={[styles.input2, props.style]}>
@@ -103,7 +94,6 @@ function Addcontact(props) {
           placeholder="Nom."
           style={styles.inputStyle2}
           onChange={handleNom}
-
         ></TextInput>
       </View>
       <View style={styles.footer}>
