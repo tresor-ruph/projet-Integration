@@ -8,7 +8,7 @@ const db = mysql.createConnection({
 
 exports.registerDem = (req,res) =>{
     console.log(req);
-    const { idDemande , userId , Titre , Description, Statut } = req.body;
-    db.query('INSERT INTO Utilisateurs (userId , Titre , Description, Statut) VALUES ?',[idDemande , userId , Titre , Description, Statut])
+    const { idDemande , userName , description, statut } = req.body;
+    db.query('INSERT INTO Demande (idDemande , UserName , Categorie, Descriptif) VALUES ?',[idDemande , userName , description, statut])
 
 }

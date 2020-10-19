@@ -1,48 +1,98 @@
 import React from 'react'
-<<<<<<< HEAD
 import {StyleSheet, View, TextInput,TouchableOpacity, Text, Alert, Picker } from 'react-native'
-=======
-import {StyleSheet, View, TextInput, TouchableOpacity, Text, Alert } from 'react-native'
->>>>>>> fa36ff2092f36b2e69285c01e51e82a292293ad3
 import { Title, Paragraph } from 'react-native-paper';
+
 
 
 
 class Demande extends React.Component{
 
-  state = {service : 'Aller faire des courses'}
-   updateService = (service) => {
-      this.setState({ service: service })
+  
+  
+   updateCategorie = (categorie) => {
+      this.setState({ categorie: categorie })
    }
+
+  constructor(){
+     super();
+     this.state={
+       idDemande:this.generateurId(),
+       userName:'FloB',
+       categorie:'Aller faire des courses',
+       descriptif:'',
+     }
+   }
+
+   generateurId() {
+    var uid = function() {
+       return (((1+Math.random())*0x50000)|0).toString(16).substring(1);
+    };
+    return (uid()+uid()+"-"+uid()+"-"+uid()+"-"+uid());
+}
+
+
+  
+   submit(){
+  
+     console.warn(this.state) 
+
+     /*fetch('http://localhost:3000/ajoutDem/', {
+      method: 'POST',
+      mode:'no-cors',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        "Access-Control-Allow-Origin": '*'
+      },
+
+      body: JSON.stringify ({
+        idDemande: this.state.idDemande,
+        userName: this.state.userName,
+        categorie: this.state.categorie,
+        descriptif: this.state.descriptif,
+       
+      })
+    }) .then(response => response.json())
+    .then(json=> {
+      
+      console.log(json);
+    }).catch((error) => {
+      console.error(error);
+    });
+    */
+  }
+   
 
   render(){
     return (
       <View style={styles.container}>
-
+        
         <Title style={{height:100, fontSize:30, textAlign: 'center'}}> Formulaire de demande de service</Title>
 
         <Paragraph style={styles.para}> Type de demande</Paragraph>
 
-        <Picker selectedValue = {this.state.service} onValueChange = {this.updateService}>
-            <Picker.Item label="Aller faire des courses" value="courses" />
-            <Picker.Item label="Aller chercher à manger" value="Resto" />
-            <Picker.Item label="Aller chercher les enfants" value="Enfants" />
-            <Picker.Item label="Aller faire des lessives" value="Lessive" />
-            <Picker.Item label="Autres" value="others" />
-         </Picker>
+          <Picker selectedValue = {this.state.categorie}  onValueChange = {this.updateCategorie}>
+              <Picker.Item label="Aller faire des courses" value="courses" />
+              <Picker.Item label="Aller chercher un colis" value="colis" />
+              <Picker.Item label="Aller chercher les enfants" value="Enfants" />
+              <Picker.Item label="Aller faire des lessives" value="Lessive" />
+              <Picker.Item label="Autres" value="Autres" />
+          </Picker>
          
-        <TextInput multiline={true} numberOfLines={5} style={styles.desc} placeholder="Entrez un descriptif du service"/>
+          <TextInput multiline={true} numberOfLines={5} onChangeText={(text)=>{this.setState({descriptif:text})}} style={styles.desc} placeholder="Entrez un descriptif du service"/>
 
-        <TouchableOpacity style={styles.bout} onPress={() => Alert.alert('Appuyé')}>
+          <TouchableOpacity style={styles.bout} onPress={() => {this.submit(),Alert.alert("Demande envoyée")}}>
 
-          <Text style={styles.textBout}> Envoyer votre demande </Text>
+            <Text style={styles.textBout}> Envoyer votre demande </Text>
 
-        </TouchableOpacity>
-
+          </TouchableOpacity>
+        
       </View>
     );
   };
 };
+
+
 
 
 const styles = StyleSheet.create({

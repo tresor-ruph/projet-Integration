@@ -17,3 +17,9 @@ const routes = require('./routes/user.route')(app);
 app.listen(process.env.PORT || '3000', () => {
     console.log(`the server is running on ${process.env.PORT || '3000'}`);
 });
+
+app.post('/ajoutDem',(req,res)=>{
+    var idDemande= req.body.idService;
+    var service= req.body.service;
+    var descriptif = req.body.descriptif;
+})
