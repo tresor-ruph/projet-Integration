@@ -22,7 +22,7 @@ function Discussion_Repo(props) {
       async function getContact() {
      let contact = await AsyncStorage.getItem('contact');
      if(contact == null) {
-      let test = ["tets"];
+      let test = [];
       await AsyncStorage.setItem('contact', JSON.stringify(test))
      }else {
       contact = JSON.parse(contact);
@@ -37,9 +37,9 @@ function Discussion_Repo(props) {
 
     function renderScreen(props) {
       let arr = [];
-     
-      for(let i=1; i< contacts.length; i++ ){
-        arr.push(<Contact key= {i} name= {contacts[i][0].Nom} imgUrl ={contacts[i][0].PhotoProfil}  />)
+     console.log(contacts)
+      for(let i=0; i< contacts.length; i++ ){
+        arr.push(<Contact key= {i} name= {contacts[i].Nom} imgUrl ={contacts[i].PhotoProfil}  />)
 
 }      if(disp === 'disc'){
   return (<Text style ={{fontStyle:'bolder', fontSize:'1.2em' , marginLeft : '10%'}}>Not yet Available</Text>) 

@@ -27,12 +27,22 @@ function Addcontact(props) {
         try {
           const value = await AsyncStorage.getItem("contact");
           let value2 = JSON.parse(value);
+          if(value2.length === 0){
+            value2.push(x[0]);
+            await AsyncStorage.setItem("contact", JSON.stringify(value2));
+            setMess("contact ajouté !");
+          }else {
           if (value2[0].Id === x[0].Id) {
             setMess("le contact ci existe deja");
           } else {
-            value2.push(x);
+            console.log("ahhahah")
+            console.log(x);
+            value2.push(x[0]);
+            console.log(value2);
             await AsyncStorage.setItem("contact", JSON.stringify(value2));
+            setMess("contact ajouté !");
           }
+        }
         } catch (e) {
           console.log(e);
         }
@@ -64,9 +74,15 @@ function Addcontact(props) {
   };
   return (
     <View style={styles.container}>
-      <View>
-        <Text style={styles.mess}>{mess}</Text>
-      </View>
+      {mess === "contact ajouté !" ? (
+        <View>
+          <Text style={styles.mess1}>{mess}</Text>
+        </View>
+      ) : (
+        <View>
+          <Text style={styles.mess2}>{mess}</Text>
+        </View>
+      )}
       <View style={[styles.input1, props.style]}>
         <Icon name="account" style={styles.iconStyle}></Icon>
         <TextInput
@@ -112,14 +128,22 @@ const styles = StyleSheet.create({
     width: 360,
     marginTop: 103,
   },
-  mess: {
+  mess2: {
     width: "100%",
+    backgroundColor: "rgba(255,62,62,1)",
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 18,
+    marginTop: 10,
+  },
+  mess1: {
+    width: "100%",
+    backgroundColor: "rgba(62,255,62,1)",
 
     textAlign: "center",
     fontWeight: "bold",
     fontSize: 18,
     marginTop: 10,
-    backgroundColor: "rgba(255,62,62,1)",
   },
   iconStyle: {
     color: "#616161",

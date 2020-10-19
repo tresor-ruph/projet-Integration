@@ -30,4 +30,18 @@ user.findById = (name,result) => {
 });
 }
 
+user.create = (newCustomer, result) => {
+    console.log(newCustomer);
+  /*  sql.query("INSERT INTO login SET ?", newCustomer, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(err, null);
+        return;
+      }
+  
+      console.log("created customer: ", { id: res.insertId, ...newCustomer });
+      result(null, { id: res.insertId, ...newCustomer });
+    });*/
+  };
+
 module.exports = user;

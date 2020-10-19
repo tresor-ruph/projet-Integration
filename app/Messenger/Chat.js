@@ -3,7 +3,7 @@
 import React, { useState, useEffect, useCallback } from 'react'
 import { GiftedChat } from 'react-native-gifted-chat'
 import AsyncStorage from '@react-native-community/async-storage'
-import { StyleSheet, TextInput, View,  Button } from 'react-native'
+import { StyleSheet, TextInput, View, LogBox, Button } from 'react-native'
 import * as firebase from 'firebase'
 import 'firebase/firestore'
 
@@ -40,7 +40,7 @@ export default function Chat() {
           //we listen to the doc changes
             const messagesFirestore = querySnapshot
                 .docChanges()
-                
+                .filter(({ type }) => type === 'added')
                 .map(({ doc }) => {
                     const message = doc.data()
                     //createdAt is firebase.firestore.Timestamp instance
@@ -48,22 +48,14 @@ export default function Chat() {
                     return { ...message, createdAt: message.createdAt.toDate() }
                 })
                 .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
-                
-
-            getUserMsg(messagesFirestore);
+            appendMessages(messagesFirestore)
             //the 2 lines above sort the message by creation time so that recent messages are sent first
         })
         return () => unsubscribe()
     }, [])
 
-    function getUserMsg (x) {
-
-const chatMess =x.filter(x => (x.user.reciever ==='tresor' && x.user.name === 'tek'))
-appendMessages(chatMess)
-
-  }
-
     const appendMessages = useCallback(
+      //prevent recent message from replacing previouse one 
         (messages) => {
             setMessages((previousMessages) => GiftedChat.append(previousMessages, messages))
         },
@@ -80,8 +72,7 @@ appendMessages(chatMess)
     async function handlePress() {
         //we generate a unique id for each user
         const _id = Math.random().toString(36).substring(7)
-        const reciever = "tresor"
-        const user = { _id, name,reciever }
+        const user = { _id, name }
         await AsyncStorage.setItem('user', JSON.stringify(user))
         setUser(user)
     }
@@ -89,12 +80,6 @@ appendMessages(chatMess)
         const writes = messages.map((m) => chatsRef.add(m))
         await Promise.all(writes)
     }
-
-
-
-
-
-    
 
     if (!user) {
       //no user in async storage

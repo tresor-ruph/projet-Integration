@@ -221,7 +221,9 @@
 <a name='L162'></a><a href='#L162'>162</a>
 <a name='L163'></a><a href='#L163'>163</a>
 <a name='L164'></a><a href='#L164'>164</a>
-<a name='L165'></a><a href='#L165'>165</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<a name='L165'></a><a href='#L165'>165</a>
+<a name='L166'></a><a href='#L166'>166</a></td><td class="line-coverage quiet"><span class="cline-any cline-neutral">&nbsp;</span>
+<span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
@@ -385,10 +387,11 @@
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
 <span class="cline-any cline-neutral">&nbsp;</span>
-<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">import React, { Component } from "react";
-import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
-import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
-//import chat from './../Messenger/Chat'
+<span class="cline-any cline-neutral">&nbsp;</span></td><td class="text"><pre class="prettyprint lang-js">/* eslint-disable import/no-extraneous-dependencies */
+/* eslint-disable import/no-unresolved */
+import React from 'react';
+import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 &nbsp;
 function Mainscreen(props) {
   return (
@@ -396,11 +399,11 @@ function Mainscreen(props) {
       &lt;View style={styles.buttonRow}&gt;
         &lt;TouchableOpacity style={styles.button}&gt;
           &lt;Text style={styles.joffreMonService1}&gt;
-            J&amp;#39;offre mon{"\n"}service
+            J&amp;#39;offre mon{'\n'}service
           &lt;/Text&gt;
         &lt;/TouchableOpacity&gt;
         &lt;TouchableOpacity style={styles.button2}&gt;
-          &lt;Text style={styles.demandeDaide}&gt;Demande {"\n"}d&amp;#39;aide&lt;/Text&gt;
+          &lt;Text style={styles.demandeDaide}&gt;Demande {'\n'}d&amp;#39;aide&lt;/Text&gt;
         &lt;/TouchableOpacity&gt;
       &lt;/View&gt;
       &lt;View style={styles.button3Row}&gt;
@@ -408,7 +411,7 @@ function Mainscreen(props) {
           &lt;Text style={styles.profile}&gt;Profile&lt;/Text&gt;
         &lt;/TouchableOpacity&gt;
         &lt;TouchableOpacity
-          onPress={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >props.navigation.navigate("Discussion_Repo")}</span>
+          onPress={<span class="fstat-no" title="function not covered" >()</span> =&gt; <span class="cstat-no" title="statement not covered" >props.navigation.navigate('Discussion_Repo')}</span>
           style={styles.button4}
         &gt;
           &lt;Text style={styles.discussion}&gt;Discussion&lt;/Text&gt;
@@ -416,22 +419,22 @@ function Mainscreen(props) {
       &lt;/View&gt;
       &lt;View style={styles.iconStack}&gt;
         &lt;MaterialCommunityIconsIcon
-          name="home"
+          name='home'
           style={styles.icon}
-        &gt;&lt;/MaterialCommunityIconsIcon&gt;
+        /&gt;
         &lt;MaterialCommunityIconsIcon
           name="home"
           style={styles.icon3}
-        &gt;&lt;/MaterialCommunityIconsIcon&gt;
+        /&gt;
         &lt;MaterialCommunityIconsIcon
           name="account-circle"
           style={styles.icon4}
-        &gt;&lt;/MaterialCommunityIconsIcon&gt;
+        /&gt;
       &lt;/View&gt;
       &lt;MaterialCommunityIconsIcon
         name="home"
         style={styles.icon2}
-      &gt;&lt;/MaterialCommunityIconsIcon&gt;
+      /&gt;
     &lt;/View&gt;
   );
 }
@@ -443,14 +446,14 @@ const styles = StyleSheet.create({
   button: {
     width: '46%',
     height: 194,
-    backgroundColor: "rgba(227,144,153,1)",
+    backgroundColor: 'rgba(227,144,153,1)',
     borderRadius: 22
   },
   joffreMonService1: {
-    fontFamily: "roboto-300",
-    color: "#121212",
+    fontFamily: 'roboto-300',
+    color: '#121212',
     lineHeight: 18,
-    textAlign: "center",
+    textAlign: 'center',
     fontSize: 18,
     marginTop: 77,
     marginLeft: 40
@@ -458,22 +461,22 @@ const styles = StyleSheet.create({
   button2: {
     width: '46%',
     height: 194,
-    backgroundColor: "rgba(118,171,227,1)",
+    backgroundColor: 'rgba(118,171,227,1)',
     borderRadius: 22,
     marginLeft: 23,
     marginTop: 2
   },
   demandeDaide: {
-    fontFamily: "roboto-300",
-    color: "#121212",
+    fontFamily: 'roboto-300',
+    color: '#121212',
     fontSize: 18,
-    textAlign: "center",
+    textAlign: 'center',
     marginTop: 75,
     marginLeft: 41
   },
   buttonRow: {
     height: 196,
-    flexDirection: "row",
+    flexDirection: 'row',
     marginTop: 157,
     marginLeft: 9,
     marginRight: 4
@@ -481,12 +484,12 @@ const styles = StyleSheet.create({
   button3: {
     width: '46%',
     height: 194,
-    backgroundColor: "rgba(189,244,123,1)",
+    backgroundColor: 'rgba(189,244,123,1)',
     borderRadius: 22
   },
   profile: {
-    fontFamily: "arial-regular",
-    color: "#121212",
+    fontFamily: 'arial-regular',
+    color: '#121212',
     fontSize: 18,
     marginTop: 73,
     marginLeft: 58
@@ -494,21 +497,21 @@ const styles = StyleSheet.create({
   button4: {
     width: '46%',
     height: 194,
-    backgroundColor: "rgba(183,154,209,1)",
+    backgroundColor: 'rgba(183,154,209,1)',
     borderRadius: 22,
     marginLeft: 23
   },
   discussion: {
-    fontFamily: "roboto-300",
-    color: "#121212",
+    fontFamily: 'roboto-300',
+    color: '#121212',
     fontSize: 21,
-    textAlign: "center",
+    textAlign: 'center',
     marginTop: 73,
     marginLeft: 30
   },
   button3Row: {
     height: 194,
-    flexDirection: "row",
+    flexDirection: 'row',
     marginTop: 10,
     marginLeft: 9,
     marginRight: 4
@@ -516,22 +519,22 @@ const styles = StyleSheet.create({
   icon: {
     top: 0,
     left: 38,
-    position: "absolute",
-    color: "rgba(128,128,128,1)",
+    position: 'absolute',
+    color: 'rgba(128,128,128,1)',
     fontSize: 40
   },
   icon3: {
     top: 36,
     left: 33,
-    position: "absolute",
-    color: "rgba(128,128,128,1)",
+    position: 'absolute',
+    color: 'rgba(128,128,128,1)',
     fontSize: 40
   },
   icon4: {
     top: 42,
     left: 0,
-    position: "absolute",
-    color: "rgba(128,128,128,1)",
+    position: 'absolute',
+    color: 'rgba(128,128,128,1)',
     fontSize: 40
   },
   iconStack: {
@@ -541,7 +544,7 @@ const styles = StyleSheet.create({
     marginLeft: -105
   },
   icon2: {
-    color: "rgba(128,128,128,1)",
+    color: 'rgba(128,128,128,1)',
     fontSize: 40,
     marginTop: -143,
     marginLeft: 344
@@ -556,7 +559,7 @@ export default Mainscreen;
             <div class='footer quiet pad2 space-top1 center small'>
                 Code coverage generated by
                 <a href="https://istanbul.js.org/" target="_blank">istanbul</a>
-                at Tue Oct 13 2020 14:21:24 GMT+0200 (GMT+02:00)
+                at Wed Oct 14 2020 22:29:36 GMT+0200 (GMT+02:00)
             </div>
         </div>
         <script src="../../prettify.js"></script>
