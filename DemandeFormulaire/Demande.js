@@ -17,20 +17,14 @@ class Demande extends React.Component{
   constructor(){
      super();
      this.state={
-       idDemande:this.generateurId(),
+       idDemande:this.id,
        userName:'FloB',
        categorie:'Aller faire des courses',
        descriptif:'',
      }
    }
 
-   generateurId() {
-    var uid = function() {
-       return (((1+Math.random())*0x50000)|0).toString(16).substring(1);
-    };
-    return (uid()+uid()+"-"+uid()+"-"+uid()+"-"+uid());
-}
-
+ 
 
   
    submit(){
@@ -100,16 +94,15 @@ const styles = StyleSheet.create({
   },
 
   bout: {
-    width: 200,
-    height : 150,
+    width: '50%',
+    height : '18%',
     backgroundColor: 'rgba(242,100,107,1)',
-    borderRadius:20,
-    marginTop:150,
-    left:80,
+    borderRadius:'10%',
+    marginTop:'45%',
+    left:'25%',
   },
 
   para:{
-    left:30,
     fontSize:20,
     fontWeight:"bold",
   },
@@ -117,16 +110,16 @@ const styles = StyleSheet.create({
     color: '#FFF',
     fontSize: 25,
     textAlign: "center",
-    marginTop:45,
+    marginTop:'19%',
   },
 
   desc:{
     flex:1,
     position:'absolute',
-    height : 110,
-    width : 300,
-    left:30,
-    fontSize:15,
+    height : '17%',
+    width : '75%',
+    left:'12.5%',
+    fontSize:20,
     fontWeight :'bold',
     borderWidth: 2,
     borderColor: "#20232a",
