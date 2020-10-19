@@ -1,4 +1,15 @@
-const demande = require('../model/demande.model')
+const demande = require('../model/demande.model');
+
+
+const mysql = require("mysql");
+const db = mysql.createConnection({
+    host: 'sql7.freemysqlhosting.net' ,
+    user: 'sql7343279',
+    password: 'lm5ksRt97g',
+    database: 'sql7343279'
+});
+
+
 // find a all contacts
 
 exports.findAll = (req,res) => {
@@ -21,8 +32,11 @@ exports.registerDem = (req,res) =>{
     const { idDemande , userName , description, statut } = req.body;
     db.query('INSERT INTO Demande (idDemande , UserName , Categorie, Descriptif) VALUES ?',[idDemande , userName , description, statut])
 };
+
+
 exports.create = (req, res) => {
   const demande3 = {
+    idDemande: req.body.idDemande,
     userName: req.body.userName,
     descriptif: req.body.descriptif,
     categorie: req.body.categorie
@@ -38,4 +52,4 @@ exports.create = (req, res) => {
         res.send(data);
       }
 });
-};
+}
