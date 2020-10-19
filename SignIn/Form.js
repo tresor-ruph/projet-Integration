@@ -15,42 +15,12 @@ class Form extends React.Component {
     }
     submit() {
       console.log(this.state)
-      /*
-      const requestOptions = {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ title: 'React POST Request Example' })
-      };
-      fetch('http://localhost:3000/auth/')
-      .then(response => response.json())
-      .then(json => {
-      this.setState({demande: json})
-      console.log(json)
-      console.log(this.state.demande)
-      })
-      }*/
-
-
-/*
-      fetch('http://localhost:8080/') .then(response => response.json())
-      .then(json => {
-      console.log(json);
-      }).catch((error) => {
-        console.error(error);
-      });
-*/
 
       fetch('http://localhost:8080/auth/', {
         method: 'POST',
-        mode: 'no-cors',
-        body: JSON.stringify({
-          nom: this.state.nom,
-          prenom: this.state.prenom,
-          adresse: this.state.adresse,
-          codePostal: this.state.codePostal,
-          Mail: this.state.Mail,
-          password: this.state.motdepasse
-        }),
+        body: JSON.stringify(
+          this.state
+        ),
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -64,6 +34,7 @@ class Form extends React.Component {
       });
       
     }
+
     render() {
       return (
         <View>

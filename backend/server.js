@@ -12,9 +12,7 @@ var corsOptions = {
 };
 
 
-
-app.use(cors(corsOptions));
-
+app.use(cors());
 
 
 const db = mysql.createConnection({
@@ -23,7 +21,6 @@ const db = mysql.createConnection({
     password: 'lm5ksRt97g',
     database: 'sql7343279'
 });
-
 
 
 db.connect( (err) =>{
@@ -47,6 +44,7 @@ app.use(session({secret: "its a secret!"}));
 
 app.use('/',require('./routes/routes'));
 //app.use('/auth',require('./routes/au'));
+
 app.get('/Mail', (req,res) =>{
   var rechsql = 'SELECT Mail from Utilisateurs';
   var spotted = '';
@@ -68,14 +66,16 @@ app.get('/Mail', (req,res) =>{
   res.json({message: 'ok'});
 })
   });
+
 app.post('/auth',(req, res) => {
-    var nom = req.param('nom',null);
-    var prenom = req.param('prenom',null);
-    var adresse = req.param('adresse',null);
-    var codePostal = req.param('codePostal',null);
-    var Mail = req.param('Mail',null);
-    var password = req.param('password',null);
-    
+    var nom = req.body.nom;
+    var prenom = req.body.prenom;
+    var adresse = req.body.adresse;
+    var codePostal = req.body.codePostal;
+    var Mail = req.body.Mail;
+    var password = req.body.motdepasse;
+      
+      console.log( req.body );
       console.log("passse direct ici");
       var sql = 'INSERT INTO Utilisateurs(Nom , Prenom , Adresse , CodePostal,Mail,password) VALUES ? ';
       var values = [[nom,prenom,adresse,codePostal,Mail,password]];
@@ -121,13 +121,7 @@ app.post('/auth',(req, res) => {
 });
 
 
-
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
-
-
-
-
-
