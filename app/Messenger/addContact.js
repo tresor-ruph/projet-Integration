@@ -48,13 +48,18 @@ function Addcontact(props) {
         }
       }
 
-      let nom = "'" + name + "'";
 
       try {
-        fetch(`http://localhost:3000/contacts/${nom}`)
+        console.log(email)
+
+        fetch(`http://localhost:3000/contacts/${email}`)
           .then((response) => response.json())
           .then((json) => {
             if (json.length === 1) {
+              console.log("hahha");
+              console.log(json)
+              json[0].Nom = name;
+              console.log(json)
               getContact(json);
             } else {
               setMess("Ce contact n'existe pas !");
@@ -84,19 +89,21 @@ function Addcontact(props) {
         </View>
       )}
       <View style={[styles.input1, props.style]}>
-        <Icon name="account" style={styles.iconStyle}></Icon>
+        <Icon name="email" style={styles.iconStyle}></Icon>
         <TextInput
-          placeholder="Nom"
+          placeholder="Email"
           style={styles.inputStyle}
-          onChange={handleNom}
+          onChange={handleEmail}
+
         ></TextInput>
       </View>
       <View style={[styles.input2, props.style]}>
-        <Icon name="phone" style={styles.iconStyle2}></Icon>
+        <Icon name="account" style={styles.iconStyle2}></Icon>
         <TextInput
-          placeholder="Teleph."
+          placeholder="Nom."
           style={styles.inputStyle2}
-          onChange={handleEmail}
+          onChange={handleNom}
+
         ></TextInput>
       </View>
       <View style={styles.footer}>

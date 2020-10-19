@@ -37,7 +37,6 @@ function Discussion_Repo(props) {
 
     function renderScreen(props) {
       let arr = [];
-     console.log(contacts)
       for(let i=0; i< contacts.length; i++ ){
         arr.push(<Contact key= {i} name= {contacts[i].Nom} imgUrl ={contacts[i].PhotoProfil}  />)
 

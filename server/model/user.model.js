@@ -17,9 +17,11 @@ user.findContacts = ( result) => {
     });
 };
 
-user.findById = (name,result) => {
+user.findById = (email,result) => {
+    console.log(email)
+    email = "'" + email + "'"
 
-    sql.query(`SELECT * FROM Utilisateurs WHERE Nom = ${name}`, (err, res) =>{
+    sql.query(`SELECT * FROM Utilisateurs WHERE Mail = ${email}`, (err, res) =>{
     if(err){
         console.log("error : ", err)
         result(null , err);

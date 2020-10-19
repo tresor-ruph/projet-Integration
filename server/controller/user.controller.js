@@ -17,15 +17,16 @@ contacts.findContacts( (err, data) => {
 };
 
 exports.findOne = (req, res) => {
-  contacts.findById(req.params.name, (err, data) => {
+  contacts.findById(req.params.email, (err, data) => {
+    console.log(req.params)
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found user with id ${req.params.userId}.`
+          message: `Not found user with email ${req.params.email}.`
         });
       } else {
         res.status(500).send({
-          message: "Error retrieving user with id " + req.params.userId
+          message: "Error retrieving user with email " + req.params.email
         });
       }
     } else{
