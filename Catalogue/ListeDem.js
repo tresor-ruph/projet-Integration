@@ -13,7 +13,7 @@ class ListeDem extends React.Component {
   }  
   
   componentDidMount(){
-    fetch('http://localhost:3000/contacts/')
+    fetch('http://localhost:3000/demande/')
     .then(response => response.json())
     .then(json => {
       this.setState({demande: json})
@@ -30,8 +30,8 @@ class ListeDem extends React.Component {
           <ListItem key={i} bottomDivider>
             <Avatar source={{uri: l.avatar_url}} />
             <ListItem.Content>
-              <ListItem.Title>{l.Nom}</ListItem.Title>
-              <ListItem.Subtitle>{l.Prenom}</ListItem.Subtitle>
+              <ListItem.Title>{l.userName}</ListItem.Title>
+              <ListItem.Subtitle>{l.categorie}</ListItem.Subtitle>
             </ListItem.Content>
           </ListItem>
         ))
