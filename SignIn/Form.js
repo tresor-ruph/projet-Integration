@@ -1,8 +1,9 @@
 import React from "react";
-import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, Dimensions, SafeAreaView  } from "react-native";
+import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, Dimensions   } from "react-native";
 import PassMeter from "react-native-passmeter";
 
-//const labeltest = ["Trop court", "Il faut au moins 1 chiffre !", "Il faut au moins 1 lettre majuscule !", "Mot de passe valide"];
+console.disableYellowBox = true;
+
 
 class Form extends React.Component {
     constructor() {
@@ -28,12 +29,11 @@ class Form extends React.Component {
 
     submit() {
       //envoie msg d'erreur si un champ est encore vide
-     /* if(this.state.nom == '' || this.state.prenom == '' || this.state.motdepasse == '' || this.state.repMotdepasse == '' || this.state.adresse == '' || this.state.dateNaissance == '' || this.state.mail == '') {
+     if(this.state.nom == '' || this.state.prenom == '' || this.state.motdepasse == '' || this.state.repMotdepasse == '' || this.state.adresse == '' || this.state.dateNaissance == '' || this.state.mail == '') {
         let simpleAlertHandler = () => {
           alert("Tous les champs ne sont pas remplis !");
         };
         simpleAlertHandler();
-        console.log(this.state);
         return;
       }
       //envoie msg d'erreur si mdp répété est différent
@@ -42,32 +42,27 @@ class Form extends React.Component {
           alert("Le mot de passe n'est pas correctement répété !");
         };
         simpleAlertHandler();
-        console.log(this.state + ' oui');
         return;
-      }*/
-      if(this.state.label.values != "Mot de passe valide") {
+      }
+      //envoie msg d'erreur si le mdp est < à 8 OU ne contient pas de chiffre OU ne contient pas de majuscule
+      if(this.state.motdepasse.length < 8 || JSON.stringify(this.state.motdepasse).match(/\d+/) == null || JSON.stringify(this.state.motdepasse) == JSON.stringify(this.state.motdepasse).toLowerCase()) {
         let simpleAlertHandler = () => {
           alert("Le mot de passe n'est pas suffisament compliqué !");
         };
         simpleAlertHandler();
-        //console.log(PassMeter.propTypes.showLabels().propName)
-        console.log(PropTypes.checkPropTypes(PassMeter, labels, ))
         return;
       }
 
       fetch('http://localhost:8080/auth/', {
         method: 'POST',
-        body: JSON.stringify(
-          /* c'est mieux ceci qui est en commentaire car le state contient des elements inutiles à la DB
+        body: JSON.stringify({
           nom: this.state.nom,
           prenom: this.state.prenom,
           adresse: this.state.adresse,
           dateNaissance: this.state.dateNaissance,
           mail: this.state.mail,
           password: this.state.motdepasse
-          */
-          this.state
-        ),
+        }),
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
@@ -79,56 +74,78 @@ class Form extends React.Component {
       }).catch((error) => {
         console.error(error);
       });
-      
+      //vider les textInput; utile que parce qu'il n'y a pas encore la redirection apres s'etre inscrit
+      this.textNom.clear();
+      this.textPrenom.clear();
+      this.textAdresse.clear();
+      this.textDateNaissance.clear();
+      this.textEmail.clear();
+      this.textMdp.clear();
+      this.textMdp2.clear();
     }
 
     render() {
       return ( 
-        <ScrollView>
+        <ScrollView useNativeDriver= {true}>
           <View style={styles.container}>
             <TextInput
               placeholder="Nom"
+              maxLength={50}
+              autoCapitalize="sentences"
               onChangeText={(text)=> { this.setState({ nom: text }) }}
+              ref={input => { this.textNom = input }}
               style={styles.textInput}
             ></TextInput>
             <TextInput
               placeholder="Prénom"
+              maxLength={50}
+              autoCapitalize="sentences"
               onChangeText={(text)=> { this.setState({ prenom: text }) }}
+              ref={input => { this.textPrenom = input }}
               style={styles.textInput}
             ></TextInput>
             <TextInput
               placeholder="Adresse"
+              maxLength={50}
+              autoCapitalize="sentences"
               onChangeText={(text)=> { this.setState({ adresse: text }) }}
+              ref={input => { this.textAdresse = input }}
               style={styles.textInput}
             ></TextInput>
             <TextInput
               placeholder="Date de naissance"
               onChangeText={(text)=> { this.setState({ dateNaissance: text }) }}
+              ref={input => { this.textDateNaissance = input }}
               style={styles.textInput}
             ></TextInput>
             <TextInput
               placeholder="Adresse email"
+              maxLength={50}
               onChangeText={(text)=> { this.setState({ mail: text }) }}
+              ref={input => { this.textEmail = input }}
               style={styles.textInput}
             ></TextInput>
             <TextInput
               placeholder="Mot de passe"
+              maxLength={12}
               secureTextEntry={this.state.showPassword}
               onChangeText={(text)=> { this.setState({ motdepasse: text }) }}
+              ref={input => { this.textMdp = input }}
               style={styles.textInput}
             ></TextInput>
             <PassMeter
               showLabels
               password={this.state.motdepasse}
               maxLength={12}
-              minLength={1}
+              minLength={8}
               labels={ this.state.label }
-              
             />
             <TextInput
               placeholder="Répétition du mot de passe"
+              maxLength={12}
               secureTextEntry={this.state.showPassword}
               onChangeText={(text)=> { this.setState({ repMotdepasse: text }) }}
+              ref={input => { this.textMdp2 = input }}
               style={styles.textInput}
             ></TextInput>
             <Text style={styles.text}>
@@ -177,10 +194,6 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     marginTop: 10,
   },
-  meter: {
-    width: windowWidth-100,
-  }
-
 })
 
 export default Form;
