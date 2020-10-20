@@ -18,11 +18,11 @@ demande.findDemande = (result) => {
 };
 
 
-demande.createDemande = (Newdemande) => {
+demande.createDemande = (Newdemande, result) => {
     var requete = "INSERT INTO Demande(userName, categorie, descriptif) VALUES ? ";
     var values = [[Newdemande.userName, Newdemande.categorie , Newdemande.descriptif]];
-    sql.query(requete, [values] );
-        
+    sql.query(requete, [values]);
+    result (null, 'Demande envoyée')
 };
 
 module.exports = demande;

@@ -1,7 +1,7 @@
-
 import React from 'react'
 import {StyleSheet, View, TextInput,TouchableOpacity, Text, Alert, Picker } from 'react-native'
 import { Title, Paragraph } from 'react-native-paper';
+import axios from 'axios'
 
 
 
@@ -14,56 +14,38 @@ class Demande extends React.Component{
       this.setState({ categorie: categorie })
    }
 
-  constructor(){
-     super();
+  constructor(props){
+     super(props);
      this.state={
-       idDemande:this.generateurId(),
        userName:'FloB',
        categorie:'Aller faire des courses',
        descriptif:'',
      }
    }
 
-   generateurId() {
-    var uid = function() {
-       return (((1+Math.random())*0x50000)|0).toString(16).substring(1);
-    };
-    return (uid()+uid()+"-"+uid()+"-"+uid()+"-"+uid());
-}
-
 
   
    submit(){
   
-     console.warn(this.state) 
+     console.log(this.state) 
+     const newDemande = {userName: this.state.userName, categorie: this.state.categorie, descriptif: this.state.descriptif}
+     console.log(newDemande);
 
-     /*fetch('http://localhost:3000/ajoutDem/', {
+     fetch('http://localhost:3000/demandeE/', {
       method: 'POST',
-      mode:'no-cors',
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
         "Access-Control-Allow-Origin": '*'
       },
-
-      body: JSON.stringify ({
-        idDemande: this.state.idDemande,
-        userName: this.state.userName,
-        categorie: this.state.categorie,
-        descriptif: this.state.descriptif,
-       
+      body: JSON.stringify({
+        userName: newDemande.userName,
+        categorie: newDemande.categorie,
+        descriptif: newDemande.descriptif,
       })
-    }) .then(response => response.json())
-    .then(json=> {
-      
-      console.log(json);
-    }).catch((error) => {
-      console.error(error);
-    });
-    */
+    }) 
   }
-   
-
+  
   render(){
     return (
       <View style={styles.container}>
@@ -99,43 +81,51 @@ class Demande extends React.Component{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "center",
+    justifyContent: "flex-start",
     backgroundColor: 'rgba(106,106,255,0.6)',
   },
 
+  listD: {
+    marginTop: '5%',
+    height: '10%',
+    fontSize: 30
+  },
+
   bout: {
-    width: 200,
-    height : 150,
+    width: '98%',
+    height : '20%',
     backgroundColor: 'rgba(242,100,107,1)',
     borderRadius:20,
-    marginTop:150,
-    left:80,
+    marginTop:'80%',
+    marginLeft: '1%', 
   },
 
   para:{
-    left:30,
     fontSize:20,
     fontWeight:"bold",
+    marginTop: '5%'
   },
   textBout: {
     color: '#FFF',
-    fontSize: 25,
+    fontSize: 35,
     textAlign: "center",
-    marginTop:45,
+    marginTop: '7%',
   },
 
   desc:{
     flex:1,
     position:'absolute',
-    height : 110,
-    width : 300,
-    left:30,
-    fontSize:15,
+    height : '35%',
+    width : '90%',
+    marginLeft: '5%',
+    marginTop: '45%',
+    fontSize: 40,
     fontWeight :'bold',
     borderWidth: 2,
     borderColor: "#20232a",
     textAlign: "center",
   },
+
 
  
 });

@@ -1,4 +1,5 @@
 const demande = require('../model/demande.model')
+const sql = require('../model/db');
 // find a all contacts
 
 exports.findAll = (req,res) => {
@@ -16,18 +17,14 @@ exports.findAll = (req,res) => {
   });
 };
 
-exports.registerDem = (req,res) =>{
-    console.log(req);
-    const { idDemande , userName , description, statut } = req.body;
-    db.query('INSERT INTO Demande (idDemande , UserName , Categorie, Descriptif) VALUES ?',[idDemande , userName , description, statut])
-};
 exports.create = (req, res) => {
   const demande3 = {
     userName: req.body.userName,
     descriptif: req.body.descriptif,
     categorie: req.body.categorie
   };
-  demande.createDemande(demande3)( (err, data) => {
+  demande.createDemande(demande3, (err, data) => {
+    console.log(data)
     if (err) {
           res.status(500).send({
             message: "Error creating demande "
@@ -38,4 +35,4 @@ exports.create = (req, res) => {
         res.send(data);
       }
 });
-};
+}

@@ -7,5 +7,5 @@ module.exports = app =>{
     const demande = require('./../controller/ajoutDem');
     //get user with id = id
     app.get("/demande/", demande.findAll);
-    app.post("/demande/", demande.create);
+    app.post("/demandeE/", demande.create);
 };

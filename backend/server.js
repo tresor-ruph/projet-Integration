@@ -1,8 +1,10 @@
 const express = require('express');
 const bodyParser = require('body-parser');
+const cors = require('cors')
 
 const app = express();
 
+app.use(cors())
 app.use(bodyParser.json());
 
 app.use(bodyParser.urlencoded({extended : true}));
@@ -17,9 +19,3 @@ const routes = require('./routes/user.route')(app);
 app.listen(process.env.PORT || '3000', () => {
     console.log(`the server is running on ${process.env.PORT || '3000'}`);
 });
-
-app.post('/ajoutDem',(req,res)=>{
-    var idDemande= req.body.idService;
-    var service= req.body.service;
-    var descriptif = req.body.descriptif;
-})
