@@ -1,6 +1,9 @@
-import React, { Component } from "react";
-import { render } from "react-dom";
-import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text } from "react-native";
+import React from "react";
+import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, Dimensions, SafeAreaView  } from "react-native";
+import PassMeter from "react-native-passmeter";
+
+//const labeltest = ["Trop court", "Il faut au moins 1 chiffre !", "Il faut au moins 1 lettre majuscule !", "Mot de passe valide"];
+
 class Form extends React.Component {
     constructor() {
       super();
@@ -13,6 +16,7 @@ class Form extends React.Component {
         dateNaissance: '',
         mail: '',
         showPassword: true,
+        label: ["Trop court", "Il faut au moins 1 chiffre !", "Il faut au moins 1 lettre majuscule !", "Mot de passe valide"],
       }
       //sert ds la visualisation du mdp
       this.toggleSwitch = this.toggleSwitch.bind(this);  
@@ -24,7 +28,7 @@ class Form extends React.Component {
 
     submit() {
       //envoie msg d'erreur si un champ est encore vide
-      if(this.state.nom == '' || this.state.prenom == '' || this.state.motdepasse == '' || this.state.repMotdepasse == '' || this.state.adresse == '' || this.state.dateNaissance == '' || this.state.mail == '') {
+     /* if(this.state.nom == '' || this.state.prenom == '' || this.state.motdepasse == '' || this.state.repMotdepasse == '' || this.state.adresse == '' || this.state.dateNaissance == '' || this.state.mail == '') {
         let simpleAlertHandler = () => {
           alert("Tous les champs ne sont pas remplis !");
         };
@@ -39,6 +43,15 @@ class Form extends React.Component {
         };
         simpleAlertHandler();
         console.log(this.state + ' oui');
+        return;
+      }*/
+      if(this.state.label.values != "Mot de passe valide") {
+        let simpleAlertHandler = () => {
+          alert("Le mot de passe n'est pas suffisament compliqué !");
+        };
+        simpleAlertHandler();
+        //console.log(PassMeter.propTypes.showLabels().propName)
+        console.log(PropTypes.checkPropTypes(PassMeter, labels, ))
         return;
       }
 
@@ -104,6 +117,14 @@ class Form extends React.Component {
               onChangeText={(text)=> { this.setState({ motdepasse: text }) }}
               style={styles.textInput}
             ></TextInput>
+            <PassMeter
+              showLabels
+              password={this.state.motdepasse}
+              maxLength={12}
+              minLength={1}
+              labels={ this.state.label }
+              
+            />
             <TextInput
               placeholder="Répétition du mot de passe"
               secureTextEntry={this.state.showPassword}
@@ -128,6 +149,8 @@ class Form extends React.Component {
     }
 }
 
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   container: {
@@ -137,7 +160,7 @@ const styles = StyleSheet.create({
   },
 
   textInput: {
-   marginBottom: 25,
+   marginTop: 25,
    borderWidth:1,
    borderColor:'blue',
    borderRadius: 10,
@@ -150,9 +173,12 @@ const styles = StyleSheet.create({
   },
   switch: {
     transform:[{ scaleX: 1.5 }, { scaleY: 1.5 }],
-    marginRight: 120,
+    marginRight: (windowWidth-100)/2,
     marginBottom: 40,
     marginTop: 10,
+  },
+  meter: {
+    width: windowWidth-100,
   }
 
 })
