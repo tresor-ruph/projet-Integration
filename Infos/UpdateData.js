@@ -1,166 +1,311 @@
-import React, { Component } from "react";
-import { StyleSheet, View, Text } from "react-native";
-import MaterialHeader1 from "../components/MaterialHeader1";
-import MaterialFixedLabelTextbox from "../components/MaterialFixedLabelTextbox";
-import MaterialFixedLabelTextbox2 from "../components/MaterialFixedLabelTextbox2";
-import MaterialButtonPrimary from "../components/MaterialButtonPrimary";
-import Svg, { Ellipse } from "react-native-svg";
-import MaterialFixedLabelTextbox1 from "../components/MaterialFixedLabelTextbox1";
-import MaterialFixedLabelTextbox3 from "../components/MaterialFixedLabelTextbox3";
+import React, { Component, useEffect, useState } from 'react'
+import {
+  StyleSheet,
+  Button,
+  View,
+  Text,
+  ScrollView,
+  TextInput,
+  Image,
+  TouchableOpacity,
+  Platform
+} from "react-native";
+import * as ImagePicker from 'expo-image-picker';
+import App from './firebase';
+import * as firebase from 'firebase';
+import storage from '@react-native-firebase/storage';
 
-function UpdateData(props) {
+
+/*export default function Search() {
   return (
     <View style={styles.container}>
-      <View style={styles.rectStack}>
-        <View style={styles.rect}>
-          <MaterialHeader1
-            leftIconName="menu"
-            rightIconName="dots-vertical"
-            textInput="Title"
-            rightIconButton="Go Back"
-            leftIconButton="Go Back"
-            leftIcon="keyboard-backspace"
-            textInput="Infos"
-            style={styles.materialHeader1}
-          ></MaterialHeader1>
-          <MaterialFixedLabelTextbox
-            label="FixedLabel"
-            label="Nom"
-            style={styles.materialFixedLabelTextbox}
-          ></MaterialFixedLabelTextbox>
-          <MaterialFixedLabelTextbox2
-            label="FixedLabel"
-            label="Adresse"
-            style={styles.materialFixedLabelTextbox2}
-          ></MaterialFixedLabelTextbox2>
-          <MaterialButtonPrimary
-            style={styles.materialButtonPrimary}
-          ></MaterialButtonPrimary>
-        </View>
-        <View style={styles.rect2}>
-          <View style={styles.ellipseRow}>
-            <Svg viewBox="0 0 57.19 53.04" style={styles.ellipse}>
-              <Ellipse
-                stroke="rgba(250,248,248,1)"
-                strokeWidth={0}
-                fill="rgba(93,44,44,1)"
-                cx={29}
-                cy={27}
-                rx={29}
-                ry={27}
-              ></Ellipse>
-            </Svg>
-            <Text style={styles.loremIpsum}>Modifiez vos informations</Text>
-          </View>
-        </View>
-        <MaterialFixedLabelTextbox1
-          label="FixedLabel"
-          label="Prenom"
-          style={styles.materialFixedLabelTextbox1}
-        ></MaterialFixedLabelTextbox1>
-        <MaterialFixedLabelTextbox3
-          label="Code postal"
-          style={styles.materialFixedLabelTextbox3}
-        ></MaterialFixedLabelTextbox3>
-      </View>
+      <TextInput placeholder="test"></TextInput>
     </View>
   );
+
+  return 
+
+    () => {
+    axios
+    .get('localhost:8080/users/31')
+    .then(response => {
+      setUserData(response.data)
+      console.log(userdata);
+    })
+  }, []);
+
+    if(this.state.isLoading){
+      return (
+        <View style={styles.container}>
+          <Text>Error content not loaded</Text>
+        </View>
+      )
+    }
+    else{
+    console.log(this.state.dataSource);
+    let name = this.state.dataSource.map((val) => {
+     return  <View key={val.Id} style={styles.item}>
+        <Text>{val.Nom}</Text>
+      </View>
+    })
+}*/
+
+const Separator = () => (
+  <View style={styles.separator} />
+);
+
+export default function UpdateData() {
+
+  const [nom, setNom] = useState(' ')
+  const [prenom, setPrenom] = useState(' ')
+  const [adresse, setAdresse] = useState(' ')
+  const [code, setCode] = useState(' ')
+  const [userId, setId] = useState(0);
+  const [bool, setBool] = useState(false);
+  const [btnDisplay, setBtn] = useState(true);
+  const [image, setImage] = useState(null);
+  const [url, setUrl] = useState();
+
+
+  useEffect(() => {
+    fetch('http://localhost:3000/users/31')
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json[0]);
+        setId(json[0].Id)
+        setNom(json[0].Nom)
+        setPrenom(json[0].Prenom)
+        setAdresse(json[0].Adresse)
+        setCode(json[0].CodePostal)
+        setImage(json[0].PhotoProfil)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
+
+    firebase.initializeApp(App.firebaseConfig);
+    firebase.analytics();
+
+  }, [])
+
+  let handleChangeName = (event) => {
+    setNom(event.target.value)
+  }
+  let handleChangeSurname = (event) => {
+    setPrenom(event.target.value)
+  }
+  let handleChangeAddress = (event) => {
+    setAdresse(event.target.value)
+  }
+  let handleChangePostal = (event) => {
+    setCode(event.target.value)
+  }
+
+  const pickImage = async () => {
+
+    if (Platform.OS !== 'web') {
+      const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
+      if (status !== 'granted') {
+        alert('Sorry, we need camera roll permissions to make this work!');
+      }
+    }
+
+    let result = await ImagePicker.launchImageLibraryAsync({
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      allowsEditing: true,
+      aspect: [4, 3],
+      quality: 1,
+    });
+
+    console.log(result);
+    if (!result.cancelled) {
+      setImage(result.uri);
+    }
+
+  };
+
+
+  const uploadImage = async (uri, imgName) => {
+
+    const response = await fetch(uri);
+    const blob = await response.blob();
+
+    let ref = firebase.storage().ref().child(imgName);
+    ref.put(blob);
+
+    let test = await firebase.storage()
+      .ref('/' + imgName)
+      .getDownloadURL();
+
+    return test;
+  }
+
+
+
+
+  let handleSubmit = async (event) => {
+
+    let imageName = 'profile' + userId;
+
+    let test1 = await uploadImage(image, imageName);
+
+
+    let requestOptions = {
+      method: 'POST',
+      headers: { 'Content-type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+      body: JSON.stringify({
+        Nom: nom,
+        Prenom: prenom,
+        CodePostal: code,
+        Adresse: adresse,
+        userId: userId,
+        Photo: test1,
+      })
+    }
+    console.log(requestOptions.body);
+
+    fetch("http://localhost:3000/updateData", requestOptions)
+      .then(response => {
+        return ("Data successfully updated")
+      })
+      .catch(error => {
+        console.log(error);
+      })
+
+
+
+    setBtn(true);
+    setBool(false);
+  }
+
+  let handleBoutonDisplay = () => {
+    setBtn(false);
+    setBool(true);
+  }
+  let handleCancel = () => {
+    setBtn(true);
+    setBool(false);
+  }
+
+
+
+  return (
+    <View style={styles.container}>
+      <View style={styles.top}>
+        <Image
+          source={{ uri: image || 'http://ssl.gstatic.com/accounts/ui/avatar_2x.png' }}
+          style={{
+            width: 75,
+            height: 75,
+            borderRadius: 200 / 2
+          }}
+        />
+        {bool && <TouchableOpacity color='red' onPress={pickImage}>
+          <Text>Changer de photo de profil</Text>
+        </TouchableOpacity>}
+      </View>
+
+      <View style={styles.inputContainer}>
+        <TextInput
+          style={styles.textInput}
+          value={nom}
+          name="Nom"
+          editable={bool}
+          onChange={handleChangeName}
+        />
+        <TextInput
+          style={styles.textInput}
+          value={prenom}
+          editable={bool}
+          name="Prenom"
+          onChange={handleChangeSurname}
+        />
+        <TextInput
+          style={styles.textInput}
+          value={adresse}
+          editable={bool}
+          name="adresse"
+          onChange={handleChangeAddress}
+
+        />
+        <TextInput
+          style={styles.textInput}
+          value={code}
+          editable={bool}
+          name="code"
+          onChange={handleChangePostal}
+        />
+      </View>
+      <View style={styles.bottom}>
+        {
+          btnDisplay
+          &&
+          <Button
+            title="Modifier"
+            onPress={handleBoutonDisplay}
+            color='blue'
+          />
+        }
+        {
+          !btnDisplay &&
+          <View style={{ flex: 2, padding: '10' }}>
+            <Button
+              title="Enregistrer"
+              onPress={handleSubmit}
+              color='green'
+            />
+          </View>
+        }
+        <View style={{ flex: 0.1 }} />
+        {
+          !btnDisplay &&
+          <View style={{ flex: 2, padding: '10' }}>
+            <Button
+              title="Annuler"
+              onPress={handleCancel}
+              color='red'
+            />
+          </View>
+        }
+      </View>
+    </View>
+  )
 }
+
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    justifyContent: "space-between",
+    alignItems: 'center',
+    backgroundColor: "#fff",
+    padding: 20
+  },
+  top: {
+    flex: 0.3,
+    borderTopLeftRadius: 20,
+    borderTopRightRadius: 20,
+    alignItems: 'center'
+  },
+  inputContainer: {
+    flex: 0.3
+  },
+  textInput: {
+    padding: 10,
+    textAlign: 'center',
+    fontWeight: 'bold',
     borderWidth: 1,
-    borderColor: "#000000",
-    borderStyle: "solid",
+    borderColor: 'black',
+    marginBottom: 10,
   },
-  rect: {
-    top: 0,
-    left: 1,
-    width: 360,
-    height: 717,
-    position: "absolute",
-    backgroundColor: "rgba(148,237,153,1)",
+  bottom: {
+    flex: 0.3,
+    flexDirection: "column",
+    justifyContent: "space-between",
   },
-  materialHeader1: {
-    height: 56,
-    width: 360,
-    backgroundColor: "rgba(148,237,153,1)",
-    borderWidth: 1,
-    borderColor: "#000000",
-    marginTop: 1,
-  },
-  materialFixedLabelTextbox: {
-    height: 43,
-    width: 226,
-    borderWidth: 1,
-    borderColor: "#000000",
-    borderStyle: "solid",
-    marginTop: 66,
-  },
-  materialFixedLabelTextbox2: {
-    height: 43,
-    width: 226,
-    borderWidth: 1,
-    borderColor: "#000000",
-    marginTop: 43,
-  },
-  materialButtonPrimary: {
-    height: 33,
-    width: 100,
-    borderRadius: 15,
-    marginTop: 252,
-  },
-  rect2: {
-    top: 57,
-    width: 360,
-    height: 67,
-    position: "absolute",
-    backgroundColor: "#E6E6E6",
-    left: 0,
-    flexDirection: "row",
-  },
-  ellipse: {
-    width: 57,
-    height: 53,
-  },
-  loremIpsum: {
-    color: "#121212",
-    marginLeft: 63,
-    marginTop: 10,
-  },
-  ellipseRow: {
-    height: 53,
-    flexDirection: "row",
-    flex: 1,
-    marginRight: 66,
-    marginLeft: 12,
-    marginTop: 6,
-  },
-  materialFixedLabelTextbox1: {
-    height: 43,
-    width: 227,
-    position: "absolute",
-    left: 0,
-    top: 166,
-    borderWidth: 1,
-    borderColor: "#000000",
-  },
-  materialFixedLabelTextbox3: {
-    height: 43,
-    width: 227,
-    position: "absolute",
-    left: 0,
-    top: 252,
-    borderWidth: 1,
-    borderColor: "#000000",
-  },
-  rectStack: {
-    width: 361,
-    height: 717,
-    marginTop: 22,
-    marginLeft: -1,
-  },
+  separator: {
+    marginVertical: 8,
+    borderBottomColor: '#737373',
+    borderBottomWidth: StyleSheet.hairlineWidth,
+  }
 });
-
-export default UpdateData;
