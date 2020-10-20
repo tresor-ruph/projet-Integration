@@ -19,6 +19,7 @@ exports.findAll = (req,res) => {
 
 exports.create = (req, res) => {
   const demande3 = {
+    idDemande: req.body.idDemande,
     userName: req.body.userName,
     descriptif: req.body.descriptif,
     categorie: req.body.categorie

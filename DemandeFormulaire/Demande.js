@@ -36,7 +36,7 @@ class Demande extends React.Component{
       headers: {
         Accept: 'application/json',
         'Content-Type': 'application/json',
-        "Access-Control-Allow-Origin": '*'
+        'Access-Control-Allow-Origin': true,
       },
       body: JSON.stringify({
         userName: newDemande.userName,
@@ -64,7 +64,7 @@ class Demande extends React.Component{
          
           <TextInput multiline={true} numberOfLines={5} onChangeText={(text)=>{this.setState({descriptif:text})}} style={styles.desc} placeholder="Entrez un descriptif du service"/>
 
-          <TouchableOpacity style={styles.bout} onPress={() => {this.submit(),Alert.alert("Demande envoyée")}}>
+          <TouchableOpacity style={styles.bout} onPress={() => {this.submit()}}>
 
             <Text style={styles.textBout}> Envoyer votre demande </Text>
 
