@@ -7,15 +7,7 @@ function MaterialButtonSuccess(props) {
   return (
     <TouchableOpacity style={[styles.container, props.style]}>
       <Text style={styles.connexion}
-                onPress = { () =>  
-                  axios.get("",{
-                  email: "emailUtilisateur",
-                  password: "passwordUtilisateur"
-                }).then(response => {
-                  console.log(response)
-                }).catch(error =>{
-                  console.log(error)
-                })}
+                onPress = {{}}
       >Connexion</Text>
     </TouchableOpacity>
   );
