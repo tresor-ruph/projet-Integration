@@ -9,10 +9,9 @@ module.exports = (app) => {
         after changing the route make sure the parameter userId match in user.model and user.controller
     **/
   app.get("/contacts/:email", contacts.findOne);
+  app.get("/chat/:senderId/:recieverId", contacts.findRoom)
 
-  app.post("/addUser", function (req, res) {
-    req.header("Access-Control-Allow-Origin", "*");
-    console.log(req.body);
-    contacts.create;
-  });
+  app.post("/chat/addroom", contacts.createChat )
+
+
 };

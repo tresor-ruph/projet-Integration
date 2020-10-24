@@ -1,12 +1,18 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable import/no-unresolved */
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import { useNavigation } from '@react-navigation/native';
 
-function Mainscreen(props) {
+
+function Mainscreen(route, props) {
+  const navigation = useNavigation();
+
+  const [userId, setuserId] = useState(route.route.params.userid);
   return (
     <View style={styles.container}>
+
       <View style={styles.buttonRow}>
         <TouchableOpacity style={styles.button}>
           <Text style={styles.joffreMonService1}>
@@ -22,7 +28,7 @@ function Mainscreen(props) {
           <Text style={styles.profile}>Profile</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => props.navigation.navigate('Discussion_Repo')}
+          onPress={() => navigation.navigate('Discussion_Repo', { userid: userId })}
           style={styles.button4}
         >
           <Text style={styles.discussion}>Discussion</Text>

@@ -12,15 +12,17 @@ import {
 import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialButtonShare from "./components/MaterialButtonShare";
 
-import Chat from "./Chat";
 import Contact from "./contact";
 import Constants from "expo-constants";
 import AsyncStorage from "@react-native-community/async-storage";
 
-function Discussion_Repo(props) {
+
+function Discussion_Repo( route) {
   const [disp, setDisp] = useState("disc");
   const [contacts, setContact] = useState(" ");
   const [loaded, setLoaded] = useState(false);
+
+
 
   useEffect(() => {
     async function getContact() {
@@ -37,12 +39,15 @@ function Discussion_Repo(props) {
     getContact();
   }, [loaded]);
 
-  function renderScreen(props) {
+  function renderScreen() {
+   
     let arr = [];
     for (let i = 0; i < contacts.length; i++) {
       arr.push(
         <Contact
+        userId = {route.route.params.userid}
           key={i}
+          id = {contacts[i].Id}
           name={contacts[i].Nom}
           imgUrl={contacts[i].PhotoProfil}
         />
@@ -92,7 +97,6 @@ function Discussion_Repo(props) {
         <TouchableOpacity
           onPress={() => {
             setDisp("disc");
-            console.log({ disp });
           }}
           style={styles.buttonWrapper1}
         >
@@ -105,7 +109,6 @@ function Discussion_Repo(props) {
         <TouchableOpacity
           onPress={() => {
             setDisp("groups");
-            console.log({ disp });
           }}
           style={styles.activeButtonWrapper}
         >
@@ -118,7 +121,6 @@ function Discussion_Repo(props) {
         <TouchableOpacity
           onPress={() => {
             setDisp("contacts");
-            console.log({ disp });
           }}
           style={styles.buttonWrapper2}
         >

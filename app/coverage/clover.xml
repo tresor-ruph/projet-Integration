@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<coverage generated="1603140547723" clover="3.2.0">
-  <project timestamp="1603140547724" name="All files">
-    <metrics statements="162" coveredstatements="2" conditionals="52" coveredconditionals="0" methods="57" coveredmethods="1" elements="271" coveredelements="3" complexity="0" loc="162" ncloc="162" packages="8" files="15" classes="15"/>
+<coverage generated="1603327590345" clover="3.2.0">
+  <project timestamp="1603327590346" name="All files">
+    <metrics statements="142" coveredstatements="2" conditionals="52" coveredconditionals="0" methods="48" coveredmethods="1" elements="242" coveredelements="3" complexity="0" loc="142" ncloc="142" packages="8" files="13" classes="13"/>
     <package name="app">
       <metrics statements="4" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="App.js" path="C:\Users\treso\Documents\proj_int\projet-Integration\app\App.js">
@@ -11,8 +11,8 @@
       </file>
       <file name="File_link.js" path="C:\Users\treso\Documents\proj_int\projet-Integration\app\File_link.js">
         <metrics statements="2" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="1" coveredmethods="0"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="19" count="0" type="stmt"/>
+        <line num="13" count="0" type="stmt"/>
+        <line num="17" count="0" type="stmt"/>
       </file>
     </package>
     <package name="app.Catalogue">
@@ -48,7 +48,7 @@
       </file>
     </package>
     <package name="app.Messenger">
-      <metrics statements="124" coveredstatements="0" conditionals="42" coveredconditionals="0" methods="37" coveredmethods="0"/>
+      <metrics statements="118" coveredstatements="0" conditionals="42" coveredconditionals="0" methods="35" coveredmethods="0"/>
       <file name="Chat.js" path="C:\Users\treso\Documents\proj_int\projet-Integration\app\Messenger\Chat.js">
         <metrics statements="33" coveredstatements="0" conditionals="6" coveredconditionals="0" methods="13" coveredmethods="0"/>
         <line num="10" count="0" type="stmt"/>
@@ -85,16 +85,7 @@
         <line num="93" count="0" type="stmt"/>
         <line num="96" count="0" type="stmt"/>
       </file>
-      <file name="Dicussion_Main.js" path="C:\Users\treso\Documents\proj_int\projet-Integration\app\Messenger\Dicussion_Main.js">
-        <metrics statements="6" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="2" coveredmethods="0"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="9" count="0" type="stmt"/>
-        <line num="10" count="0" type="stmt"/>
-        <line num="13" count="0" type="stmt"/>
-        <line num="35" count="0" type="stmt"/>
-      </file>
-      <file name="Discussion_Screen.js" path="C:\Users\treso\Documents\proj_int\projet-Integration\app\Messenger\Discussion_Screen.js">
+      <file name="Discussionscreen.js" path="C:\Users\treso\Documents\proj_int\projet-Integration\app\Messenger\Discussionscreen.js">
         <metrics statements="29" coveredstatements="0" conditionals="12" coveredconditionals="0" methods="7" coveredmethods="0"/>
         <line num="21" count="0" type="stmt"/>
         <line num="22" count="0" type="stmt"/>
@@ -190,30 +181,13 @@
       </file>
     </package>
     <package name="app.Messenger.components">
-      <metrics statements="18" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="9" coveredmethods="0"/>
+      <metrics statements="4" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
       <file name="MaterialButtonShare.js" path="C:\Users\treso\Documents\proj_int\projet-Integration\app\Messenger\components\MaterialButtonShare.js">
         <metrics statements="4" coveredstatements="0" conditionals="2" coveredconditionals="0" methods="2" coveredmethods="0"/>
         <line num="9" count="0" type="stmt"/>
         <line num="11" count="0" type="stmt"/>
         <line num="14" count="0" type="stmt"/>
         <line num="21" count="0" type="stmt"/>
-      </file>
-      <file name="login.js" path="C:\Users\treso\Documents\proj_int\projet-Integration\app\Messenger\components\login.js">
-        <metrics statements="14" coveredstatements="0" conditionals="0" coveredconditionals="0" methods="7" coveredmethods="0"/>
-        <line num="6" count="0" type="stmt"/>
-        <line num="8" count="0" type="stmt"/>
-        <line num="15" count="0" type="stmt"/>
-        <line num="16" count="0" type="stmt"/>
-        <line num="27" count="0" type="stmt"/>
-        <line num="28" count="0" type="stmt"/>
-        <line num="29" count="0" type="stmt"/>
-        <line num="30" count="0" type="stmt"/>
-        <line num="31" count="0" type="stmt"/>
-        <line num="33" count="0" type="stmt"/>
-        <line num="38" count="0" type="stmt"/>
-        <line num="42" count="0" type="stmt"/>
-        <line num="48" count="0" type="stmt"/>
-        <line num="63" count="0" type="stmt"/>
       </file>
     </package>
     <package name="app.SignIn">

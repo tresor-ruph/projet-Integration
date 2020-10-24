@@ -4,10 +4,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import 'react-native';
 import React from 'react';
-import Addcontact from './../../Messenger/addContact';
+import Chat from './../../Messenger/Chat';
 import renderer from 'react-test-renderer';
 
-it('renders correctly', async () => {
-    const tree = await renderer.create(<Addcontact />).toJSON();
+it('renders correctly', () => {
+    const tree = renderer.create(<Chat />).toJSON();
     expect(tree).toMatchSnapshot();
 });

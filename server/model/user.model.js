@@ -30,18 +30,31 @@ user.findById = (email, result) => {
   });
 };
 
-user.create = (newCustomer, result) => {
-  console.log(newCustomer);
-  /*  sql.query("INSERT INTO login SET ?", newCustomer, (err, res) => {
-      if (err) {
-        console.log("error: ", err);
-        result(err, null);
-        return;
-      }
-  
-      console.log("created customer: ", { id: res.insertId, ...newCustomer });
-      result(null, { id: res.insertId, ...newCustomer });
-    });*/
-};
+
+user.createChat = (Chat, result) => {
+  const req ="insert into Chat(senderId,recieverId,roomId) values ?";
+  const values = [[Chat.senderId, Chat.recieverId, Chat.chatId]]
+  sql.query(req , [values])
+  result(null , 'Values inserted')
+}
+
+user.findRoom = (senderId, recieverId, result) => {
+  senderId = "'" + senderId + "'";
+  recieverId = "'" + recieverId + "'";
+  console.log(senderId)
+  console.log(recieverId)
+
+
+  sql.query(`select roomId from Chat where senderId = ${senderId} and recieverId = ${recieverId}`, (err, res) => {
+    if (err) {
+      console.log("error : ", err);
+      result(null, err);
+      return;
+    }
+    console.log("contacts :", res);
+    result(null, res);
+  });
+
+}
 
 module.exports = user;

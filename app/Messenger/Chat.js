@@ -26,14 +26,62 @@ if (firebase.apps.length === 0) {
 
 
 const db = firebase.firestore()
-const chatsRef = db.collection('chats')
 
-export default function Chat() {
+export default function Chat(route, navigation) {
     const [user, setUser] = useState(null)
-    const [name, setName] = useState('')
+    const [room, setRoom] = useState('')
     const [messages, setMessages] = useState([])
 
+    const chatId =  () => {
+        
+  
+        const chatterId = route.route.params.senderId
+        const chateeId = route.route.params.recieverId;
+        const chatIdPre = [];
+        chatIdPre.push(chatterId)
+        chatIdPre.push(chateeId)
+        setRoom(chatIdPre.join('_'))
+    }
+
+    const chatsRef = db.collection('chats');
+
     useEffect(() => {
+        chatId();
+        fetch(`http://localhost:3000/chat/${route.route.params.senderId}/${route.route.params.recieverId}`)
+        .then(reponse => reponse.json())
+        .then(json =>  {
+            console.log("test request")
+            if(json.length === 0){
+                const requestOptions = {
+                  method: 'POST',
+                  headers: new Headers( {
+                      Accept: 'application/json',
+                       'content-Type': 'application/json',
+                       'Access-Control-Allow-Origin': '*'
+                    }
+                    ),
+                  body: JSON.stringify({
+                      senderId : route.route.params.senderId,
+                      recieverId: route.route.params.recieverId,
+                      chatId: chatId()
+                  })
+              };
+              try {
+                fetch('http://localhost:3000/chat/addroom', requestOptions)
+                .then(response => response.json())
+                .then(data => console.log(data));
+                  
+              } catch (error) {
+                console.error(error);
+              }
+
+
+            }else {
+                console.log(json);
+            }
+        })
+        const chatsRef = db.collection('chats').doc(chatId()).collection('message');
+
         readUser()
         //onSnapshot serves as an observer so it is called any time we have an update on our collection(table)
         const unsubscribe = chatsRef.onSnapshot((querySnapshot) => {
@@ -49,10 +97,13 @@ export default function Chat() {
                 })
                 .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
             appendMessages(messagesFirestore)
+            console.log(messages)
             //the 2 lines above sort the message by creation time so that recent messages are sent first
         })
         return () => unsubscribe()
     }, [])
+
+ 
 
     const appendMessages = useCallback(
       //prevent recent message from replacing previouse one 
@@ -69,27 +120,28 @@ export default function Chat() {
             setUser(JSON.parse(user))
         }
     }
-    async function handlePress() {
+   /* async function handlePress() {
         //we generate a unique id for each user
-        const _id = Math.random().toString(36).substring(7)
-        const user = { _id, name }
+        //const _id = Math.random().toString(36).substring(7)
+        const user = { chatId, name }
         await AsyncStorage.setItem('user', JSON.stringify(user))
         setUser(user)
-    }
+    }*/
     async function handleSend(messages) {
+        console.log(chatId());
         const writes = messages.map((m) => chatsRef.add(m))
         await Promise.all(writes)
     }
 
-    if (!user) {
-      //no user in async storage
+   /* if (!user) {
         return (
             <View style={styles.container}>
                 <TextInput style={styles.input} placeholder="Enter your name" value={name} onChangeText={setName} />
                 <Button onPress={handlePress} title="Enter the chat" />
             </View>
         )
-    }
+    }*/
+    {console.log(messages)}
     return <GiftedChat messages={messages} user={user} onSend={handleSend} />
 }
 

@@ -17,8 +17,9 @@ function Contact(props) {
   const [name, setName] = useState(props.name);
   // eslint-disable-next-line no-unused-vars
   const [imgUrl, setImgUrl] = useState(props.imgUrl);
+  const [id, setId] = useState(props.id);
   const [del, setDel] = useState(false);
-
+  const senderid = props.userId;
   const handleDel = async () => {
     await AsyncStorage.getItem('contact').then((res) => {
       const contact = JSON.parse(res);
@@ -38,6 +39,7 @@ function Contact(props) {
   };
   return (
     <View style={{ flex: 1 }}>
+     
       <View style={styles.container}>
         <Image
           source={{
@@ -53,7 +55,7 @@ function Contact(props) {
         />
         <TouchableOpacity
           style={styles.mess}
-          onPress={() => navigation.navigate('Chat')}
+          onPress={() => navigation.navigate('Chat', { recieverId: id, senderId: senderid })}
           delayLongPress={1000}
           onLongPress={handlerLongClick}
         >
