@@ -11,7 +11,7 @@ import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from './Homescreen/Home'
 import Login from './Login/login'
-
+import mesDemandes from './Catalogue/mesDemandes'
 
 
 // Create the navigator
@@ -30,6 +30,7 @@ render() {
                 <Stack.Screen name = "ListeDem" component = {ListeDem} />
                 <Stack.Screen name = "Form" component = {Form} />
                 <Stack.Screen name = "Login" component = {Login} />
+                <Stack.Screen name = "mesDemandes" component = {mesDemandes} />
 
             </Stack.Navigator>
         </NavigationContainer>

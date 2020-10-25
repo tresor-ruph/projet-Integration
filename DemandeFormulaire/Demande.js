@@ -1,8 +1,6 @@
 import React from 'react'
 import {StyleSheet, View, TextInput,TouchableOpacity, Text, Alert, Picker } from 'react-native'
 import { Title, Paragraph } from 'react-native-paper';
-import axios from 'axios'
-
 
 
 
@@ -20,6 +18,7 @@ class Demande extends React.Component{
        userName:'FloB',
        categorie:'Aller faire des courses',
        descriptif:'',
+       userId: 4
      }
    }
 
@@ -28,7 +27,7 @@ class Demande extends React.Component{
    submit(){
   
      console.log(this.state) 
-     const newDemande = {userName: this.state.userName, categorie: this.state.categorie, descriptif: this.state.descriptif}
+     const newDemande = {userName: this.state.userName, categorie: this.state.categorie, descriptif: this.state.descriptif, userId: this.state.userId}
      console.log(newDemande);
 
      fetch('http://localhost:3000/demandeE/', {
@@ -42,6 +41,7 @@ class Demande extends React.Component{
         userName: newDemande.userName,
         categorie: newDemande.categorie,
         descriptif: newDemande.descriptif,
+        userId: newDemande.userId
       })
     }) 
   }
