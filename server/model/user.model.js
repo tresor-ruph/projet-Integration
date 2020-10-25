@@ -45,7 +45,7 @@ user.findRoom = (senderId, recieverId, result) => {
   console.log(recieverId)
 
 
-  sql.query(`select roomId from Chat where senderId = ${senderId} and recieverId = ${recieverId}`, (err, res) => {
+  sql.query(`select roomId from Chat where (senderId = ${senderId} and recieverId = ${recieverId}) or (senderId =${recieverId} and recieverId = ${senderId}) `, (err, res) => {
     if (err) {
       console.log("error : ", err);
       result(null, err);

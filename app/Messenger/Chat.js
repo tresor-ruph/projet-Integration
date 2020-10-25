@@ -26,11 +26,15 @@ if (firebase.apps.length === 0) {
 
 
 const db = firebase.firestore()
+let chatRoom = "";
+
 
 export default function Chat(route, navigation) {
     const [user, setUser] = useState(null)
-    const [room, setRoom] = useState('')
     const [messages, setMessages] = useState([])
+    const [room, setRoom] = useState(null)
+
+    
 
     const chatId =  () => {
         
@@ -40,18 +44,19 @@ export default function Chat(route, navigation) {
         const chatIdPre = [];
         chatIdPre.push(chatterId)
         chatIdPre.push(chateeId)
-        setRoom(chatIdPre.join('_'))
+        return chatIdPre.join('_')
     }
 
-    const chatsRef = db.collection('chats');
+    let chatsRef = db.collection('chats');
 
     useEffect(() => {
-        chatId();
+        
         fetch(`http://localhost:3000/chat/${route.route.params.senderId}/${route.route.params.recieverId}`)
         .then(reponse => reponse.json())
         .then(json =>  {
-            console.log("test request")
             if(json.length === 0){
+                chatRoom = chatId();
+                //chatsRef = db.collection('chats').doc(chatId()).collection('message');
                 const requestOptions = {
                   method: 'POST',
                   headers: new Headers( {
@@ -69,7 +74,10 @@ export default function Chat(route, navigation) {
               try {
                 fetch('http://localhost:3000/chat/addroom', requestOptions)
                 .then(response => response.json())
-                .then(data => console.log(data));
+                .then(data =>
+                    { console.log(data)
+                        
+                    });
                   
               } catch (error) {
                 console.error(error);
@@ -77,14 +85,17 @@ export default function Chat(route, navigation) {
 
 
             }else {
-                console.log(json);
+                chatRoom = json[0].roomId
+                
+               // chatsRef = db.collection('chats').doc(json[0].roomId).collection('message');
+
             }
         })
-        const chatsRef = db.collection('chats').doc(chatId()).collection('message');
-
+        .then(() => {
         readUser()
+     
         //onSnapshot serves as an observer so it is called any time we have an update on our collection(table)
-        const unsubscribe = chatsRef.onSnapshot((querySnapshot) => {
+        const unsubscribe = chatsRef.doc(chatRoom).collection('message').onSnapshot((querySnapshot) => {
           //we listen to the doc changes
             const messagesFirestore = querySnapshot
                 .docChanges()
@@ -97,10 +108,10 @@ export default function Chat(route, navigation) {
                 })
                 .sort((a, b) => b.createdAt.getTime() - a.createdAt.getTime())
             appendMessages(messagesFirestore)
-            console.log(messages)
             //the 2 lines above sort the message by creation time so that recent messages are sent first
         })
         return () => unsubscribe()
+    })
     }, [])
 
  
@@ -117,7 +128,9 @@ export default function Chat(route, navigation) {
       //we get the user from async storage
         const user = await AsyncStorage.getItem('user')
         if (user) {
-            setUser(JSON.parse(user))
+            const _id = Math.random().toString(36).substring(7)
+            const name =JSON.parse(user).name
+            setUser({ _id ,name })
         }
     }
    /* async function handlePress() {
@@ -128,8 +141,8 @@ export default function Chat(route, navigation) {
         setUser(user)
     }*/
     async function handleSend(messages) {
-        console.log(chatId());
-        const writes = messages.map((m) => chatsRef.add(m))
+       
+        const writes = messages.map((m) => chatsRef.doc(chatRoom).collection('message').add(m))
         await Promise.all(writes)
     }
 
@@ -141,8 +154,7 @@ export default function Chat(route, navigation) {
             </View>
         )
     }*/
-    {console.log(messages)}
-    return <GiftedChat messages={messages} user={user} onSend={handleSend} />
+    return <GiftedChat messages={messages} user={  user } onSend={handleSend} />
 }
 
 const styles = StyleSheet.create({
