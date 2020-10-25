@@ -38,6 +38,7 @@ class ListeDem extends React.Component {
   updateFiltre = (filtre) => {
     this.setState({ filtre: filtre })
     console.log(this.state.filtre)
+    this.componentDidMount()
  }
 
 
@@ -46,7 +47,7 @@ class ListeDem extends React.Component {
       <View>
         <Text style={styles.mesde} onPress={this.click_MesDem}>MES DEMANDES</Text>
         <Picker style={styles.picks} selectedValue = {this.state.filtre}  onValueChange = {this.updateFiltre}>
-              <Picker.Item label="Aller faire des courses" value="courses" />
+              <Picker.Item label="Aller faire des courses" value="Aller faire des courses" />
               <Picker.Item label="Aller chercher un colis" value="colis" />
               <Picker.Item label="Aller chercher les enfants" value="Enfants" />
               <Picker.Item label="Aller faire des lessives" value="Lessive" />
