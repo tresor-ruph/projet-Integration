@@ -1,11 +1,12 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text,TextInput, Button, ScrollView} from "react-native";
 import Svg, { Ellipse } from "react-native-svg";
+import AsyncStorage from '@react-native-async-storage/async-storage';
 /*import MaterialFixedLabelTextbox from "../components/MaterialFixedLabelTextbox";
 import MaterialRightIconTextbox from "../components/MaterialRightIconTextbox";*/
 /*import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialButtonSuccess from "../components/MaterialButtonSuccess";*/
-import axios from 'axios';
+//import axios from 'axios';
 
 class Login extends React.Component {
   constructor() {
@@ -17,10 +18,34 @@ class Login extends React.Component {
 
   }
   }
+
+
+
+
+  async storeToken(m) {
+    try {
+       await AsyncStorage.setItem("session", JSON.stringify(m));
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  }
+  async getToken() {
+    try {
+      let userData = await AsyncStorage.getItem("session");
+      let data = JSON.parse(userData);
+      console.log(data);
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  }
+
+
+
+
   submit() {
     if(this.state.Mail == "" && this.state.motdepasse ==""){
       this.setState({
-        textValue: 'Vous avez rentrer aucune information'
+        textValue: 'Vous n avez rentré aucune information'
     })    
   }
     else if(this.state.Mail == "" || this.state.motdepasse ==""){
@@ -29,23 +54,76 @@ class Login extends React.Component {
     }) 
     }
     else{
-      console.log(this.state)
+
       this.setState({
         textValue: ''
     })
+    
 
-    this.props.navigation.navigate("HomeScreen")
 
-    axios.get("",{
-      email: this.state.Mail,
-      password: this.state.motdepasse
-    }).then(response => {
-      console.log(response)
-    }).catch(error =>{
-      console.log(error)
+/*
+    var bcrypt = require('bcryptjs');
+var mdp = this.state.motdepasse;
+var ha = '';
+bcrypt.genSalt(10, function(err, salt) {
+    bcrypt.hash(mdp, salt, function(err, hash) {
+
+      ha = hash;
+
+    });
+});
+
+
+var bcrypt = require('bcryptjs');
+var salt = bcrypt.genSaltSync(10);
+var hash = bcrypt.hashSync(this.state.motdepasse, salt);
+console.log(hash);
+*/
+var t = this;
+fetch('http://localhost:8080/login/', {
+        method: 'POST',
+        body: JSON.stringify({
+          mail : this.state.Mail
+          //password : hash,
+          //session : this.state.Mail
+        }),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          "Access-Control-Allow-Origin":"true"
+        }
+      }) .then(response => response.json())
+      .then(json => {
+
+
+        if(json.message == "entrée dans l'appli" ){
+          var bcrypt = require('bcryptjs');
+          console.log(json.hash)
+          //bcrypt.compare(json.hash, this.state.motdepasse, function(err, re) {
+          bcrypt.compare(t.state.motdepasse, json.hash, function(err, re) {
+            console.log(re);
+          if(re){
+            t.storeToken(json.id);
+            t.props.navigation.navigate('HomeScreen');
+          }else{
+            console.log('err');
+            
+            t.setState({
+              textValue: 'mot de passe non valide'
+          }) 
+          }
+        });
+        }else{
+          this.setState({
+            textValue: 'email ou mot de passe non valide'
+        }) 
+        }
+       
     })
-    }
-  }
+
+
+    
+  }}
   render() {
   return (
     <ScrollView useNativeDriver= {true}>

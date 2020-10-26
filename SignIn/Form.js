@@ -1,8 +1,8 @@
 import React from "react";
 import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, Dimensions   } from "react-native";
 import PassMeter from "react-native-passmeter";
-
 console.disableYellowBox = true;
+import AsyncStorage from '@react-native-async-storage/async-storage';
 
 
 class Form extends React.Component {
@@ -18,10 +18,30 @@ class Form extends React.Component {
         mail: '',
         showPassword: true,
         label: ["Trop court", "Il faut au moins 1 chiffre !", "Il faut au moins 1 lettre majuscule !", "Mot de passe valide"],
+        auth: false,
       }
       //sert ds la visualisation du mdp
       this.toggleSwitch = this.toggleSwitch.bind(this);  
     }
+
+
+    async storeToken(m) {
+      try {
+         await AsyncStorage.setItem("session", JSON.stringify(m));
+      } catch (error) {
+        console.log("Something went wrong", error);
+      }
+    }
+    async getToken() {
+      try {
+        let userData = await AsyncStorage.getItem("session");
+        let data = JSON.parse(userData);
+        console.log(data);
+      } catch (error) {
+        console.log("Something went wrong", error);
+      }
+    }
+
     //sert ds la visualisation du mdp
     toggleSwitch() {
       this.setState({ showPassword: !this.state.showPassword });
@@ -53,15 +73,34 @@ class Form extends React.Component {
         return;
       }
 
+
+      var bcrypt = require('bcryptjs');
+      /*
+      var salt = bcrypt.genSaltSync(10);
+      var hash = bcrypt.hashSync(this.state.motdepasse, salt);
+      console.log(hash);
+      console.log(bcrypt.compareSync(this.state.motdepasse,hash));
+      */
+     var auth = false;
+     var id = 0;
+     var t = this;
+     var mdp = this.state.motdepasse;
+     var  nom = this.state.nom;
+       var   prenom= this.state.prenom;
+       var   adresse= this.state.adresse;
+       var   dateNaissance= this.state.dateNaissance;
+       var  mail = this.state.mail;
+      bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash(mdp, salt, function(err, hash) {
       fetch('http://localhost:8080/auth/', {
         method: 'POST',
         body: JSON.stringify({
-          nom: this.state.nom,
-          prenom: this.state.prenom,
-          adresse: this.state.adresse,
-          dateNaissance: this.state.dateNaissance,
-          mail: this.state.mail,
-          password: this.state.motdepasse
+          nom: nom,
+          prenom: prenom,
+          adresse: adresse,
+          dateNaissance: dateNaissance,
+          mail: mail,
+          password: hash
         }),
         headers: {
           Accept: 'application/json',
@@ -70,11 +109,25 @@ class Form extends React.Component {
         }
       }) .then(response => response.json())
       .then(json => {
+        if(json.message == 'inscription finie'){
+        //this.setState({ auth: true });
+        console.log('viens la');
+          auth = true;
+          id = json.id;
+          console.log(id);
+          
+          t.storeToken(id);
+          t.props.navigation.navigate('HomeScreen');
+        
+        }
       console.log(json);
+
+        
       }).catch((error) => {
         console.error(error);
       });
       //vider les textInput; utile que parce qu'il n'y a pas encore la redirection apres s'etre inscrit
+      /*
       this.textNom.clear();
       this.textPrenom.clear();
       this.textAdresse.clear();
@@ -82,6 +135,11 @@ class Form extends React.Component {
       this.textEmail.clear();
       this.textMdp.clear();
       this.textMdp2.clear();
+     */
+        });
+      });
+
+      
     }
 
     render() {
