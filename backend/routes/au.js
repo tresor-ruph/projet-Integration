@@ -68,9 +68,8 @@ db.query(rechsql, function (err, result, fields) {
 }
 if(spotted){
 
-var sql = 'INSERT INTO Utilisateurs(Nom , Prenom , Adresse , CodePostal,Mail,password) VALUES ? ';
-var values = [[nom,prenom,adresse,codePostal,Mail,password]];
-db.query(sql,[values]);
+var sql = "INSERT INTO Utilisateurs(Nom,Prenom, Adresse , dateNaissance , Mail, password) VALUES ('"+nom+"' ,'"+prenom+"' , '"+adresse+"',STR_TO_DATE('"+dateNaissance+"','%d,%m,%y'),'"+mail+"','"+password+"')";
+db.query(sql);
 //req.session.email = Mail;
 var rechid = 'SELECT Id from Utilisateurs where Mail = "'+Mail+'"';
 db.query(rechid, function (err, resu, fields) {
