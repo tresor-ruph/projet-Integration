@@ -1,32 +1,24 @@
-const express = require("express");
-//const bodyParser = require("body-parser");
-const cors = require("cors");
+
+const express = require('express')
+const bodyParser = require('body-parser')
 const mysql = require('mysql');
-//const dotenv = require('dotenv');
+
+const bcrypt = require('bcrypt');
+const session = require('express-session')
+var cookieParser = require('cookie-parser')
 const app = express();
-//dotenv.config({ path: './env'})
 
-var corsOptions = {
-  origin: "http://localhost:8081"
-};
-
-
-
-app.use(cors(corsOptions));
+const cors = require("cors");
 /*
-// parse requests of content-type - application/json
-app.use(bodyParser.json());
+var corsOptions = {
+  origin: "http://localhost:8080",
+  'Access-Control-Allow-Credentials': '*'
+};
+app.use(cors(corsOptions));
+**/
+app.use(cors());
 
-// parse requests of content-type - application/x-www-form-urlencoded
-app.use(bodyParser.urlencoded({ extended: true }));
 
-const db = mysql.createConnection({
-    host: process.env.HOST ,
-    user: process.env.USER,
-    password: process.env.PASSWORD,
-    database: process.env.DATABASE
-})
-*/
 
 
 const db = mysql.createConnection({
@@ -45,20 +37,65 @@ db.connect( (err) =>{
         console.log("connection établie")
     }
 } );
-//si besoin
-app.use(express.urlencoded({extended: false}));
 
-app.use('/',require('./routes/routes'));
+
+//app.use(express.urlencoded({extended: false}));
+
+
+
+//var sessionMidleware = {secret: "its a secret!",saveUninitialized: true,resave: false};
+
+
+//app.use(session({unset: 'keep',secret: "its a secret!",saveUninitialized: true,resave: true,cookie: { secure: false,maxAge: 60000 }}));
+app.use(bodyParser.urlencoded({extended: true})); 
+app.use(bodyParser.json());
+//app.use(session(sessionMidleware));
 app.use('/auth',require('./routes/au'));
-//require("./app/routes/routes")(app);
-// set port, listen for requests
+app.use('/login',require('./routes/log'));
+
+
+
+
+
+
+
+
+  app.post('/appli',(req,res,next)=>{
+    console.log('()((()()()()()()(()))))');
+    if(!req.body.id){
+      const err = new Error("nope");
+      err.statusCode = 401;
+      next(err);
+    }
+    next();
+
+  })
+
+
+
+  app.use('/appli',require('./routes/appli'));
+ 
+
+/*
+
+  app.get('/logout',(req,res) => {
+    req.session.destroy((err) => {
+        if(err) {
+            return console.log(err);
+        }
+        res.redirect('/');
+    });
+
+});
+*/
+app.use('/',require('./routes/routes'));
+
+
 const PORT = process.env.PORT || 8080;
 app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
 
-//const db = require("./app/models");
-//db.sequelize.sync();
 
 
 
