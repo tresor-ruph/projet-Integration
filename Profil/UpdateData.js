@@ -1,10 +1,9 @@
-import React, { Component, useEffect, useState } from 'react'
+import React, {useEffect, useState } from 'react'
 import {
   StyleSheet,
   Button,
   View,
   Text,
-  ScrollView,
   TextInput,
   Image,
   TouchableOpacity,
@@ -13,48 +12,8 @@ import {
 import * as ImagePicker from 'expo-image-picker';
 import App from './firebase';
 import * as firebase from 'firebase';
-import storage from '@react-native-firebase/storage';
 
-
-/*export default function Search() {
-  return (
-    <View style={styles.container}>
-      <TextInput placeholder="test"></TextInput>
-    </View>
-  );
-
-  return 
-
-    () => {
-    axios
-    .get('localhost:8080/users/31')
-    .then(response => {
-      setUserData(response.data)
-      console.log(userdata);
-    })
-  }, []);
-
-    if(this.state.isLoading){
-      return (
-        <View style={styles.container}>
-          <Text>Error content not loaded</Text>
-        </View>
-      )
-    }
-    else{
-    console.log(this.state.dataSource);
-    let name = this.state.dataSource.map((val) => {
-     return  <View key={val.Id} style={styles.item}>
-        <Text>{val.Nom}</Text>
-      </View>
-    })
-}*/
-
-const Separator = () => (
-  <View style={styles.separator} />
-);
-
-export default function UpdateData() {
+export default function Search() {
 
   const [nom, setNom] = useState(' ')
   const [prenom, setPrenom] = useState(' ')
@@ -64,7 +23,7 @@ export default function UpdateData() {
   const [bool, setBool] = useState(false);
   const [btnDisplay, setBtn] = useState(true);
   const [image, setImage] = useState(null);
-  const [url, setUrl] = useState();
+  const [isPicked, setIsPicked] = useState(false);
 
 
   useEffect(() => {
@@ -120,8 +79,8 @@ export default function UpdateData() {
     console.log(result);
     if (!result.cancelled) {
       setImage(result.uri);
+      setIsPicked(true);
     }
-
   };
 
 
@@ -140,19 +99,15 @@ export default function UpdateData() {
     return test;
   }
 
-
-
-
   let handleSubmit = async (event) => {
 
     let imageName = 'profile' + userId;
 
-    let test1 = await uploadImage(image, imageName);
-
+    let test1 = isPicked ? await uploadImage(image, imageName) : image;
 
     let requestOptions = {
-      method: 'POST',
-      headers: { 'Content-type': 'application/json', 'Access-Control-Allow-Origin': '*' },
+      method: 'PUT',
+      headers: { 'Content-type': 'application/json; charset=UTF-8', 'Access-Control-Allow-Origin': '*' },
       body: JSON.stringify({
         Nom: nom,
         Prenom: prenom,
@@ -172,8 +127,6 @@ export default function UpdateData() {
         console.log(error);
       })
 
-
-
     setBtn(true);
     setBool(false);
   }
@@ -183,6 +136,20 @@ export default function UpdateData() {
     setBool(true);
   }
   let handleCancel = () => {
+    fetch('http://localhost:3000/users/31')
+      .then((response) => response.json())
+      .then((json) => {
+        console.log(json[0]);
+        setId(json[0].Id)
+        setNom(json[0].Nom)
+        setPrenom(json[0].Prenom)
+        setAdresse(json[0].Adresse)
+        setCode(json[0].CodePostal)
+        setImage(json[0].PhotoProfil)
+      })
+      .catch((error) => {
+        console.error(error);
+      });
     setBtn(true);
     setBool(false);
   }
