@@ -5,7 +5,7 @@ import MaterialFixedLabelTextbox from "../components/MaterialFixedLabelTextbox";
 import MaterialRightIconTextbox from "../components/MaterialRightIconTextbox";
 import MaterialButtonShare from "../components/MaterialButtonShare";
 import MaterialIconTextbox2 from "../components/MaterialIconTextbox2";
-
+import MaterialButtonSuccess from "../components/MaterialButtonSuccess";
 function Form(props) {
   return (
     <View style={styles.container}>
@@ -70,11 +70,16 @@ function Form(props) {
           label="Address"
           style={styles.materialFixedLabelTextbox5}
         ></MaterialFixedLabelTextbox>
+        <MaterialButtonSuccess
+        onPress={() =>{console.log("onpressed reussi")}}
+          style={styles.materialButtonSuccess}
+        ></MaterialButtonSuccess>
       </View>
+   
     </View>
   );
 }
-
+//test commit
 const styles = StyleSheet.create({
   container: {
     flex: 1
@@ -111,6 +116,13 @@ const styles = StyleSheet.create({
     width: 320,
     marginTop: 93,
     marginLeft: 16
+  },
+  materialButtonSuccess: {
+    height: 43,
+    width: 108,
+    borderRadius: 18,
+    marginTop: 56,
+    marginLeft: 130
   },
   loremIpsum5: {
     color: "#121212",
