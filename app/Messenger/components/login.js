@@ -22,9 +22,10 @@ export default function Login(props)  {
       console.log(json);
       const name = json[0].Nom;
       const Id = json[0].Id
+      const avatar = json[0].PhotoProfil
       setUserId(json[0].Id)
     
-      const user = { Id, name };
+      const user = { Id, name, avatar };
        AsyncStorage.setItem('user', JSON.stringify(user));
        props.navigation.navigate('HomeScreen', { userid: json[0].Id });
 

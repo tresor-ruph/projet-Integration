@@ -3,13 +3,13 @@
 import React, { useState } from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
-import { useNavigation } from '@react-navigation/native';
 
 
-function Mainscreen(route, props) {
-  const navigation = useNavigation();
+function Mainscreen(props) {
 
-  const [userId, setuserId] = useState(route.route.params.userid);
+  const handlePress = () =>{
+    props.navigation.navigate('Discussion_Repo');
+  }
   return (
     <View style={styles.container}>
 
@@ -28,7 +28,7 @@ function Mainscreen(route, props) {
           <Text style={styles.profile}>Profile</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={() => navigation.navigate('Discussion_Repo', { userid: userId })}
+          onPress={ handlePress }
           style={styles.button4}
         >
           <Text style={styles.discussion}>Discussion</Text>

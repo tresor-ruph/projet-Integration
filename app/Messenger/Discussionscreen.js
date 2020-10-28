@@ -16,8 +16,9 @@ import Contact from "./contact";
 import Constants from "expo-constants";
 import AsyncStorage from "@react-native-community/async-storage";
 
+let userId = " "
 
-function Discussion_Repo( route) {
+function Discussion_Repo( props) {
   const [disp, setDisp] = useState("disc");
   const [contacts, setContact] = useState(" ");
   const [loaded, setLoaded] = useState(false);
@@ -25,6 +26,7 @@ function Discussion_Repo( route) {
 
 
   useEffect(() => {
+    
     async function getContact() {
       let contact = await AsyncStorage.getItem("contact");
       if (contact == null) {
@@ -35,21 +37,29 @@ function Discussion_Repo( route) {
         setContact(contact);
         setLoaded(true);
       }
+
+      let id = await AsyncStorage.getItem("user")
+      id = JSON.parse(id).Id
+     userId = id
     }
     getContact();
   }, [loaded]);
 
   function renderScreen() {
+    console.log("tata")
+    console.log(userId)
    
     let arr = [];
     for (let i = 0; i < contacts.length; i++) {
       arr.push(
         <Contact
-        userId = {route.route.params.userid}
+        userId = {userId}
           key={i}
           id = {contacts[i].Id}
           name={contacts[i].Nom}
           imgUrl={contacts[i].PhotoProfil}
+          onNav={() => props.navigation.navigate('Chat', { recieverId: contacts[i].Id, senderId: userId })}
+
         />
       );
     }

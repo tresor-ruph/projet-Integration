@@ -18,9 +18,10 @@ render() {
     return (
         <NavigationContainer>
             <Stack.Navigator>
+            <Stack.Screen name = "HomeScreen" component = {HomeScreen} />
+
             <Stack.Screen name = "login" component = {Login} />
 
-            <Stack.Screen name = "HomeScreen" component = {HomeScreen} />
             <Stack.Screen name = "Chat" component = {Chat} />
             <Stack.Screen name = "Discussion_Repo" component = {Discussion_Repo} />
             <Stack.Screen name = "addContact" component = {addContact} />
