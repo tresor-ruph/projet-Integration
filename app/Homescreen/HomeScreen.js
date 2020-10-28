@@ -1,15 +1,15 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable import/no-unresolved */
-import React, { useState } from 'react';
+import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 
 function Mainscreen(props) {
-
-  const handlePress = () =>{
+  const handlePress = () => {
     props.navigation.navigate('Discussion_Repo');
-  }
+  };
+
   return (
     <View style={styles.container}>
 
@@ -28,7 +28,7 @@ function Mainscreen(props) {
           <Text style={styles.profile}>Profile</Text>
         </TouchableOpacity>
         <TouchableOpacity
-          onPress={ handlePress }
+          onPress={handlePress}
           style={styles.button4}
         >
           <Text style={styles.discussion}>Discussion</Text>
