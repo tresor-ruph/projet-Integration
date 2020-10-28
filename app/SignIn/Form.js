@@ -1,45 +1,220 @@
-import React from 'react';
-import { StyleSheet, View, TextInput, Button } from 'react-native';
+import React from "react";
+import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, Dimensions   } from "react-native";
+import PassMeter from "react-native-passmeter";
+//import DateTimePicker from '@react-native-community/datetimepicker';
+
+
+console.disableYellowBox = true;
 
 
 class Form extends React.Component {
-  render() {
-    return (
-      <View style={styles.container}>
-        <TextInput style={styles.texte} placeholder="Insérez votre nom" />
-        <TextInput style={styles.texte} placeholder="Insérez vote prénom" />
-        <TextInput style={styles.texte} placeholder="Insérez votre email" />
-        <TextInput style={styles.texte} placeholder="Insérez votre mot de passe" secureTextEntry />
-        <TextInput 
-        style={styles.texte} placeholder="Veuillez confirmer votre mot de passe" secureTextEntry
-        />
-        <TextInput style={styles.texte} placeholder="Insérez votre adresse" />
-        <TextInput style={styles.texte} placeholder="Insérez votre numéro d'habitation" />
-        <TextInput style={styles.texte} placeholder="Insérez votre code postal" />
-        <Button title="Inscription" />
-      </View>
-    );
-  }
+    constructor() {
+      super();
+      this.state={
+        nom:'',
+        prenom:'',
+        motdepasse:'',
+        repMotdepasse:'',
+        adresse: '',
+        dateNaissance: '', 
+        mail: '',
+        showPassword: true,
+        label: ["Trop court", "Il faut au moins 1 chiffre et 1 lettre majuscule !", "Il faut au moins 1 lettre majuscule et 1 chiffre !", "Mot de passe valide"],
+      }
+      //sert ds la visualisation du mdp
+      this.toggleSwitch = this.toggleSwitch.bind(this);  
+    }
+    //sert ds la visualisation du mdp
+    toggleSwitch() {
+      this.setState({ showPassword: !this.state.showPassword });
+    }
+
+
+    submit() {
+      //envoie msg d'erreur si un champ est encore vide
+      if(this.state.nom == '' || this.state.prenom == '' || this.state.motdepasse == '' || this.state.repMotdepasse == '' || this.state.adresse == '' || this.state.dateNaissance == '' || this.state.mail == '') {
+        let simpleAlertHandler = () => {
+          alert("Tous les champs ne sont pas remplis !");
+        };
+        simpleAlertHandler();
+        return;
+      }
+      //envoie msg d'erreur si dateNaissance est != 10 , ne comprends pas de ',' ou contient autre chose que chiffre et tiret
+      if( this.state.dateNaissance.length != 10 || this.state.dateNaissance.includes(',') == false || this.state.dateNaissance.match(/[^0-9,]/) != null){
+        let simpleAlertHandler = () => {
+          alert("La date de naissance ne correspond pas au format !");
+        };
+        simpleAlertHandler();
+        return;
+      } 
+      //envoie msg d'erreur si le nbre de chiffre != 8 , si nbre ',' != 2 et si tiret mal placÃ©
+      if(this.state.dateNaissance.match(/[0-9]/g).length != 8 || this.state.dateNaissance.match(/[,]/g).length != 2 || this.state.dateNaissance.indexOf(',') != 2 || this.state.dateNaissance.lastIndexOf(',') != 5) {
+        let simpleAlertHandler = () => {
+          alert("La date de naissance ne correspond pas au format 22!");
+        };
+        simpleAlertHandler();
+        console.log(this.state.dateNaissance.match(/[0-9]/g).length)
+        console.log(this.state.dateNaissance.match(/[,]/g).length)
+        console.log(this.state.dateNaissance.indexOf(','))
+        return;
+      } 
+      //envoie msg d'erreur si email ne contient pas @ et . et est plus petit que 8
+      if(this.state.mail.includes('@') == false || this.state.mail.includes('.') == false || this.state.mail.length < 8) {
+        let simpleAlertHandler = () => {
+          alert("Adresse mail incorrecte !");
+        };
+        simpleAlertHandler();
+        return;
+      }      
+      //envoie msg d'erreur si mdp rÃ©pÃ©tÃ© est diffÃ©rent
+      if(this.state.motdepasse != this.state.repMotdepasse) {
+        let simpleAlertHandler = () => {
+          alert("Le mot de passe n'est pas correctement rÃ©pÃ©tÃ© !");
+        };
+        simpleAlertHandler();
+        return;
+      }
+      //envoie msg d'erreur si le mdp est < Ã  8 OU ne contient pas de chiffre OU ne contient pas de majuscule
+      if(this.state.motdepasse.length < 8 || this.state.motdepasse.match(/\d+/) == null || this.state.motdepasse == this.state.motdepasse.toLowerCase()) {
+        let simpleAlertHandler = () => {
+          alert("Le mot de passe n'est pas suffisament compliquÃ© !");
+        };
+        simpleAlertHandler();
+        return;
+      }
+
+      fetch('http://localhost:8080/auth/', {
+        method: 'POST',
+        body: JSON.stringify({
+          nom: this.state.nom,
+          prenom: this.state.prenom,
+          adresse: this.state.adresse,
+          dateNaissance: this.state.dateNaissance,
+          mail: this.state.mail,
+          password: this.state.motdepasse
+        }),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          "Access-Control-Allow-Origin":"true"
+        }
+      }).then(response => response.json())
+      .then(json => {
+      console.log(json);
+      }).catch((error) => {
+        console.error(error);
+      });
+      
+      this.props.navigation.navigate("Succes");
+    }
+
+    render() {
+      return ( 
+        <ScrollView useNativeDriver= {true}>
+          <View style={styles.container}>
+            <TextInput
+              placeholder="Nom"
+              maxLength={50}
+              autoCapitalize="sentences"
+              onChangeText={(text)=> { this.setState({ nom: text }) }}
+              style={styles.textInput}
+            ></TextInput>
+            <TextInput
+              placeholder="PrÃ©nom"
+              maxLength={50}
+              autoCapitalize="sentences"
+              onChangeText={(text)=> { this.setState({ prenom: text }) }}
+              style={styles.textInput}
+            ></TextInput>
+            <TextInput
+              placeholder="Adresse"
+              maxLength={50}
+              autoCapitalize="sentences"
+              onChangeText={(text)=> { this.setState({ adresse: text }) }}
+              style={styles.textInput}
+            ></TextInput>
+           <TextInput
+              placeholder="Date de naissance (ex:20,01,2000)"
+              onChangeText={(text)=> { this.setState({ dateNaissance: text }) }}
+              style={styles.textInput}
+            ></TextInput>
+            <TextInput
+              placeholder="Adresse mail"
+              maxLength={50}
+              onChangeText={(text)=> { this.setState({ mail: text }) }}
+              style={styles.textInput}
+            ></TextInput>
+            <TextInput
+              placeholder="Mot de passe"
+              maxLength={50}
+              secureTextEntry={this.state.showPassword}
+              onChangeText={(text)=> { this.setState({ motdepasse: text }) }}
+              style={styles.textInput}
+            ></TextInput>
+            <PassMeter
+              showLabels
+              password={this.state.motdepasse}
+              maxLength={12}
+              minLength={8}
+              labels={ this.state.label }
+            />
+            <TextInput
+              placeholder="RÃ©pÃ©tition du mot de passe"
+              maxLength={50}
+              secureTextEntry={this.state.showPassword}
+              onChangeText={(text)=> { this.setState({ repMotdepasse: text }) }}
+              style={styles.textInput}
+            ></TextInput>
+            <Text style={styles.text}>
+              Cliquer pour afficher les mots de passe
+            </Text>
+            <Switch
+              onValueChange={this.toggleSwitch}
+              value={!this.state.showPassword}
+              style={styles.switch}
+            />
+            <Button
+              title="S'inscrire"
+              onPress={()=>{this.submit()}}
+            ></Button>
+          </View>
+        </ScrollView>
+      )
+    }
 }
+
+const windowWidth = Dimensions.get('window').width;
+const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    flexDirection: 'column',
-    backgroundColor: '#FCAE9D',
-    justifyContent: 'center',
-    alignItems: 'center',
-  
+    padding: 50,
+    backgroundColor: "#eaeaea",    
   },
-  texte: {
-    margin: 6,
-    borderColor: '#251F49',
-    borderWidth: 1,
-    fontWeight: 'bold',
-    padding: 3,
-  }
-});
 
+  textInput: {
+   marginTop: 25,
+   borderWidth:1,
+   borderColor:'blue',
+   borderRadius: 10,
+   textAlign: "center",
+   height: 45,
+  },
+  text: {
+    textAlign: 'center',
+    fontSize: 20,
+    marginTop: 10,
+  },
+  switch: {
+    transform:[{ scaleX: 1.5 }, { scaleY: 1.5 }],
+    marginRight: (windowWidth-100)/2,
+    marginBottom: 40,
+    marginTop: 10,
+  },
+  bar: {
+    width: "10%"
+  }
+})
 
 export default Form;
-

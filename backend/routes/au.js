@@ -29,7 +29,7 @@ router.post('/',(req, res) => {
   var nom = req.body.nom;
   var prenom = req.body.prenom;
   var adresse = req.body.adresse;
-  var codePostal = req.body.codePostal;
+  var dateNaissance = req.body.dateNaissance;
   var Mail = req.body.mail;
   var password = req.body.password;
   
@@ -68,7 +68,8 @@ db.query(rechsql, function (err, result, fields) {
 }
 if(spotted){
 
-var sql = "INSERT INTO Utilisateurs(Nom,Prenom, Adresse , dateNaissance , Mail, password) VALUES ('"+nom+"' ,'"+prenom+"' , '"+adresse+"',STR_TO_DATE('"+dateNaissance+"','%d,%m,%y'),'"+mail+"','"+password+"')";
+//var sql = "INSERT INTO Utilisateurs(Nom,Prenom, Adresse , dateNaissance , Mail, password) VALUES ('"+nom+"' ,'"+prenom+"' , '"+adresse+"',STR_TO_DATE('"+dateNaissance+"','%d,%m,%y'),'"+mail+"','"+password+"')";
+var sql = "INSERT INTO Utilisateurs(Nom,Prenom, Adresse , dateNaissance , Mail, password) VALUES ('"+nom+"' ,'"+prenom+"' , '"+adresse+"',STR_TO_DATE('"+dateNaissance+"','%d,%m,%Y'),'"+Mail+"','"+password+"')"; 
 db.query(sql);
 //req.session.email = Mail;
 var rechid = 'SELECT Id from Utilisateurs where Mail = "'+Mail+'"';

@@ -18,6 +18,8 @@ const firebaseConfig = {
   storageBucket: "help-recover-3984c.appspot.com",
   messagingSenderId: "200817849391",
   appId: "1:200817849391:web:80c54f2a630d75ce5682da",
+
+  
 };
 
 //prevent us from initialising the app every time we refresh screen

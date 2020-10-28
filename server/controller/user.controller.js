@@ -1,80 +1,53 @@
-const contacts = require("./../model/user.model");
+/* eslint-disable quotes */
+const appUser = require("../model/user.model");
 
-// find a all contacts
+// find a all appUser
+module.exports = {
 
-exports.findAll = (req, res) => {
-  contacts.findContacts((err, data) => {
-    if (err) {
-      res.status(500).send({
-        message: "Error retrieving * users ",
-      });
-    } else {
-      res.header("Access-Control-Allow-Origin", "*");
-      res.send(data);
-    }
-  });
-};
-
-exports.findOne = (req, res) => {
-  contacts.findById(req.params.email, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Not found user with email ${req.params.email}.`,
+  findAll: (req, res) => {
+    appUser.findUsers((err, data) => {
+      if (err) {
+        res.status(500).send({
+          message: "Error retrieving * users ",
         });
       } else {
-        res.status(500).send({
-          message: "Error retrieving user with email " + req.params.email,
-        });
+        res.header("Access-Control-Allow-Origin", "*");
+        res.status(200);
+        res.send(data);
       }
-    } else {
-      res.header("Access-Control-Allow-Origin", "*");
-      res.send(data);
-    }
-  });
-};
+    });
+  },
 
-exports.findRoom = (req, res) => {
-  console.log(req.params)
-  contacts.findRoom(req.params.senderId, req.params.recieverId, (err, data) => {
-    if (err) {
-      if (err.kind === "not_found") {
-        res.status(404).send({
-          message: `Not found user with email ${req.params.email}.`,
-        });
+  findOne: (req, res) => {
+    const idt = req.params.id;
+    appUser.findById(idt, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found user with id ${idt}.`,
+          });
+        } else {
+          res.status(500).send({
+            message: "Error retrieving user ",
+          });
+        }
       } else {
-        res.status(500).send({
-          message: "Error retrieving room with senderId " + req.params.senderId,
-        });
+        res.header("Access-Control-Allow-Origin", "*");
+        res.status(200);
+        res.send(data);
       }
-    } else {
-      res.header("Access-Control-Allow-Origin", "*");
-      res.send(data);
-    }
-  });
+    });
+  },
+
+  update: (req, res) => {
+  // update the user data
+    appUser.updateUser(req.body, (err, data) => {
+      if (err) throw err;
+      else {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.status(200).json(data);
+        res.redirect("/");
+      }
+    });
+  },
 };
-
-
-
-exports.createChat = (req, res) =>{
-  if(!req.body){
-  res.status(400).send({
-    message : "body cannot be empty",
-  });
-  }
-
-  const chat = {
-    senderId : req.body.senderId,
-    recieverId : req.body.recieverId,
-    chatId : req.body.chatId,
-  }
-
-  contacts.createChat(chat,(err, data) => {
-    if(err)
-    res.status(500).send({
-      message : err.message || "some error occured while creating chatId"
-    })
-    else res.send(data)
-  })
-
-}
