@@ -20,6 +20,7 @@ class Demande extends React.Component{
        userName:'FloB',
        categorie:'Aller faire des courses',
        descriptif:'',
+       userId: 4
      }
    }
 
@@ -31,7 +32,7 @@ class Demande extends React.Component{
      const newDemande = {userName: this.state.userName, categorie: this.state.categorie, descriptif: this.state.descriptif}
      console.log(newDemande);
 
-     fetch('http://localhost:3000/demandeE/', {  // C'est quoi demandeE poulet ?
+     fetch('http://localhost:3000/demandeE/', {  
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -42,6 +43,7 @@ class Demande extends React.Component{
         userName: newDemande.userName,
         categorie: newDemande.categorie,
         descriptif: newDemande.descriptif,
+        userId: newDemande.userId
       })
     }) 
   }
@@ -92,12 +94,12 @@ const styles = StyleSheet.create({
   },
 
   bout: {
-    width: '98%',
+    width: '92%',
     height : '20%',
     backgroundColor:'rgb(0, 150, 136)',
     borderRadius:20,
     marginTop:'62%',
-    marginLeft: '1%', 
+    marginLeft: '4%', 
   },
 
   para:{
