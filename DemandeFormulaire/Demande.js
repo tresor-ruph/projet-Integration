@@ -20,7 +20,7 @@ class Demande extends React.Component{
        userName:'FloB',
        categorie:'Aller faire des courses',
        descriptif:'',
-       userId: 4
+       userId: '3'
      }
    }
 
@@ -29,7 +29,7 @@ class Demande extends React.Component{
    submit(){
   
      //console.log(this.state) 
-     const newDemande = {userName: this.state.userName, categorie: this.state.categorie, descriptif: this.state.descriptif}
+     const newDemande = {userName: this.state.userName, categorie: this.state.categorie, descriptif: this.state.descriptif, userId: this.state.userId}
      console.log(newDemande);
 
      fetch('http://localhost:3000/demandeE/', {  
@@ -43,7 +43,7 @@ class Demande extends React.Component{
         userName: newDemande.userName,
         categorie: newDemande.categorie,
         descriptif: newDemande.descriptif,
-        userId: newDemande.userId
+        userId: newDemande.userId,
       })
     }) 
   }
@@ -52,11 +52,11 @@ class Demande extends React.Component{
     return (
       <View style={styles.container}>
         
-        <Title style={{height:70, fontSize:25, textAlign: 'center', marginTop:'10%'}}> Formulaire de demande de service</Title>
+        <Title style={{height:'6%', fontSize:30, textAlign: 'center', marginTop:'10%'}}> Formulaire de service</Title>
 
         <Paragraph style={styles.para}> Type de demande</Paragraph>
-
-          <Picker style={{height:100, fontSize:25, width:'90%', marginLeft:'5%', marginTop:'5%'}} selectedValue = {this.state.categorie}  onValueChange = {this.updateCategorie}>
+        
+          <Picker style={{height:'15%', fontSize:30, width:'90%', marginLeft:'5%', marginTop:'5%',marginBotton:'10%'}} selectedValue = {this.state.categorie}  onValueChange = {this.updateCategorie}>
               <Picker.Item label="Aller faire des courses" value="courses" />
               <Picker.Item label="Aller chercher un colis" value="colis" />
               <Picker.Item label="Aller chercher les enfants" value="Enfants" />
@@ -83,8 +83,7 @@ class Demande extends React.Component{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "flex-start",
-    backgroundColor: 'rgb(230,230,230,1)',
+    backgroundColor: 'rgba(230,230,230,1)',
   },
 
   listD: {
@@ -103,25 +102,27 @@ const styles = StyleSheet.create({
   },
 
   para:{
+    height:'3%',
+    marginTop:'15%',
     fontSize:25,
-    marginLeft:'8%',
+    marginLeft:'4%',
   },
   textBout: {
     color: '#FFF',
-    fontSize: 35,
-    textAlign: "center",
+    fontSize: 30,
+    textAlign: 'center',
     marginTop: '11%',
   },
 
   desc:{
     flex:1,
     position:'absolute',
-    height : '30%',
+    height : '27%',
     width : '90%',
     marginLeft: '5%',
-    marginTop: '62%',
+    marginTop: '72%',
     fontSize: 30,
-    borderWidth: 2,
+    borderWidth: 1,
     borderColor: "#20232a",
     textAlign: "center",
   },
