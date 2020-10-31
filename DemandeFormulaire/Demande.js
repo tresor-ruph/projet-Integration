@@ -29,7 +29,7 @@ class Demande extends React.Component{
    submit(){
   
      //console.log(this.state) 
-     const newDemande = {userName: this.state.userName, categorie: this.state.categorie, descriptif: this.state.descriptif, userId: this.state.userId}
+     const newDemande = { categorie: this.state.categorie, descriptif: this.state.descriptif, userId: this.state.userId}
      console.log(newDemande);
 
      fetch('http://localhost:3000/demandeE/', {  
@@ -40,7 +40,7 @@ class Demande extends React.Component{
         'Access-Control-Allow-Origin': true,
       },
       body: JSON.stringify({
-        userName: newDemande.userName,
+        
         categorie: newDemande.categorie,
         descriptif: newDemande.descriptif,
         userId: newDemande.userId,

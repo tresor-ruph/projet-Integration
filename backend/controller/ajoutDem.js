@@ -59,7 +59,6 @@ exports.findOneUI = (req, res) => {
 
 exports.create = (req, res) => {
   const demande3 = {
-    userName: req.body.userName,
     descriptif: req.body.descriptif,
     categorie: req.body.categorie,
     userId: req.body.userId

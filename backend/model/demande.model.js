@@ -46,8 +46,8 @@ demande.findDemandeFilterU = (userId, result) => {
 
 
 demande.createDemande = (Newdemande, result) => {
-    var requete = "INSERT INTO Demande(userName, categorie, descriptif, userId) VALUES ? ";
-    var values = [[Newdemande.userName, Newdemande.categorie , Newdemande.descriptif, Newdemande.userId]];
+    var requete = "INSERT INTO Demande(categorie, descriptif, userId) VALUES ? ";
+    var values = [[ Newdemande.categorie , Newdemande.descriptif, Newdemande.userId]];
     sql.query(requete, [values]);
     result (null, 'Demande envoyée')
 };
