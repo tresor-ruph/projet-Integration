@@ -46,7 +46,6 @@ module.exports = {
       else {
         res.header("Access-Control-Allow-Origin", "*");
         res.status(200).json(data);
-        res.redirect("/");
       }
     });
   },
