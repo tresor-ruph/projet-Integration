@@ -129,17 +129,6 @@ fetch('http://localhost:8080/login/', {
     <ScrollView useNativeDriver= {true}>
     <View style={{flex: 1}}>
       <View style={{flex: 1,backgroundColor: "#E6E6E6",marginTop: 0}}>
-        <Svg viewBox="0 0 114.08 123.01" style={{width: 114,height: 123,marginTop: 26,marginLeft: 131}}>
-          <Ellipse
-            stroke="rgba(230, 230, 230,1)"
-            strokeWidth={0}
-            fill="rgba(28,144,159,1)"
-            cx={57}
-            cy={62}
-            rx={57}
-            ry={62}
-          ></Ellipse>
-        </Svg>
         <TextInput
           inputStyle="Label"
           placeholder="Mail"
