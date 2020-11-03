@@ -1,4 +1,4 @@
-import React, { Component } from "react";
+import React from "react";
 import { StyleSheet, View, TouchableOpacity, Text } from "react-native";
 
 function Home(props) {
@@ -9,7 +9,7 @@ function Home(props) {
             onPress={() => props.navigation.navigate("Login")}
             style={styles.button}
             >
-            <Text style={styles.connectezVous}>Connectez-vous</Text>
+            <Text style={styles.connectezVous}>Connectez vous</Text>
             </TouchableOpacity>
             <TouchableOpacity
             onPress={() => props.navigation.navigate("Form")}
@@ -48,7 +48,7 @@ const styles = StyleSheet.create({
   connectezVous: {
     color: "#121212",
     fontSize: 23,
-
+    marginTop: 18,
     marginLeft: 40
   },
   button2: {
