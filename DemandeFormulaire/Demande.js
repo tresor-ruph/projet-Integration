@@ -17,7 +17,7 @@ class Demande extends React.Component{
   constructor(props){
      super(props);
      this.state={
-       categorie:'Aller faire des courses',
+       categorie:'Courses',
        descriptif:'',
        userId: 2
      }
@@ -56,9 +56,9 @@ class Demande extends React.Component{
         <Paragraph style={styles.para}> Type de demande</Paragraph>
 
           <Picker style={{height:'9%', fontSize:19, width:'90%', marginLeft:'5%', marginTop:'2%'}} selectedValue = {this.state.categorie}  onValueChange = {this.updateCategorie}>
-              <Picker.Item label="Aller faire des courses" value="courses" />
-              <Picker.Item label="Aller chercher un colis" value="colis" />
-              <Picker.Item label="Aller chercher les enfants" value="Enfants" />
+              <Picker.Item label="Aller faire des courses" value="Courses" />
+              <Picker.Item label="Aller chercher un colis" value="Colis" />
+              <Picker.Item label="Aller chercher les enfants" value="Récupérer une personne" />
               <Picker.Item label="Aller faire des lessives" value="Lessive" />
               <Picker.Item label="Autres" value="Autres" />
           </Picker>

@@ -56,11 +56,12 @@ class ListeDem extends React.Component {
       <View>
         <Text style={styles.mesde} onPress={this.click_MesDem}>MES DEMANDES</Text>
         <Picker style={styles.picks} selectedValue = {this.state.filtre}  onValueChange = {this.updateFiltre}>
-              <Picker.Item label="Aller faire des courses" value="Aller faire des courses" />
+              <Picker.Item label="Aller faire des courses" value="Courses" />
               <Picker.Item label="Aller chercher un colis" value="Colis" />
               <Picker.Item label="Aller chercher les enfants" value="Récupérer une personne" />
               <Picker.Item label="Aller faire des lessives" value="Lessive" />
               <Picker.Item label="Autres" value="Autres" />
+              <Picker.Item label="Tout" value="all" />
         </Picker>
         <View>
           <TextInput onChangeText={(text)=>{this.modifietext(text)}} style={styles.inputt}>
