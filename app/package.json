@@ -1,0 +1,55 @@
+{
+  "main": "node_modules/expo/AppEntry.js",
+  "scripts": {
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
+    "web": "expo start --web",
+    "eject": "expo eject",
+    "test": "jest"
+  },
+  "dependencies": {
+    "@react-native-community/async-storage": "^1.12.1",
+    "@react-native-firebase/app": "^8.4.3",
+    "@react-navigation/native": "^5.7.3",
+    "@react-navigation/stack": "^5.9.0",
+    "expo": "~39.0.2",
+    "expo-image-picker": "~9.1.0",
+    "expo-status-bar": "~1.0.2",
+    "firebase": "7.9.0",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz",
+    "react-native-gesture-handler": "^1.7.0",
+    "react-native-gifted-chat": "^0.16.3",
+    "react-native-paper": "^4.3.0",
+    "react-native-passmeter": "0.0.5",
+    "react-native-reanimated": "~1.13.0",
+    "react-native-safe-area-context": "^3.1.4",
+    "react-native-screens": "^2.10.1",
+    "react-native-svg": "^12.1.0",
+    "react-native-web": "~0.13.12",
+    "react-navigation": "^4.4.1",
+    "react-navigation-stack": "^2.8.3"
+  },
+  "devDependencies": {
+    "@babel/core": "~7.9.0",
+    "eslint-config-rallycoding": "^3.2.0",
+    "jest-expo": "^39.0.0"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"
+    ],
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
+      "!**/coverage/**",
+      "!**/node_modules/**",
+      "!**/babel.config.js",
+      "!**/jest.setup.js"
+    ]
+  },
+  "private": true
+}

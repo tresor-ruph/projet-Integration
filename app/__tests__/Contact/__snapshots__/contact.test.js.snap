@@ -1,0 +1,70 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+        "marginTop": 20,
+        "width": "100%",
+      }
+    }
+  >
+    <Image
+      source={
+        Object {
+          "uri": "undefined",
+        }
+      }
+      style={
+        Object {
+          "borderRadius": 100,
+          "height": 75,
+          "width": 75,
+        }
+      }
+    />
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "marginLeft": "10%",
+          "marginTop": "10%",
+          "opacity": 1,
+          "width": "100%",
+        }
+      }
+    >
+      <Text />
+    </View>
+    <View />
+  </View>
+  <View />
+  <View
+    style={
+      Object {
+        "alignSelf": "stretch",
+        "borderBottomColor": "rgba(177,175,184,0.3)",
+        "borderBottomWidth": 0.5,
+        "marginTop": 8,
+        "width": "100%",
+      }
+    }
+  />
+</View>
+`;

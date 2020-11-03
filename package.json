@@ -8,23 +8,37 @@
     "eject": "expo eject"
   },
   "dependencies": {
+    "@react-native-async-storage/async-storage": "^1.13.1",
     "@react-native-community/async-storage": "~1.12.0",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-firebase/app": "^8.4.3",
     "@react-navigation/native": "^5.7.3",
     "@react-navigation/stack": "^5.9.0",
+<<<<<<< HEAD
     "axios": "^0.20.0",
     "expo": "^39.0.3",
     "expo-status-bar": "~1.0.2",
     "find-up": "^5.0.0",
+=======
+    "async-storage": "^0.1.0",
+    "axios": "^0.20.0",
+    "bcrypt": "^5.0.0",
+    "cookie-parser": "^1.4.5",
+    "expo": "^39.0.3",
+    "expo-status-bar": "~1.0.2",
+    "fetch": "^1.1.0",
+>>>>>>> 007f35d704583775592c5ab655ac89fa9cca126a
     "firebase": "7.9.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
     "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.2.tar.gz",
+    "react-native-bcrypt": "^2.4.0",
     "react-native-elements": "^2.3.2",
     "react-native-gesture-handler": "^1.7.0",
     "react-native-gifted-chat": "^0.16.3",
     "react-native-paper": "^4.2.0",
+    "react-native-passmeter": "0.0.5",
+    "react-native-password-strength-meter": "0.0.4",
     "react-native-reanimated": "~1.13.0",
     "react-native-safe-area-context": "^3.1.4",
     "react-native-screens": "^2.10.1",
@@ -35,7 +49,10 @@
     "react-navigation-stack": "^2.8.3"
   },
   "devDependencies": {
-    "@babel/core": "~7.9.0"
+    "@babel/core": "~7.9.0",
+    "eslint": "^7.11.0",
+    "eslint-config-airbnb-base": "^14.2.0",
+    "eslint-plugin-import": "^2.22.1"
   },
   "private": true
 }
