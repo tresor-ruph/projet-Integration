@@ -14,12 +14,6 @@
     "@react-native-firebase/app": "^8.4.3",
     "@react-navigation/native": "^5.7.3",
     "@react-navigation/stack": "^5.9.0",
-<<<<<<< HEAD
-    "axios": "^0.20.0",
-    "expo": "^39.0.3",
-    "expo-status-bar": "~1.0.2",
-    "find-up": "^5.0.0",
-=======
     "async-storage": "^0.1.0",
     "axios": "^0.20.0",
     "bcrypt": "^5.0.0",
@@ -27,7 +21,6 @@
     "expo": "^39.0.3",
     "expo-status-bar": "~1.0.2",
     "fetch": "^1.1.0",
->>>>>>> 007f35d704583775592c5ab655ac89fa9cca126a
     "firebase": "7.9.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
