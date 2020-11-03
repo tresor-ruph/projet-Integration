@@ -19,7 +19,7 @@ exports.findAll = (req,res) => {
 
 
 exports.findOne = (req, res) => {
-  demande.findDemandeFilter(req.params.categorie, (err, data) => {
+  demande.findDemandeFilter(req.params.categorie, req.params.codeP, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
@@ -42,11 +42,30 @@ exports.findOneUI = (req, res) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
-          message: `Not found demande with categorie ${req.params.userId}.`,
+          message: `Not found demande with id ${req.params.userId}.`,
         });
       } else {
         res.status(500).send({
-          message: "Error retrieving demande with categorie " + req.params.userId,
+          message: "Error retrieving demande with id " + req.params.userId,
+        });
+      }
+    } else {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.send(data);
+    }
+  });
+};
+
+exports.findDescri = (req, res) => {
+  demande.findDemandeDescriptif(req.params.userId, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found demande with id ${req.params.userId}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving demande with id " + req.params.userId,
         });
       }
     } else {

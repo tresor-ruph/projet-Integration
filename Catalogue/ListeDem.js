@@ -11,9 +11,14 @@ class ListeDem extends React.Component {
     super(props);
     this.state = { 
       demande : [],
-      filtre: 'all'
+      filtre: 'all',
+      codeP: 1410
     };
   }  
+
+  submit(){
+    this.componentDidMount();
+  }
   
   componentDidMount(){
     console.log(this.state.filtre)
@@ -25,7 +30,7 @@ class ListeDem extends React.Component {
     })
     }
     else{
-      fetch(`http://localhost:3000/demande/'${this.state.filtre}'`)
+      fetch(`http://localhost:3000/demande/'${this.state.filtre}'/'${this.state.codeP}'/`)
     .then(response => response.json())
     .then(json => {
       this.setState({demande: json})
@@ -38,7 +43,11 @@ class ListeDem extends React.Component {
   updateFiltre = (filtre) => {
     this.setState({ filtre: filtre })
     console.log(this.state.filtre)
-    this.componentDidMount()
+ }
+
+ modifietext(text){
+   var myCode = parseInt(text);
+   this.setState({codeP: myCode})
  }
 
 
@@ -48,18 +57,29 @@ class ListeDem extends React.Component {
         <Text style={styles.mesde} onPress={this.click_MesDem}>MES DEMANDES</Text>
         <Picker style={styles.picks} selectedValue = {this.state.filtre}  onValueChange = {this.updateFiltre}>
               <Picker.Item label="Aller faire des courses" value="Aller faire des courses" />
-              <Picker.Item label="Aller chercher un colis" value="colis" />
-              <Picker.Item label="Aller chercher les enfants" value="Enfants" />
+              <Picker.Item label="Aller chercher un colis" value="Colis" />
+              <Picker.Item label="Aller chercher les enfants" value="Récupérer une personne" />
               <Picker.Item label="Aller faire des lessives" value="Lessive" />
               <Picker.Item label="Autres" value="Autres" />
         </Picker>
+        <View>
+          <TextInput onChangeText={(text)=>{this.modifietext(text)}} style={styles.inputt}>
+          </TextInput>
+          <TouchableOpacity style={styles.bout} onPress={() => {this.submit()}}>
+
+            <Text style={styles.textBout}> Envoyer votre demande </Text>
+
+          </TouchableOpacity>
+        </View>
+        
       {
         this.state.demande.map((l, i) => (
           <ListItem key={i} bottomDivider>
             <Avatar source={{uri: l.avatar_url}} />
             <ListItem.Content>
-              <ListItem.Title>{l.userName}</ListItem.Title>
-              <ListItem.Subtitle>{l.categorie}</ListItem.Subtitle>
+              <ListItem.Title>{l.Prenom} {l.Nom}</ListItem.Title>
+              <ListItem.Subtitle style={styles.descri}>{l.categorie}</ListItem.Subtitle>
+              <ListItem.Subtitle >{l.descriptif}</ListItem.Subtitle>
             </ListItem.Content>
           </ListItem>
         ))
@@ -72,7 +92,16 @@ class ListeDem extends React.Component {
 const styles = StyleSheet.create({
   picks:{
     width: '50%',
-    marginTop: '3%'
+    marginTop: '3%',
+    float: 'left'
+  },
+
+  inputt:{
+    width: '30%',
+  },
+
+  descri:{
+    fontWeight: 'bold'
   },
 
   mesde:{

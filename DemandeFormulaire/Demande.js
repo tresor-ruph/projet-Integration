@@ -17,10 +17,9 @@ class Demande extends React.Component{
   constructor(props){
      super(props);
      this.state={
-       userName:'FloB',
        categorie:'Aller faire des courses',
        descriptif:'',
-       userId: 4
+       userId: 2
      }
    }
 
@@ -29,7 +28,7 @@ class Demande extends React.Component{
    submit(){
   
      //console.log(this.state) 
-     const newDemande = {userName: this.state.userName, categorie: this.state.categorie, descriptif: this.state.descriptif}
+     const newDemande = {categorie: this.state.categorie, descriptif: this.state.descriptif, userId: this.state.userId}
      console.log(newDemande);
 
      fetch('http://localhost:3000/demandeE/', {  
@@ -40,7 +39,6 @@ class Demande extends React.Component{
         'Access-Control-Allow-Origin': true,
       },
       body: JSON.stringify({
-        userName: newDemande.userName,
         categorie: newDemande.categorie,
         descriptif: newDemande.descriptif,
         userId: newDemande.userId
@@ -56,7 +54,7 @@ class Demande extends React.Component{
 
         <Paragraph style={styles.para}> Type de demande</Paragraph>
 
-          <Picker style={{height:100, fontSize:25, width:'90%', marginLeft:'5%', marginTop:'5%'}} selectedValue = {this.state.categorie}  onValueChange = {this.updateCategorie}>
+          <Picker style={{height:'9%', fontSize:19, width:'90%', marginLeft:'5%', marginTop:'2%'}} selectedValue = {this.state.categorie}  onValueChange = {this.updateCategorie}>
               <Picker.Item label="Aller faire des courses" value="courses" />
               <Picker.Item label="Aller chercher un colis" value="colis" />
               <Picker.Item label="Aller chercher les enfants" value="Enfants" />
@@ -103,14 +101,14 @@ const styles = StyleSheet.create({
   },
 
   para:{
-    fontSize:25,
-    marginLeft:'8%',
+    fontSize:19,
+    marginLeft:'2%',
   },
   textBout: {
     color: '#FFF',
     fontSize: 35,
     textAlign: "center",
-    marginTop: '11%',
+    marginTop: '3%',
   },
 
   desc:{
@@ -121,7 +119,7 @@ const styles = StyleSheet.create({
     marginLeft: '5%',
     marginTop: '62%',
     fontSize: 30,
-    borderWidth: 2,
+    borderWidth: 3,
     borderColor: "#20232a",
     textAlign: "center",
   },
