@@ -39,9 +39,10 @@ class Demande extends React.Component{
         'Access-Control-Allow-Origin': true,
       },
       body: JSON.stringify({
+        
         categorie: newDemande.categorie,
         descriptif: newDemande.descriptif,
-        userId: newDemande.userId
+        userId: newDemande.userId,
       })
     }) 
   }
@@ -50,7 +51,7 @@ class Demande extends React.Component{
     return (
       <View style={styles.container}>
         
-        <Title style={{height:70, fontSize:25, textAlign: 'center', marginTop:'10%'}}> Formulaire de demande de service</Title>
+        <Title style={{height:'6%', fontSize:30, textAlign: 'center', marginTop:'10%'}}> Formulaire de service</Title>
 
         <Paragraph style={styles.para}> Type de demande</Paragraph>
 
@@ -81,8 +82,7 @@ class Demande extends React.Component{
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    justifyContent: "flex-start",
-    backgroundColor: 'rgb(230,230,230,1)',
+    backgroundColor: 'rgba(230,230,230,1)',
   },
 
   listD: {
@@ -101,23 +101,25 @@ const styles = StyleSheet.create({
   },
 
   para:{
-    fontSize:19,
-    marginLeft:'2%',
+    height:'3%',
+    marginTop:'15%',
+    fontSize:25,
+    marginLeft:'4%',
   },
   textBout: {
     color: '#FFF',
-    fontSize: 35,
-    textAlign: "center",
-    marginTop: '3%',
+    fontSize: 30,
+    textAlign: 'center',
+    marginTop: '11%',
   },
 
   desc:{
     flex:1,
     position:'absolute',
-    height : '30%',
+    height : '27%',
     width : '90%',
     marginLeft: '5%',
-    marginTop: '62%',
+    marginTop: '72%',
     fontSize: 30,
     borderWidth: 3,
     borderColor: "#20232a",

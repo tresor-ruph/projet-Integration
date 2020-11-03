@@ -86,7 +86,11 @@ demande.findDemandeDescriptif = (userId, result) => {
 
 demande.createDemande = (Newdemande, result) => {
     var requete = "INSERT INTO Demande(categorie, descriptif, userId) VALUES ? ";
+<<<<<<< HEAD
     var values = [[Newdemande.categorie , Newdemande.descriptif, Newdemande.userId]];
+=======
+    var values = [[ Newdemande.categorie , Newdemande.descriptif, Newdemande.userId]];
+>>>>>>> af8b90a36f1ee6fa31ddafbaaed590c37d810d33
     sql.query(requete, [values]);
     result (null, 'Demande envoyée')
 };
