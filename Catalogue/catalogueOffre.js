@@ -7,7 +7,7 @@ class catalogue extends Component {
         { id: 1, name: 'Alice' },
         { id: 2, name: 'Bob' },
         { id: 3, name: 'Claire' },
-        { id: 4, name: 'David' },
+        { id: 4, name: 'Martin' },
       ]}
       render () {
         return (
