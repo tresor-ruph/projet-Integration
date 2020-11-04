@@ -31,7 +31,7 @@ function GroupChat() {
               key={contact[i].Id}
               name={contact[i].Nom}
               imgUrl={contact[i].PhotoProfil}
-              grp={true}
+              grp
             />
           }
           checked={chk}
