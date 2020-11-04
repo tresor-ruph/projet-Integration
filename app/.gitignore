@@ -13,4 +13,5 @@ web-build/
 .DS_Store
 
 # Dependency directory
-node_modules
+node_modules/
+coverage/
