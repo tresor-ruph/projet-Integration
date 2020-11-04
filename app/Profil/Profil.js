@@ -8,12 +8,10 @@ import {
   StyleSheet,
   Button,
   View,
-  Text,
-  TextInput,
   Image,
-  TouchableOpacity,
   Platform,
 } from "react-native";
+import { TextInput, Button as Test } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import * as firebase from 'firebase';
 //import App from './firebase'
@@ -29,17 +27,6 @@ export default function Profil() {
   const [btnDisplay, setBtn] = useState(true);
   const [image, setImage] = useState(null);
   const [isPicked, setIsPicked] = useState(false);
-
- const firebaseConfig = {
-    apiKey: "AIzaSyBDfJQ6qgI8P9SR8-mQ6EK-2Ht11xjVDlY",
-    authDomain: "helper1348.firebaseapp.com",
-    databaseURL: "https://helper1348.firebaseio.com",
-    projectId: "helper1348",
-    storageBucket: "helper1348.appspot.com",
-    messagingSenderId: "295532527033",
-    appId: "1:295532527033:web:9b52add0968820d4244a68",
-    measurementId: "G-P3RX0697EB"
-  };
 
  // firebase.initializeApp(firebaseConfig);
  // firebase.analytics();
@@ -60,8 +47,6 @@ export default function Profil() {
       .catch((error) => {
         console.error(error);
       });
-
-  
   }, []);
 
   const handleChangeName = (event) => {
@@ -180,47 +165,43 @@ export default function Profil() {
             borderRadius: 200 / 2,
           }}
         />
-        {bool && (
-          <TouchableOpacity onPress={pickImage}>
-            <Text style={{
-              color: 'red',
-              textDecorationLine: 'underline',
-            }}
-            >
-              Changer de photo de profil
-            </Text>
-          </TouchableOpacity>
-        )}
+        {bool && 
+              <Test onPress={pickImage} icon="camera" />
+        }
       </View>
 
-      <View style={styles.inputContainer}>
+      <View>
         <TextInput
-          style={styles.textInput}
           value={nom}
+          label="Nom"
           name="Nom"
+          mode='outlined'
           editable={bool}
           onChange={handleChangeName}
         />
         <TextInput
-          style={styles.textInput}
           value={prenom}
           editable={bool}
+          mode='outlined'
+          label="Prenom"
           name="Prenom"
           onChange={handleChangeSurname}
         />
         <TextInput
-          style={styles.textInput}
           value={adresse}
           editable={bool}
+          label="Adresse"
           name="adresse"
+          mode='outlined'
           onChange={handleChangeAddress}
 
         />
         <TextInput
-          style={styles.textInput}
           value={code}
           editable={bool}
+          label="Code postal"
           name="code"
+          mode='outlined'
           onChange={handleChangePostal}
         />
       </View>
@@ -286,17 +267,11 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontWeight: 'bold',
     borderWidth: 1,
-    borderColor: 'black',
     marginBottom: 10,
   },
   bottom: {
     flex: 0.3,
     flexDirection: "column",
     justifyContent: "space-between",
-  },
-  separator: {
-    marginVertical: 8,
-    borderBottomColor: '#737373',
-    borderBottomWidth: StyleSheet.hairlineWidth,
   },
 });

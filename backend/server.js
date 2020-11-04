@@ -1,3 +1,16 @@
+<<<<<<< HEAD
+const express = require('express');
+const bodyParser = require('body-parser');
+const cors = require('cors')
+
+const app = express();
+
+app.use(cors())
+app.use(bodyParser.json());
+
+app.use(bodyParser.urlencoded({extended : true}));
+
+=======
 
 const express = require('express')
 const bodyParser = require('body-parser')
@@ -96,6 +109,14 @@ app.listen(PORT, () => {
   console.log(`Server is running on port ${PORT}.`);
 });
 
+>>>>>>> 007f35d704583775592c5ab655ac89fa9cca126a
 
+app.get("/", (req, res) => {
+    res.json({message :  "welcome to helprecover api"})
+})
 
+const routes = require('./routes/user.route')(app);
 
+app.listen(process.env.PORT || '3000', () => {
+    console.log(`the server is running on ${process.env.PORT || '3000'}`);
+});

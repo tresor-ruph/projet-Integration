@@ -6,7 +6,7 @@ import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Discussion_Repo from './Messenger/Discussionscreen'
 import addContact from './Messenger/addContact'
-//import Login from './Messenger/components/login'
+import Login from './Messenger/components/login'
 import Profil from './Profil/Profil'
 //import Form from './SignIn/Form'
 import Succes from './SignIn/Success'
@@ -23,7 +23,7 @@ render() {
         <NavigationContainer>
             <Stack.Navigator>
             <Stack.Screen name = "Home" component = {Home} />
-           {/* <Stack.Screen name = "Login" component = {Login} /> */}
+           <Stack.Screen name = "Login" component = {Login} />
 
 
             <Stack.Screen name = "signup" component = {Form} />

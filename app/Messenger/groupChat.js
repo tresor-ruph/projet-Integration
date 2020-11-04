@@ -1,17 +1,17 @@
 import React, { useEffect, useState } from "react";
 import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
-import { CheckBox } from 'react-native-elements'
+import { CheckBox } from "react-native-elements";
 
 import AsyncStorage from "@react-native-community/async-storage";
 import Contact from "./contact";
 
 //let contact = ' ';
 function GroupChat() {
-    const [contact, setContact] = useState(' ');
-    const [chk, setchk] = useState(false);
+  const [contact, setContact] = useState(" ");
+  const [chk, setchk] = useState(false);
   useEffect(() => {
     const getContact = async () => {
-      const res = await AsyncStorage.getItem('contact');       
+      const res = await AsyncStorage.getItem("contact");
       setContact(JSON.parse(res));
     };
 
@@ -19,42 +19,32 @@ function GroupChat() {
   }, []);
 
   const renderContact = () => {
-      let arr = [];
-      
-      for(let i=0; i<contact.length; i++){
-        arr.push(  <CheckBox
-          key = {i}
-          checkedIcon ='dot-circle-o'
+    let arr = [];
 
-          title= {<Contact 
-          key={contact[i].Id}
-          name={contact[i].Nom}
-          imgUrl={contact[i].PhotoProfil}
-          grp= {true}
-          />}
-          checked= {chk}
-          onPress ={() => {
-            setchk(prevState => !prevState)
+    for (let i = 0; i < contact.length; i++) {
+      arr.push(
+        <CheckBox
+          key={i}
+          checkedIcon="dot-circle-o"
+          title={
+            <Contact
+              key={contact[i].Id}
+              name={contact[i].Nom}
+              imgUrl={contact[i].PhotoProfil}
+              grp={true}
+            />
+          }
+          checked={chk}
+          onPress={() => {
+            setchk((prevState) => !prevState);
           }}
-          
-        /> )
-      }
- 
-         return arr;
-  }
-  return (
-    <View>
-                          
-           
-              
-             {renderContact()}
-           
-        
+        />
+      );
+    }
 
-    </View>
-  );
+    return arr;
+  };
+  return <View>{renderContact()}</View>;
 }
-const style = StyleSheet.create({
-
-});
+const style = StyleSheet.create({});
 export default GroupChat;

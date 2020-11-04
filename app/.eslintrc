@@ -1,3 +1,7 @@
 {
-    "extends": "eslint-config-rallycoding"
+    "extends": "eslint-config-rallycoding",
+    "settings": {
+        "import/ignore": ["react-navigation"]
+        // ...
+      }
 }
