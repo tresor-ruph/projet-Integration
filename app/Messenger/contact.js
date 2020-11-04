@@ -6,12 +6,14 @@ import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
 import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import contactStorage from './contact_storage';
 
-function Contact(props) {
+function Contact(props) { 
   // eslint-disable-next-line no-unused-vars
   const [name, setName] = useState(props.name);
   // eslint-disable-next-line no-unused-vars
   const [imgUrl, setImgUrl] = useState(props.imgUrl);
+  const lastMess = props.lastMess;
   const [del, setDel] = useState(false);
+const grp = props.grp;
 
   const handleCancel = () => {
     setDel(false);
@@ -19,6 +21,7 @@ function Contact(props) {
   const handlerLongClick = () => {
     setDel(true);
   };
+
 
   return (
     <View style={{ flex: 1 }}>
@@ -40,6 +43,9 @@ function Contact(props) {
           onLongPress={handlerLongClick}
         >
           <Text>{name}</Text>
+          <Text>{lastMess}</Text>
+
+          
         </TouchableOpacity>
         <View />
       </View>
@@ -65,7 +71,10 @@ function Contact(props) {
       ) : (
         <View />
       )}
+      {grp ?
+      <View /> :
       <View style={styles.viewStyleForLine} />
+}
     </View>
   );
 }

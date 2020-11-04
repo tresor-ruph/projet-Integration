@@ -15,6 +15,9 @@ import MaterialButtonShare from "./components/MaterialButtonShare";
 import Contact from "./contact";
 import Constants from "expo-constants";
 import AsyncStorage from "@react-native-community/async-storage";
+import { useIsFocused } from "@react-navigation/native";
+import RecentChat from './recentChats'
+
 
 let userId = " "
 
@@ -23,11 +26,18 @@ function Discussion_Repo( props) {
   const [contacts, setContact] = useState(" ");
   const [loaded, setLoaded] = useState(false);
 
+  const isFocused = useIsFocused();
 
 
   useEffect(() => {
     
+    
     async function getContact() {
+      let recentChats =await AsyncStorage.getItem('recentChats')
+      if(recentChats == null){
+
+      await AsyncStorage.setItem('recentChats', JSON.stringify([]));
+      }
       let contact = await AsyncStorage.getItem("contact");
       if (contact == null) {
         let test = [];
@@ -43,11 +53,12 @@ function Discussion_Repo( props) {
      userId = id
     }
     getContact();
-  }, [loaded]);
+
+  
+  }, [loaded, isFocused]);
 
   function renderScreen() {
-    console.log("tata")
-    console.log(userId)
+    
    
     let arr = [];
     for (let i = 0; i < contacts.length; i++) {
@@ -58,6 +69,7 @@ function Discussion_Repo( props) {
           id = {contacts[i].Id}
           name={contacts[i].Nom}
           imgUrl={contacts[i].PhotoProfil}
+          grp= {true}
           onNav={() => props.navigation.navigate('Chat', { recieverId: contacts[i].Id, senderId: userId })}
 
         />
@@ -65,11 +77,8 @@ function Discussion_Repo( props) {
     }
     if (disp === "disc") {
       return (
-        <Text
-          style={{ fontStyle: "bolder", fontSize: "1.2em", marginLeft: "10%" }}
-        >
-          Not yet Available
-        </Text>
+        
+        <RecentChat />
       );
     } else if (disp === "groups") {
       return (

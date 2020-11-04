@@ -1,5 +1,5 @@
-import React from "react";
-import { StyleSheet, View, Button, Text } from "react-native";
+import React from 'react';
+import { View, Button, Text } from "react-native";
 
 class Succes extends React.Component {
 
@@ -8,14 +8,14 @@ class Succes extends React.Component {
     }
 
     render() {
-        return( 
+        return ( 
             <View>
                 <Text>
-                    Inscription rÃ©ussie !
+                    Inscription reussie !
                 </Text>
                 <Button
                 title="Se connecter"
-                onPress={()=>{this.submit()}}
+                onPress={() => {this.submit()}}
                 ></Button>
             </View>
         )

@@ -120,7 +120,7 @@ class Form extends React.Component {
               style={styles.textInput}
             ></TextInput>
             <TextInput
-              placeholder="PrÃ©nom"
+              placeholder="Prenom"
               maxLength={50}
               autoCapitalize="sentences"
               onChangeText={(text)=> { this.setState({ prenom: text }) }}
@@ -159,7 +159,7 @@ class Form extends React.Component {
               labels={ this.state.label }
             />
             <TextInput
-              placeholder="RÃ©pÃ©tition du mot de passe"
+              placeholder="Repetition du mot de passe"
               maxLength={50}
               secureTextEntry={this.state.showPassword}
               onChangeText={(text)=> { this.setState({ repMotdepasse: text }) }}
