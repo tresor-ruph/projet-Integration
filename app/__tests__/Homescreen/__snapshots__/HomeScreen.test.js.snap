@@ -112,7 +112,7 @@ exports[`renders correctly 1`] = `
   >
     <View
       accessible={true}
-      focusable={true}
+      focusable={false}
       onClick={[Function]}
       onResponderGrant={[Function]}
       onResponderMove={[Function]}

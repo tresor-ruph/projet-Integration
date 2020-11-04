@@ -1,17 +1,17 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, View, Image, Text, TouchableOpacity } from "react-native";
-import { CheckBox } from "react-native-elements";
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { CheckBox } from 'react-native-elements';
 
-import AsyncStorage from "@react-native-community/async-storage";
-import Contact from "./contact";
+import AsyncStorage from '@react-native-community/async-storage';
+import Contact from './contact';
 
 //let contact = ' ';
 function GroupChat() {
-  const [contact, setContact] = useState(" ");
+  const [contact, setContact] = useState(' ');
   const [chk, setchk] = useState(false);
   useEffect(() => {
     const getContact = async () => {
-      const res = await AsyncStorage.getItem("contact");
+      const res = await AsyncStorage.getItem('contact');
       setContact(JSON.parse(res));
     };
 
@@ -19,7 +19,7 @@ function GroupChat() {
   }, []);
 
   const renderContact = () => {
-    let arr = [];
+    const arr = [];
 
     for (let i = 0; i < contact.length; i++) {
       arr.push(
