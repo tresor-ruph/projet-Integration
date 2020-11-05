@@ -1,11 +1,11 @@
 import React from 'react';
 import Nav from './File_link';
-//import GroupChat from './Messenger/groupChat'
+import GroupChat from './Messenger/groupChat'
 
 const App = () => (
    //<Login />
-   <Nav />
-   //<GroupChat />
+//   <Nav />
+   <GroupChat />
 );
 
 export default App;

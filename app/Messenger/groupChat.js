@@ -1,22 +1,29 @@
-import React, { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
-import { CheckBox } from 'react-native-elements';
+import React, { useEffect, useState } from "react";
+import { StyleSheet, View } from "react-native";
+import { CheckBox } from "react-native-elements";
 
-import AsyncStorage from '@react-native-community/async-storage';
-import Contact from './contact';
+import AsyncStorage from "@react-native-community/async-storage";
+import Contact from "./contact";
+import { event } from "react-native-reanimated";
 
 //let contact = ' ';
 function GroupChat() {
-  const [contact, setContact] = useState(' ');
+  const [group, setGroup] = useState([]);
+  const [contact, setContact] = useState([]);
   const [chk, setchk] = useState(false);
   useEffect(() => {
     const getContact = async () => {
-      const res = await AsyncStorage.getItem('contact');
+      const res = await AsyncStorage.getItem("contact");
       setContact(JSON.parse(res));
     };
 
     getContact();
   }, []);
+
+  const test = (event) => {
+    console.log(event);
+    console.log("test");
+  };
 
   const renderContact = () => {
     const arr = [];
@@ -34,9 +41,11 @@ function GroupChat() {
               grp
             />
           }
-          checked={chk}
-          onPress={() => {
-            setchk((prevState) => !prevState);
+          onPress={(event) => {
+            // event.target.check
+            console.log(event.checked);
+            setGroup((prevState) => [...prevState, contact[i].Nom]);
+            console.log(group);
           }}
         />
       );
@@ -44,6 +53,8 @@ function GroupChat() {
 
     return arr;
   };
+  console.log(group);
+
   return <View>{renderContact()}</View>;
 }
 const style = StyleSheet.create({});
