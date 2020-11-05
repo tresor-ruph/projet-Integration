@@ -12,6 +12,10 @@ import Profil from './Profil/Profil'
 import Succes from './SignIn/Success'
 import Form from './SignIn/Form'
 import Home from './Homescreen/Home'
+import ListeDem from './Catalogue/ListeDem'
+import mesDemandes from './Catalogue/mesDemandes'
+import descriptifDemande from './Catalogue/descriptifDemande'
+import Demande from './demandeFormulaire/Demande'
 //import Login from './Login/login'
 
 // Create the navigator
@@ -28,6 +32,9 @@ render() {
 
             <Stack.Screen name = "signup" component = {Form} />
             <Stack.Screen name = "succes" component = {Succes} />
+            
+            <Stack.Screen name = "ListeDem" component = {ListeDem} />
+            <Stack.Screen name = "Demande" component = {Demande} />
 
 
             {/*<Stack.Screen name = "login" component = {Login} />*/}

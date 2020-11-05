@@ -1,7 +1,7 @@
 module.exports = (app) => {
   const contacts = require("../controller/contacts.controller");
   const userController = require("../controller/user.controller");
-
+  const demande = require('./../controller/ajoutDem');
   //get all contacts
   app.get("/contacts/", contacts.findAll);
   //get the contacts with userIds
@@ -16,5 +16,13 @@ module.exports = (app) => {
   app.get("/contacts/:email", contacts.findOne);
   app.get("/chat/:senderId/:recieverId", contacts.findRoom)
   app.post("/chat/addroom", contacts.createChat )
+
+  
+    //get user with id = id
+  app.get("/demande/all", demande.findAll);
+  app.post("/demandeE/", demande.create);
+  app.get("/demande/:categorie/:codeP", demande.findOne);
+  app.get("/demandeU/:userId", demande.findOneUI);
+  app.get("/demandeD/:userId", demande.findDescri);
 
 };
