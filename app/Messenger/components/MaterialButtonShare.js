@@ -6,12 +6,12 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 
 function MaterialButtonShare(props) {
-  const navigation = useNavigation();
+ // const navigation = useNavigation();
 
   return (
     <TouchableOpacity
       style={[styles.container, props.style]}
-      onPress={() => navigation.navigate('addContact')}
+     // onPress={() => navigation.navigate('addContact')}
     >
     <Icon name={props.icon || 'share-variant'} style={styles.icon} />
     </TouchableOpacity>

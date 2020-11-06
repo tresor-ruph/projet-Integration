@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from 'react';
-import { StyleSheet, View } from 'react-native';
+import { StyleSheet,TouchableOpacity, View } from 'react-native';
 import { CheckBox } from 'react-native-elements';
+import MaterialButtonShare from "./components/MaterialButtonShare";
+
 
 import AsyncStorage from '@react-native-community/async-storage';
 import Contact from './contact';
@@ -63,6 +65,31 @@ function GroupChat() {
   };
   console.log(group);
 
-  return <View>{renderContact()}</View>;
+  return (<View>
+    {renderContact()}
+    <TouchableOpacity style={styles.buttonAdd}>
+          
+            <MaterialButtonShare
+              iconName="share-variant"
+              icon="arrow-right-bold"
+              style={styles.materialButtonShare}
+             />
+         
+          
+        </TouchableOpacity>
+    </View>
+  )
 }
+
+const styles = StyleSheet.create({
+  buttonAdd: {
+    width: 56,
+    height: 56,
+    position: "fixed",
+    flex: 0.1,
+    left: "80%",
+    right: 0,
+    bottom: 80,
+  },
+});
 export default GroupChat;
