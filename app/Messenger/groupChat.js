@@ -1,10 +1,9 @@
-import React, { useEffect, useState } from "react";
-import { StyleSheet, View } from "react-native";
-import { CheckBox } from "react-native-elements";
+import React, { useEffect, useState } from 'react';
+import { StyleSheet, View } from 'react-native';
+import { CheckBox } from 'react-native-elements';
 
-import AsyncStorage from "@react-native-community/async-storage";
-import Contact from "./contact";
-import { event } from "react-native-reanimated";
+import AsyncStorage from '@react-native-community/async-storage';
+import Contact from './contact';
 
 //let contact = ' ';
 function GroupChat() {
@@ -13,21 +12,15 @@ function GroupChat() {
   const [chk, setchk] = useState(false);
   useEffect(() => {
     const getContact = async () => {
-      const res = await AsyncStorage.getItem("contact");
+      const res = await AsyncStorage.getItem('contact');
       setContact(JSON.parse(res));
     };
 
     getContact();
   }, []);
 
-  const test = (event) => {
-    console.log(event);
-    console.log("test");
-  };
-
   const renderContact = () => {
     const arr = [];
-
     for (let i = 0; i < contact.length; i++) {
       arr.push(
         <CheckBox
@@ -41,11 +34,26 @@ function GroupChat() {
               grp
             />
           }
-          onPress={(event) => {
-            // event.target.check
-            console.log(event.checked);
-            setGroup((prevState) => [...prevState, contact[i].Nom]);
-            console.log(group);
+          checked={contact[i].check}
+          onPress={() => {
+
+            setchk((prevState) => !prevState);
+            contact[i].check = chk;
+
+            if (chk === true) {
+              //we add the contact into group
+              setGroup((prevState) => [...prevState, contact[i].Nom]);
+            } else {
+              //we remove the contact from group if it exist
+
+              // eslint-disable-next-line no-lonely-if
+              if (group.includes(contact[i].Nom)) {
+                setGroup((prevState) =>
+                //this line will remove contact[i].Nom from arr prevSate
+                  prevState.filter((elt) => elt !== contact[i].Nom)
+                );
+              }
+            }
           }}
         />
       );
@@ -57,5 +65,4 @@ function GroupChat() {
 
   return <View>{renderContact()}</View>;
 }
-const style = StyleSheet.create({});
 export default GroupChat;
