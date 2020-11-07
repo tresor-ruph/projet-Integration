@@ -9,6 +9,9 @@ function Mainscreen(props) {
   const handlePress = () => {
     props.navigation.navigate('Discussion_Repo');
   };
+  const handleProfil = () => {
+    props.navigation.navigate('Profil');
+  };
 
   return (
     <View style={styles.container}>
@@ -24,7 +27,7 @@ function Mainscreen(props) {
         </TouchableOpacity>
       </View>
       <View style={styles.button3Row}>
-        <TouchableOpacity style={styles.button3}>
+        <TouchableOpacity style={styles.button3} onPress={handleProfil}>
           <Text style={styles.profile}>Profile</Text>
         </TouchableOpacity>
         <TouchableOpacity

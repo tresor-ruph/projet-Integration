@@ -1,17 +1,21 @@
 /* eslint-disable import/no-unresolved */
-import React from 'react';
+import React, { useState } from 'react';
 import { StyleSheet, TouchableOpacity } from 'react-native';
 // eslint-disable-next-line import/no-extraneous-dependencies
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import { useNavigation } from '@react-navigation/native';
 
 function MaterialButtonShare(props) {
- // const navigation = useNavigation();
-
+  const [navTo, setNavTo] = useState(props.nav);
+  const [navOpt, setNavOpt] = useState(props.opt)
+  const navigation = useNavigation();
+  {console.log("test")}
+  {console.log(navOpt)}
   return (
     <TouchableOpacity
+   
       style={[styles.container, props.style]}
-     // onPress={() => navigation.navigate('addContact')}
+      onPress={() => navigation.navigate(`${navTo}`, navOpt)}
     >
     <Icon name={props.icon || 'share-variant'} style={styles.icon} />
     </TouchableOpacity>

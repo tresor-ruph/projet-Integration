@@ -5,8 +5,8 @@ import ConfirmGroup from './Messenger/confGroup'
 
 const App = () => (
    //<Login />
-//   <Nav />
-   <ConfirmGroup />
+ <Nav />
+  // <ConfirmGroup />
 );
 
 export default App;

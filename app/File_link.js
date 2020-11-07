@@ -12,6 +12,8 @@ import Profil from './Profil/Profil'
 import Succes from './SignIn/Success'
 import Form from './SignIn/Form'
 import Home from './Homescreen/Home'
+import ConfGroup from './Messenger/confGroup'
+import GroupChat from './Messenger/groupChat'
 //import Login from './Login/login'
 
 // Create the navigator
@@ -23,7 +25,10 @@ render() {
         <NavigationContainer>
             <Stack.Navigator>
             <Stack.Screen name = "Home" component = {Home} />
+            <Stack.Screen name = "GroupChat" component = {GroupChat} />
            <Stack.Screen name = "Login" component = {Login} />
+           <Stack.Screen name = "ConfGroup" component = {ConfGroup} />
+
 
 
             <Stack.Screen name = "signup" component = {Form} />

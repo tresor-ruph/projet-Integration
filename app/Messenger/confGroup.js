@@ -2,12 +2,25 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image,Platform,  Button, } from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
 import * as firebase from 'firebase';
+import AsyncStorage from '@react-native-community/async-storage';
 
 
-function Untitled(props) {
+function ConfGroup(route, props) {
  const [image, setImage] = useState(null);
  const [isPicked, setIsPicked] = useState(false);
+ const [groupName, setGroupName] = useState(null);
+ const [url, setUrl] = useState(null)
+
  
+ let imageName = 'group'
+console.log(route);
+const grpMem = route.route.params.grp;
+
+Array.from(grpMem).forEach(elt => {
+  imageName += elt;
+})
+console.log(imageName);
+
 
  const pickImage = async () => {
   if (Platform.OS !== 'web') {
@@ -31,35 +44,54 @@ function Untitled(props) {
   }
 };
 
+const handleGroup = event => {
+
+  setGroupName(event.target.value);
+   
+}
+const handleSent = async () => {
+ 
+  const chatGroup =  {
+    ownerId: route.route.params.grpowner,
+    Name: groupName,
+    groupImage: url,
+    members: route.route.params.grp,
+  };
+
+  let asyncGroup =  await AsyncStorage.getItem('group');
+  asyncGroup = JSON.parse(asyncGroup);
+  asyncGroup.push(chatGroup);
+  await AsyncStorage.setItem('group', JSON.stringify(asyncGroup));
+  console.log(chatGroup);
+}
 
 const uploadImage = async (uri, imgName) => {
   const response = await fetch(uri);
   const blob = await response.blob();
-
   const ref = firebase.storage().ref().child(imgName);
-  ref.put(blob);
+  ref.put(blob)
+
 
   const test = await firebase.storage()
     .ref(`/${imgName}`)
     .getDownloadURL();
-
+    setUrl(test);
   return test;
 };
 
 
 const handleUpload = async () => {
-  const imageName = image;
- // document.getElementById("lol").style.color = "green"
 
+console.log(imageName)
   const test1 = isPicked ? await uploadImage(image, imageName) : image;
-  console.log("success");
+  console.log(test1);
   setIsPicked(false);
 };
 
   return (
     <View style={styles.container}>
-      <TouchableOpacity style={styles.ellipseRow} onPress = {pickImage}>
-        
+      <TouchableOpacity style={styles.ellipseRow} >
+      <TouchableOpacity onPress = {pickImage}>
       <Image
           source={{ uri: image || 'http://ssl.gstatic.com/accounts/ui/avatar_2x.png' }}
           style={{
@@ -69,11 +101,13 @@ const handleUpload = async () => {
           }}
           
       />
+      </TouchableOpacity>
        <View style={[styles.input1, props.style]}>
 
         <TextInput
           placeholder="Donnez un nom au groupe"
           style={styles.inputStyle}
+          onChange = {handleGroup}
         />
       </View>
       </TouchableOpacity>
@@ -86,7 +120,7 @@ const handleUpload = async () => {
       <TouchableOpacity style={[styles.violet1, styles.materialButtonViolet12]}>
       <Text style={styles.caption}>{props.caption || 'Annuler'}</Text>
     </TouchableOpacity>
-    <TouchableOpacity style={[styles.violet1, styles.materialButtonViolet1]}>
+    <TouchableOpacity style={[styles.violet1, styles.materialButtonViolet1]} onPress = {handleSent}>
       <Text style={styles.caption}>{props.caption || 'Creer'}</Text>
     </TouchableOpacity>
       </View>
@@ -215,4 +249,4 @@ const styles = StyleSheet.create({
   }
 });
 
-export default Untitled;
+export default ConfGroup;

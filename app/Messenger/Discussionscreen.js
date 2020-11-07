@@ -17,6 +17,7 @@ import Constants from "expo-constants";
 import AsyncStorage from "@react-native-community/async-storage";
 import { useIsFocused } from "@react-navigation/native";
 import RecentChat from './recentChats'
+import GroupChat from './groupChat'
 
 
 let userId = " "
@@ -82,11 +83,7 @@ function Discussion_Repo( props) {
       );
     } else if (disp === "groups") {
       return (
-        <Text
-          style={{ fontStyle: "bolder", fontSize: "1.2em", marginLeft: "10%" }}
-        >
-          Not yet Available
-        </Text>
+       <GroupChat />
       );
     } else if (disp === "contacts") {
       return <View>{arr}</View>;
@@ -105,6 +102,7 @@ function Discussion_Repo( props) {
               iconName="share-variant"
               icon="account-multiple-plus"
               style={styles.materialButtonShare}
+              nav = 'addContact'
             ></MaterialButtonShare>
           ) : (
             <View></View>
