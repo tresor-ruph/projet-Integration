@@ -1,6 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text,TextInput, Button, ScrollView} from "react-native";
-import Svg, { Ellipse } from "react-native-svg";
+import {View, Text,TextInput, Button, ScrollView} from "react-native";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 /*import MaterialFixedLabelTextbox from "../components/MaterialFixedLabelTextbox";
 import MaterialRightIconTextbox from "../components/MaterialRightIconTextbox";*/

@@ -10,7 +10,7 @@ import Form from './SignIn/Form'
 import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from './Homescreen/Home'
-import Login from './Login/login'
+//import Login from './Login/login'
 import Notification from './Notification/Notification'
 
 
@@ -31,7 +31,7 @@ render() {
                 <Stack.Screen name = "Chat" component = {Chat} />
                 <Stack.Screen name = "ListeDem" component = {ListeDem} />
                 <Stack.Screen name = "Form" component = {Form} />
-                <Stack.Screen name = "Login" component = {Login} />
+                {/*<Stack.Screen name = "Login" component = {Login} />*/}
                 <Stack.Screen name = "Notification" component = {Notification} />
 
 

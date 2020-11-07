@@ -1,11 +1,13 @@
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
-import Nav from './File_link'
+//import Nav from './File_link'
+import Notification from './Notification/Notification'
 
 
 
 const App = () => (
-   <Nav />
+   //<Nav />
+   <Notification />
 );
 
 const styles = StyleSheet.create({

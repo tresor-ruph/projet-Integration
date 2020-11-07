@@ -1,44 +1,42 @@
-import React from "react";
-import {View,Button} from 'react-native';
+import * as Notifications from 'expo-notifications';
+import * as Permissions from 'expo-permissions';
+import React, {useEffect} from 'react';
+import { Text, View} from 'react-native';
 
-class Notif extends React.Component {
-  submitNotif(){
-    console.log('Test Notif')
-  }
-  render() {
-    return (
-      <View style={{flex: 1}}>
-        <Button
-        style={{height: 43,width: 50,borderRadius: 18,marginTop: 56,marginLeft: 130,
-          color: "#fff",fontSize: 14,backgroundColor: "#009688",justifyContent: "center",alignItems: "center",
-          flexDirection: "row",borderRadius: 2,shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 1
-          },
-          shadowOpacity: 0.35,shadowRadius: 5,elevation: 2,minWidth: 88,paddingLeft: 16,paddingRight: 16}}
-        onPress={() => this.submitNotif()}
-        title="Notif1"
-        color="#841584"
-        accessibilityLabel="Connexion"
-      />
-              <Button
-        style={{height: 43,width: 50,borderRadius: 18,marginTop: 56,marginLeft: 130,
-          color: "#fff",fontSize: 14,backgroundColor: "#009688",justifyContent: "center",alignItems: "center",
-          flexDirection: "row",borderRadius: 2,shadowColor: "#000",
-          shadowOffset: {
-            width: 0,
-            height: 1
-          },
-          shadowOpacity: 0.35,shadowRadius: 5,elevation: 2,minWidth: 88,paddingLeft: 16,paddingRight: 16}}
-        onPress={() => console.log("test")}
-        title="Notif2"
-        color="#841749"
-        accessibilityLabel="Connexion"
-      />
-      </View>
-    )}
-  }
+export default function App() {
+  
+  Notifications.setNotificationHandler({
+    handleNotification: async () => ({
+      shouldShowAlert: true,
+      shouldPlaySound: false,
+      shouldSetBadge: false,
+    }),
+  });
+  /*useEffect(() =>{
+    const getPushToken = async() => {
+      const {status: existingStatus} = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+      let finalStatus = existingStatus;
+      if(existingStatus !== 'granted'){
+        const {status} = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+        finalStatus = status;
+      }
+      if(finalStatus !== 'granted'){
+        alert('Failed to get push token for push notification');
+        return;
+      }
+      const {data: token} = await Notifications.getExpoPushTokenAsync();
+      console.log(token) 
+    }
 
+    getPushToken()
+  }, [])*/
 
-export default Notif;
+  //ExponentPushToken[0vi9EnDE0XgD2W94b_xcld]
+
+  return (
+    <View
+      style={{flex: 1, alignItems: 'center', justifyContent: 'space-around'}}>
+      <Text>Notifications </Text>
+    </View>
+  );
+}
