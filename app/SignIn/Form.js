@@ -28,7 +28,22 @@ class Form extends React.Component {
     toggleSwitch() {
       this.setState({ showPassword: !this.state.showPassword });
     }
-
+    async storeToken(m) {
+      try {
+         await AsyncStorage.setItem("id", JSON.stringify(m));
+      } catch (error) {
+        console.log("Something went wrong", error);
+      }
+    }
+    async getToken() {
+      try {
+        let userData = await AsyncStorage.getItem("id");
+        let data = JSON.parse(userData);
+        console.log(data);
+      } catch (error) {
+        console.log("Something went wrong", error);
+      }
+    }
 
     submit() {
       //envoie msg d'erreur si un champ est encore vide
@@ -82,16 +97,21 @@ class Form extends React.Component {
         simpleAlertHandler();
         return;
       }
-
-      fetch('http://localhost:8080/auth/', {
+      let bcrypt = require('bcryptjs');
+      let t = this;
+      
+      bcrypt.genSalt(10, function(err, salt) {
+        bcrypt.hash(t.state.motdepasse, salt, function(err, hash) {
+          console.log('ufgrihzjoepdozub');
+      fetch('http://localhost:3000/auth/', {
         method: 'POST',
         body: JSON.stringify({
-          nom: this.state.nom,
-          prenom: this.state.prenom,
-          adresse: this.state.adresse,
-          dateNaissance: this.state.dateNaissance,
-          mail: this.state.mail,
-          password: this.state.motdepasse
+          nom: t.state.nom,
+          prenom: t.state.prenom,
+          adresse: t.state.adresse,
+          dateNaissance: t.state.dateNaissance,
+          Mail: t.state.mail,
+          password: hash
         }),
         headers: {
           Accept: 'application/json',
@@ -100,13 +120,21 @@ class Form extends React.Component {
         }
       }).then(response => response.json())
       .then(json => {
-      console.log(json);
-      }).catch((error) => {
-        console.error(error);
-      });
+        if(json.message == 'inscription finie'){
+            t.storeToken(json.id);
+            t.props.navigation.navigate('Succes');
+          
+          }
+  
+          
+        }).catch((error) => {
+          console.error(error);
+        });
       
-      this.props.navigation.navigate("Succes");
-    }
+    
+  
+  });
+});}
 
     render() {
       return ( 

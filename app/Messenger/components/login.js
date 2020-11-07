@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component, useEffect, useState } from 'react';
-import { Button, TextInput, View, StyleSheet } from 'react-native';
+import { Button, TextInput, View, StyleSheet,Text } from 'react-native';
 
 
 
@@ -9,12 +9,12 @@ export default function Login(props)  {
     const [username, setusername] = useState(" ");
     const [password, setPassword] = useState(" ");
     const [userId , setUserId] = useState("")
-   
+    const [textValue , setTextValue] = useState("")
   
  
    const onLogin = async ()=> {
    
-
+    
     // eslint-disable-next-line no-undef
     fetch(`http://localhost:3000/contacts/${username}`)
     .then(reponse => reponse.json())
@@ -27,10 +27,49 @@ export default function Login(props)  {
     
       const user = { Id, name, avatar };
        AsyncStorage.setItem('user', JSON.stringify(user));
-       props.navigation.navigate('HomeScreen', { userid: json[0].Id });
+       //props.navigation.navigate('HomeScreen', { userid: json[0].Id });
 
       
     });
+
+    //var t = this;
+fetch('http://localhost:3000/login/', {
+        method: 'POST',
+        body: JSON.stringify({
+          Mail : username
+        }),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          "Access-Control-Allow-Origin":"true"
+        }
+      }) .then(response => response.json())
+      .then(json => {
+
+
+        if(json.message == "entrée dans l'appli" ){
+          var bcrypt = require('bcryptjs');
+          console.log(json.hash)
+          bcrypt.compare(password, json.hash, function(err, re) {
+            console.log(re);
+          if(re){
+            AsyncStorage.setItem('id', JSON.stringify(json.id));
+            props.navigation.navigate('HomeScreen', { userid: json.Id });
+          }else{
+            console.log('err');
+            
+            
+            handleTextValue('mot de passe non valide');
+          
+          }
+        });
+        }else{
+          
+          handleTextValue('email non valide');
+        
+        }
+       
+    })
   
    /* const { username, password } = this.state;
     const requestOptions = {
@@ -54,23 +93,35 @@ export default function Login(props)  {
   }  */
 
   }
+  const handleTextValue = (m) => {
+    setTextValue(m);
+  }
 const handlePassword = (event) => {
   setPassword(event.target.value);
 }
 const handleUsername = (event) => {
   setusername(event.target.value);
 }
+const test = (txt) =>{
+if(txt == ""){
+  return <View></View>
+}else{
+  return <View style={styles.containerr}><View style={styles.rect}><Text style={styles.erreur}>{textValue}</Text></View></View>
+
+}
+}
   
     return (
       <View style={styles.container}>
         <TextInput
                   placeholder={'Username'}
-
+                  
           onChange={handleUsername}
           style={styles.input}
         />
         <TextInput
            placeholder={'Password'}
+         secureTextEntry={true}
           onChange={ handlePassword }
           style={styles.input}
         />
@@ -80,7 +131,11 @@ const handleUsername = (event) => {
           style={styles.input}
           onPress={onLogin}
         />
+        
+        {test(textValue)}
+    
       </View>
+      
     );
   
 }
@@ -100,4 +155,24 @@ const styles = StyleSheet.create({
     borderColor: 'black',
     marginBottom: 10,
   },
+  containerr: {
+    alignItems: 'center',
+    marginBottom: 10,
+    padding: 10,
+    width: 161,
+    height: 31
+  },
+  rect: {
+    width: 161,
+    height: 31,
+    backgroundColor: "rgba(255,0,0,1)"
+  },
+  erreur: {
+    fontFamily: "roboto-700",
+    color: "#121212",
+    textAlign: "center",
+    alignItems: 'center',
+    marginTop: 7,
+    marginLeft: 5
+  }
 });
