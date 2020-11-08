@@ -17,7 +17,7 @@ import mesDemandes from './Catalogue/mesDemandes'
 import descriptifDemande from './Catalogue/descriptifDemande'
 import Demande from './demandeFormulaire/Demande'
 //import Login from './Login/login'
-
+import Notation from './Homescreen/Notation'
 // Create the navigator
 const Stack = createStackNavigator();
 class Nav extends React.Component {
@@ -35,7 +35,7 @@ render() {
             
             <Stack.Screen name = "ListeDem" component = {ListeDem} />
             <Stack.Screen name = "Demande" component = {Demande} />
-
+            <Stack.Screen name = "Notation" component = {Notation} />
 
             {/*<Stack.Screen name = "login" component = {Login} />*/}
 

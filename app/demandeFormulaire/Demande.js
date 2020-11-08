@@ -1,7 +1,7 @@
 import React from 'react'
 import {StyleSheet, View, TextInput,TouchableOpacity, Text, Alert, Picker } from 'react-native'
 import { Title, Paragraph } from 'react-native-paper';
-
+import AsyncStorage from '@react-native-community/async-storage';
 
 
 
@@ -19,14 +19,29 @@ class Demande extends React.Component{
      this.state={
        categorie:'Courses',
        descriptif:'',
-       userId: 2
+       userId: 0
      }
    }
+   componentDidMount(){
+     let t = this;
+    this.getToken().then(function(result) {
+      t.setState({userId : result});
+   });
+   
+   }
 
-
+   async getToken() {
+    try {
+      let userData = await AsyncStorage.getItem("id");
+      let data = JSON.parse(userData);
+      console.log(data);
+      return data;
+    } catch (error) {
+      console.log("Something went wrong", error);
+    }
+  }
   
    submit(){
-  
      //console.log(this.state) 
      const newDemande = {categorie: this.state.categorie, descriptif: this.state.descriptif, userId: this.state.userId}
      console.log(newDemande);

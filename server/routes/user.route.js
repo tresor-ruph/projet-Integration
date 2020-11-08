@@ -3,6 +3,7 @@ module.exports = (app) => {
   const userController = require("../controller/user.controller");
   const demande = require('./../controller/ajoutDem');
   const connexion = require('./../controller/connexion');
+  const notation = require('./../controller/notation');
   //get all contacts
   app.get("/contacts/", contacts.findAll);
   //get the contacts with userIds
@@ -19,6 +20,7 @@ module.exports = (app) => {
   app.post("/chat/addroom", contacts.createChat )
   app.post("/auth", connexion.create)
   app.post("/login", connexion.access)
+  app.post("/notation", notation.access)
   
     //get user with id = id
   app.get("/demande/all", demande.findAll);

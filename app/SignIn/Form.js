@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, Dimensions   } from "react-native";
 import PassMeter from "react-native-passmeter";
+import AsyncStorage from '@react-native-community/async-storage';
 //import DateTimePicker from '@react-native-community/datetimepicker';
 
 
