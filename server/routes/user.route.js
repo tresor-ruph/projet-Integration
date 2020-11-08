@@ -16,5 +16,6 @@ module.exports = (app) => {
   app.get("/contacts/:email", contacts.findOne);
   app.get("/chat/:senderId/:recieverId", contacts.findRoom)
   app.post("/chat/addroom", contacts.createChat )
+  app.post("/group/addGroup", contacts.creategroup )
 
 };

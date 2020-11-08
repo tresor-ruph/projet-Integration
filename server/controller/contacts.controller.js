@@ -78,3 +78,31 @@ exports.createChat = (req, res) =>{
   })
 
 }
+
+exports.creategroup = (req, res) =>{
+  
+  if(!req.body){
+  res.status(400).send({
+    message : "body cannot be empty",
+  });
+  }
+  const group = {
+    grpId : req.body.groupId,
+    ownerId : req.body.ownerId,
+    Name : req.body.Name,
+    groupImage : req.body.groupImage,
+    members : req.body.members,
+
+  }
+
+  contacts.createGroup(group,(err, data) => {
+    console.log('xxxxxxxxxxxxxsdqsdqxxxxxxxx')
+
+    if(err)
+    res.status(500).send({
+      message : err.message || "some error occured while creating chatId"
+    })
+    else res.send(data)
+  })
+
+}

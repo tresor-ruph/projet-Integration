@@ -13,13 +13,11 @@ function ConfGroup(route, props) {
 
  
  let imageName = 'group'
-console.log(route);
 const grpMem = route.route.params.grp;
 
 Array.from(grpMem).forEach(elt => {
   imageName += elt;
 })
-console.log(imageName);
 
 
  const pickImage = async () => {
@@ -37,7 +35,6 @@ console.log(imageName);
     quality: 1,
   });
 
-  console.log(result);
   if (!result.cancelled) {
     setImage(result.uri);
     setIsPicked(true);
@@ -52,17 +49,45 @@ const handleGroup = event => {
 const handleSent = async () => {
  
   const chatGroup =  {
+    groupId: Math.round(Math.random() * 10000000000000),
     ownerId: route.route.params.grpowner,
     Name: groupName,
     groupImage: url,
     members: route.route.params.grp,
   };
 
-  let asyncGroup =  await AsyncStorage.getItem('group');
+  /*let asyncGroup =  await AsyncStorage.getItem('group');
   asyncGroup = JSON.parse(asyncGroup);
   asyncGroup.push(chatGroup);
   await AsyncStorage.setItem('group', JSON.stringify(asyncGroup));
-  console.log(chatGroup);
+  console.log(chatGroup);*/
+
+  const requestOptions = {
+    method: "POST",
+    headers: new Headers({
+      Accept: "application/json",
+      "content-Type": "application/json",
+      "Access-Control-Allow-Origin": "*",
+    }),
+    body: JSON.stringify({
+     
+
+      groupId: Math.round(Math.random() * 10000000000000),
+    ownerId: route.route.params.grpowner,
+    Name: groupName,
+    groupImage: url,
+    members: route.route.params.grp,
+    }),
+  };
+  try {
+    fetch("http://localhost:3000/group/addGroup", requestOptions)
+      .then((response) => response.json())
+      .then((data) => {
+        console.log(data);
+      });
+  } catch (error) {
+    console.log(error)
+  }
 }
 
 const uploadImage = async (uri, imgName) => {
@@ -82,7 +107,6 @@ const uploadImage = async (uri, imgName) => {
 
 const handleUpload = async () => {
 
-console.log(imageName)
   const test1 = isPicked ? await uploadImage(image, imageName) : image;
   console.log(test1);
   setIsPicked(false);

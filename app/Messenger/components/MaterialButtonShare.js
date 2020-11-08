@@ -7,15 +7,12 @@ import { useNavigation } from '@react-navigation/native';
 
 function MaterialButtonShare(props) {
   const [navTo, setNavTo] = useState(props.nav);
-  const [navOpt, setNavOpt] = useState(props.opt)
   const navigation = useNavigation();
-  {console.log("test")}
-  {console.log(navOpt)}
+
   return (
     <TouchableOpacity
-   
       style={[styles.container, props.style]}
-      onPress={() => navigation.navigate(`${navTo}`, navOpt)}
+      onPress={() => navigation.navigate(`${navTo}`)}
     >
     <Icon name={props.icon || 'share-variant'} style={styles.icon} />
     </TouchableOpacity>

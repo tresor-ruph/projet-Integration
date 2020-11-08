@@ -31,6 +31,7 @@ const db = firebase.firestore();
 let chatRoom = "";
 let lastMessage= " ";
 
+
 //let setErrorMess = true
 
 export default function Chat(route, navigation) {

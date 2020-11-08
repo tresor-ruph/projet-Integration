@@ -34,7 +34,6 @@ function GroupChat() {
       const res2 = await AsyncStorage.getItem('user');
       setOwner(JSON.parse(res2).Id);
       const AsyncGrp = await AsyncStorage.getItem('group');
-      console.log(AsyncGrp)
       if(AsyncGrp === null){
       await AsyncStorage.setItem('group', JSON.stringify([]));
       }

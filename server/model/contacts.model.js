@@ -30,31 +30,63 @@ user.findById = (email, result) => {
   });
 };
 
-
 user.createChat = (Chat, result) => {
-  const req ="insert into Chat(senderId,recieverId,roomId) values ?";
-  const values = [[Chat.senderId, Chat.recieverId, Chat.chatId]]
-  sql.query(req , [values])
-  result(null , 'Values inserted')
-}
+  const req = "insert into ChatGroup(ownerId,GroupName,GroupImage) values ?";
+  const values = [[Chat.senderId, Chat.recieverId, Chat.chatId]];
+  sql.query(req, [values]);
+  result(null, "Values inserted");
+};
+
+user.createGroup = (group, result) => {
+  console.log('test key')
+  console.log(group.grpId)
+  const req = "insert into ChatGroup(Id,ownerId,GroupName,GroupImage) values ?";
+  
+  const values = [[group.grpId, group.ownerId, group.Name, group.groupImage]];
+  sql.query(req, [values], (err, res) => {
+    if (err) {
+      console.log("error :", err);
+      result(null, err);
+      return;
+    } else {
+      group.members.forEach((element) => {
+        sql.query(
+          `insert into ChatGroupUsers(userId,groupId) values
+      (${element},${group.grpId})`,
+          (err, res) => {
+            if (err) {
+              console.log("error :", err);
+              result(null, err);
+              return;
+            }
+          }
+        );
+      });
+    }
+  });
+};
 
 user.findRoom = (senderId, recieverId, result) => {
   senderId = "'" + senderId + "'";
   recieverId = "'" + recieverId + "'";
-  console.log(senderId)
-  console.log(recieverId)
-
-
-  sql.query(`select roomId from Chat where (senderId = ${senderId} and recieverId = ${recieverId}) or (senderId =${recieverId} and recieverId = ${senderId}) `, (err, res) => {
-    if (err) {
-      console.log("error : ", err);
-      result(null, err);
-      return;
+  console.log(senderId);
+  console.log(recieverId);
+  sql.query(
+    `select roomId from Chat where (senderId = ${senderId} and recieverId = ${recieverId}) or (senderId =${recieverId} and recieverId = ${senderId}) `,
+    (err, res) => {
+      if (err) {
+        console.log("error : ", err);
+        result(null, err);
+        return;
+      }
+      console.log("contacts :", res);
+      result(null, res);
     }
-    console.log("contacts :", res);
-    result(null, res);
-  });
-
-}
+  );
+};
 
 module.exports = user;
+
+
+
+
