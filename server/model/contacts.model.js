@@ -30,6 +30,20 @@ user.findById = (email, result) => {
   });
 };
 
+user.findGroupById = (Id, result) => {
+console.log(Id);
+
+  sql.query(`select * from ChatGroupUsers inner join ChatGroup on ChatGroup.Id = ChatGroupUsers.groupId where userId = ${Id}`, (err, res) => {
+    if (err) {
+      console.log("error : ", err);
+      result(null, err);
+      return;
+    }
+    console.log("group :", res);
+    result(null, res);
+  });
+};
+
 user.createChat = (Chat, result) => {
   const req = "insert into ChatGroup(ownerId,GroupName,GroupImage) values ?";
   const values = [[Chat.senderId, Chat.recieverId, Chat.chatId]];
@@ -62,6 +76,7 @@ user.createGroup = (group, result) => {
           }
         );
       });
+      sql.query(`insert into ChatGroupUsers(userId,groupId) values (${group.ownerId},${group.grpId})`)
     }
   });
 };

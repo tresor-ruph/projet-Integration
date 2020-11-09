@@ -3,6 +3,7 @@ import { StyleSheet, View, Text, TextInput, TouchableOpacity, Image,Platform,  B
 import * as ImagePicker from 'expo-image-picker';
 import * as firebase from 'firebase';
 import AsyncStorage from '@react-native-community/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
 
 function ConfGroup(route, props) {
@@ -10,6 +11,7 @@ function ConfGroup(route, props) {
  const [isPicked, setIsPicked] = useState(false);
  const [groupName, setGroupName] = useState(null);
  const [url, setUrl] = useState(null)
+ const navigation = useNavigation();
 
  
  let imageName = 'group'
@@ -56,11 +58,11 @@ const handleSent = async () => {
     members: route.route.params.grp,
   };
 
-  /*let asyncGroup =  await AsyncStorage.getItem('group');
+  let asyncGroup =  await AsyncStorage.getItem('group');
   asyncGroup = JSON.parse(asyncGroup);
   asyncGroup.push(chatGroup);
   await AsyncStorage.setItem('group', JSON.stringify(asyncGroup));
-  console.log(chatGroup);*/
+  console.log(chatGroup);
 
   const requestOptions = {
     method: "POST",
@@ -88,6 +90,8 @@ const handleSent = async () => {
   } catch (error) {
     console.log(error)
   }
+
+  navigation.navigate('Discussion_Repo', {screen: 'groups'})
 }
 
 const uploadImage = async (uri, imgName) => {
@@ -141,7 +145,8 @@ const handleUpload = async () => {
     </TouchableOpacity> ) : <Text style ={styles.imageText}>Appuyez sur le cercle pour changer l'image de profil</Text>
 }
       <View style={styles.materialButtonViolet12Row}>
-      <TouchableOpacity style={[styles.violet1, styles.materialButtonViolet12]}>
+      <TouchableOpacity style={[styles.violet1, styles.materialButtonViolet12]} onPress = {() => { navigation.navigate('Discussion_Repo', {screen: 'groups'})
+}}>
       <Text style={styles.caption}>{props.caption || 'Annuler'}</Text>
     </TouchableOpacity>
     <TouchableOpacity style={[styles.violet1, styles.materialButtonViolet1]} onPress = {handleSent}>

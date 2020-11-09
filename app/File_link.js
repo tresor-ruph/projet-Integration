@@ -14,6 +14,12 @@ import Form from './SignIn/Form'
 import Home from './Homescreen/Home'
 import ConfGroup from './Messenger/confGroup'
 import GroupChat from './Messenger/groupChat'
+import { Button,StyleSheet,TouchableOpacity } from 'react-native';
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import {  Menu, Divider, Provider } from 'react-native-paper';
+
+
+
 //import Login from './Login/login'
 
 // Create the navigator
@@ -25,8 +31,9 @@ render() {
         <NavigationContainer>
             <Stack.Navigator>
             <Stack.Screen name = "Home" component = {Home} />
+            <Stack.Screen name = "Login" component = {Login} />
+
             <Stack.Screen name = "GroupChat" component = {GroupChat} />
-           <Stack.Screen name = "Login" component = {Login} />
            <Stack.Screen name = "ConfGroup" component = {ConfGroup} />
 
 
@@ -42,9 +49,20 @@ render() {
             <Stack.Screen name = "Profil" component = {Profil} />
 
 
-            <Stack.Screen name = "Chat" component = {Chat} />
+            <Stack.Screen name = "Chat" component = {Chat} options={{
           
-            <Stack.Screen name = "Succes" component = {Succes} />
+          headerRight: () => (
+            <TouchableOpacity style={styles.container } onPress = {() => {
+              return(
+                
+              )
+            }}>
+        <Icon name="menu" style={styles.caption}></Icon>
+    </TouchableOpacity>
+          ),
+        }}/>
+          
+            <Stack.Screen name = "Succes" component = {Succes}  />
 
 
 
@@ -56,5 +74,26 @@ render() {
 }
 
 }
+const styles = StyleSheet.create({
+  container: {
+    backgroundColor: "#3F51B5",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    borderRadius: 2,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowOpacity: 0.35,
+    shadowRadius: 5,
+    elevation: 2
+  },
+  caption: {
+    color: "#fff",
+    fontSize: 24
+  }
+});
 
 export default Nav

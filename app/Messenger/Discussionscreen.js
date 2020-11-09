@@ -11,27 +11,34 @@ import {
 } from "react-native";
 import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialButtonShare from "./components/MaterialButtonShare";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 import Contact from "./contact";
 import Constants from "expo-constants";
 import AsyncStorage from "@react-native-community/async-storage";
 import { useIsFocused } from "@react-navigation/native";
 import RecentChat from './recentChats'
+import { useNavigation } from '@react-navigation/native';
+
 import GroupChat from './groupChat'
+import GroupScreen from './GroupScreen'
 
 
 let userId = " "
 
-function Discussion_Repo( props) {
-  const [disp, setDisp] = useState("disc");
+function Discussion_Repo(  route, props) {
+  const [disp, setDisp] = useState(route.route.params.screen);
   const [contacts, setContact] = useState(" ");
   const [loaded, setLoaded] = useState(false);
+  //const [groups, setGroups] = useState(null)
+  const navigation = useNavigation();
+
 
   const isFocused = useIsFocused();
 
 
   useEffect(() => {
-    
+   
     
     async function getContact() {
       let recentChats =await AsyncStorage.getItem('recentChats')
@@ -55,37 +62,42 @@ function Discussion_Repo( props) {
     }
     getContact();
 
+    
+
   
   }, [loaded, isFocused]);
 
   function renderScreen() {
     
    
-    let arr = [];
-    for (let i = 0; i < contacts.length; i++) {
-      arr.push(
-        <Contact
-        userId = {userId}
-          key={i}
-          id = {contacts[i].Id}
-          name={contacts[i].Nom}
-          imgUrl={contacts[i].PhotoProfil}
-          grp= {true}
-          onNav={() => props.navigation.navigate('Chat', { recieverId: contacts[i].Id, senderId: userId })}
-
-        />
-      );
-    }
+   
     if (disp === "disc") {
       return (
         
         <RecentChat />
       );
     } else if (disp === "groups") {
+     
       return (
-       <GroupChat />
+        <GroupScreen />
+        // <GroupChat />
       );
     } else if (disp === "contacts") {
+      let arr = [];
+      for (let i = 0; i < contacts.length; i++) {
+        arr.push(
+          <Contact
+          userId = {userId}
+            key={i}
+            id = {contacts[i].Id}
+            name={contacts[i].Nom}
+            imgUrl={contacts[i].PhotoProfil}
+            grp= {true}
+            onNav={() => navigation.navigate('Chat', { recieverId: contacts[i].Id, senderId: userId })}
+  
+          />
+        );
+      }
       return <View>{arr}</View>;
     }
   }
@@ -97,16 +109,21 @@ function Discussion_Repo( props) {
       </ScrollView>
       <View>
         <TouchableOpacity style={styles.buttonAdd}>
-          {disp == "contacts" ? (
+          {disp == "contacts" && (
             <MaterialButtonShare
               iconName="share-variant"
               icon="account-multiple-plus"
               style={styles.materialButtonShare}
               nav = 'addContact'
             ></MaterialButtonShare>
-          ) : (
-            <View></View>
-          )}
+          ) }
+          {
+            disp == "groups" &&(
+              <TouchableOpacity style={[styles.groupAdd, props.style]} onPress = {() => navigation.navigate('GroupChat')}>
+              <Icon name="account-multiple-plus" style={styles.icongroup}></Icon>
+            </TouchableOpacity>
+            )
+          }
         </TouchableOpacity>
       </View>
 
@@ -259,5 +276,28 @@ const styles = StyleSheet.create({
     height: 56,
     width: 56,
   },
+  groupAdd : {
+    width: 56,
+    height: 56,
+    backgroundColor: "rgba(65,117,5,1)",
+    alignItems: "center",
+    justifyContent: "center",
+    borderRadius: 100,
+    shadowColor: "#111",
+    shadowOffset: {
+      width: 0,
+      height: 2
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 1.2,
+    elevation: 2,
+    minWidth: 40,
+    minHeight: 40
+  },
+  icongroup : {
+    color: "#fff",
+    fontSize: 24,
+    alignSelf: "center"
+  }
 });
 export default Discussion_Repo;

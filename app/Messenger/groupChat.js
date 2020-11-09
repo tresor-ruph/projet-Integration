@@ -5,6 +5,9 @@ import {
   View,
   SafeAreaView,
   ScrollView,
+  Alert,
+  Platform,
+  Text
 } from "react-native";
 
 import { CheckBox } from "react-native-elements";
@@ -22,10 +25,36 @@ function GroupChat() {
   const [contact, setContact] = useState([]);
   const [owner, setOwner] = useState([]);
   const [chk, setchk] = useState(false);
+  const [err, setErr] = useState(false);
   const navigation = useNavigation();
 
   const handlePress = () => {
-    navigation.navigate('ConfGroup', {grp: group, grpowner: owner });
+
+    if (group.length === 0) {
+      setErr(true)
+    /*  if(Platform.OS === 'web'){
+        console.log('ok');
+      }
+      console.log('here');*/
+     /* Alert.alert(
+        'Alert Title',
+        'My Alert Msg',
+        [
+          {
+            text: 'Ask me later',
+            onPress: () => console.log('Ask me later pressed')
+          },
+          {
+            text: 'Cancel',
+            onPress: () => console.log('Cancel Pressed'),
+            style: 'cancel'
+          },
+          { text: 'OK', onPress: () => console.log('OK Pressed') }
+        ],
+        { cancelable: false }
+      );*/
+    } else navigation.navigate('ConfGroup', {grp: group, grpowner: owner });
+
   };
   useEffect(() => {
     const getContact = async () => {
@@ -67,6 +96,7 @@ function GroupChat() {
             if (chk === true) {
               //we add the contact into group
               setGroup((prevState) => [...prevState, contact[i].Id]);
+              setErr(false)
             } else {
               //we remove the contact from group if it exist
 
@@ -83,14 +113,15 @@ function GroupChat() {
       );
     }
 
-    return arr;
+  return (<View>
+     {arr}</View>);
   };
 
   return (
     <SafeAreaView style={styles.container}>
+      {err && <Text style={styles.mess1}>Veuillez choisir au moins un contact</Text> }
       <ScrollView style={styles.scrollView}>{renderContact()}</ScrollView>
      <View>
-          {console.log(group)}
           <TouchableOpacity
             style={styles.navTo}
             onPress={handlePress}
@@ -150,6 +181,15 @@ const styles = StyleSheet.create({
     color: "#fff",
     fontSize: 24,
     alignSelf: "center",
+  },
+  mess1: {
+    width: "100%",
+    backgroundColor: "rgba(255,62,62,1)",
+
+    textAlign: "center",
+    fontWeight: "bold",
+    fontSize: 18,
+    marginTop: 10,
   },
 });
 export default GroupChat;

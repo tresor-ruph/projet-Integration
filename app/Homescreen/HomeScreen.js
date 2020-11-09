@@ -7,7 +7,7 @@ import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommun
 
 function Mainscreen(props) {
   const handlePress = () => {
-    props.navigation.navigate('Discussion_Repo');
+    props.navigation.navigate('Discussion_Repo', { screen: 'disc' });
   };
   const handleProfil = () => {
     props.navigation.navigate('Profil');

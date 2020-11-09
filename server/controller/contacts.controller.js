@@ -34,6 +34,25 @@ exports.findOne = (req, res) => {
   });
 };
 
+exports.findGroups = (req, res) => {
+  contacts.findGroupById(req.params.Id, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found group with Id ${req.params.Id}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving group with Id " + req.params.Id,
+        });
+      }
+    } else {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.send(data);
+    }
+  });
+};
+
 exports.findRoom = (req, res) => {
   console.log(req.params)
   contacts.findRoom(req.params.senderId, req.params.recieverId, (err, data) => {
