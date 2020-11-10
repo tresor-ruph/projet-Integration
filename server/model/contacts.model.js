@@ -44,6 +44,24 @@ console.log(Id);
   });
 };
 
+user.findGroupUsersById = (Id, result) => {
+  console.log(Id);
+  
+    sql.query(`
+    select userId, groupId, Nom, Prenom, PhotoProfil,ownerId from 
+    ChatGroupUsers join Utilisateurs join ChatGroup where ChatGroupUsers.userId = Utilisateurs.Id 
+    and (ChatGroup.Id = ${Id} and ChatGroupUsers.groupId =${Id}) 
+    `, (err, res) => {
+      if (err) {
+        console.log("error : ", err);
+        result(null, err);
+        return;
+      }
+      console.log("group :", res);
+      result(null, res);
+    });
+  };
+
 user.createChat = (Chat, result) => {
   const req = "insert into ChatGroup(ownerId,GroupName,GroupImage) values ?";
   const values = [[Chat.senderId, Chat.recieverId, Chat.chatId]];
@@ -81,6 +99,23 @@ user.createGroup = (group, result) => {
   });
 };
 
+
+user.addGroup = (group, result) => {
+  console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx")
+  console.log(group.users)
+  group.users.forEach(elt => {
+    sql.query(`insert into ChatGroupUsers(userId, groupId) values 
+    (${elt},${group.grpId})`, (err, res) => {
+      if(err){
+        console.log("error :", err);
+        result(null, err);
+        return;
+      }
+      result(null, res);
+    })
+  })
+};
+
 user.findRoom = (senderId, recieverId, result) => {
   senderId = "'" + senderId + "'";
   recieverId = "'" + recieverId + "'";
@@ -99,6 +134,53 @@ user.findRoom = (senderId, recieverId, result) => {
     }
   );
 };
+
+user.leaveGroup = (id, result) => {
+  sql.query(`delete from ChatGroupUsers where userId = ${id}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    if (res.affectedRows == 0) {
+      // not found Customer with the id
+      result({ kind: "not_found" }, null);
+      return;
+    }
+
+    console.log("deleted user from group with id: ", id);
+    result(null, res);
+  });
+};
+
+user.removeGroup = (id, result) => {
+  sql.query(`delete from ChatGroupUsers where groupId = ${id}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    if (res.affectedRows == 0) {
+      // not found Customer with the id
+      result({ kind: "not_found" }, null);
+      return;
+    }
+    sql.query(`delete from ChatGroup where Id = ${id}`, (err, res) => {
+      if(err) {
+        console.log("error: ", err);
+      result(null, err);
+      return;
+      }
+    })
+    
+
+    console.log("deleted group with id: ", id);
+    result(null, res);
+  });
+};
+
 
 module.exports = user;
 

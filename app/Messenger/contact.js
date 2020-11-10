@@ -2,7 +2,7 @@
 /* eslint-disable import/no-unresolved */
 import React, { useState } from 'react';
 
-import { StyleSheet, View, Image, Text, TouchableOpacity } from 'react-native';
+import { StyleSheet, View, Image, Text, TouchableOpacity, Button} from 'react-native';
 import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import contactStorage from './contact_storage';
 
@@ -45,7 +45,10 @@ const grp = props.grp;
           <Text>{name}</Text>
           <Text>{lastMess}</Text>
 
-          
+          <View style = {styles.button1}>
+          {props.component}
+
+          </View>
         </TouchableOpacity>
         <View />
       </View>
@@ -96,6 +99,9 @@ const styles = StyleSheet.create({
     borderBottomWidth: StyleSheet.hairlineWidth,
     alignSelf: 'stretch',
     width: '100%',
+  },
+  button1 : {
+    width : 50,
   },
   del: {
     marginTop: 10,

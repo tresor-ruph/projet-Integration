@@ -34,6 +34,8 @@ export default function Chat(route, navigation) {
   const [errorMess, setErrorMess] = useState(false);
   const [groups, setGroups] = useState(route.route.params.group);
 
+  
+
   const chatId = () => {
     const chatterId = route.route.params.senderId;
     const chateeId = route.route.params.recieverId;

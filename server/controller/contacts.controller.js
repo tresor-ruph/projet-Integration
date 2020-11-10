@@ -53,6 +53,25 @@ exports.findGroups = (req, res) => {
   });
 };
 
+exports.findGroupUsers = (req, res) => {
+  contacts.findGroupUsersById(req.params.Id, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found groupUsers with groupId ${req.params.Id}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving group with Id " + req.params.Id,
+        });
+      }
+    } else {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.send(data);
+    }
+  });
+};
+
 exports.findRoom = (req, res) => {
   console.log(req.params)
   contacts.findRoom(req.params.senderId, req.params.recieverId, (err, data) => {
@@ -115,7 +134,6 @@ exports.creategroup = (req, res) =>{
   }
 
   contacts.createGroup(group,(err, data) => {
-    console.log('xxxxxxxxxxxxxsdqsdqxxxxxxxx')
 
     if(err)
     res.status(500).send({
@@ -125,3 +143,57 @@ exports.creategroup = (req, res) =>{
   })
 
 }
+
+exports.addGroup = (req, res) =>{
+  
+  if(!req.body){
+  res.status(400).send({
+    message : "body cannot be empty",
+  });
+  }
+  const group = {
+    grpId : req.body.groupId,
+    users : req.body.users
+
+  }
+
+  contacts.addGroup(group,(err, data) => {
+
+    if(err)
+    res.status(500).send({
+      message : err.message || "some error occured while creating chatId"
+    })
+    else res.send(data)
+  })
+
+}
+exports.leaveGroup = (req, res) => {
+  contacts.leaveGroup(req.params.userId, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Customer with id ${req.params.customerId}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Could not delete user  with id " + req.params.userId
+        });
+      }
+    } else res.send({ message: `Customer was deleted successfully!` });
+  });
+};
+exports.removeGroup = (req, res) => {
+  contacts.removeGroup(req.params.userId, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Customer with id ${req.params.customerId}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Could not delete user  with id " + req.params.userId
+        });
+      }
+    } else res.send({ message: `Customer was deleted successfully!` });
+  });
+};

@@ -162,7 +162,9 @@ const styles = StyleSheet.create({
   },
 
   cupertinoFooter1: {
-    position: "fixed",
+  //  position: "fixed",
+  position: "absolute",
+
     flex: 0.1,
     left: 0,
     right: 0,
@@ -200,7 +202,7 @@ const styles = StyleSheet.create({
   footer: {
     width: "100%",
     flexDirection: "row",
-    position: "fixed",
+    position: "absolute",
     flex: 0.1,
     left: 0,
     right: 0,

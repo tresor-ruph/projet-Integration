@@ -1,3 +1,4 @@
+
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { useEffect, useState } from 'react';
 import { View, TouchableOpacity, StyleSheet, Text } from 'react-native';
@@ -22,6 +23,7 @@ function GroupScreen(props) {
            fetch(`http://localhost:3000/group/${userId}`)
            .then(response => response.json())
            .then(json => {
+             console.log(json)
              setGroups(json);
            });
            } catch (error) {

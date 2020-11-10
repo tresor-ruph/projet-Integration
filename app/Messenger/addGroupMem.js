@@ -1,72 +1,86 @@
-/* eslint-disable import/no-named-as-default */
-/* eslint-disable import/no-named-as-default-member */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useEffect, useState } from 'react';
+
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
   View,
   SafeAreaView,
   ScrollView,
- // Alert,
-  //Platform,
   Text,
-} from 'react-native';
+} from "react-native";
 
-import { CheckBox } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Constants from 'expo-constants';
+import { CheckBox } from "react-native-elements";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Constants from "expo-constants";
 
-import AsyncStorage from '@react-native-community/async-storage';
-import { useNavigation } from '@react-navigation/native';
-import Contact from './contact';
+import AsyncStorage from "@react-native-community/async-storage";
+import Contact from "./contact";
+import { useNavigation } from "@react-navigation/native";
 
 //let contact = ' ';
-function GroupChat() {
+function AddGroupMem(route) {
   const [group, setGroup] = useState([]);
   const [contact, setContact] = useState([]);
-  const [owner, setOwner] = useState([]);
   const [chk, setchk] = useState(false);
   const [err, setErr] = useState(false);
   const navigation = useNavigation();
-
-  const handlePress = () => {
+  const existMem = route.route.params.mem;
+  //console.log(route.route.params.mem);
+  const handleAdd = () => {
     if (group.length === 0) {
       setErr(true);
-      /*  if(Platform.OS === 'web'){
-        console.log('ok');
+    } else {
+      console.log(group);
+      const requestOptions = {
+        method: "POST",
+        headers: new Headers({
+          Accept: "application/json",
+          "content-Type": "application/json",
+          "Access-Control-Allow-Origin": "*",
+        }),
+        body: JSON.stringify({
+          groupId: route.route.params.grpId,
+          users: group,
+        }),
+      };
+      try {
+        fetch("http://localhost:3000/group/addSingleGroup", requestOptions)
+          .then((response) => response.json())
+          .then((data) => {
+            navigation.navigate("Discussion_Repo", { screen: "groups" });
+          });
+      } catch (error) {
+        console.log(error);
       }
-      console.log('here');*/
-      /* Alert.alert(
-        'Alert Title',
-        'My Alert Msg',
-        [
-          {
-            text: 'Ask me later',
-            onPress: () => console.log('Ask me later pressed')
-          },
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel'
-          },
-          { text: 'OK', onPress: () => console.log('OK Pressed') }
-        ],
-        { cancelable: false }
-      );*/
-    } else navigation.navigate('ConfGroup', { grp: group, grpowner: owner });
+    }
   };
+
+ 
   useEffect(() => {
     const getContact = async () => {
-      const res = await AsyncStorage.getItem('contact');
-      setContact(JSON.parse(res));
-      const res2 = await AsyncStorage.getItem('user');
-      setOwner(JSON.parse(res2).Id);
-      const AsyncGrp = await AsyncStorage.getItem('group');
-      if (AsyncGrp === null) {
-        await AsyncStorage.setItem('group', JSON.stringify([]));
+      
+      let res = await AsyncStorage.getItem("contact");
+      res = JSON.parse(res);
+
+      let arr = [];
+      console.log(existMem);
+      console.log(res);
+
+      for (let i = 0; i < res.length; i++) {
+        let verif = false;
+        for (let j = 0; j < existMem.length; j++) {
+          if (existMem[j].userId == res[i].Id) {
+            verif = true;
+          }
+        }
+        if (verif == false) {
+          arr.push(res[i]);
+        }
       }
+      setContact(arr);
+      console.log(arr);
     };
 
     getContact();
@@ -122,8 +136,8 @@ function GroupChat() {
       )}
       <ScrollView style={styles.scrollView}>{renderContact()}</ScrollView>
       <View>
-        <TouchableOpacity style={styles.navTo} onPress={handlePress}>
-          <Icon name={'arrow-right-bold'} style={styles.icon} />
+        <TouchableOpacity style={styles.navTo} onPress={handleAdd}>
+          <Icon name={"arrow-right-bold"} style={styles.icon} />
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -143,18 +157,18 @@ const styles = StyleSheet.create({
     height: 70,
     // position: "fixed",
     flex: 0.1,
-    left: '80%',
+    left: "80%",
     right: 0,
     bottom: 80,
   },
   navTo: {
     height: 56,
     width: 56,
-    backgroundColor: '#3F51B5',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#3F51B5",
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 28,
-    shadowColor: '#111',
+    shadowColor: "#111",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -164,25 +178,25 @@ const styles = StyleSheet.create({
     elevation: 2,
     minWidth: 40,
     minHeight: 40,
-    left: '80%',
+    left: "80%",
 
     right: 0,
     bottom: 80,
     // position: 'fixed',
   },
   icon: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 24,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   mess1: {
-    width: '100%',
-    backgroundColor: 'rgba(255,62,62,1)',
+    width: "100%",
+    backgroundColor: "rgba(255,62,62,1)",
 
-    textAlign: 'center',
-    fontWeight: 'bold',
+    textAlign: "center",
+    fontWeight: "bold",
     fontSize: 18,
     marginTop: 10,
   },
 });
-export default GroupChat;
+export default AddGroupMem;

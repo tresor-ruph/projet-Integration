@@ -9,75 +9,9 @@ class Home extends React.Component {
     super();
    
   }
- componentDidMount(){
-   //this.getToken();
-   /*
-   if(this.getToken()){
-    this.props.navigation.navigate('HomeScreen');
-   }else{
-     this.props.navigation.navigate('Login');
-   }
-*/
- }
 
- /* async storeToken(m) {
-    try {
-       await AsyncStorage.setItem("session", JSON.stringify(m));
-    } catch (error) {
-      console.log("erreur stockage session", error);
-    }
-  }
-  async getToken() {
-    try {
-      let userData = await AsyncStorage.getItem("session");
-      let data = JSON.parse(userData);
-      console.log('-----------session------------');
-      console.log(data);
-      console.log('----------frontend-------------');
-      if(data != ""){
-      this.props.navigation.navigate('HomeScreen');
-      }else{
-      this.props.navigation.navigate('Home');
-      }
-/*
-      fetch('http://localhost:8080/appli/', {
-        method: 'POST',
-        body: JSON.stringify({
-          session : data
-        }),
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          "Access-Control-Allow-Origin":"true"
-        }
-      }) .then(response => response.json())
-      .then(json => {
-        if(json.message == "entrée dans l'appli"){
-          
-          this.props.navigation.navigate('HomeScreen');
-        }else{
-          this.props.navigation.navigate('Home');
-        }
-        
-      
-      
-      //console.log(json);
-
-        
-      }).catch((error) => {
-        console.error(error);
-      });
-
-
-      //this.props.navigation.navigate('HomeScreen');
-      //return true;
-    } catch (error) {
-      console.log("Something went wrong", error);
-      console.log("pas de asyncstorage");
-      this.props.navigation.navigate('Home');
-      //return false;
-    }
-  }*/
+   
+  
   render() {
     return (
         <View style={styles.container}>
