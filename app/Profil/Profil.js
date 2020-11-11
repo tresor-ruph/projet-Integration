@@ -33,7 +33,7 @@ export default function Profil() {
 
 
   useEffect(() => {
-    fetch('http://localhost:3000/users/2')
+    fetch('http://localhost:3000/users/4')
       .then((response) => response.json())
       .then((json) => {
         console.log(json[0]);

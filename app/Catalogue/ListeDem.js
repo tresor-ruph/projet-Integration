@@ -1,61 +1,60 @@
-import React, { Component } from 'react';
-import {Title} from 'react-native-paper';
+/* eslint-disable max-len */
+/* eslint-disable no-undef */
+import React from 'react';
 import { ListItem, Avatar } from 'react-native-elements';
-import { View, StyleSheet,TextInput,Text,TouchableOpacity, Picker} from 'react-native';
-
+import { View, StyleSheet, TextInput, Text, TouchableOpacity, Picker } from 'react-native';
 
 
 class ListeDem extends React.Component {
-  click_MesDem =() => {this.props.navigation.navigate('mesDemandes')}
-  constructor(props){
+  click_MesDem =() => { this.props.navigation.navigate('mesDemandes'); }
+  constructor(props) {
     super(props);
     this.state = { 
-      demande : [],
+      demande: [],
       filtre: 'all',
       codeP: 1410
     };
   }  
 
-  submit(){
+  submit() {
     this.componentDidMount();
   }
   
-  componentDidMount(){
-    console.log(this.state.filtre)
-    if(this.state.filtre == 'all'){
+  componentDidMount() {
+    console.log(this.state.filtre);
+    if (this.state.filtre === 'all') {
     fetch('http://localhost:3000/demande/all')
     .then(response => response.json())
     .then(json => {
-      this.setState({demande: json})
-    })
-    }
-    else{
+      this.setState({ demande: json });
+    });
+    } else {
       fetch(`http://localhost:3000/demande/'${this.state.filtre}'/'${this.state.codeP}'/`)
     .then(response => response.json())
     .then(json => {
-      this.setState({demande: json})
-      console.log(json)
-      console.log(this.state.demande)
-    })
+      this.setState({ demande: json });
+      console.log(json);
+      console.log(this.state.demande);
+    });
     }
   } 
   
   updateFiltre = (filtre) => {
-    this.setState({ filtre: filtre })
-    console.log(this.state.filtre)
+    this.setState({ filtre });
+    console.log(this.state.filtre);
  }
 
- modifietext(text){
-   var myCode = parseInt(text);
-   this.setState({codeP: myCode})
+ modifietext(text) {
+   const myCode = parseInt(text);
+   this.setState({ codeP: myCode });
  }
 
 
-  render(){
-    return(
+  render() {
+    return (
       <View>
         <Text style={styles.mesde} onPress={this.click_MesDem}>MES DEMANDES</Text>
-        <Picker style={styles.picks} selectedValue = {this.state.filtre}  onValueChange = {this.updateFiltre}>
+        <Picker style={styles.picks} selectedValue={this.state.filtre} onValueChange={this.updateFiltre}>
               <Picker.Item label="Aller faire des courses" value="Courses" />
               <Picker.Item label="Aller chercher un colis" value="Colis" />
               <Picker.Item label="Aller chercher les enfants" value="Récupérer une personne" />
@@ -64,9 +63,8 @@ class ListeDem extends React.Component {
               <Picker.Item label="Tout" value="all" />
         </Picker>
         <View>
-          <TextInput onChangeText={(text)=>{this.modifietext(text)}} style={styles.inputt}>
-          </TextInput>
-          <TouchableOpacity style={styles.bout} onPress={() => {this.submit()}}>
+          <TextInput onChangeText={(text) => { this.modifietext(text); }} style={styles.inputt} />
+          <TouchableOpacity style={styles.bout} onPress={() => { this.submit(); }}>
 
             <Text style={styles.textBout}> Envoyer votre demande </Text>
 
@@ -76,7 +74,7 @@ class ListeDem extends React.Component {
       {
         this.state.demande.map((l, i) => (
           <ListItem key={i} bottomDivider>
-            <Avatar source={{uri: l.avatar_url}} />
+            <Avatar source={{ uri: l.avatar_url }} />
             <ListItem.Content>
               <ListItem.Title>{l.Prenom} {l.Nom}</ListItem.Title>
               <ListItem.Subtitle style={styles.descri}>{l.categorie}</ListItem.Subtitle>
@@ -87,33 +85,33 @@ class ListeDem extends React.Component {
       }
     </View>
     );
-  };
-};
+  }
+}
 
 const styles = StyleSheet.create({
-  picks:{
+  picks: {
     width: '50%',
     marginTop: '3%',
     float: 'left'
   },
 
-  inputt:{
+  inputt: {
     width: '30%',
   },
 
-  descri:{
+  descri: {
     fontWeight: 'bold'
   },
 
-  mesde:{
+  mesde: {
     fontSize: 15,
     left: 25,
     width: 130,
     height: 20,
     backgroundColor: 'rgba(128,255,255,1)',
-    borderRadius : 20,
+    borderRadius: 20,
   }
 
-})
+});
 
 export default ListeDem;

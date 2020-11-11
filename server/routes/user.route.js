@@ -24,5 +24,6 @@ module.exports = (app) => {
   app.get("/demande/:categorie/:codeP", demande.findOne);
   app.get("/demandeU/:userId", demande.findOneUI);
   app.get("/demandeD/:userId", demande.findDescri);
+  app.delete("/demandeS/:idDemande", demande.delete);
 
 };

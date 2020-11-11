@@ -1,6 +1,6 @@
 import React from 'react';
 import { ListItem, Avatar } from 'react-native-elements';
-import { View, StyleSheet,TextInput,Text,TouchableOpacity} from 'react-native';
+import { View, StyleSheet,TextInput,Text,TouchableOpacity, Button} from 'react-native';
 
 
 
@@ -10,7 +10,7 @@ class ListeDem extends React.Component {
     super(props);
     this.state = { 
       demande : [],
-      userId: '4'
+      userId: '2'
     };
   }  
   
@@ -21,6 +21,14 @@ class ListeDem extends React.Component {
       this.setState({demande: json})
     })
   } 
+
+  submit(idDem){
+    fetch(`http://localhost:3000/demandeS/${idDem}`, {  
+      method: 'delete',
+    })
+    .then(response => response.json())
+    .catch(err => console.log(err))
+  }
   
 
   render(){
@@ -34,6 +42,7 @@ class ListeDem extends React.Component {
             <ListItem.Content>
               <ListItem.Title>{l.userName}</ListItem.Title>
               <ListItem.Subtitle>{l.categorie}</ListItem.Subtitle>
+              <Button title='Supprimer' onPress={() => {this.submit(l.idDemande)}}></Button>
             </ListItem.Content>
           </ListItem>
         ))
