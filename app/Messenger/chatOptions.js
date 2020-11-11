@@ -2,7 +2,7 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigation, useIsFocused } from '@react-navigation/native';
 import AsyncStorage from '@react-native-community/async-storage';
-import { View, Button, TouchableOpacity, Text } from 'react-native';
+import { View,StyleSheet, Button, TouchableOpacity, Text } from 'react-native';
 
 import Contact from './contact';
 
@@ -72,10 +72,15 @@ function ChatOption(route) {
   // onNav={() => navigation.navigate('Chat', { recieverId: contacts[i].Id, senderId: userId })}
           component={
             ownerId === userId && (
-              <Button
-                title="test"
+              <View style ={{borderRadius: 10}}>
+              <TouchableOpacity
                 onPress={() => leaveGroup(elt.userId, true)}
-              />
+                
+                
+              >
+                <Text style={{color:"red"}}>retirer</Text>
+              </TouchableOpacity>
+              </View>
             )
           }
         />
@@ -89,32 +94,64 @@ function ChatOption(route) {
   return (
     <View>
       {ownerId === userId && (
-        <TouchableOpacity
+        <View style= {styles.addMemb}>
+        <Button
+        title = "Ajouter Membre"
           onPress={() =>
             navigation.navigate('AddGroupMem', {
               mem: members,
               grpId: route.route.params.id,
             })
           }
+          color= "green"
         >
-          <Text>Add Members</Text>
-        </TouchableOpacity>
+        </Button>
+        </View>
+      )}
+
+      
+{ownerId === userId && (
+        <View style = {styles.suprimerGrp}>
+        <Button 
+        title = "suprimer le group"
+        onPress={deleteGroup}
+        color = "red"
+        
+        >
+          
+        </Button>
+        </View>
       )}
       {ownerId !== userId && (
-        <TouchableOpacity onPress={() => leaveGroup(userId, false)}>
-          <Text>Quitter le group</Text>
-        </TouchableOpacity>
+        <Button onPress={() => leaveGroup(userId, false)}
+        title= "QUITTER LE GROUPE"
+        color= "red"
+        >
+        </Button>
       )}
-
+      <View style ={{backgroundColor:"white",marginTop:10}}><Text style ={styles.participant}>Participants</Text></View>
       {renderMemebers()}
 
-      {ownerId === userId && (
-        <TouchableOpacity onPress={deleteGroup}>
-          <Text>Suprimer le groupe</Text>
-        </TouchableOpacity>
-      )}
     </View>
   );
 }
+
+const styles = StyleSheet.create({
+
+  addMemb : {
+    marginTop : 10,
+
+  },
+  suprimerGrp : {
+    marginTop:10,
+    backgroundColor:'red'
+  },
+
+participant : {
+  color: "green",
+  fontSize: 16
+}
+  
+})
 
 export default ChatOption;

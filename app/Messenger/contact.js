@@ -24,15 +24,15 @@ const grp = props.grp;
 
 
   return (
-    <View style={{ flex: 1 }}>
+    <View style={{ flex: 1, backgroundColor: "white"}}>
       <View style={styles.container}>
         <Image
           source={{
             uri: `${imgUrl}`,
           }}
           style={{
-            width: 75,
-            height: 75,
+            width: 60,
+            height: 60,
             borderRadius: 200 / 2,
           }}
         />
@@ -42,8 +42,8 @@ const grp = props.grp;
           delayLongPress={1000}
           onLongPress={handlerLongClick}
         >
-          <Text>{name}</Text>
-          <Text>{lastMess}</Text>
+          <Text style ={styles.textName}>{name}</Text>
+          <Text style ={styles.Lastmessage}>{lastMess}</Text>
 
           <View style = {styles.button1}>
           {props.component}
@@ -74,10 +74,9 @@ const grp = props.grp;
       ) : (
         <View />
       )}
-      {grp ?
-      <View /> :
       <View style={styles.viewStyleForLine} />
-}
+
+
     </View>
   );
 }
@@ -87,6 +86,18 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     marginTop: 20,
+    
+  },
+  textName :{
+    marginTop: -30,
+marginBottom : 10,
+marginLeft: -20,
+fontSize: 16,
+  },
+  Lastmessage :{
+color: 'gray',
+marginLeft: -20,
+
   },
   mess: {
     width: '100%',
@@ -102,6 +113,8 @@ const styles = StyleSheet.create({
   },
   button1 : {
     width : 50,
+    left: "58%",
+    top: -22
   },
   del: {
     marginTop: 10,

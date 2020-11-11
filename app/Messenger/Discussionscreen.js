@@ -19,28 +19,28 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { useIsFocused } from "@react-navigation/native";
 import RecentChat from './recentChats'
 import { useNavigation } from '@react-navigation/native';
+import { ListItem, Avatar } from 'react-native-elements'
+
 
 import GroupChat from './groupChat'
 import GroupScreen from './GroupScreen'
 
 
 let userId = " "
-
+let disp = " "
 function Discussion_Repo(  route, props) {
-  const [disp, setDisp] = useState(route.route.params.screen);
   const [contacts, setContact] = useState(" ");
   const [loaded, setLoaded] = useState(false);
-  //const [groups, setGroups] = useState(null)
   const navigation = useNavigation();
 
 
   const isFocused = useIsFocused();
-
+  disp = route.route.params.screen;
 
   useEffect(() => {
-   
     
     async function getContact() {
+      console.log("verif effect")
       let recentChats =await AsyncStorage.getItem('recentChats')
       if(recentChats == null){
 
@@ -61,6 +61,8 @@ function Discussion_Repo(  route, props) {
      userId = id
     }
     getContact();
+    console.log("hehehe")
+    console.log(contacts)
 
     
 
@@ -86,6 +88,7 @@ function Discussion_Repo(  route, props) {
       let arr = [];
       for (let i = 0; i < contacts.length; i++) {
         arr.push(
+        
           <Contact
           userId = {userId}
             key={i}
@@ -96,9 +99,10 @@ function Discussion_Repo(  route, props) {
             onNav={() => navigation.navigate('Chat', { recieverId: contacts[i].Id, senderId: userId })}
   
           />
+         
         );
       }
-      return <View>{arr}</View>;
+      return <View><View>{arr}</View></View>;
     }
   }
 
@@ -111,8 +115,8 @@ function Discussion_Repo(  route, props) {
         <TouchableOpacity style={styles.buttonAdd}>
           {disp == "contacts" && (
             <MaterialButtonShare
-              iconName="share-variant"
-              icon="account-multiple-plus"
+              iconName="account-plus"
+              icon="account-plus"
               style={styles.materialButtonShare}
               nav = 'addContact'
             ></MaterialButtonShare>
@@ -130,7 +134,8 @@ function Discussion_Repo(  route, props) {
       <View style={[styles.footer, styles.materialIconTextButtonsFooter1]}>
         <TouchableOpacity
           onPress={() => {
-            setDisp("disc");
+            navigation.navigate('Discussion_Repo', { screen: 'disc' });
+
           }}
           style={styles.buttonWrapper1}
         >
@@ -142,19 +147,21 @@ function Discussion_Repo(  route, props) {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            setDisp("groups");
+            navigation.navigate('Discussion_Repo', { screen: 'groups' });
+
           }}
           style={styles.activeButtonWrapper}
         >
           <MaterialCommunityIconsIcon
             name={"account-group"}
-            style={styles.activeIcon}
+            style={styles.Icon3}
           ></MaterialCommunityIconsIcon>
           <Text style={styles.activeContent}>Groups</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            setDisp("contacts");
+            navigation.navigate('Discussion_Repo', { screen: 'contacts' });
+
           }}
           style={styles.buttonWrapper2}
         >
@@ -213,11 +220,12 @@ const styles = StyleSheet.create({
     color: "#616161",
     fontSize: 24,
 
-    opacity: 0.8,
+    //opacity: 0.8,
   },
   btn1Text: {
     fontSize: 12,
-    color: "#9E9E9E",
+    color: "#616161",
+
     backgroundColor: "transparent",
     paddingTop: 4,
   },
@@ -230,15 +238,18 @@ const styles = StyleSheet.create({
     maxWidth: 168,
     alignItems: "center",
   },
-  activeIcon: {
-    backgroundColor: "transparent",
+  Icon3: {
+    color: "#616161",
+    fontSize: 24,
+   /* backgroundColor: "transparent",
     color: "#9E9E9E",
     fontSize: 24,
-    opacity: 0.8,
+    opacity: 0.8,*/
   },
   activeContent: {
     fontSize: 14,
-    color: "#9E9E9E",
+    color: "#616161",
+
     backgroundColor: "transparent",
     paddingTop: 4,
   },
@@ -252,14 +263,15 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   icon2: {
-    backgroundColor: "transparent",
+    //backgroundColor: "transparent",
     color: "#616161",
     fontSize: 24,
-    opacity: 0.8,
+    //opacity: 0.8,
   },
   btn2Text: {
     fontSize: 12,
-    color: "#9E9E9E",
+    color: "#616161",
+
     backgroundColor: "transparent",
     paddingTop: 4,
   },

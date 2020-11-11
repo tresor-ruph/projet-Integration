@@ -20,6 +20,8 @@ import GroupChat from './Messenger/groupChat';
 import ChatOption from './Messenger/chatOptions';
 import MessHeader from './header';
 import AddGroupMem from './Messenger/addGroupMem';
+import DiscHeader from './discHeader'
+import OtherHeader from './otherHeader'
 
 //import Login from './Login/login'
 
@@ -31,11 +33,38 @@ function Nav() {
       <Stack.Navigator>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="AddGroupMem" component={AddGroupMem} />
+        <Stack.Screen name="AddGroupMem" component={AddGroupMem}
+        options={{
+          headerStyle: {
+            backgroundColor: "rgba(0,128,192,0.7)",
+          },
+        }}
+        />
 
-        <Stack.Screen name="GroupChat" component={GroupChat} />
-        <Stack.Screen name="ConfGroup" component={ConfGroup} />
-        <Stack.Screen name="ChatOption" component={ChatOption} />
+        <Stack.Screen name="GroupChat" component={GroupChat} 
+         options={{
+          headerStyle: {
+            backgroundColor: "rgba(0,128,192,0.7)",
+          },
+        }}
+        />
+        <Stack.Screen name="ConfGroup" component={ConfGroup}
+          
+            options={{
+              headerStyle: {
+                backgroundColor: "rgba(0,128,192,0.7)",
+              },
+            }}
+          
+          
+        />
+        <Stack.Screen name="ChatOption" component={ChatOption}
+        options={{
+          headerStyle: {
+            backgroundColor: "rgba(0,128,192,0.7)",
+          },
+        }}
+        />
 
         <Stack.Screen name="signup" component={Form} />
         <Stack.Screen name="succes" component={Succes} />
@@ -47,14 +76,27 @@ function Nav() {
           name="Chat"
           component={Chat}
           options={{
-            header: (navigation) => <MessHeader id={navigation} />,
+            header: (navigation) => <MessHeader id={navigation} Screen="disc" />,
           }}
         />
 
         <Stack.Screen name="Succes" component={Succes} />
 
-        <Stack.Screen name="Discussion_Repo" component={Discussion_Repo} />
-        <Stack.Screen name="addContact" component={addContact} />
+        <Stack.Screen name="Discussion_Repo"
+        component={Discussion_Repo} 
+        options={{
+          header: (navigation) => <DiscHeader id={navigation} />,
+        }}
+      />
+        
+      
+        <Stack.Screen name="addContact" component={addContact} 
+         options={{
+          headerStyle: {
+            backgroundColor: "rgba(0,128,192,0.7)",
+          },
+        }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
