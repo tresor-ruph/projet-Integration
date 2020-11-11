@@ -16,19 +16,22 @@ sql.query(rechsql, (err, res)=> {
     }
 }
 if(spotted){
+  //insert into Notation(userId,idDemande,donneurId,rating) values(172,69,203,9);
     const req = 'INSERT INTO Utilisateurs(Nom , Prenom , Adresse , CodePostal,Mail,password) VALUES ? ';
     const values = [[con.nom,con.prenom,con.adresse,con.codePostal,con.Mail,con.password]];
-    sql.query(req , [values])
+    sql.query(req , [values] ,function (err, resu, fields) {
+      let rechid = 'SELECT Id from Utilisateurs where Mail = "'+con.Mail+'"';
+      sql.query(rechid, function (err, resu, fields) {
+        console.log(resu);
+      if(resu == undefined){
+          result(null , { message: 'erreur interne'});
+      }else{
+          result(null , { message: 'inscription finie', id : resu[0].Id });
+      }
+      });
+    })
     
-let rechid = 'SELECT Id from Utilisateurs where Mail = "'+con.Mail+'"';
-sql.query(rechid, function (err, resu, fields) {
-  console.log(resu);
-if(resu == undefined){
-    result(null , { message: 'erreur interne'});
-}else{
-    result(null , { message: 'inscription finie', id : resu[0].Id });
-}
-});
+
 
 }else{
     result(null , { message: 'error'});

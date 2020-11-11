@@ -21,4 +21,28 @@ exports.access = (req, res) =>{
   
   }
 
+  exports.rating = (req, res) =>{
+    if(!req.body){
+    res.status(400).send({
+      message : "body cannot be empty",
+    });
+    }
+  
+    const rate = {
+      id : req.body.Id,
+      donneurId : req.body.donneurId,
+      idDemande : req.body.idDemande,
+      rating : req.body.rating
+
+    }
+  
+    note.rating(rate,(err, data) => {
+      if(err)
+      res.status(500).send({
+        message : err.message || "some error occured while inserting values"
+      })
+      else res.send(data)
+    })
+  
+  }
  

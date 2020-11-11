@@ -21,7 +21,7 @@ module.exports = (app) => {
   app.post("/auth", connexion.create)
   app.post("/login", connexion.access)
   app.post("/notation", notation.access)
-  
+  app.post("/rating", notation.rating)
     //get user with id = id
   app.get("/demande/all", demande.findAll);
   app.post("/demandeE/", demande.create);

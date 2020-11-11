@@ -14,6 +14,7 @@ import {
 import { TextInput, Button as Test } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import * as firebase from 'firebase';
+
 //import App from './firebase'
 
 // eslint-disable-next-line require-jsdoc
@@ -31,9 +32,11 @@ export default function Profil() {
  // firebase.initializeApp(firebaseConfig);
  // firebase.analytics();
 
+ 
 
   useEffect(() => {
-    fetch('http://localhost:3000/users/2')
+    let data = localStorage.getItem('id');
+    fetch('http://localhost:3000/users/'+data)
       .then((response) => response.json())
       .then((json) => {
         console.log(json[0]);

@@ -19,18 +19,22 @@ export default function Login(props)  {
     fetch(`http://localhost:3000/contacts/${username}`)
     .then(reponse => reponse.json())
     .then( json => {
-      console.log(json);
-      const name = json[0].Nom;
-      const Id = json[0].Id
-      const avatar = json[0].PhotoProfil
-      setUserId(json[0].Id)
-    
-      const user = { Id, name, avatar };
-       AsyncStorage.setItem('user', JSON.stringify(user));
-       //props.navigation.navigate('HomeScreen', { userid: json[0].Id });
-
+      try{
+        console.log(json);
+        const name = json[0].Nom;
+        const Id = json[0].Id
+        const avatar = json[0].PhotoProfil
+        setUserId(json[0].Id)
+      
+        const user = { Id, name, avatar };
+        AsyncStorage.setItem('user', JSON.stringify(user));
+        //props.navigation.navigate('HomeScreen', { userid: json[0].Id });
+      }catch{
+        handleTextValue('email non valide'); 
+      }
       
     });
+    
 
     //var t = this;
 fetch('http://localhost:3000/login/', {

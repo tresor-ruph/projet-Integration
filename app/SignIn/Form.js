@@ -103,7 +103,6 @@ class Form extends React.Component {
       
       bcrypt.genSalt(10, function(err, salt) {
         bcrypt.hash(t.state.motdepasse, salt, function(err, hash) {
-          console.log('ufgrihzjoepdozub');
       fetch('http://localhost:3000/auth/', {
         method: 'POST',
         body: JSON.stringify({

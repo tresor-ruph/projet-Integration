@@ -9,9 +9,10 @@ class Notation extends React.Component {
         super();
         this.state={
         id : 0,
+        donneurId: 0,
         chain : []
         }
-       
+        this.ratingCompleted = this.ratingCompleted.bind(this);
       }
       async storeToken(m) {
         try {
@@ -24,7 +25,6 @@ class Notation extends React.Component {
         try {
           let userData = await AsyncStorage.getItem("id");
           let data = JSON.parse(userData);
-          console.log(data);
           return data;
         } catch (error) {
           console.log("Something went wrong", error);
@@ -48,8 +48,23 @@ try{
         
      }
     ratingCompleted (rating) {
-        console.log("Rating is: " + rating)
-// envoi des ratings...
+        console.log("Rating is: " + rating);
+        fetch('http://localhost:3000/rating/', {
+          method: 'POST',
+          body: JSON.stringify({
+            Id : this.state.id,
+            donneurId : this.state.donneurId,
+            rating: rating
+
+          }),
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            "Access-Control-Allow-Origin":"true"
+          }
+        }) .then(response => response.json())
+        .then(json => {})
+
       }
 
 afficher(){
@@ -66,17 +81,18 @@ afficher(){
           }
         }) .then(response => response.json())
         .then(json => {
-          
-          console.log(json);
           if(json.message == 'pas de demande a ce nom'){
-
           }else{
-          for(let i = 0 ; i < json.resultat.length; i++){
-            test.push(<View style={styles.group} key={i}> <View style={styles.rect2}><View style={styles.ericCartmanStack}><Text style={styles.ericCartman}>{json.resultat[i].descriptif}{"\n"}{json.resultat[i].descriptif}</Text><Image source={require("../assets/eric-cartman.png")} resizeMode="contain" style={styles.image}></Image></View><AirbnbRating count={10} reviews={["à éviter", "décevant", "bof", "moyen", "pas mal", "bon", "très bon", "top", "incroyable", "Jesus"]} defaultRating={6} size={20} onFinishRating={this.ratingCompleted} /> </View> </View>);
-            console.log(json.resultat[i].descriptif);
-            console.log(test);
-            this.setState({chain: test});
-        this.render();
+            if(json.resultat[0]==undefined){
+              test.push(<View style={styles.group} key={1} ><View style={styles.rect2}><Text style={styles.ericCartman}>Vous n'avez pas de demande{"\n"} Veuillez effectuer une demande avant de pouvoir noter un utilisateur </Text></View></View>);
+              this.setState({chain: test});
+              this.render();
+            }else{
+                for(let i = 0 ; i < json.resultat.length; i++){
+                  test.push(<View style={styles.group} key={i}> <View style={styles.rect2}><View style={styles.ericCartmanStack}><Text style={styles.ericCartman}>{json.resultat[i].Prenom}{"\n"}{json.resultat[i].Nom}</Text><Image source={require("../assets/eric-cartman.png")} resizeMode="contain" style={styles.image}></Image></View><AirbnbRating count={10} reviews={["à éviter", "décevant", "bof", "moyen", "pas mal", "bon", "très bon", "top", "incroyable", "Jesus"]} defaultRating={json.resultat[i].rating} size={20} onFinishRating={this.setState({donneurId: json.resultat[i].donneurId}),this.ratingCompleted} /> </View> </View>);
+                  this.setState({chain: test});
+                  this.render();
+          }
           }
         }
       })
@@ -86,7 +102,6 @@ afficher(){
      
       render(){
         let test = this.state.chain;
-        console.log(test);
           
       
    
@@ -137,7 +152,8 @@ afficher(){
 const styles = StyleSheet.create({
   container: {
     width: 417,
-    height: 966
+    height: 966,
+    backgroundColor:"rgba(237,210,133,1)"
   },
   rect5Filler: {
     flex: 1
@@ -187,7 +203,8 @@ const styles = StyleSheet.create({
     position: "absolute",
     fontFamily: "roboto-regular",
     color: "#121212",
-    fontSize: 20
+    fontSize: 20,
+    width : 160
   },
   image: {
     top: 0,
