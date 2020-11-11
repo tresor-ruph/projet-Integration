@@ -1,25 +1,35 @@
 import React from 'react';
 import { ListItem, Avatar } from 'react-native-elements';
 import { View, StyleSheet,TextInput,Text,TouchableOpacity, Button} from 'react-native';
+import AsyncStorage from "@react-native-community/async-storage";
 
-
-
+let userId = 0
 class ListeDem extends React.Component {
     
   constructor(props){
     super(props);
     this.state = { 
       demande : [],
-      userId: '2'
     };
   }  
   
   componentDidMount(){
-    fetch(`http://localhost:3000/demandeU/${this.state.userId}`)
+    async function getUserId(){
+      let id = await AsyncStorage.getItem('user')
+      id = JSON.parse(id).Id
+      console.log(id)
+      console.log(userId)
+      userId = id
+     }
+     getUserId()
+
+    fetch(`http://localhost:3000/demandeU/${userId}`)
     .then(response => response.json())
     .then(json => {
       this.setState({demande: json})
     })
+
+    
   } 
 
   submit(idDem){
