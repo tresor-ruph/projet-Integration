@@ -1,6 +1,8 @@
 import React from "react";
 import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, Dimensions   } from "react-native";
 import PassMeter from "react-native-passmeter";
+import AsyncStorage from '@react-native-community/async-storage';
+
 
 console.disableYellowBox = true;
 
@@ -14,10 +16,10 @@ class Form extends React.Component {
         motdepasse:'',
         repMotdepasse:'',
         adresse: '',
-        dateNaissance: '',
+        dateNaissance: '', 
         mail: '',
         showPassword: true,
-        label: ["Trop court", "Il faut au moins 1 chiffre !", "Il faut au moins 1 lettre majuscule !", "Mot de passe valide"],
+        label: ["Trop court", "Il faut au moins 1 chiffre et 1 lettre majuscule !", "Il faut au moins 1 lettre majuscule et 1 chiffre !", "Mot de passe valide"],
       }
       //sert ds la visualisation du mdp
       this.toggleSwitch = this.toggleSwitch.bind(this);  
@@ -27,15 +29,59 @@ class Form extends React.Component {
       this.setState({ showPassword: !this.state.showPassword });
     }
 
+    async storeToken(m, cle) {
+      try {
+         await AsyncStorage.setItem(cle, JSON.stringify(m));
+      } catch (error) {
+        console.log("Something went wrong", error);
+      }
+    }
+    async getToken() {
+      try {
+        let userData = await AsyncStorage.getItem("id");
+        let data = JSON.parse(userData);
+        return data;
+      } catch (error) {
+        console.log("Something went wrong", error);
+      }
+    }
+
     submit() {
       //envoie msg d'erreur si un champ est encore vide
-     if(this.state.nom == '' || this.state.prenom == '' || this.state.motdepasse == '' || this.state.repMotdepasse == '' || this.state.adresse == '' || this.state.dateNaissance == '' || this.state.mail == '') {
+      if(this.state.nom == '' || this.state.prenom == '' || this.state.motdepasse == '' || this.state.repMotdepasse == '' || this.state.adresse == '' || this.state.dateNaissance == '' || this.state.mail == '') {
         let simpleAlertHandler = () => {
           alert("Tous les champs ne sont pas remplis !");
         };
         simpleAlertHandler();
         return;
       }
+      //envoie msg d'erreur si dateNaissance est != 10 , ne comprends pas de ',' ou contient autre chose que chiffre et tiret
+      if( this.state.dateNaissance.length != 10 || this.state.dateNaissance.includes(',') == false || this.state.dateNaissance.match(/[^0-9,]/) != null){
+        let simpleAlertHandler = () => {
+          alert("La date de naissance ne correspond pas au format !");
+        };
+        simpleAlertHandler();
+        return;
+      } 
+      //envoie msg d'erreur si le nbre de chiffre != 8 , si nbre ',' != 2 et si tiret mal placé
+      if(this.state.dateNaissance.match(/[0-9]/g).length != 8 || this.state.dateNaissance.match(/[,]/g).length != 2 || this.state.dateNaissance.indexOf(',') != 2 || this.state.dateNaissance.lastIndexOf(',') != 5) {
+        let simpleAlertHandler = () => {
+          alert("La date de naissance ne correspond pas au format 22!");
+        };
+        simpleAlertHandler();
+        console.log(this.state.dateNaissance.match(/[0-9]/g).length)
+        console.log(this.state.dateNaissance.match(/[,]/g).length)
+        console.log(this.state.dateNaissance.indexOf(','))
+        return;
+      } 
+      //envoie msg d'erreur si email ne contient pas @ et . et est plus petit que 8
+      if(this.state.mail.includes('@') == false || this.state.mail.includes('.') == false || this.state.mail.length < 8) {
+        let simpleAlertHandler = () => {
+          alert("Adresse mail incorrecte !");
+        };
+        simpleAlertHandler();
+        return;
+      }      
       //envoie msg d'erreur si mdp répété est différent
       if(this.state.motdepasse != this.state.repMotdepasse) {
         let simpleAlertHandler = () => {
@@ -45,7 +91,7 @@ class Form extends React.Component {
         return;
       }
       //envoie msg d'erreur si le mdp est < à 8 OU ne contient pas de chiffre OU ne contient pas de majuscule
-      if(this.state.motdepasse.length < 8 || JSON.stringify(this.state.motdepasse).match(/\d+/) == null || JSON.stringify(this.state.motdepasse) == JSON.stringify(this.state.motdepasse).toLowerCase()) {
+      if(this.state.motdepasse.length < 8 || this.state.motdepasse.match(/\d+/) == null || this.state.motdepasse == this.state.motdepasse.toLowerCase()) {
         let simpleAlertHandler = () => {
           alert("Le mot de passe n'est pas suffisament compliqué !");
         };
@@ -53,6 +99,14 @@ class Form extends React.Component {
         return;
       }
 
+      try {
+      this.storeToken(this.state.mail, "mail");
+      }
+      catch (error) {
+          console.log("Something went wrong", error);
+      }
+      
+      //localStorage.getItem('mail')
       fetch('http://localhost:8080/auth/', {
         method: 'POST',
         body: JSON.stringify({
@@ -61,27 +115,20 @@ class Form extends React.Component {
           adresse: this.state.adresse,
           dateNaissance: this.state.dateNaissance,
           mail: this.state.mail,
-          password: this.state.motdepasse
+          password: this.state.motdepasse,
+          token: localStorage.getItem('mail')
         }),
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
           "Access-Control-Allow-Origin":"true"
         }
-      }) .then(response => response.json())
+      }).then(response => response.json())
       .then(json => {
-      console.log(json);
-      }).catch((error) => {
-        console.error(error);
+        this.props.navigation.navigate("Succes");
+      }).catch(() => {
+        alert("Echec de connexion. Réessayez.");
       });
-      //vider les textInput; utile que parce qu'il n'y a pas encore la redirection apres s'etre inscrit
-      this.textNom.clear();
-      this.textPrenom.clear();
-      this.textAdresse.clear();
-      this.textDateNaissance.clear();
-      this.textEmail.clear();
-      this.textMdp.clear();
-      this.textMdp2.clear();
     }
 
     render() {
@@ -93,7 +140,6 @@ class Form extends React.Component {
               maxLength={50}
               autoCapitalize="sentences"
               onChangeText={(text)=> { this.setState({ nom: text }) }}
-              ref={input => { this.textNom = input }}
               style={styles.textInput}
             ></TextInput>
             <TextInput
@@ -101,7 +147,6 @@ class Form extends React.Component {
               maxLength={50}
               autoCapitalize="sentences"
               onChangeText={(text)=> { this.setState({ prenom: text }) }}
-              ref={input => { this.textPrenom = input }}
               style={styles.textInput}
             ></TextInput>
             <TextInput
@@ -109,28 +154,24 @@ class Form extends React.Component {
               maxLength={50}
               autoCapitalize="sentences"
               onChangeText={(text)=> { this.setState({ adresse: text }) }}
-              ref={input => { this.textAdresse = input }}
               style={styles.textInput}
             ></TextInput>
-            <TextInput
-              placeholder="Date de naissance"
+           <TextInput
+              placeholder="Date de naissance (ex:20,01,2000)"
               onChangeText={(text)=> { this.setState({ dateNaissance: text }) }}
-              ref={input => { this.textDateNaissance = input }}
               style={styles.textInput}
             ></TextInput>
             <TextInput
-              placeholder="Adresse email"
+              placeholder="Adresse mail"
               maxLength={50}
               onChangeText={(text)=> { this.setState({ mail: text }) }}
-              ref={input => { this.textEmail = input }}
               style={styles.textInput}
             ></TextInput>
             <TextInput
               placeholder="Mot de passe"
-              maxLength={12}
+              maxLength={50}
               secureTextEntry={this.state.showPassword}
               onChangeText={(text)=> { this.setState({ motdepasse: text }) }}
-              ref={input => { this.textMdp = input }}
               style={styles.textInput}
             ></TextInput>
             <PassMeter
@@ -142,10 +183,9 @@ class Form extends React.Component {
             />
             <TextInput
               placeholder="Répétition du mot de passe"
-              maxLength={12}
+              maxLength={50}
               secureTextEntry={this.state.showPassword}
               onChangeText={(text)=> { this.setState({ repMotdepasse: text }) }}
-              ref={input => { this.textMdp2 = input }}
               style={styles.textInput}
             ></TextInput>
             <Text style={styles.text}>
@@ -187,6 +227,7 @@ const styles = StyleSheet.create({
   text: {
     textAlign: 'center',
     fontSize: 20,
+    marginTop: 10,
   },
   switch: {
     transform:[{ scaleX: 1.5 }, { scaleY: 1.5 }],
@@ -194,6 +235,9 @@ const styles = StyleSheet.create({
     marginBottom: 40,
     marginTop: 10,
   },
+  bar: {
+    width: "10%"
+  }
 })
 
 export default Form;

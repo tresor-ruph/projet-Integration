@@ -7,6 +7,7 @@ import catalogueOffre from './Catalogue/catalogueOffre'
 import Demande from './DemandeFormulaire/Demande'
 import ListeDem from './Catalogue/ListeDem'
 import Form from './SignIn/Form'
+import Succes from './SignIn/succes'
 import { NavigationContainer, StackActions } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 import Home from './Homescreen/Home'
@@ -29,6 +30,7 @@ render() {
                 <Stack.Screen name = "Chat" component = {Chat} />
                 <Stack.Screen name = "ListeDem" component = {ListeDem} />
                 <Stack.Screen name = "Form" component = {Form} />
+                <Stack.Screen name = "Succes" component = {Succes} />
                 <Stack.Screen name = "Login" component = {Login} />
 
             </Stack.Navigator>

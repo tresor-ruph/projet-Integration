@@ -46,12 +46,12 @@ app.use('/',require('./routes/routes'));
 //app.use('/auth',require('./routes/au'));
 
 app.get('/Mail', (req,res) =>{
-  var rechsql = 'SELECT Mail from Utilisateurs';
-  var spotted = '';
-  var Mail = req.param('Mail',null);
+  var rechsql = 'SELECT Mail from Utilisateurs where Mail =' + req.params.Mail;
+  //var spotted = '';
+  //var Mail = req.param('Mail',null);
   db.query(rechsql, function (err, result, fields) {
     //if (err) {throw err;}else{
-    
+    /*
     for(var i = 0;i<result.length;i++){
       if(result[i].Mail==Mail){
           console.log(result[i].Mail);
@@ -62,26 +62,63 @@ app.get('/Mail', (req,res) =>{
           });
           //res.json({message: "email deja utilisé"});
       }
-  }
+  }*/
+  console.log(result);
   res.json({message: 'ok'});
 })
   });
+  
+app.post('/auth',(req, res) => {//envoie mail + crée userEnAttente
 
-app.post('/auth',(req, res) => {
+  const nodemailer = require("nodemailer");
+
+  let transporter = nodemailer.createTransport({
+    service: "Gmail",
+    auth: {
+      user: "HelpRecover2020@gmail.com",
+      pass: "gK6p2wm!d"
+    },
+  });
+
+  let mailOptions = {
+    from: '"HelpRecover" <HelpRecover2020@gmail.com>', 
+    to: "inconnu12345612@gmail.com", //req.body.mail
+    subject: "Vérification email", 
+    text: "Vérifiez votre email", 
+    html: "<b>Vérifiez votre email : <a href='http://localhost:19006/${req.body.token}'>redirection : http://localhost:19006/${req.body.token}</a></b>", 
+  };
+
+  try {
+    transporter.sendMail(mailOptions, (error, info) => {
+      if (error) {
+        return console.log(error);
+      }
+      console.log("Message sent: %s", info.messageId);
+    })
+  }
+  catch(error) {
+    console.error(error);
+  }
+  try {
     var nom = req.body.nom;
     var prenom = req.body.prenom;
     var adresse = req.body.adresse;
-    var codePostal = req.body.codePostal;
-    var Mail = req.body.Mail;
+    var dateNaissance = req.body.dateNaissance;
+    var mail = req.body.mail;
     var password = req.body.motdepasse;
       
-      console.log( req.body );
-      console.log("passse direct ici");
-      var sql = 'INSERT INTO Utilisateurs(Nom , Prenom , Adresse , CodePostal,Mail,password) VALUES ? ';
-      var values = [[nom,prenom,adresse,codePostal,Mail,password]];
-      db.query(sql,[values]);
-      req.session.email = Mail;
-      res.json({ message: "inscription finie" });
+    console.log( req.body );
+    console.log("passse direct ici");
+
+    var sql = "INSERT INTO userEnAttente(Nom,Prenom, Adresse , dateNaissance , Mail, password) VALUES ('"+nom+"' ,'"+prenom+"' , '"+adresse+"',STR_TO_DATE('"+dateNaissance+"','%d,%m,%Y'),'"+mail+"','"+password+"')";
+    //var values = [[nom,prenom,adresse,dateNaissance,mail,password]];
+    db.query(sql);
+    req.session.email = mail;
+    res.json({ message: "inscription finie" });
+  }
+  catch(error) {
+    console.error(error);
+  }
   });
 
   app.get('/appli',(req,res)=>{
