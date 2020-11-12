@@ -16,6 +16,9 @@ import ListeDem from './Catalogue/ListeDem'
 import mesDemandes from './Catalogue/mesDemandes'
 import descriptifDemande from './Catalogue/descriptifDemande'
 import Demande from './demandeFormulaire/Demande'
+import Reinit from './ReinitMdp/ReinitMdp'
+import ReinitP2 from "./ReinitMdp/reinitMdpP2";
+import ReinitMdp2 from "./ReinitMdp/reinitMdpP2";
 //import Login from './Login/login'
 
 // Create the navigator
@@ -27,8 +30,10 @@ render() {
         <NavigationContainer>
             <Stack.Navigator>
             <Stack.Screen name = "Home" component = {Home} />
-           <Stack.Screen name = "Login" component = {Login} />
 
+            <Stack.Screen name = "Login" component = {Login} />
+            <Stack.Screen name = "ReinitMdp" component ={Reinit} />
+            <Stack.Screen name = "ReinitMdpP2" component ={ReinitMdp2} />
 
             <Stack.Screen name = "signup" component = {Form} />
             <Stack.Screen name = "succes" component = {Succes} />
@@ -37,7 +42,7 @@ render() {
             <Stack.Screen name = "Demande" component = {Demande} />
 
 
-            {/*<Stack.Screen name = "login" component = {Login} />*/}
+            <Stack.Screen name = "login" component = {Login} />
 
 
             <Stack.Screen name = "HomeScreen" component = {HomeScreen} />
@@ -52,6 +57,8 @@ render() {
 
             <Stack.Screen name = "Discussion_Repo" component = {Discussion_Repo} />
             <Stack.Screen name = "addContact" component = {addContact} />
+
+            
             </Stack.Navigator>
         </NavigationContainer>
     )

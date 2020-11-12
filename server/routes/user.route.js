@@ -1,8 +1,11 @@
+const reinitmdp = require("../model/reinit.model");
+
 module.exports = (app) => {
   const contacts = require("../controller/contacts.controller");
   const userController = require("../controller/user.controller");
   const demande = require('./../controller/ajoutDem');
   const connexion = require('./../controller/connexion');
+  const reinitmdp= require('./../controller/reinit.controller')
   //get all contacts
   app.get("/contacts/", contacts.findAll);
   //get the contacts with userIds
@@ -26,5 +29,7 @@ module.exports = (app) => {
   app.get("/demande/:categorie/:codeP", demande.findOne);
   app.get("/demandeU/:userId", demande.findOneUI);
   app.get("/demandeD/:userId", demande.findDescri);
+  app.get("/reinitmdpR/:mail", reinitmdp.cibleUser);
+  /*app.get("/reponseSecG/:") à comp avec réponse sec quand in bdd */
 
 };

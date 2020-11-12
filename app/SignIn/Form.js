@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, Dimensions   } from "react-native";
+import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, Dimensions, Picker   } from "react-native";
 import PassMeter from "react-native-passmeter";
 //import DateTimePicker from '@react-native-community/datetimepicker';
 
@@ -19,7 +19,10 @@ class Form extends React.Component {
         dateNaissance: '', 
         mail: '',
         showPassword: true,
+        question:"Quel était le prénom de votre premier animal domestique ?",
+        reponseSec:"",
         label: ["Trop court", "Il faut au moins 1 chiffre et 1 lettre majuscule !", "Il faut au moins 1 lettre majuscule et 1 chiffre !", "Mot de passe valide"],
+
       }
       //sert ds la visualisation du mdp
       this.toggleSwitch = this.toggleSwitch.bind(this);  
@@ -28,6 +31,10 @@ class Form extends React.Component {
     toggleSwitch() {
       this.setState({ showPassword: !this.state.showPassword });
     }
+
+    updateQuestion = (question) => {
+      this.setState({ question: question })
+   }
     async storeToken(m) {
       try {
          await AsyncStorage.setItem("id", JSON.stringify(m));
@@ -111,7 +118,9 @@ class Form extends React.Component {
           adresse: t.state.adresse,
           dateNaissance: t.state.dateNaissance,
           Mail: t.state.mail,
-          password: hash
+          password: hash,
+          reponseSec: t.state.reponseSec,
+          question: t.state.question,
         }),
         headers: {
           Accept: 'application/json',
@@ -193,6 +202,30 @@ class Form extends React.Component {
               onChangeText={(text)=> { this.setState({ repMotdepasse: text }) }}
               style={styles.textInput}
             ></TextInput>
+            <Text styles={{marginTop:50}}>
+              Choisissez votre question secrète
+            </Text>
+            <Picker style={{height:'8%', fontSize:14, width:'80%', marginLeft:'5%', marginTop:'5%', marginBottom:'3%'}} selectedValue = {this.state.question}  onValueChange = {this.updateQuestion}>
+              <Picker.Item label="Quel était le prénom de votre premier animal domestique ?" value="Quel était le prénom de votre premier animal domestique ?" />
+              <Picker.Item label="Quelle était la marque de votre première voiture ?" value="Quelle était la marque de votre première voiture ?" />
+              <Picker.Item label="Quel est votre lieux de naissance ?" value="Quel est votre lieux de naissance ?" />
+              <Picker.Item label="Quel est le prénom de votre arrière-grand-mère maternelle ?" value="Quel est le prénom de votre arrière-grand-mère maternelle ?" />
+              <Picker.Item label="Où avez vous passé votre enfance ?" value="Où avez vous passé votre enfance ?" />
+              <Picker.Item label="Où êtes-vous parti pour la première fois en voyage ?" value="Où êtes-vous parti pour la première fois en voyage ?" />
+              <Picker.Item label="Dans quelle ville se sont rencontrés vos parents ?" value="Dans quelle ville se sont rencontrés vos parents ?" />
+              <Picker.Item label="Quel est le nom et prénom de votre premier amour ?" value="Quel est le nom et prénom de votre premier amour ?" />
+            </Picker>
+
+            <TextInput
+              placeholder="Entrez votre réponse"
+              onChangeText={(text)=> { this.setState({ reponseSec: text }) }}
+              style={styles.reponseSec}
+            >
+            </TextInput>
+
+            <Text styles={{marginBottom:'5%', textAlign:'center'}}>
+              ⚠️ Il est extrêmement important de conserver cette réponse ⚠️
+            </Text>
             <Text style={styles.text}>
               Cliquer pour afficher les mots de passe
             </Text>
@@ -205,7 +238,9 @@ class Form extends React.Component {
               title="S'inscrire"
               onPress={()=>{this.submit()}}
             ></Button>
-          </View>
+            
+        </View>
+          
         </ScrollView>
       )
     }
@@ -242,7 +277,32 @@ const styles = StyleSheet.create({
   },
   bar: {
     width: "10%"
-  }
+  },
+  rect6: {
+    marginTop:'15%',
+    width: 328,
+    height: 50,
+    textAlign:'center',
+    flexDirection: "row",
+    marginLeft:'25%',
+  },
+  input: {
+    width: 200,
+    height: 44,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: 'black',
+    marginBottom: 10,
+  },
+  reponseSec:{
+    height:'7%',
+    width:'60%',
+    marginLeft:'20%',
+    marginTop:'4%',
+    marginBottom:'5%',
+    fontSize:'100%',
+    textAlign:'center'
+  },
 })
 
 export default Form;

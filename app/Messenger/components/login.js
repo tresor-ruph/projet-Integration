@@ -1,6 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component, useEffect, useState } from 'react';
-import { Button, TextInput, View, StyleSheet,Text } from 'react-native';
+import { Button, TextInput, View, StyleSheet,Text, Picker } from 'react-native';
 
 
 
@@ -8,11 +8,18 @@ export default function Login(props)  {
 
     const [username, setusername] = useState(" ");
     const [password, setPassword] = useState(" ");
-    const [userId , setUserId] = useState("")
-    const [textValue , setTextValue] = useState("")
+    const [userId , setUserId] = useState(" ");
+    const [textValue , setTextValue] = useState(" ");
+    const [questionValue, setQuestion] = useState(" ");
+    const [reponseValue, setReponse] = useState(" ");
+
+   
+ 
   
  
    const onLogin = async ()=> {
+
+ 
    
     
     // eslint-disable-next-line no-undef
@@ -102,6 +109,14 @@ const handlePassword = (event) => {
 const handleUsername = (event) => {
   setusername(event.target.value);
 }
+
+const handleQuestion =(event)=>{
+  setQuestion(event.target.value);
+}
+
+const handleReponse = (event)=>{
+  setReponse(event.target.value);
+}
 const test = (txt) =>{
 if(txt == ""){
   return <View></View>
@@ -128,14 +143,19 @@ if(txt == ""){
         
         <Button
           title={'Login'}
-          style={styles.input}
+          style={{marginTop:'10%'}}
           onPress={onLogin}
         />
+
+        <View style={styles.rect6}>
+          <View style={styles.loremIpsumRow}> 
+            <Text style={styles.loremIpsum} onPress={() => props.navigation.navigate("ReinitMdp")}>Mot de passe oublié ? Cliquez ici</Text>
+          </View>
+        </View>
         
         {test(textValue)}
-    
-      </View>
       
+      </View>
     );
   
 }
@@ -174,5 +194,23 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 7,
     marginLeft: 5
-  }
+  },
+
+  rect6: {
+    marginTop:'15%',
+    width: 328,
+    height: 50,
+    textAlign:'center',
+    flexDirection: "row",
+    marginLeft:'25%',
+  },
+
+  reponseSec:{
+    height:'7%',
+    width:'60%',
+    marginTop:'4%',
+    marginBottom:'5%',
+    fontSize:'100%',
+    textAlign:'center'
+  },
 });

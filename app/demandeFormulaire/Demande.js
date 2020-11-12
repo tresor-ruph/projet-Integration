@@ -14,15 +14,15 @@ class Demande extends React.Component{
       this.setState({ categorie: categorie })
    }
 
-  constructor(props){
-     super(props);
-     this.state={
-       categorie:'Courses',
-       descriptif:'',
-       userId: 2
-     }
-   }
-
+   constructor(props){
+    super(props);
+    this.state={
+      userName:'FloB',
+      categorie:'Aller faire des courses',
+      descriptif:'',
+      userId: '3'
+    }
+  }
 
   
    submit(){
