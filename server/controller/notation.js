@@ -32,7 +32,8 @@ exports.access = (req, res) =>{
       id : req.body.Id,
       donneurId : req.body.donneurId,
       idDemande : req.body.idDemande,
-      rating : req.body.rating
+      rating : req.body.rating,
+      commentaire : req.body.commentaire
 
     }
   

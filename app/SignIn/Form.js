@@ -19,6 +19,7 @@ class Form extends React.Component {
         adresse: '',
         dateNaissance: '', 
         mail: '',
+        codePostal: '',
         showPassword: true,
         label: ["Trop court", "Il faut au moins 1 chiffre et 1 lettre majuscule !", "Il faut au moins 1 lettre majuscule et 1 chiffre !", "Mot de passe valide"],
       }
@@ -111,6 +112,7 @@ class Form extends React.Component {
           adresse: t.state.adresse,
           dateNaissance: t.state.dateNaissance,
           Mail: t.state.mail,
+          codePostal: t.state.codePostal,
           password: hash
         }),
         headers: {
@@ -159,6 +161,13 @@ class Form extends React.Component {
               maxLength={50}
               autoCapitalize="sentences"
               onChangeText={(text)=> { this.setState({ adresse: text }) }}
+              style={styles.textInput}
+            ></TextInput>
+            <TextInput
+              placeholder="Code postal"
+              maxLength={50}
+              autoCapitalize="sentences"
+              onChangeText={(text)=> { this.setState({ codePostal: text }) }}
               style={styles.textInput}
             ></TextInput>
            <TextInput

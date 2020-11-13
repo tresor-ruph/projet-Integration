@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { StyleSheet, View, Text, Image, ImageBackground } from "react-native";
+import { StyleSheet, View, Text, Image, ImageBackground ,TextInput,TouchableOpacity} from "react-native";
 import EvilIconsIcon from "react-native-vector-icons/EvilIcons";
 import { Rating, AirbnbRating } from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -9,8 +9,10 @@ class Notation extends React.Component {
         super();
         this.state={
         id : 0,
-        donneurId: 0,
-        chain : []
+        donneurId: [],
+        chain : [],
+        commentaire: [],
+        rate: []
         }
         this.ratingCompleted = this.ratingCompleted.bind(this);
       }
@@ -35,7 +37,10 @@ class Notation extends React.Component {
      componentDidMount(){
        
 try{
-  
+  /*
+      let id = localStorage.getItem('id');
+      this.setState({id : id});
+      this.afficher();*/
       let t = this;
       this.getToken().then(function(result) {
         t.setState({id : result});
@@ -47,25 +52,53 @@ try{
 }
         
      }
-    ratingCompleted (rating) {
-        console.log("Rating is: " + rating);
-        fetch('http://localhost:3000/rating/', {
-          method: 'POST',
-          body: JSON.stringify({
-            Id : this.state.id,
-            donneurId : this.state.donneurId,
-            rating: rating
-
-          }),
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/json',
-            "Access-Control-Allow-Origin":"true"
+    ratingCompleted (rating,donneur) {
+        for(let i = 0;i<this.state.donneurId.length;i++){
+          if(this.state.donneurId[i]==donneur){
+            this.setState(state => { state.rate[i] = rating});
+            console.log(rating);
           }
-        }) .then(response => response.json())
-        .then(json => {})
-
+        }
       }
+
+onChangeText(text,donneur){
+  for(let i = 0;i<this.state.donneurId.length;i++){
+    if(this.state.donneurId[i]==donneur){
+      this.setState(state => { state.commentaire[i] = text});
+      console.log(text);
+    }
+  }
+  
+}
+onPressButton(donneur){
+  let rate = 0;
+  let donneurId = 0;
+  let commentaire = "";
+  for(let i = 0;i<this.state.donneurId.length;i++){
+    if(this.state.donneurId[i]==donneur){
+      donneurId= this.state.donneurId[i];
+      rate = this.state.rate[i];
+      commentaire = this.state.commentaire[i];
+    }
+  }
+  fetch('http://localhost:3000/rating/', {
+    method: 'POST',
+    body: JSON.stringify({
+      Id : this.state.id,
+      donneurId : donneurId,
+      rating: rate,
+      commentaire: commentaire
+
+    }),
+    headers: {
+      Accept: 'application/json',
+      'Content-Type': 'application/json',
+      "Access-Control-Allow-Origin":"true"
+    }
+  }) .then(response => response.json())
+  .then(json => {})
+
+}
 
 afficher(){
   let test = [];
@@ -89,14 +122,36 @@ afficher(){
               this.render();
             }else{
                 for(let i = 0 ; i < json.resultat.length; i++){
-                  test.push(<View style={styles.group} key={i}> <View style={styles.rect2}><View style={styles.ericCartmanStack}><Text style={styles.ericCartman}>{json.resultat[i].Prenom}{"\n"}{json.resultat[i].Nom}</Text><Image source={require("../assets/eric-cartman.png")} resizeMode="contain" style={styles.image}></Image></View><AirbnbRating count={10} reviews={["à éviter", "décevant", "bof", "moyen", "pas mal", "bon", "très bon", "top", "incroyable", "Jesus"]} defaultRating={json.resultat[i].rating} size={20} onFinishRating={this.setState({donneurId: json.resultat[i].donneurId}),this.ratingCompleted} /> </View> </View>);
+                  
+                  test.push(<View style={styles.group} key={i}> <View style={styles.rect2}><View style={styles.ericCartmanStack}><Text style={styles.ericCartman}>{json.resultat[i].Prenom}{"\n"}{json.resultat[i].Nom}</Text><Image source={require("../assets/eric-cartman.png")} resizeMode="contain" style={styles.image}></Image></View><AirbnbRating count={5} reviews={[ "décevant", "moyen", "bon","top","Jesus"]} defaultRating={json.resultat[i].rating} size={20} onFinishRating={(rating)=>{this.ratingCompleted(rating,json.resultat[i].donneurId);}} />   <TextInput style={styles.InputS} onChangeText={text => this.onChangeText(text,json.resultat[i].donneurId)} value={this.state.commentaire[i]} /> <TouchableOpacity style={styles.containerButton} onPress={() => this.onPressButton(json.resultat[i].donneurId)}><Text style={styles.envoyer}>Envoyer</Text></TouchableOpacity></View> </View>);
+                  this.setState(state => { state.rate.push(json.resultat[i].rating)});
+                  this.setState(state => { state.donneurId.push(json.resultat[i].donneurId)})
+                  this.setState(state => { state.commentaire.push(json.resultat[i].commentaire)});
                   this.setState({chain: test});
                   this.render();
           }
           }
         }
       })
-      
+      /*
+
+<View style={styles.container}> <View style={styles.containerText}> <Text style={styles.commentaire}>commentaire</Text> <TextInput style={styles.inputStyle}></TextInput> </View> <TouchableOpacity style={styles.containerButton}><Text style={styles.envoyer}>Envoyer</Text></TouchableOpacity></View>
+           <TextInput style={{ height: 40, borderColor: 'gray', borderWidth: 1 }} onChangeText={text => onChangeText(text)} value='commentaire' />
+
+
+this.setState(state => { state.donneurId.push(json.resultat[i].donneurId)};
+
+
+
+<View style={styles.container}>
+            <MaterialFixedLabelTextbox
+              style={styles.materialFixedLabelTextbox}
+            ></MaterialFixedLabelTextbox>
+            <MaterialButtonDark
+              style={styles.materialButtonDark}
+            ></MaterialButtonDark>
+          </View>
+      */
 
 }
      
@@ -115,7 +170,7 @@ afficher(){
 
         {test.map((value, index) => {
          return value
-      })}
+        })}
 
         
       </View>
@@ -185,7 +240,7 @@ const styles = StyleSheet.create({
   },
   rect2: {
     width: 276,
-    height: 200,
+    height: 300,
     backgroundColor: "rgba(161,183,138,1)",
     borderRadius: 57,
     shadowColor: "rgba(0,0,0,1)",
@@ -522,6 +577,90 @@ const styles = StyleSheet.create({
     height: 168,
     marginTop: 39,
     marginLeft: 60
+  },
+  materialFixedLabelTextbox: {
+    height: 107,
+    width: 171,
+    borderWidth: 1,
+    borderColor: "rgba(159,112,112,1)",
+    borderRadius: 26,
+    marginTop: 273,
+    marginLeft: 102
+  },
+  materialButtonDark: {
+    height: 36,
+    width: 100,
+    marginTop: 15,
+    marginLeft: 200
+  },
+  containerText: {
+    borderBottomWidth: 1,
+    borderColor: "#D9D5DC",
+    backgroundColor: "white",
+    flexDirection: "row",
+    height: 107,
+    width: 171,
+    borderWidth: 1,
+    borderColor: "rgba(159,112,112,1)",
+    borderRadius: 26,
+    marginTop: 1,
+    marginLeft: 50
+  },
+  commentaire: {
+    fontSize: 16,
+    lineHeight: 16,
+    paddingTop: 16,
+    paddingBottom: 8,
+    color: "#000",
+    opacity: 0.5,
+    alignSelf: "flex-start",
+    left: 16,
+    width: 334,
+    top: 0,
+    height: 142
+  },
+  inputStyle: {
+    color: "#000",
+    paddingRight: 5,
+    fontSize: 16,
+    alignSelf: "stretch",
+    flex: 1,
+    lineHeight: 16,
+    paddingTop: 14,
+    paddingBottom: 8,
+    paddingLeft: 30
+  },
+  containerButton: {
+    backgroundColor: "#212121",
+    justifyContent: "center",
+    alignItems: "center",
+    flexDirection: "row",
+    borderRadius: 2,
+    marginLeft: 90,
+    shadowColor: "#000",
+    shadowOffset: {
+      width: 0,
+      height: 1
+    },
+    shadowOpacity: 0.35,
+    shadowRadius: 5,
+    elevation: 2,
+    minWidth: 88,
+    paddingLeft: 50,
+    paddingRight: 16,
+    width: 20
+  },
+  envoyer: {
+    color: "#fff",
+    fontSize: 14,
+    marginRight: 30
+  },
+  InputS:{
+    height: 100,width : 100, borderColor: 'white', borderWidth: 3 ,
+    marginLeft: 85,
+    justifyContent: "center",
+    alignItems: "center",
+    position: "relative",
   }
 });
 

@@ -16,11 +16,17 @@ notation.access = (no, result) => {
       }
       });
   }
-  notation.rating = (rate, result) => {
-    const rechsql = 'UPDATE Notation SET rating = '+rate.rating+' WHERE userId = '+rate.id+' AND donneurId = '+rate.donneurId;
+notation.rating = (rate, result) => {
+    const rechsql = 'UPDATE Notation SET rating = '+rate.rating+' , commentaire = "'+rate.commentaire+'" WHERE userId = '+rate.id+' AND donneurId = '+rate.donneurId;
     //const rechsql = 'INSERT INTO Notation(userId,idDemande,donneurId,rating) VALUES ?';
-    const values = [[rate.id,rate.donneurId,rate.rating]];
-    sql.query(rechsql);
+    console.log("passe ici");
+    console.log(rate.commentaire);
+    
+    sql.query(rechsql, function (err, resu, fields) {
+      console.log(err);
+    
+    });
+
   }
 
 
