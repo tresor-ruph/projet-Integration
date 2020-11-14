@@ -12,7 +12,7 @@ class ListeDem extends React.Component {
     this.state = { 
       demande: [],
       filtre: 'all',
-      codeP: 1410
+      codeP: ''
     };
   }  
 
@@ -21,14 +21,34 @@ class ListeDem extends React.Component {
   }
   
   componentDidMount() {
+    console.log(this.state.codeP)
     console.log(this.state.filtre);
-    if (this.state.filtre === 'all') {
+    if (this.state.filtre === 'all' & this.state.codeP ==='') {
     fetch('http://localhost:3000/demande/all')
     .then(response => response.json())
     .then(json => {
       this.setState({ demande: json });
     });
-    } else {
+    }
+    else if(this.state.codeP === ''){
+      fetch(`http://localhost:3000/demandeCat/'${this.state.filtre}'/`)
+    .then(response => response.json())
+    .then(json => {
+      this.setState({ demande: json });
+      console.log(json);
+      console.log(this.state.demande);
+    })
+    }
+    else if(this.state.filtre === 'all'){
+      fetch(`http://localhost:3000/demandeCode/'${this.state.codeP}'/`)
+    .then(response => response.json())
+    .then(json => {
+      this.setState({ demande: json });
+      console.log(json);
+      console.log(this.state.demande);
+    })
+    }
+    else {
       fetch(`http://localhost:3000/demande/'${this.state.filtre}'/'${this.state.codeP}'/`)
     .then(response => response.json())
     .then(json => {
@@ -49,6 +69,10 @@ class ListeDem extends React.Component {
    this.setState({ codeP: myCode });
  }
 
+ submitId(idRecu){
+   console.log(idRecu)
+ }
+
 
   render() {
     return (
@@ -65,7 +89,7 @@ class ListeDem extends React.Component {
           <TextInput onChangeText={(text) => { this.modifietext(text); }} style={styles.inputt} />
           </View>
           <View style={styles.boutonTri}>
-            <Button title='Trier'  onPress={() => {this.submit()}}></Button>
+            <Button title='Filtrer'  onPress={() => {this.submit()}}></Button>
           </View>
           <View style={styles.boutonDem}>
           <Button color='green' title='Mes demandes' onPress={this.click_MesDem}></Button>
@@ -80,6 +104,9 @@ class ListeDem extends React.Component {
               <ListItem.Title>{l.Prenom} {l.Nom}</ListItem.Title>
               <ListItem.Subtitle style={styles.descri}>{l.categorie}</ListItem.Subtitle>
               <ListItem.Subtitle >{l.descriptif}</ListItem.Subtitle>
+              <View style={styles.boutsss}>
+                <Button title='Chat' onPress={() => {this.submitId(l.userId)}}></Button>
+              </View>
             </ListItem.Content>
           </ListItem>
         ))
@@ -95,6 +122,11 @@ const styles = StyleSheet.create({
     marginTop: '1%',
     float: 'left'
   },
+
+  boutsss:{
+    width: '100%',
+  },
+
   boutonDem: {
     width: '100%',
     marginTop:'1%'

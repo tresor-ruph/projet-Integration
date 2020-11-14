@@ -31,8 +31,22 @@ demande.findDemandeFilter = (categorie, codeP,  result) => {
     });
 };
 
+
 demande.findDemandeFilterT = (categorie, result) => {
-    sql.query(`select * from Demande WHERE categorie = ${categorie} and `, (err,res) => {
+    sql.query(`select * from Demande inner join Utilisateurs on Demande.userId=Utilisateurs.Id WHERE categorie = ${categorie}  `, (err,res) => {
+        if(err) {
+            console.log("error : ", err);
+            result (null ,err);
+            return;
+        }
+            console.log("contacts :" , res);
+            result (null, res);
+            
+    });
+};
+
+demande.findDemandeFilterCode = (codeP, result) => {
+    sql.query(`select * from Demande inner join Utilisateurs on Demande.userId=Utilisateurs.Id WHERE CodePostal = ${codeP}  `, (err,res) => {
         if(err) {
             console.log("error : ", err);
             result (null ,err);
@@ -47,7 +61,7 @@ demande.findDemandeFilterT = (categorie, result) => {
 
 
 demande.findDemandeFilterU = (userId, result) => {
-    sql.query(`select * from Demande WHERE userId = ${userId}`, (err,res) => {
+    sql.query(`select * from Demande inner join Utilisateurs on Demande.userId=Utilisateurs.Id WHERE userId = ${userId}`, (err,res) => {
         if(err) {
             console.log("error : ", err);
             result (null ,err);
@@ -72,17 +86,6 @@ demande.supprimerDemande = (idDemande, result) => {
 }
 
 
-demande.findDemandeFilterU = (userId, result) => {
-    sql.query(`select * from Demande WHERE userId = ${userId}`, (err,res) => {
-        if(err) {
-            console.log("error : ", err);
-            result (null ,err);
-            return;
-        }
-            console.log("contacts :" , res);
-            result (null, res);
-    });
-};
 
 demande.findDemandeDescriptif = (userId, result) => {
     sql.query(`select * from Demande WHERE idDemande = ${userId}`, (err,res) => {

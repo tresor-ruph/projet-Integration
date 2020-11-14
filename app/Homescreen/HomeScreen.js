@@ -1,8 +1,10 @@
 /* eslint-disable import/no-extraneous-dependencies */
 /* eslint-disable import/no-unresolved */
 import React from 'react';
+import { Button, Overlay } from 'react-native-elements';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+
 
 
 function Mainscreen(props) {
@@ -20,10 +22,10 @@ function Mainscreen(props) {
   const handleListeDem = () => {
     props.navigation.navigate('ListeDem');
   };
-
+    
   return (
-    <View style={styles.container}>
 
+    <View style={styles.container}>
       <View style={styles.buttonRow}>
         <TouchableOpacity style={styles.button} onPress={handleListeDem}>
           <Text style={styles.joffreMonService1}>

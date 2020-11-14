@@ -38,6 +38,8 @@ class ListeDem extends React.Component {
     })
     .then(response => response.json())
     .catch(err => console.log(err))
+    this.componentDidMount()
+    this.forceUpdate()
   }
   
 
@@ -48,11 +50,11 @@ class ListeDem extends React.Component {
       {
         this.state.demande.map((l, i) => (
           <ListItem key={i} bottomDivider>
-            <Avatar source={{uri: l.avatar_url}} />
+            <Avatar source={{uri: l.PhotoProfil}} />
             <ListItem.Content>
               <ListItem.Title>{l.userName}</ListItem.Title>
               <ListItem.Subtitle>{l.categorie}</ListItem.Subtitle>
-              <Button title='Supprimer' onPress={() => {this.submit(l.idDemande)}}></Button>
+              <Button color='red' title='Supprimer' onPress={() => {this.submit(l.idDemande)}}></Button>
             </ListItem.Content>
           </ListItem>
         ))

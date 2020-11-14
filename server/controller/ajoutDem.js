@@ -53,6 +53,44 @@ exports.findOne = (req, res) => {
   });
 };
 
+exports.findOneCat = (req, res) => {
+  demande.findDemandeFilterT(req.params.categorie, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found demande with categorie ${req.params.categorie}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving demande with categorie " + req.params.categorie,
+        });
+      }
+    } else {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.send(data);
+    }
+  });
+};
+
+exports.findOneCode = (req, res) => {
+  demande.findDemandeFilterCode(req.params.codeP, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found demande with categorie ${req.params.categorie}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving demande with categorie " + req.params.categorie,
+        });
+      }
+    } else {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.send(data);
+    }
+  });
+};
+
 exports.findOneUI = (req, res) => {
   demande.findDemandeFilterU(req.params.userId, (err, data) => {
     if (err) {
