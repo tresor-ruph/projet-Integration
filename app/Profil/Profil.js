@@ -143,7 +143,7 @@ export default function Profil() {
     console.log(requestOptions.body);
 
     fetch('http://192.168.1.7:3000/updateData', requestOptions)
-      .then(() => ("Data successfully updated"))
+      .then()
       .catch((error) => {
         console.log(error);
       });

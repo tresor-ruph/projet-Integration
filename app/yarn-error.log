@@ -14,7 +14,7 @@ Platform:
   win32 x64
 
 Trace: 
-  Error: EPERM: operation not permitted, unlink 'E:\3TI\Integration\projet-Integration\app\node_modules\bcryptjs\src'
+  Error: EPERM: operation not permitted, unlink 'E:\3TI\Integration\projet-Integration\app\node_modules\expo-crypto\android'
 
 npm manifest: 
   {
