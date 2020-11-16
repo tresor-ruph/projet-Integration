@@ -5,24 +5,24 @@ import { Header } from 'react-native-elements';
 import { useNavigation } from '@react-navigation/native';
 
 function DiscHeader(props) {
-    const [name , setName] = useState('TITLE')
+    const [name, setName] = useState('TITLE');
   const navigation = useNavigation();
   const screenName = props.id.scene.route.params;
 
   useEffect(() => {
-      if(screenName.screen === "disc"){
-          setName("Discussion")
-      }else if(screenName.screen === "groups"){
-          setName("Groupes")
-      }else if(screenName.screen ==="contacts"){
-          setName("Repertoire");
+      if (screenName.screen === 'disc') {
+          setName('Discussion');
+      } else if (screenName.screen === 'groups') {
+          setName('Groupes');
+      } else if (screenName.screen === 'contacts') {
+          setName('Repertoire');
       }
-  })
+  });
 
   return (
     <View>
       <Header
-      containerStyle ={{height: 65}}
+      containerStyle={{ height: 65 }}
         leftComponent={{
             icon: 'home',
             color: '#fff',

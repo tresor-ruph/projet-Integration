@@ -8,6 +8,7 @@ import {
   Text,
   SafeAreaView,
   ScrollView,
+  Button
 } from "react-native";
 import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialButtonShare from "./components/MaterialButtonShare";
@@ -24,6 +25,7 @@ import { ListItem, Avatar } from 'react-native-elements'
 
 import GroupChat from './groupChat'
 import GroupScreen from './GroupScreen'
+import contactStorage from './contact_storage';
 
 
 let userId = " "
@@ -31,43 +33,42 @@ let disp = " "
 function Discussion_Repo(  route, props) {
   const [contacts, setContact] = useState(" ");
   const [loaded, setLoaded] = useState(false);
+  const [reload, setReload] = useState(0)
   const navigation = useNavigation();
 
 
   const isFocused = useIsFocused();
   disp = route.route.params.screen;
+  async function getContact() {
+    let recentChats =await AsyncStorage.getItem('recentChats')
+    if(recentChats == null){
+
+    await AsyncStorage.setItem('recentChats', JSON.stringify([]));
+    }
+    let contact = await AsyncStorage.getItem("contact");
+    if (contact == null) {
+      let test = [];
+      await AsyncStorage.setItem("contact", JSON.stringify(test));
+    } else {
+      contact = JSON.parse(contact);
+      setContact(contact);
+      setLoaded(true);
+    }
+
+    let id = await AsyncStorage.getItem("user")
+    id = JSON.parse(id).Id
+   userId = id
+  }
 
   useEffect(() => {
     
-    async function getContact() {
-      console.log("verif effect")
-      let recentChats =await AsyncStorage.getItem('recentChats')
-      if(recentChats == null){
 
-      await AsyncStorage.setItem('recentChats', JSON.stringify([]));
-      }
-      let contact = await AsyncStorage.getItem("contact");
-      if (contact == null) {
-        let test = [];
-        await AsyncStorage.setItem("contact", JSON.stringify(test));
-      } else {
-        contact = JSON.parse(contact);
-        setContact(contact);
-        setLoaded(true);
-      }
-
-      let id = await AsyncStorage.getItem("user")
-      id = JSON.parse(id).Id
-     userId = id
-    }
     getContact();
-    console.log("hehehe")
-    console.log(contacts)
-
-    
+  
 
   
   }, [loaded, isFocused]);
+
 
   function renderScreen() {
     
@@ -86,29 +87,61 @@ function Discussion_Repo(  route, props) {
       );
     } else if (disp === "contacts") {
       let arr = [];
-      for (let i = 0; i < contacts.length; i++) {
-        arr.push(
-        
+      let i = 0;
+    Array.from(contacts).forEach(elt => {
+    
+      arr.push(
           <Contact
           userId = {userId}
             key={i}
-            id = {contacts[i].Id}
-            name={contacts[i].Nom}
-            imgUrl={contacts[i].PhotoProfil}
+            id = {elt.Id}
+            name={elt.Nom}
+            imgUrl={elt.PhotoProfil}
             grp= {true}
-            onNav={() => navigation.navigate('Chat', { recieverId: contacts[i].Id, senderId: userId })}
-  
+            onNav={() => navigation.navigate('Chat', { recieverId: elt.Id, senderId: userId })}
+            verif = {true}
+            component={
+              (
+                <View style={{ borderRadius: 10 }}>
+                  <TouchableOpacity onPress={() => {
+                  
+                    contactStorage(elt.Id) 
+                    getContact();
+                    navigation.navigate('Discussion_Repo', { screen: 'groups'});
+
+
+
+                  }} 
+                  
+                  >
+                    <Text style={{color: "red"}}>delete</Text>
+                   
+                  </TouchableOpacity>
+                </View>
+              )
+            }
           />
+            
+        
          
         );
-      }
+        i++;
+    })
+     
+        
+      
       return <View><View>{arr}</View></View>;
     }
   }
 
+ 
+
   return (
     <SafeAreaView style={styles.container}>
+      
+   
       <ScrollView style={styles.scrollView}>
+
         {loaded ? renderScreen() : <Text> </Text>}
       </ScrollView>
       <View>

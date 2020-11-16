@@ -32,29 +32,10 @@ function GroupChat() {
   const navigation = useNavigation();
 
   const handlePress = () => {
+    console.log(group)
     if (group.length === 0) {
       setErr(true);
-      /*  if(Platform.OS === 'web'){
-        console.log('ok');
-      }
-      console.log('here');*/
-      /* Alert.alert(
-        'Alert Title',
-        'My Alert Msg',
-        [
-          {
-            text: 'Ask me later',
-            onPress: () => console.log('Ask me later pressed')
-          },
-          {
-            text: 'Cancel',
-            onPress: () => console.log('Cancel Pressed'),
-            style: 'cancel'
-          },
-          { text: 'OK', onPress: () => console.log('OK Pressed') }
-        ],
-        { cancelable: false }
-      );*/
+     
     } else navigation.navigate('ConfGroup', { grp: group, grpowner: owner });
   };
   useEffect(() => {
@@ -89,14 +70,16 @@ function GroupChat() {
           }
           checked={contact[i].check}
           onPress={() => {
-            setchk((prevState) => !prevState);
-            contact[i].check = chk;
-
-            if (chk === true) {
+            console.log(contact[i].Id)
+            console.log(chk)
+            if (chk) {
+              console.log("yeah")
               //we add the contact into group
               setGroup((prevState) => [...prevState, contact[i].Id]);
               setErr(false);
+              console.log(group)
             } else {
+              console.log("no")
               //we remove the contact from group if it exist
 
               // eslint-disable-next-line no-lonely-if
@@ -106,7 +89,10 @@ function GroupChat() {
                   prevState.filter((elt) => elt !== contact[i].Id)
                 );
               }
+              console.log(group)
             }
+            setchk((prevState) => !prevState);
+            contact[i].check = chk;
           }}
         />
       );

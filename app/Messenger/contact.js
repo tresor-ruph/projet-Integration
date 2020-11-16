@@ -6,6 +6,7 @@ import { StyleSheet, View, Image, Text, TouchableOpacity, Button} from 'react-na
 import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import contactStorage from './contact_storage';
 
+
 function Contact(props) { 
   // eslint-disable-next-line no-unused-vars
   const [name, setName] = useState(props.name);
@@ -13,7 +14,10 @@ function Contact(props) {
   const [imgUrl, setImgUrl] = useState(props.imgUrl);
   const lastMess = props.lastMess;
   const [del, setDel] = useState(false);
+  
 const grp = props.grp;
+
+
 
   const handleCancel = () => {
     setDel(false);
@@ -40,7 +44,7 @@ const grp = props.grp;
           style={styles.mess}
           onPress={props.onNav}
           delayLongPress={1000}
-          onLongPress={handlerLongClick}
+          onLongPress={props.verif && handlerLongClick}
         >
           <Text style ={styles.textName}>{name}</Text>
           <Text style ={styles.Lastmessage}>{lastMess}</Text>
@@ -58,6 +62,9 @@ const grp = props.grp;
             style={styles.buttonWrapper1}
             onPress={() => {
               contactStorage(name);
+             setDel(false);
+            
+
             }}
           >
             <MaterialCommunityIconsIcon name='delete' style={styles.icon1} />

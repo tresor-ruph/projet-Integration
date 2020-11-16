@@ -36,6 +36,8 @@ function ConfGroup(route, props) {
         alert('Sorry, we need camera roll permissions to make this work!');
       }
     }
+    console.log("grouuuuuups");
+    console.log(route.route.params.grp);
 
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,

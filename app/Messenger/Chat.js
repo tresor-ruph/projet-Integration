@@ -6,6 +6,7 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { StyleSheet, Text } from "react-native";
 import * as firebase from "firebase";
 import "firebase/firestore";
+import { cos } from "react-native-reanimated";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDRItqqCOKaYRO3hMHpIc_m1V61oOQcfSY",
@@ -54,6 +55,7 @@ export default function Chat(route, navigation) {
 
   useEffect(() => {
     if (groups) {
+      console.log('groups');
       chatRoom =  chatId();
       readUser();
 
@@ -99,6 +101,7 @@ export default function Chat(route, navigation) {
         .then((reponse) => reponse.json())
         .then((json) => {
           if (json.length === 0) {
+            console.log("empty ")
             chatRoom = chatId();
             //chatsRef = db.collection('chats').doc(chatId()).collection('message');
             const requestOptions = {
@@ -115,19 +118,23 @@ export default function Chat(route, navigation) {
               }),
             };
             try {
+              console.log('try request')
               fetch("http://localhost:3000/chat/addroom", requestOptions)
                 .then((response) => response.json())
                 .then((data) => {
+                  console.log("hello")
                   console.log(data);
                 });
             } catch (error) {
-              setErrorMess = true;
+              console.log(error);
             }
           } else {
+            console.log("not empty")
             try {
               chatRoom = json[0].roomId;
             } catch (error) {
-              setErrorMess = true;
+              console.log(error)
+              //  setErrorMess = true;
             }
 
             // chatsRef = db.collection('chats').doc(json[0].roomId).collection('message');
@@ -162,11 +169,14 @@ export default function Chat(route, navigation) {
                 //the 2 lines above sort the message by creation time so that recent messages are sent first
               });
           } catch (error) {
+            console.log(error)
             setErrorMess(true);
           }
           try {
             return () => unsubscribe();
           } catch (error) {
+            console.log(error)
+
             //setErrorMess(true);
           }
         })
@@ -177,7 +187,7 @@ export default function Chat(route, navigation) {
     }
 
     return async function cleanup() {
-      if(groups){
+     /* if(groups){
         console.log("groups")
         let group = await AsyncStorage.getItem("group");
         group = JSON.parse(group);
@@ -231,12 +241,7 @@ export default function Chat(route, navigation) {
       };
       contacts.filter(alter);
       try {
-        /*
-        *A better method will be to pass all the required information for the
-        * the person of contact as a prop in the navigation and use it to 
-        * populate the object lastmessage
-        * 
-        * */
+       
 
         lastMessage.profilPic = contacts[0].PhotoProfil;
         lastMessage.Nom = contacts[0].Nom;
@@ -266,7 +271,7 @@ export default function Chat(route, navigation) {
       } catch (error) {
         console.log("an error occured");
       }
-    }
+    }*/
     };
   }, []);
 

@@ -7,16 +7,12 @@ import { Button, TextInput, View, StyleSheet } from 'react-native';
 export default function Login(props)  {
 
     const [username, setusername] = useState(" ");
-    const [password, setPassword] = useState(" ");
-    const [userId , setUserId] = useState("")
-   
-  
  
    const onLogin = async ()=> {
    
 
     // eslint-disable-next-line no-undef
-    fetch(`http://localhost:3000/contacts/${username}`)
+    fetch(`http://192.168.1.52:3000/contacts/${username}`)
     .then(reponse => reponse.json())
     .then( json => {
       console.log(json);
@@ -31,31 +27,11 @@ export default function Login(props)  {
 
       
     });
-  
-   /* const { username, password } = this.state;
-    const requestOptions = {
-      method: 'POST',
-      headers: new Headers( {
-          Accept: 'application/json',
-           'content-Type': 'application/json',
-           'Access-Control-Allow-Origin': '*'
-        }
-        ),
-      body: JSON.stringify(this.state)
-  };
-
-  try {
-    fetch('http://localhost:3000/addUser', requestOptions)
-    .then(response => response.json())
-    .then(data => console.log(data));
-      console.log(this.state);
-  } catch (error) {
-    console.error(error);
-  }  */
 
   }
 const handlePassword = (event) => {
-  setPassword(event.target.value);
+ console.log(username);
+ // setPassword(event.target.value);
 }
 const handleUsername = (event) => {
   setusername(event.target.value);
@@ -66,7 +42,7 @@ const handleUsername = (event) => {
         <TextInput
                   placeholder={'Username'}
 
-          onChange={handleUsername}
+          onChangeText={text => setusername(text)}
           style={styles.input}
         />
         <TextInput

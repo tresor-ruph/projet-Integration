@@ -23,7 +23,6 @@ function GroupScreen(props) {
            fetch(`http://localhost:3000/group/${userId}`)
            .then(response => response.json())
            .then(json => {
-             console.log(json)
              setGroups(json);
            });
            } catch (error) {

@@ -11,7 +11,7 @@ function OtherHeader(props) {
     <View>
       
 <Header 
-  containerStyle ={{height: 65}}
+  containerStyle={{ height: 65 }}
   
  leftComponent={{
   icon: 'keyboard-return',
