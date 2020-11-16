@@ -1,36 +1,44 @@
 const sql = require('./db');
-const rein ="require('../model/reinit.model')"
+
+
 const reinitmdp = function () {
   this.mail= reinitmdp.mail
   };
 
 
   reinitmdp.cibleUser= (mail,result) => {
-    sql.query(`select * from RepSec inner join Utilisateurs on RepSec.Mail=Utilisateurs.Mail WHERE Mail = ${mail}` , (err,res) => {
-      if(err) {
+    let email='"' + mail + '"'
+    sql.query(`SELECT * from Repsec inner join Utilisateurs on Repsec.Mail=Utilisateurs.Mail WHERE Repsec.Mail = ${email}` , (err,res) => {
+          if(err) {
           console.log("error : ", err);
           result (null ,err);
           return;
-      }
-          console.log("contacts :" , res);
+          }
+          console.log("donnees :" , res);
           result (null, res);
           
-  });
+    });
 }
 
   
-  reinitmdp.findQuestion=(mail,result) =>{
-  sql.query(`select * from RepSec inner join Utilisateurs on RepSec.Mail=Utilisateurs.Mail WHERE Mail = ${mail}` , (err,res) => {
-    if(err) {
+  reinitmdp.findAllUsers=(result)=>{
+    sql.query('SELECT Mail FROM Utilisateurs', (err,res)=>{
+      if(err) {
         console.log("error : ", err);
         result (null ,err);
         return;
-    }
-        console.log("contacts :" , res);
+        }
+        console.log("donnees :" , res);
         result (null, res);
         
-});
-}
+  });
+  }
+    
+   
+  
+
+
+
 
 module.exports = reinitmdp;
 

@@ -12,10 +12,14 @@ class Reinit extends React.Component{
         super(props);
         this.state={
             mail:"",
+            emails:[],
         }
     }  
 
     submit() {
+
+        this.componentDidMount();
+
         //envoie msg d'erreur si un champ est encore vide
         if(this.state.mail == '') {
           let simpleAlertHandler = () => {
@@ -35,19 +39,31 @@ class Reinit extends React.Component{
             return;
           } 
           
-        if(this.state.mail )
-          
-        this.props.navigation.navigate("ReinitMdpP2")
-        console.log(this.state.mail)
+        for(let i=0; i<this.state.emails.length;i++){
+            
+            if (this.state.mail != this.state.emails[i].Mail){
+                console.log("mail inconnu")
+            }
+            else{
+                this.props.navigation.navigate("ReinitMdpP2",{email: this.state.mail})
+                console.log(this.state.mail)
+            }
+        }
+       
+    }
+
+    componentDidMount(){
+        
+
+      fetch(`http://localhost:3000/reinitmdpAll/`)
+          .then(response => response.json())
+          .then(json => {
+            this.setState({emails: json})
+            
+          })
     }
 
             
-    
-
-
-
-    
-      
     render() {
         return(
         

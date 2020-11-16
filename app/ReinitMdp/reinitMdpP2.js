@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, TextInput,TouchableOpacity } from "react-native";
+import { StyleSheet, View, Text, TextInput,TouchableOpacity, Button } from "react-native";
 import React from 'react';
 
 
@@ -6,19 +6,28 @@ import React from 'react';
 
 
 
+let quest = 0
 class ReinitMdp2 extends React.Component{
 
-    constructor(props){
-        super(props);
+    constructor(route,props){
+        super(route,props);
         this.state={
-            mail:"",
+            donnees:[],
+            mail:route.route.params.email,
+            questionSec:"",
             reponseSec:"",
             motdepasse:"",
             motdepasseVerif:'',
-        }
+        };
+
+     
+          
     }  
 
+    
     submit() {
+
+        this.componentDidMount();
         
         if( this.state.reponseSec == '' || this.state.motdepasse == '' || this.state.motdepasseVerif == '' ) {
           let simpleAlertHandler = () => {
@@ -45,12 +54,39 @@ class ReinitMdp2 extends React.Component{
           }    
           
     }
+
+    submit22(){
+      this.forceUpdate()
+    }
+
+    submit23(){
+      if(quest = 0){
+        this.forceUpdate()
+      }
+      quest += 1
+    }
+
+    componentDidMount(){
+        fetch(`http://localhost:3000/reinitmdpR/${this.state.mail}`)
+          .then(response => response.json())
+          .then(json => {
+            this.setState({donnees: json})
+            this.state.questionSec=json[0].QuestionValue
+            quest = json[0].QuestionValue
+            console.log(this.state.donnees)
+            console.log(this.state.questionSec)
+            
+          })
+          this.forceUpdate()
+        }
   
     render() {
         return(
-        
             <View style={styles.container}>
+              <Button color='green' title='verif' onPress={() => {this.submit22()}}></Button>
                 <Text style={styles.Text1}>Completez les champs suivants afin de réinitialiser votre mot de passe</Text>
+                <Text style={styles.Text2}>Votre question secrète</Text>
+                <Text>{this.state.questionSec}</Text>
                 <Text style={styles.Text2}>Réponse secrète</Text>
                 <TextInput
                     onChangeText={(text)=>{this.setState({reponseSec:text})}}
@@ -79,6 +115,7 @@ class ReinitMdp2 extends React.Component{
                     <Text style={styles.TextBout}> Reinitialiser mot de passe  </Text>
 
                 </TouchableOpacity>
+                {this.submit23()}
             </View>
         )
     }

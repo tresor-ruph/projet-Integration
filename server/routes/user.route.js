@@ -16,12 +16,12 @@ module.exports = (app) => {
     **/
   app.get("/users", userController.findAll);
   app.get("/users/:id", userController.findOne);
-  app.put("/updateData", userController.update)
+  app.put("/updateData", userController.update);
   app.get("/contacts/:email", contacts.findOne);
-  app.get("/chat/:senderId/:recieverId", contacts.findRoom)
-  app.post("/chat/addroom", contacts.createChat )
-  app.post("/auth", connexion.create)
-  app.post("/login", connexion.access)
+  app.get("/chat/:senderId/:recieverId", contacts.findRoom);
+  app.post("/chat/addroom", contacts.createChat );
+  app.post("/auth", connexion.create);
+  app.post("/login", connexion.access);
   
     //get user with id = id
   app.get("/demande/all", demande.findAll);
@@ -30,6 +30,7 @@ module.exports = (app) => {
   app.get("/demandeU/:userId", demande.findOneUI);
   app.get("/demandeD/:userId", demande.findDescri);
   app.get("/reinitmdpR/:mail", reinitmdp.cibleUser);
-  /*app.get("/reponseSecG/:") à comp avec réponse sec quand in bdd */
+  app.get("/reinitmdpAll/", reinitmdp.findAllUsers);
+  
 
 };
