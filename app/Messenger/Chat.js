@@ -6,7 +6,6 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { StyleSheet, Text } from "react-native";
 import * as firebase from "firebase";
 import "firebase/firestore";
-import { cos } from "react-native-reanimated";
 
 const firebaseConfig = {
   apiKey: "AIzaSyDRItqqCOKaYRO3hMHpIc_m1V61oOQcfSY",
@@ -26,7 +25,7 @@ if (firebase.apps.length === 0) {
 const db = firebase.firestore();
 let chatRoom = "";
 let lastMessage = " ";
-
+let moreInfo = "true"
 //let setErrorMess = true
 
 export default function Chat(route, navigation) {
@@ -54,6 +53,29 @@ export default function Chat(route, navigation) {
   let chatsRef = db.collection("chats");
 
   useEffect(() => {
+
+async function verif() {
+let ct = await AsyncStorage.getItem('contact')
+ct = JSON.parse(ct)
+let check = false
+Array.from(ct).forEach(elt => {
+  if(elt.Id === route.route.params.recieverId ){
+    console.log(elt.Id)
+    check = true
+  }
+})
+if(check == false) {
+  moreInfo = "false";
+}
+console.log(check);
+}
+
+if(!groups){
+  console.log("test function verif")
+  verif();
+}
+
+
     if (groups) {
       console.log('groups');
       chatRoom =  chatId();
@@ -115,6 +137,7 @@ export default function Chat(route, navigation) {
                 senderId: route.route.params.senderId,
                 recieverId: route.route.params.recieverId,
                 chatId: chatId(),
+                contact : moreInfo
               }),
             };
             try {

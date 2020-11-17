@@ -21,6 +21,7 @@ import ChatOption from './Messenger/chatOptions';
 import MessHeader from './header';
 import AddGroupMem from './Messenger/addGroupMem';
 import DiscHeader from './discHeader';
+import Demande from './demandeFormulaire/Demande';
 
 //import Login from './Login/login'
 
@@ -32,6 +33,8 @@ function Nav() {
       <Stack.Navigator>
         <Stack.Screen name="Home" component={Home} />
         <Stack.Screen name="Login" component={Login} />
+        <Stack.Screen name="demande" component={Demande} />
+
         <Stack.Screen
 name="AddGroupMem" component={AddGroupMem}
         options={{

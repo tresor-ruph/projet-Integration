@@ -71,8 +71,8 @@ user.findGroupUsersById = (Id, result) => {
 
 user.createChat = (Chat, result) => {
   console.log("hahahhaa")
-  const req = "insert into Chat(senderId,recieverId,roomId) values ?";
-  const values = [[Chat.senderId, Chat.recieverId, Chat.chatId]];
+  const req = "insert into Chat(senderId,recieverId,roomId,contact) values ?";
+  const values = [[Chat.senderId, Chat.recieverId, Chat.chatId,Chat.contact]];
   sql.query(req, [values], (err,res) => {
     if(err) {
       console.log("error :", err);
@@ -206,7 +206,7 @@ user.findRoom = (senderId, recieverId, result) => {
   console.log(senderId);
   console.log(recieverId);
   sql.query(
-    `select roomId from Chat where (senderId = ${senderId} and recieverId = ${recieverId}) or (senderId =${recieverId} and recieverId = ${senderId}) `,
+    `select roomId from chat where (senderId = ${senderId} and recieverId = ${recieverId}) or (senderId =${recieverId} and recieverId = ${senderId}) `,
     (err, res) => {
       if (err) {
         console.log("error : ", err);
@@ -218,6 +218,27 @@ user.findRoom = (senderId, recieverId, result) => {
     }
   );
 };
+
+user.findConversRoom = (userId, result) => {
+  console.log('bigbang')
+  userId = "'" + userId + "'";
+  
+  sql.query(
+    `select * from chat join utilisateurs where chat.recieverId = utilisateurs.Id and contact = 'false' and (senderId =${userId} or recieverId =${userId})  `,
+    (err, res) => {
+      if (err) {
+        console.log("error : ", err);
+        result(null, err);
+        return;
+      }
+      console.log("contacts :", res);
+      result(null, res);
+    }
+  );
+};
+
+
+
 
 user.leaveGroup = (id, result) => {
   sql.query(`delete from ChatGroupUsers where userId = ${id}`, (err, res) => {

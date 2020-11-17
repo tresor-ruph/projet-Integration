@@ -7,6 +7,7 @@ import { Button, TextInput, View, StyleSheet } from 'react-native';
 export default function Login(props)  {
 
     const [username, setusername] = useState(" ");
+    //const [user, setUserId] = useState("")
  
    const onLogin = async ()=> {
    
@@ -19,7 +20,7 @@ export default function Login(props)  {
       const name = json[0].Nom;
       const Id = json[0].Id
       const avatar = json[0].PhotoProfil
-      setUserId(json[0].Id)
+ // setUserId(json[0].Id);
     
       const user = { Id, name, avatar };
        AsyncStorage.setItem('user', JSON.stringify(user));

@@ -92,6 +92,26 @@ exports.findRoom = (req, res) => {
   });
 };
 
+exports.findConversRoom = (req, res) => {
+  console.log("bambal")
+  contacts.findConversRoom(req.params.userId, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+         // message: `Not found user with email ${req.params.email}.`,
+        });
+      } else {
+        res.status(500).send({
+        //  message: "Error retrieving room with senderId " + req.params.senderId,
+        });
+      }
+    } else {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.send(data);
+    }
+  });
+};
+
 
 
 exports.createChat = (req, res) =>{
@@ -105,6 +125,7 @@ exports.createChat = (req, res) =>{
     senderId : req.body.senderId,
     recieverId : req.body.recieverId,
     chatId : req.body.chatId,
+    contact : req.body.contact
   }
 
   contacts.createChat(chat,(err, data) => {
@@ -116,6 +137,9 @@ exports.createChat = (req, res) =>{
   })
 
 }
+
+
+
 
 exports.creategroup = (req, res) =>{
   

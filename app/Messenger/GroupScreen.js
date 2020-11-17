@@ -46,6 +46,7 @@ function GroupScreen(props) {
         imgUrl = {element.GroupImage}  
         lastMess ={element.text}
         grp ={true}
+        repert = {false}
         onNav={() => navigation.navigate('Chat', { recieverId:element.Id , senderId: userId, group: true })}
         /> 
         )

@@ -11,17 +11,19 @@ module.exports = (app) => {
         after changing the route make sure the parameter userId match in user.model and user.controller
     **/
   app.get("/users", userController.findAll);
-  app.get("/users/:id", userController.findOne);
-  app.put("/updateData", userController.update)
-  app.get("/contacts/:email", contacts.findOne);
+  app.get("/users/:id/", userController.findOne);
+  app.put("/updateData/", userController.update)
+  app.get("/contacts/:email/", contacts.findOne);
   app.get("/group/:Id", contacts.findGroups);
   app.get("/groupUsers/:Id", contacts.findGroupUsers);
+  app.get("/chat/:senderId/:recieverId/", contacts.findRoom);
+  app.get("/chatconv/:userId/", contacts.findConversRoom);
 
-  app.get("/chat/:senderId/:recieverId", contacts.findRoom)
-  app.post("/chat/addroom", contacts.createChat )
-  app.post("/group/addGroup", contacts.creategroup )
-  app.post("/group/addSingleGroup", contacts.addGroup )
-  app.delete("/group/:userId", contacts.leaveGroup);
-  app.delete("/group/all/:userId", contacts.removeGroup);
+  app.post("/chat/addroom/", contacts.createChat )
+  app.post("/group/addGroup/", contacts.creategroup )
+  app.post("/group/addSingleGroup/", contacts.addGroup )
+  app.delete("/group/:userId/", contacts.leaveGroup);
+  app.delete("/group/all/:userId/", contacts.removeGroup);
+
 
 };

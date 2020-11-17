@@ -52,7 +52,7 @@ function AddGroupMem(route) {
         fetch('http://localhost:3000/group/addSingleGroup', requestOptions)
           .then((response) => response.json())
           .then(() => {
-            navigation.navigate('Discussion_Repo', { screen: 'groups' });
+            navigation.goBack();
           });
       } catch (error) {
         console.log(error);

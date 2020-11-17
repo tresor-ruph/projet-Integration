@@ -5,6 +5,7 @@ import React, { useState } from 'react';
 import { StyleSheet, View, Image, Text, TouchableOpacity, Button} from 'react-native';
 import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 import contactStorage from './contact_storage';
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
 
 
 function Contact(props) { 
@@ -42,10 +43,16 @@ const grp = props.grp;
         />
         <TouchableOpacity
           style={styles.mess}
-          onPress={props.onNav}
+          onPress={ props.repert === false ?props.onNav : console.log() }
           delayLongPress={1000}
-          onLongPress={props.verif && handlerLongClick}
+        //  onLongPress={props.verif && handlerLongClick}
         >
+            {props.repert &&
+            <TouchableOpacity onPress={props.onNav} style = {styles.message}>
+          <Icon name="message" style={styles.messIcon} />
+
+          </TouchableOpacity>
+}
           <Text style ={styles.textName}>{name}</Text>
           <Text style ={styles.Lastmessage}>{lastMess}</Text>
 
@@ -111,6 +118,11 @@ marginLeft: -20,
     marginLeft: '10%',
     marginTop: '10%',
   },
+  messIcon: {
+    color: "green",
+    fontSize: 18
+  },
+
   viewStyleForLine: {
     marginTop: 8,
     borderBottomColor: 'rgba(177,175,184,0.3)',
@@ -120,8 +132,13 @@ marginLeft: -20,
   },
   button1 : {
     width : 50,
-    left: "58%",
+    left: "60%",
     top: -22
+  },
+  message : {
+    width : 50,
+    left: "50%",
+    
   },
   del: {
     marginTop: 10,

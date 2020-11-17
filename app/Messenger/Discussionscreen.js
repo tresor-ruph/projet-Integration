@@ -8,7 +8,7 @@ import {
   Text,
   SafeAreaView,
   ScrollView,
-  Button
+  Button,
 } from "react-native";
 import MaterialCommunityIconsIcon from "react-native-vector-icons/MaterialCommunityIcons";
 import MaterialButtonShare from "./components/MaterialButtonShare";
@@ -18,32 +18,28 @@ import Contact from "./contact";
 import Constants from "expo-constants";
 import AsyncStorage from "@react-native-community/async-storage";
 import { useIsFocused } from "@react-navigation/native";
-import RecentChat from './recentChats'
-import { useNavigation } from '@react-navigation/native';
-import { ListItem, Avatar } from 'react-native-elements'
+import RecentChat from "./recentChats";
+import { useNavigation } from "@react-navigation/native";
+import { ListItem, Avatar } from "react-native-elements";
 
+import GroupChat from "./groupChat";
+import GroupScreen from "./GroupScreen";
+import contactStorage from "./contact_storage";
 
-import GroupChat from './groupChat'
-import GroupScreen from './GroupScreen'
-import contactStorage from './contact_storage';
-
-
-let userId = " "
-let disp = " "
-function Discussion_Repo(  route, props) {
+let userId = " ";
+let disp = " ";
+function Discussion_Repo(route, props) {
   const [contacts, setContact] = useState(" ");
   const [loaded, setLoaded] = useState(false);
-  const [reload, setReload] = useState(0)
+  const [reload, setReload] = useState(0);
   const navigation = useNavigation();
-
 
   const isFocused = useIsFocused();
   disp = route.route.params.screen;
   async function getContact() {
-    let recentChats =await AsyncStorage.getItem('recentChats')
-    if(recentChats == null){
-
-    await AsyncStorage.setItem('recentChats', JSON.stringify([]));
+    let recentChats = await AsyncStorage.getItem("recentChats");
+    if (recentChats == null) {
+      await AsyncStorage.setItem("recentChats", JSON.stringify([]));
     }
     let contact = await AsyncStorage.getItem("contact");
     if (contact == null) {
@@ -52,96 +48,82 @@ function Discussion_Repo(  route, props) {
     } else {
       contact = JSON.parse(contact);
       setContact(contact);
-      setLoaded(true);
     }
+    setLoaded(true);
 
-    let id = await AsyncStorage.getItem("user")
-    id = JSON.parse(id).Id
-   userId = id
+
+    let id = await AsyncStorage.getItem("user");
+    id = JSON.parse(id).Id;
+    userId = id;
   }
 
   useEffect(() => {
-    
-
     getContact();
-  
-
-  
   }, [loaded, isFocused]);
 
-
   function renderScreen() {
-    
-   
-   
     if (disp === "disc") {
-      return (
-        
-        <RecentChat />
-      );
+      return <RecentChat />;
     } else if (disp === "groups") {
-     
       return (
         <GroupScreen />
         // <GroupChat />
       );
     } else if (disp === "contacts") {
       let arr = [];
-      let i = 0;
-    Array.from(contacts).forEach(elt => {
     
-      arr.push(
+      Array.from(contacts).forEach((elt) => {
+        arr.push(
           <Contact
-          userId = {userId}
-            key={i}
-            id = {elt.Id}
+            userId={userId}
+            key={elt.Id}
+            id={elt.Id}
             name={elt.Nom}
             imgUrl={elt.PhotoProfil}
-            grp= {true}
-            onNav={() => navigation.navigate('Chat', { recieverId: elt.Id, senderId: userId })}
-            verif = {true}
+            grp={true}
+            onNav={() =>
+              navigation.navigate("Chat", {
+                recieverId: elt.Id,
+                senderId: userId,
+              })
+            }
+            repert={true}
             component={
-              (
-                <View style={{ borderRadius: 10 }}>
-                  <TouchableOpacity onPress={() => {
-                  
-                    contactStorage(elt.Id) 
+              <View style={{ borderRadius: 10 }}>
+                <TouchableOpacity>
+                <TouchableOpacity
+                  onPress={() => {
+                    contactStorage(elt.Id);
                     getContact();
-                    navigation.navigate('Discussion_Repo', { screen: 'groups'});
+                   /* navigation.navigate("Discussion_Repo", {
+                      screen: "groups",
+                    });*/
+                  }}
+                >
+                <Icon name="delete-forever" style={styles.icon} style ={styles.deleteForv}></Icon>
 
-
-
-                  }} 
-                  
-                  >
-                    <Text style={{color: "red"}}>delete</Text>
-                   
-                  </TouchableOpacity>
-                </View>
-              )
+                </TouchableOpacity>
+                </TouchableOpacity>
+              </View>
             }
           />
-            
-        
-         
         );
-        i++;
-    })
-     
-        
       
-      return <View><View>{arr}</View></View>;
+
+        
+      });
+      console.log(arr)
+      return (
+        <View>
+          <View>{arr}</View>
+        </View>
+      );
     }
   }
 
- 
-
   return (
     <SafeAreaView style={styles.container}>
-      
-   
       <ScrollView style={styles.scrollView}>
-
         {loaded ? renderScreen() : <Text> </Text>}
       </ScrollView>
       <View>
@@ -151,24 +133,27 @@ function Discussion_Repo(  route, props) {
               iconName="account-plus"
               icon="account-plus"
               style={styles.materialButtonShare}
-              nav = 'addContact'
+              nav="addContact"
             ></MaterialButtonShare>
-          ) }
-          {
-            disp == "groups" &&(
-              <TouchableOpacity style={[styles.groupAdd, props.style]} onPress = {() => navigation.navigate('GroupChat')}>
-              <Icon name="account-multiple-plus" style={styles.icongroup}></Icon>
+          )}
+          {disp == "groups" && (
+            <TouchableOpacity
+              style={[styles.groupAdd, props.style]}
+              onPress={() => navigation.navigate("GroupChat")}
+            >
+              <Icon
+                name="account-multiple-plus"
+                style={styles.icongroup}
+              ></Icon>
             </TouchableOpacity>
-            )
-          }
+          )}
         </TouchableOpacity>
       </View>
 
       <View style={[styles.footer, styles.materialIconTextButtonsFooter1]}>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('Discussion_Repo', { screen: 'disc' });
-
+            navigation.navigate("Discussion_Repo", { screen: "disc" });
           }}
           style={styles.buttonWrapper1}
         >
@@ -180,8 +165,7 @@ function Discussion_Repo(  route, props) {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('Discussion_Repo', { screen: 'groups' });
-
+            navigation.navigate("Discussion_Repo", { screen: "groups" });
           }}
           style={styles.activeButtonWrapper}
         >
@@ -193,8 +177,7 @@ function Discussion_Repo(  route, props) {
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {
-            navigation.navigate('Discussion_Repo', { screen: 'contacts' });
-
+            navigation.navigate("Discussion_Repo", { screen: "contacts" });
           }}
           style={styles.buttonWrapper2}
         >
@@ -213,6 +196,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: Constants.statusBarHeight,
+   // fontFamily:"arial"
   },
   scrollView: {
     flex: 0.8,
@@ -238,6 +222,11 @@ const styles = StyleSheet.create({
     height: 62,
     width: "100%",
     marginTop: 678,
+  },
+  deleteForv : {
+    color: "red",
+    fontSize: 22
+    
   },
   buttonWrapper1: {
     flex: 1,
@@ -274,7 +263,7 @@ const styles = StyleSheet.create({
   Icon3: {
     color: "#616161",
     fontSize: 24,
-   /* backgroundColor: "transparent",
+    /* backgroundColor: "transparent",
     color: "#9E9E9E",
     fontSize: 24,
     opacity: 0.8,*/
@@ -321,7 +310,7 @@ const styles = StyleSheet.create({
     height: 56,
     width: 56,
   },
-  groupAdd : {
+  groupAdd: {
     width: 56,
     height: 56,
     backgroundColor: "rgba(65,117,5,1)",
@@ -331,18 +320,18 @@ const styles = StyleSheet.create({
     shadowColor: "#111",
     shadowOffset: {
       width: 0,
-      height: 2
+      height: 2,
     },
     shadowOpacity: 0.25,
     shadowRadius: 1.2,
     elevation: 2,
     minWidth: 40,
-    minHeight: 40
+    minHeight: 40,
   },
-  icongroup : {
+  icongroup: {
     color: "#fff",
     fontSize: 24,
-    alignSelf: "center"
-  }
+    alignSelf: "center",
+  },
 });
 export default Discussion_Repo;

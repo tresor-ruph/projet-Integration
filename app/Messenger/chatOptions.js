@@ -10,6 +10,7 @@ function ChatOption(route) {
   const [ownerId, setOwnerId] = useState('ownerId');
   const [members, setMembers] = useState([]);
   const [userId, setUserId] = useState('userId');
+  const [load, setLoad] = useState(0);
   const isFocused = useIsFocused();
 
   const navigation = useNavigation();
@@ -20,15 +21,20 @@ function ChatOption(route) {
       setUserId(user.Id);
     };
     getUser();
+    getMembers();
 
-    fetch(`http://localhost:3000/groupUsers/${route.route.params.id}`)
-      .then((response) => response.json())
-      .then((json) => {
-        console.log(json);
-        setOwnerId(json[0].ownerId);
-        setMembers(json);
-      });
+   
   }, [isFocused]);
+
+  function getMembers() {
+    fetch(`http://localhost:3000/groupUsers/${route.route.params.id}`)
+    .then((response) => response.json())
+    .then((json) => {
+      console.log(json);
+      setOwnerId(json[0].ownerId);
+      setMembers(json);
+    });
+  }
 
   const leaveGroup = (id, bol) => {
     fetch(`http://localhost:3000/group/${id}`, {
@@ -37,6 +43,7 @@ function ChatOption(route) {
       .then((res) => res.json())
       .then(() => {
         if (bol) {
+          getMembers();
         } else {
           navigation.navigate('Discussion_Repo', { screen: 'groups' });
         }
@@ -58,8 +65,9 @@ function ChatOption(route) {
     let i = 0;
     members.forEach((elt) => {
       arr.push(
+        
         <Contact
-          key={i}
+          key={elt.userId}
           id={elt.userId}
           name={elt.Nom}
           imgUrl={elt.PhotoProfil}
@@ -67,11 +75,15 @@ function ChatOption(route) {
           // onNav={() => navigation.navigate('Chat', { recieverId: contacts[i].Id, senderId: userId })}
           component={
             ownerId === userId && (
+              elt.userId === userId ?
+                 <View style={{ borderRadius: 10 }}><Text style={{ color: 'green' }}>Admin</Text></View> :
               <View style={{ borderRadius: 10 }}>
                 <TouchableOpacity onPress={() => leaveGroup(elt.userId, true)}>
                   <Text style={{ color: 'red' }}>retirer</Text>
                 </TouchableOpacity>
               </View>
+              
+              
             )
           }
         />

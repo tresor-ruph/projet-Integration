@@ -25,7 +25,7 @@ function MessHeader(props) {
           leftComponent={{
             icon: 'keyboard-return',
             color: '#fff',
-            onPress: () => navigation.navigate('Discussion_Repo', { screen: 'groups' })
+            onPress: () => navigation.goBack()
 
           }}
         />) :
@@ -35,8 +35,8 @@ function MessHeader(props) {
  leftComponent={{
   icon: 'keyboard-return',
   color: '#fff',
-  onPress: () => navigation.navigate('Discussion_Repo', { screen: props.screen })
-  ,
+  onPress: () => navigation.goBack()
+  
 }}
 />
 

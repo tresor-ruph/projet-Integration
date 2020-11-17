@@ -13,6 +13,10 @@ function Mainscreen(props) {
     props.navigation.navigate('Profil');
   };
 
+  const handleDemande = () => {
+    props.navigation.navigate('demande');
+  }
+
   return (
     <View style={styles.container}>
 
@@ -22,7 +26,7 @@ function Mainscreen(props) {
             J&#39;offre mon{'\n'}service
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button2}>
+        <TouchableOpacity style={styles.button2} onPress = {handleDemande}>
           <Text style={styles.demandeDaide}>Demande {'\n'}d&#39;aide</Text>
         </TouchableOpacity>
       </View>
