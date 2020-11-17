@@ -31,7 +31,11 @@ module.exports = {
             message: "Error retrieving user ",
           });
         }
-      } else {
+      } 
+      if(!data.length){
+        res.status(404).send('user with the provided id not found')
+      }
+      else {
         res.header("Access-Control-Allow-Origin", "*");
         res.status(200);
         res.send(data);

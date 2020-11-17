@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
     flex: 0.8,
   },
   footer: {
-    position: "fixed",
+    position: "absolute",
     flex: 0.1,
     left: 0,
     right: 0,
@@ -251,7 +251,7 @@ const styles = StyleSheet.create({
   buttonAdd: {
     width: 56,
     height: 56,
-    position: "fixed",
+    position: "absolute",
     flex: 0.1,
     left: "80%",
     right: 0,
