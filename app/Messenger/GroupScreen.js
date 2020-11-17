@@ -37,7 +37,9 @@ function GroupScreen(props) {
 
   function renderScreen() {
     const arr = [];
-    Array.from(groups).forEach(element => {
+
+    console.log(groups)
+    Array.from(groups).sort((a,b)=>a.GroupName.localeCompare(b.GroupName)).forEach(element => {
         arr.push(
         <Contact
         key = {element.Id}

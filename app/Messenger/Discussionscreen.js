@@ -51,7 +51,6 @@ function Discussion_Repo(route, props) {
     }
     setLoaded(true);
 
-
     let id = await AsyncStorage.getItem("user");
     id = JSON.parse(id).Id;
     userId = id;
@@ -71,8 +70,7 @@ function Discussion_Repo(route, props) {
       );
     } else if (disp === "contacts") {
       let arr = [];
-    
-      Array.from(contacts).forEach((elt) => {
+      Array.from(contacts).sort((a,b) =>a.Nom.localeCompare(b.Nom)).forEach((elt) => {
         arr.push(
           <Contact
             userId={userId}
@@ -91,28 +89,26 @@ function Discussion_Repo(route, props) {
             component={
               <View style={{ borderRadius: 10 }}>
                 <TouchableOpacity>
-                <TouchableOpacity
-                  onPress={() => {
-                    contactStorage(elt.Id);
-                    getContact();
-                   /* navigation.navigate("Discussion_Repo", {
+                  <TouchableOpacity
+                    onPress={() => {
+                      contactStorage(elt.Id);
+                      getContact();
+                      /* navigation.navigate("Discussion_Repo", {
                       screen: "groups",
                     });*/
-                  }}
-                >
-                <Icon name="delete-forever" style={styles.icon} style ={styles.deleteForv}></Icon>
-
-                </TouchableOpacity>
+                    }}
+                  >
+                    <Icon
+                      name="delete-forever"
+                      style={styles.deleteForv}
+                    ></Icon>
+                  </TouchableOpacity>
                 </TouchableOpacity>
               </View>
             }
           />
         );
-      
-
-        
       });
-      console.log(arr)
       return (
         <View>
           <View>{arr}</View>
@@ -196,7 +192,7 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     marginTop: Constants.statusBarHeight,
-   // fontFamily:"arial"
+    // fontFamily:"arial"
   },
   scrollView: {
     flex: 0.8,
@@ -223,10 +219,9 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: 678,
   },
-  deleteForv : {
+  deleteForv: {
     color: "red",
-    fontSize: 22
-    
+    fontSize: 22,
   },
   buttonWrapper1: {
     flex: 1,

@@ -40,8 +40,11 @@ function GroupChat() {
   };
   useEffect(() => {
     const getContact = async () => {
-      const res = await AsyncStorage.getItem('contact');
-      setContact(JSON.parse(res));
+      let res = await AsyncStorage.getItem('contact');
+    res = JSON.parse(res);
+    res = Array.from(res).sort((a, b) => a.Nom.localeCompare(b.Nom));
+      setContact(res);
+      
       const res2 = await AsyncStorage.getItem('user');
       setOwner(JSON.parse(res2).Id);
       const AsyncGrp = await AsyncStorage.getItem('group');

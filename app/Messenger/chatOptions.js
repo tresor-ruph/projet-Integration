@@ -62,8 +62,9 @@ function ChatOption(route) {
 
   const renderMemebers = () => {
     const arr = [];
-    let i = 0;
-    members.forEach((elt) => {
+    
+   
+    Array.from(members).sort((a, b) => a.Nom.localeCompare(b.Nom)).forEach((elt) => {
       arr.push(
         
         <Contact
@@ -88,7 +89,7 @@ function ChatOption(route) {
           }
         />
       );
-      i++;
+  
     });
 
     return arr;
