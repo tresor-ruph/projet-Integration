@@ -49,7 +49,7 @@ export default function Profil() {
     };
     const init = async () => {
       const test = await retrieveData();
-      fetch(`http://192.168.1.7:3000/users/${test}`)
+      fetch(`http://localhost:3000/users/${test}`)
       .then((response) => response.json())
       .then((json) => {
         console.log(json[0]);
@@ -67,19 +67,6 @@ export default function Profil() {
     retrieveData();
     init();
   }, []);
-
-  const handleChangeName = (event) => {
-    setNom(event.target.value);
-  };
-  const handleChangeSurname = (event) => {
-    setPrenom(event.target.value);
-  };
-  const handleChangeAddress = (event) => {
-    setAdresse(event.target.value);
-  };
-  const handleChangePostal = (event) => {
-    setCode(event.target.value);
-  };
 
   const pickImage = async () => {
     const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -142,7 +129,7 @@ export default function Profil() {
     };
     console.log(requestOptions.body);
 
-    fetch('http://192.168.1.7:3000/updateData', requestOptions)
+    fetch('http://localhost:3000/updateData', requestOptions)
       .then()
       .catch((error) => {
         console.log(error);
@@ -158,7 +145,7 @@ export default function Profil() {
   };
 
   const handleCancel = () => {
-    fetch(`http://192.168.1.7:3000/users/${userId}`)
+    fetch(`http://localhost:3000/users/${userId}`)
       .then((response) => response.json())
       .then((json) => {
         console.log(json[0]);
@@ -203,7 +190,7 @@ export default function Profil() {
           name="Nom"
           mode='outlined'
           editable={bool}
-          onChange={handleChangeName}
+          onChangeText={text => setNom(text)}
         />
         <TextInput
           value={prenom}
@@ -212,7 +199,7 @@ export default function Profil() {
           mode='outlined'
           label="Prenom"
           name="Prenom"
-          onChange={handleChangeSurname}
+          onChangeText={text => setPrenom(text)}
         />
         <TextInput
           value={adresse}
@@ -221,7 +208,7 @@ export default function Profil() {
           label="Adresse"
           name="adresse"
           mode='outlined'
-          onChange={handleChangeAddress}
+          onChangeText={text => setAdresse(text)}
 
         />
         <TextInput
@@ -231,7 +218,7 @@ export default function Profil() {
           label="Code postal"
           name="code"
           mode='outlined'
-          onChange={handleChangePostal}
+          onChangeText={text => setCode(text)}
         />
       </View>
       <View style={styles.bottom}>
