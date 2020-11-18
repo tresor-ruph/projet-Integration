@@ -41,7 +41,8 @@ export default function Login(props)  {
 fetch('http://localhost:3000/login/', {
         method: 'POST',
         body: JSON.stringify({
-          Mail : username
+          Mail : username,
+          password: password
         }),
         headers: {
           Accept: 'application/json',
@@ -53,25 +54,22 @@ fetch('http://localhost:3000/login/', {
 
 
         if(json.message == "entrée dans l'appli" ){
-          var bcrypt = require('bcryptjs');
-          console.log(json.hash)
-          bcrypt.compare(password, json.hash, function(err, re) {
-            console.log(re);
-          if(re){
+          
             AsyncStorage.setItem('id', JSON.stringify(json.id));
             props.navigation.navigate('HomeScreen', { userid: json.Id });
-          }else{
-            console.log('err');
+         
             
             
-            handleTextValue('mot de passe non valide');
+            
           
-          }
-        });
-        }else{
           
-          handleTextValue('email non valide');
+       
+        }else if (json.message == 'erreur de mot de passe'){
+          
+          handleTextValue('mot de passe non valide');
         
+        }else{
+          handleTextValue('email non valide');
         }
        
     })

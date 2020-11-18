@@ -16,9 +16,12 @@ sql.query(rechsql, (err, res)=> {
     }
 }
 if(spotted){
+  let bcrypt = require('bcryptjs');
+  bcrypt.genSalt(10, function(err, salt) {
+    bcrypt.hash(con.password, salt, function(err, hash) {
   //insert into Notation(userId,idDemande,donneurId,rating) values(172,69,203,9);
     const req = 'INSERT INTO Utilisateurs(Nom , Prenom , Adresse , CodePostal,Mail,password) VALUES ? ';
-    const values = [[con.nom,con.prenom,con.adresse,con.codePostal,con.Mail,con.password]];
+    const values = [[con.nom,con.prenom,con.adresse,con.codePostal,con.Mail,hash]];
     sql.query(req , [values] ,function (err, resu, fields) {
       let rechid = 'SELECT Id from Utilisateurs where Mail = "'+con.Mail+'"';
       sql.query(rechid, function (err, resu, fields) {
@@ -30,6 +33,8 @@ if(spotted){
       }
       });
     })
+  });
+});
     
 
 
@@ -48,19 +53,24 @@ if(spotted){
 
 
 
-  connexion.access = (cons, result) => {
+connexion.access = (cons, result) => {
 console.log(cons.Mail);
     let rechsql = 'SELECT * from Utilisateurs where Mail = "'+cons.Mail+'"';
     sql.query(rechsql, function (err, res) {
         console.log(res);
-if(res[0] == undefined){
-    result(null , {message:'erreur de mot de passe'});
+if(res == undefined || res[0] == undefined){
+    result(null , {message:'erreur de mail'});
 }else{
-      
-
-    result(null , {message: "entrée dans l'appli" , id : res[0].Id, hash: res[0].password});
-      
-
+  var bcrypt = require('bcryptjs');
+  bcrypt.compare(cons.password, res[0].password, function(err, re) {
+    console.log(re);
+    console.log(err);
+    if(re){
+    result(null , {message: "entrée dans l'appli" , id : res[0].Id});
+    }else{
+      result(null , {message:'erreur de mot de passe'});
+    }
+  });
 }
   })
 

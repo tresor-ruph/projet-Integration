@@ -99,21 +99,17 @@ class Form extends React.Component {
         simpleAlertHandler();
         return;
       }
-      let bcrypt = require('bcryptjs');
-      let t = this;
       
-      bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(t.state.motdepasse, salt, function(err, hash) {
       fetch('http://localhost:3000/auth/', {
         method: 'POST',
         body: JSON.stringify({
-          nom: t.state.nom,
-          prenom: t.state.prenom,
-          adresse: t.state.adresse,
-          dateNaissance: t.state.dateNaissance,
-          Mail: t.state.mail,
-          codePostal: t.state.codePostal,
-          password: hash
+          nom: this.state.nom,
+          prenom: this.state.prenom,
+          adresse: this.state.adresse,
+          dateNaissance: this.state.dateNaissance,
+          Mail: this.state.mail,
+          codePostal: this.state.codePostal,
+          password: this.state.motdepasse
         }),
         headers: {
           Accept: 'application/json',
@@ -123,9 +119,8 @@ class Form extends React.Component {
       }).then(response => response.json())
       .then(json => {
         if(json.message == 'inscription finie'){
-            t.storeToken(json.id);
-            t.props.navigation.navigate('Succes');
-          
+            this.storeToken(json.id);
+            this.props.navigation.navigate('Succes');
           }
   
           
@@ -135,8 +130,7 @@ class Form extends React.Component {
       
     
   
-  });
-});}
+ }
 
     render() {
       return ( 

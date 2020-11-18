@@ -35,6 +35,7 @@ exports.create = (req, res) =>{
   
     const cons = {
       Mail : req.body.Mail,
+      password : req.body.password,
     }
   
     co.access(cons,(err, data) => {

@@ -123,9 +123,12 @@ afficher(){
             }else{
                 for(let i = 0 ; i < json.resultat.length; i++){
                   
+                 
+                  //this.setState(state => { state.commentaire.push(json.resultat[i].commentaire)});
+
                   test.push(<View style={styles.group} key={i}> <View style={styles.rect2}><View style={styles.ericCartmanStack}><Text style={styles.ericCartman}>{json.resultat[i].Prenom}{"\n"}{json.resultat[i].Nom}</Text><Image source={{uri:json.resultat[i].PhotoProfil}} resizeMode="contain" style={styles.image}></Image></View><AirbnbRating count={5} reviews={[ "décevant", "moyen", "bon","top","Jesus"]} defaultRating={json.resultat[i].rating} size={20} onFinishRating={(rating)=>{this.ratingCompleted(rating,json.resultat[i].donneurId);}} />   <TextInput style={styles.InputS} multiline maxLength={255} onChangeText={text => this.onChangeText(text,json.resultat[i].donneurId)} value={this.state.commentaire[i]} /> <TouchableOpacity style={styles.containerButton} onPress={() => this.onPressButton(json.resultat[i].donneurId)}><Text style={styles.envoyer}>Envoyer</Text></TouchableOpacity></View> </View>);
                   this.setState(state => { state.rate.push(json.resultat[i].rating)});
-                  this.setState(state => { state.donneurId.push(json.resultat[i].donneurId)})
+                  this.setState(state => { state.donneurId.push(json.resultat[i].donneurId)})                  
                   this.setState(state => { state.commentaire.push(json.resultat[i].commentaire)});
                   this.setState({chain: test});
                   this.render();
