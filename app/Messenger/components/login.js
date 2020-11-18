@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component, useEffect, useState } from 'react';
 import { Button, TextInput, View, StyleSheet,Text } from 'react-native';
+const bcrypt = require('bcryptjs');
 
 
 
@@ -48,7 +49,6 @@ fetch('http://localhost:3000/login/', {
 
 
         if(json.message == "entrée dans l'appli" ){
-          var bcrypt = require('bcryptjs');
           console.log(json.hash)
           bcrypt.compare(password, json.hash, function(err, re) {
             console.log(re);
