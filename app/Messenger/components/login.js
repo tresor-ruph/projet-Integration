@@ -1,49 +1,50 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component, useEffect, useState } from 'react';
-import { Button, TextInput, View, StyleSheet,Text, Picker } from 'react-native';
-
+import { Button, TextInput, View, StyleSheet,Text } from 'react-native';
 
 
 export default function Login(props)  {
 
     const [username, setusername] = useState(" ");
     const [password, setPassword] = useState(" ");
-    const [userId , setUserId] = useState(" ");
-    const [textValue , setTextValue] = useState(" ");
+    const [userId , setUserId] = useState("")
+    const [textValue , setTextValue] = useState("")
     const [questionValue, setQuestion] = useState(" ");
     const [reponseValue, setReponse] = useState(" ");
 
-   
- 
   
  
    const onLogin = async ()=> {
-
- 
    
     
     // eslint-disable-next-line no-undef
+    /*
     fetch(`http://localhost:3000/contacts/${username}`)
     .then(reponse => reponse.json())
     .then( json => {
-      console.log(json);
-      const name = json[0].Nom;
-      const Id = json[0].Id
-      const avatar = json[0].PhotoProfil
-      setUserId(json[0].Id)
-    
-      const user = { Id, name, avatar };
-       AsyncStorage.setItem('user', JSON.stringify(user));
-       //props.navigation.navigate('HomeScreen', { userid: json[0].Id });
-
+      try{
+        console.log(json);
+        const name = json[0].Nom;
+        const Id = json[0].Id
+        const avatar = json[0].PhotoProfil
+        setUserId(json[0].Id)
       
-    });
+        const user = { Id, name, avatar };
+        AsyncStorage.setItem('user', JSON.stringify(user));
+        //props.navigation.navigate('HomeScreen', { userid: json[0].Id });
+      }catch{
+        handleTextValue('email non valide'); 
+      }
+      
+    });*/
+    
 
     //var t = this;
 fetch('http://localhost:3000/login/', {
         method: 'POST',
         body: JSON.stringify({
-          Mail : username
+          Mail : username,
+          password: password
         }),
         headers: {
           Accept: 'application/json',
@@ -55,25 +56,18 @@ fetch('http://localhost:3000/login/', {
 
 
         if(json.message == "entrée dans l'appli" ){
-          var bcrypt = require('bcryptjs');
-          console.log(json.hash)
-          bcrypt.compare(password, json.hash, function(err, re) {
-            console.log(re);
-          if(re){
+          
             AsyncStorage.setItem('id', JSON.stringify(json.id));
             props.navigation.navigate('HomeScreen', { userid: json.Id });
-          }else{
-            console.log('err');
-            
-            
-            handleTextValue('mot de passe non valide');
+
           
-          }
-        });
-        }else{
+       
+        }else if (json.message == 'erreur de mot de passe'){
           
-          handleTextValue('email non valide');
+          handleTextValue('mot de passe non valide');
         
+        }else{
+          handleTextValue('email non valide');
         }
        
     })
@@ -89,7 +83,6 @@ fetch('http://localhost:3000/login/', {
         ),
       body: JSON.stringify(this.state)
   };
-
   try {
     fetch('http://localhost:3000/addUser', requestOptions)
     .then(response => response.json())
@@ -109,7 +102,6 @@ const handlePassword = (event) => {
 const handleUsername = (event) => {
   setusername(event.target.value);
 }
-
 const handleQuestion =(event)=>{
   setQuestion(event.target.value);
 }
@@ -143,10 +135,9 @@ if(txt == ""){
         
         <Button
           title={'Login'}
-          style={{marginTop:'10%'}}
+          style={styles.input}
           onPress={onLogin}
         />
-
         <View style={styles.rect6}>
           <View style={styles.loremIpsumRow}> 
             <Text style={styles.loremIpsum} onPress={() => props.navigation.navigate("ReinitMdp")}>Mot de passe oublié ? Cliquez ici</Text>
@@ -154,8 +145,9 @@ if(txt == ""){
         </View>
         
         {test(textValue)}
-      
+    
       </View>
+      
     );
   
 }
@@ -195,7 +187,6 @@ const styles = StyleSheet.create({
     marginTop: 7,
     marginLeft: 5
   },
-
   rect6: {
     marginTop:'15%',
     width: 328,
@@ -203,14 +194,5 @@ const styles = StyleSheet.create({
     textAlign:'center',
     flexDirection: "row",
     marginLeft:'25%',
-  },
-
-  reponseSec:{
-    height:'7%',
-    width:'60%',
-    marginTop:'4%',
-    marginBottom:'5%',
-    fontSize:'100%',
-    textAlign:'center'
   },
 });

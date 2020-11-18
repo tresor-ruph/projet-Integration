@@ -54,28 +54,22 @@ class ReinitMdp2 extends React.Component{
           }
         
         if(this.state.reponseSec != this.state.donnees.Repsecrete){
+          let simpleAlertHandler = () => {
+            alert("Votre réponse secrète ne correspond pas")
+          };
+          simpleAlertHandler();
+          return;
           
-          alert("Votre réponse secrète ne correspond pas")
         }
-        else{
-          console.log("ok")
-        }
-         
+
+        
+        
       
         this.props.navigation.navigate('Login');
         alert("Password réinitialisé")
     }
 
-    submit22(){
-      this.forceUpdate()
-    }
-
-    /*submit23(){
-      if(quest = 0){
-        this.forceUpdate()
-      }
-      quest += 1
-    }*/
+    
 
     componentDidMount(){
         fetch(`http://localhost:3000/reinitmdpR/${this.state.mail}`)
@@ -83,9 +77,9 @@ class ReinitMdp2 extends React.Component{
           .then(json => {
             this.setState({donnees: json[0]})
             quest = json[0].QuestionValue
-            console.log(this.state.donnees)
+            /*console.log(this.state.donnees)
             console.log(this.state.questionSec)
-            console.log(json[0].Repsecrete)
+            console.log(json[0].Repsecrete)*/
             
           })
 
@@ -118,18 +112,17 @@ class ReinitMdp2 extends React.Component{
     render() {
         return(
             <View style={styles.container}>
-              <Button color='green' title='verif' onPress={() => {this.submit22()}}></Button>
                 <Text style={styles.Text1}>Completez les champs suivants afin de réinitialiser votre mot de passe</Text>
-                <Text style={styles.Text2}>Votre question secrète</Text>
-                <Text> {this.state.donnees.QuestionValue} </Text>
-                <Text style={styles.Text2}>Réponse secrète</Text>
+                <Text style={styles.Text2}>Votre question secrète : </Text>
+                <Text style={styles.Text3}> {this.state.donnees.QuestionValue} </Text>
+                <Text style={styles.Text2}>Réponse secrète : </Text>
                 <TextInput
                     onChangeText={(text)=>{this.setState({reponseSec:text})}}
                     placeholder='Entrez votre reponse secrete'
                     maxLength={50}
                     style={styles.Input}>
                 </TextInput>
-                <Text style={styles.Text2}>Nouveau mot de passe</Text>
+                <Text style={styles.Text2}>Nouveau mot de passe : </Text>
                 <TextInput
                     onChangeText={(text)=>{this.setState({motdepasse:text})}}
                     placeholder='Entrez votre nouveau mot de passe'
@@ -137,7 +130,7 @@ class ReinitMdp2 extends React.Component{
                     secureTextEntry={true}
                     style={styles.Input}>
                 </TextInput>
-                <Text style={styles.Text2}>Confirmez votre mot de passe</Text>
+                <Text style={styles.Text2}>Confirmez votre mot de passe : </Text>
                 <TextInput
                     onChangeText={(text)=>{this.setState({motdepasseVerif:text})}}
                     placeholder='Vérifiez votre nouveau mot de passe'
@@ -147,7 +140,7 @@ class ReinitMdp2 extends React.Component{
                 </TextInput>
                 <TouchableOpacity style={styles.Bout} onPress={()=>{this.submit()}}>
 
-                    <Text style={styles.TextBout}> Reinitialiser mot de passe  </Text>
+                    <Text style={styles.TextBout}> Reinitialiser mot de passe </Text>
 
                 </TouchableOpacity>
                 
@@ -178,6 +171,15 @@ const styles = StyleSheet.create({
         textAlign:'center'
     },
 
+    Text3:{
+      fontSize: '120%',
+        marginTop:'7%',
+        marginBottom:'5%',
+        marginLeft:'7%',
+        width:'90%',
+        textAlign:'center'
+    },
+
     Input: {
         marginLeft:'5%',
         width:'90%',
@@ -203,7 +205,7 @@ const styles = StyleSheet.create({
         color: '#FFF',
         fontSize: 30,
         textAlign: 'center',
-        marginTop: '10%',
+        marginTop: '8%',
     }
 
 });

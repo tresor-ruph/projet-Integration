@@ -104,12 +104,10 @@ class Form extends React.Component {
         simpleAlertHandler();
         return;
       }
-      let bcrypt = require('bcryptjs');
+     
       let t = this;
       
-      bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(t.state.motdepasse, salt, function(err, hash) {
-          console.log('ufgrihzjoepdozub');
+      
       fetch('http://localhost:3000/auth/', {
         method: 'POST',
         body: JSON.stringify({
@@ -142,8 +140,8 @@ class Form extends React.Component {
       
     
   
-  });
-});}
+  
+;}
 
     render() {
       return ( 
