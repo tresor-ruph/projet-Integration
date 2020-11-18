@@ -1,26 +1,27 @@
+/* eslint-disable quotes */
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable import/no-named-as-default-member */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
 import {
   StyleSheet,
   TouchableOpacity,
   View,
   SafeAreaView,
   ScrollView,
- // Alert,
+  // Alert,
   //Platform,
   Text,
-} from 'react-native';
+} from "react-native";
 
-import { CheckBox } from 'react-native-elements';
-import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
-import Constants from 'expo-constants';
+import { CheckBox } from "react-native-elements";
+import Icon from "react-native-vector-icons/MaterialCommunityIcons";
+import Constants from "expo-constants";
 
-import AsyncStorage from '@react-native-community/async-storage';
-import { useNavigation } from '@react-navigation/native';
-import Contact from './contact';
+import AsyncStorage from "@react-native-community/async-storage";
+import { useNavigation } from "@react-navigation/native";
+import Contact from "./contact";
 
 //let contact = ' ';
 function GroupChat() {
@@ -32,24 +33,23 @@ function GroupChat() {
   const navigation = useNavigation();
 
   const handlePress = () => {
-    console.log(group)
+    console.log(group);
     if (group.length === 0) {
       setErr(true);
-     
-    } else navigation.navigate('ConfGroup', { grp: group, grpowner: owner });
+    } else navigation.navigate("Creer groupe", { grp: group, grpowner: owner });
   };
   useEffect(() => {
     const getContact = async () => {
-      let res = await AsyncStorage.getItem('contact');
-    res = JSON.parse(res);
-    res = Array.from(res).sort((a, b) => a.Nom.localeCompare(b.Nom));
+      let res = await AsyncStorage.getItem("contact");
+      res = JSON.parse(res);
+      res = Array.from(res).sort((a, b) => a.Nom.localeCompare(b.Nom));
       setContact(res);
-      
-      const res2 = await AsyncStorage.getItem('user');
+
+      const res2 = await AsyncStorage.getItem("user");
       setOwner(JSON.parse(res2).Id);
-      const AsyncGrp = await AsyncStorage.getItem('group');
+      const AsyncGrp = await AsyncStorage.getItem("group");
       if (AsyncGrp === null) {
-        await AsyncStorage.setItem('group', JSON.stringify([]));
+        await AsyncStorage.setItem("group", JSON.stringify([]));
       }
     };
 
@@ -73,16 +73,16 @@ function GroupChat() {
           }
           checked={contact[i].check}
           onPress={() => {
-            console.log(contact[i].Id)
-            console.log(chk)
+            console.log(contact[i].Id);
+            console.log(chk);
             if (chk) {
-              console.log("yeah")
+              console.log("yeah");
               //we add the contact into group
               setGroup((prevState) => [...prevState, contact[i].Id]);
               setErr(false);
-              console.log(group)
+              console.log(group);
             } else {
-              console.log("no")
+              console.log("no");
               //we remove the contact from group if it exist
 
               // eslint-disable-next-line no-lonely-if
@@ -92,7 +92,7 @@ function GroupChat() {
                   prevState.filter((elt) => elt !== contact[i].Id)
                 );
               }
-              console.log(group)
+              console.log(group);
             }
             setchk((prevState) => !prevState);
             contact[i].check = chk;
@@ -112,7 +112,7 @@ function GroupChat() {
       <ScrollView style={styles.scrollView}>{renderContact()}</ScrollView>
       <View>
         <TouchableOpacity style={styles.navTo} onPress={handlePress}>
-          <Icon name={'arrow-right-bold'} style={styles.icon} />
+          <Icon name={"arrow-right-bold"} style={styles.icon} />
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -132,18 +132,18 @@ const styles = StyleSheet.create({
     height: 70,
     // position: "fixed",
     flex: 0.1,
-    left: '80%',
+    left: "80%",
     right: 0,
     bottom: 80,
   },
   navTo: {
     height: 56,
     width: 56,
-    backgroundColor: '#3F51B5',
-    alignItems: 'center',
-    justifyContent: 'center',
+    backgroundColor: "#3F51B5",
+    alignItems: "center",
+    justifyContent: "center",
     borderRadius: 28,
-    shadowColor: '#111',
+    shadowColor: "#111",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -153,23 +153,23 @@ const styles = StyleSheet.create({
     elevation: 2,
     minWidth: 40,
     minHeight: 40,
-    left: '80%',
+    left: "80%",
 
     right: 0,
     bottom: 80,
     // position: 'fixed',
   },
   icon: {
-    color: '#fff',
+    color: "#fff",
     fontSize: 24,
-    alignSelf: 'center',
+    alignSelf: "center",
   },
   mess1: {
-    width: '100%',
-    backgroundColor: 'rgba(255,62,62,1)',
+    width: "100%",
+    backgroundColor: "rgba(255,62,62,1)",
 
-    textAlign: 'center',
-    fontWeight: 'bold',
+    textAlign: "center",
+    fontWeight: "bold",
     fontSize: 18,
     marginTop: 10,
   },

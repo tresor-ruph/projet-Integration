@@ -36,8 +36,6 @@ function ConfGroup(route, props) {
         alert('Sorry, we need camera roll permissions to make this work!');
       }
     }
-    console.log("grouuuuuups");
-    console.log(route.route.params.grp);
 
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
@@ -86,7 +84,7 @@ function ConfGroup(route, props) {
       }),
     };
     try {
-      fetch('http://localhost:3000/group/addGroup', requestOptions)
+      fetch('http://192.168.1.52:3000/group/addGroup', requestOptions)
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
@@ -134,7 +132,7 @@ function ConfGroup(route, props) {
           <TextInput
             placeholder="Donnez un nom au groupe"
             style={styles.inputStyle}
-            onChange={handleGroup}
+            onChangeText={(text) => setGroupName(text)}
           />
         </View>
       </TouchableOpacity>

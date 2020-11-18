@@ -25,7 +25,7 @@ if (firebase.apps.length === 0) {
 const db = firebase.firestore();
 let chatRoom = "";
 let lastMessage = " ";
-let moreInfo = "true"
+let moreInfo = "true";
 //let setErrorMess = true
 
 export default function Chat(route, navigation) {
@@ -33,8 +33,6 @@ export default function Chat(route, navigation) {
   const [messages, setMessages] = useState([]);
   const [errorMess, setErrorMess] = useState(false);
   const [groups, setGroups] = useState(route.route.params.group);
-
-  
 
   const chatId = () => {
     const chatterId = route.route.params.senderId;
@@ -44,7 +42,7 @@ export default function Chat(route, navigation) {
     chatIdPre.push(chateeId);
 
     if (groups) {
-      return   `${chateeId}`;
+      return `${chateeId}`;
     } else {
       return chatIdPre.join("_");
     }
@@ -53,32 +51,26 @@ export default function Chat(route, navigation) {
   let chatsRef = db.collection("chats");
 
   useEffect(() => {
+    async function verif() {
+      let ct = await AsyncStorage.getItem("contact");
+      ct = JSON.parse(ct);
+      let check = false;
+      Array.from(ct).forEach((elt) => {
+        if (elt.Id === route.route.params.recieverId) {
+          check = true;
+        }
+      });
+      if (check == false) {
+        moreInfo = "false";
+      }
+    }
 
-async function verif() {
-let ct = await AsyncStorage.getItem('contact')
-ct = JSON.parse(ct)
-let check = false
-Array.from(ct).forEach(elt => {
-  if(elt.Id === route.route.params.recieverId ){
-    console.log(elt.Id)
-    check = true
-  }
-})
-if(check == false) {
-  moreInfo = "false";
-}
-console.log(check);
-}
-
-if(!groups){
-  console.log("test function verif")
-  verif();
-}
-
+    if (!groups) {
+      verif();
+    }
 
     if (groups) {
-      console.log('groups');
-      chatRoom =  chatId();
+      chatRoom = chatId();
       readUser();
 
       //onSnapshot serves as an observer so it is called any time we have an update on our collection(table)
@@ -107,23 +99,17 @@ if(!groups){
             }
           });
       } catch (error) {
-        console.log(error)
+        console.log(error);
         //setErrorMess(true);
       }
-     
-    } 
-    
-    
-    else {
-      console.log('nope')
+    } else {
 
       fetch(
-        `http://localhost:3000/chat/${route.route.params.senderId}/${route.route.params.recieverId}`
+        `http://192.168.1.52:3000/chat/${route.route.params.senderId}/${route.route.params.recieverId}`
       )
         .then((reponse) => reponse.json())
         .then((json) => {
           if (json.length === 0) {
-            console.log("empty ")
             chatRoom = chatId();
             //chatsRef = db.collection('chats').doc(chatId()).collection('message');
             const requestOptions = {
@@ -137,26 +123,25 @@ if(!groups){
                 senderId: route.route.params.senderId,
                 recieverId: route.route.params.recieverId,
                 chatId: chatId(),
-                contact : moreInfo
+                contact: moreInfo,
               }),
             };
             try {
-              console.log('try request')
-              fetch("http://localhost:3000/chat/addroom", requestOptions)
+              console.log("try request");
+              fetch("http://192.168.1.52:3000/chat/addroom", requestOptions)
                 .then((response) => response.json())
                 .then((data) => {
-                  console.log("hello")
+                  console.log("hello");
                   console.log(data);
                 });
             } catch (error) {
               console.log(error);
             }
           } else {
-            console.log("not empty")
             try {
               chatRoom = json[0].roomId;
             } catch (error) {
-              console.log(error)
+              console.log(error);
               //  setErrorMess = true;
             }
 
@@ -192,13 +177,13 @@ if(!groups){
                 //the 2 lines above sort the message by creation time so that recent messages are sent first
               });
           } catch (error) {
-            console.log(error)
+            console.log(error);
             setErrorMess(true);
           }
           try {
             return () => unsubscribe();
           } catch (error) {
-            console.log(error)
+            console.log(error);
 
             //setErrorMess(true);
           }
@@ -210,7 +195,7 @@ if(!groups){
     }
 
     return async function cleanup() {
-     /* if(groups){
+      /* if(groups){
         console.log("groups")
         let group = await AsyncStorage.getItem("group");
         group = JSON.parse(group);

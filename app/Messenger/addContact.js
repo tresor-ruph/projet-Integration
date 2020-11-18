@@ -62,7 +62,7 @@ function Addcontact(props) {
       }
 
       try {
-        fetch(`http://localhost:3000/contacts/${email}`)
+        fetch(`http://192.168.1.52:3000/contacts/${email}`)
           .then((response) => response.json())
           .then((json) => {
             if (json.length === 1) {
@@ -79,6 +79,19 @@ function Addcontact(props) {
     }
   }
 
+  function renderMessageLog() {
+    if(mess ===""){
+      
+    }else if(mess ==="contact ajouté !"){
+      return (<View>
+        <Text style={styles.mess1}>{mess}</Text>
+      </View>)
+    }else {
+      return(<View>
+        <Text style={styles.mess2}>{mess}</Text>
+      </View>)
+    }
+  }
   let handleNom = (event) => {
     setName(event.target.value);
   };
@@ -87,15 +100,8 @@ function Addcontact(props) {
   };
   return (
     <View style={styles.container}>
-      {mess === "contact ajouté !" ? (
-        <View>
-          <Text style={styles.mess1}>{mess}</Text>
-        </View>
-      ) : (
-        <View>
-          <Text style={styles.mess2}>{mess}</Text>
-        </View>
-      )}
+
+     {renderMessageLog()}
       <View style={[styles.input1, props.style]}>
         <Icon name="email" style={styles.iconStyle}></Icon>
         <TextInput

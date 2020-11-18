@@ -36,7 +36,7 @@ function Nav() {
         <Stack.Screen name="demande" component={Demande} />
 
         <Stack.Screen
-name="AddGroupMem" component={AddGroupMem}
+name="Ajouter Membres" component={AddGroupMem}
         options={{
           headerStyle: {
             backgroundColor: 'rgba(0,128,192,0.7)',
@@ -45,7 +45,7 @@ name="AddGroupMem" component={AddGroupMem}
         />
 
         <Stack.Screen
-name="GroupChat" component={GroupChat} 
+name="selectioner Membres" component={GroupChat} 
          options={{
           headerStyle: {
             backgroundColor: 'rgba(0,128,192,0.7)',
@@ -53,7 +53,7 @@ name="GroupChat" component={GroupChat}
         }}
         />
         <Stack.Screen
-name="ConfGroup" component={ConfGroup}
+name="Creer groupe" component={ConfGroup}
           
             options={{
               headerStyle: {
@@ -64,7 +64,7 @@ name="ConfGroup" component={ConfGroup}
           
         />
         <Stack.Screen
-name="ChatOption" component={ChatOption}
+name="Parametres" component={ChatOption}
         options={{
           headerStyle: {
             backgroundColor: 'rgba(0,128,192,0.7)',
@@ -98,10 +98,12 @@ name="Discussion_Repo"
         
       
         <Stack.Screen
-name="addContact" component={addContact} 
+name="Ajouter un contact" component={addContact} 
          options={{
+
           headerStyle: {
             backgroundColor: 'rgba(0,128,192,0.7)',
+            
           },
         }}
         />

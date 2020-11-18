@@ -20,7 +20,7 @@ function GroupScreen(props) {
         id = JSON.parse(id).Id
        userId = id
        try {
-           fetch(`http://localhost:3000/group/${userId}`)
+           fetch(`http://192.168.1.52:3000/group/${userId}`)
            .then(response => response.json())
            .then(json => {
              setGroups(json);
@@ -38,7 +38,6 @@ function GroupScreen(props) {
   function renderScreen() {
     const arr = [];
 
-    console.log(groups)
     Array.from(groups).sort((a,b)=>a.GroupName.localeCompare(b.GroupName)).forEach(element => {
         arr.push(
         <Contact

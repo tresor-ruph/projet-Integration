@@ -1,98 +1,97 @@
+/* eslint-disable quotes */
 /* eslint-disable no-undef */
-import React, { useEffect, useState } from 'react';
-import { useNavigation, useIsFocused } from '@react-navigation/native';
-import AsyncStorage from '@react-native-community/async-storage';
-import { View, StyleSheet, Button, TouchableOpacity, Text } from 'react-native';
-
-import Contact from './contact';
+import React, { useEffect, useState } from "react";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
+import AsyncStorage from "@react-native-community/async-storage";
+import { View, StyleSheet, Button, TouchableOpacity, Text } from "react-native";
+import { ListItem, Avatar } from "react-native-elements";
+import Contact from "./contact";
 
 function ChatOption(route) {
-  const [ownerId, setOwnerId] = useState('ownerId');
+  const [ownerId, setOwnerId] = useState("ownerId");
   const [members, setMembers] = useState([]);
-  const [userId, setUserId] = useState('userId');
-  const [load, setLoad] = useState(0);
+  const [userId, setUserId] = useState("userId");
+
   const isFocused = useIsFocused();
 
   const navigation = useNavigation();
   useEffect(() => {
     const getUser = async () => {
-      let user = await AsyncStorage.getItem('user');
+      let user = await AsyncStorage.getItem("user");
       user = JSON.parse(user);
       setUserId(user.Id);
     };
     getUser();
     getMembers();
-
-   
   }, [isFocused]);
 
   function getMembers() {
-    fetch(`http://localhost:3000/groupUsers/${route.route.params.id}`)
-    .then((response) => response.json())
-    .then((json) => {
-      console.log(json);
-      setOwnerId(json[0].ownerId);
-      setMembers(json);
-    });
+    fetch(`http://192.168.1.52:3000/groupUsers/${route.route.params.id}`)
+      .then((response) => response.json())
+      .then((json) => {
+        setOwnerId(json[0].ownerId);
+        setMembers(json);
+      });
   }
 
   const leaveGroup = (id, bol) => {
-    fetch(`http://localhost:3000/group/${id}`, {
-      method: 'DELETE',
+    fetch(`http://192.168.1.52:3000/group/${id}`, {
+      method: "DELETE",
     })
       .then((res) => res.json())
       .then(() => {
         if (bol) {
           getMembers();
         } else {
-          navigation.navigate('Discussion_Repo', { screen: 'groups' });
+          navigation.navigate("Discussion_Repo", { screen: "groups" });
         }
       });
   };
 
   const deleteGroup = () => {
-    fetch(`http://localhost:3000/group/all/${route.route.params.id}`, {
-      method: 'DELETE',
+    fetch(`http://192.168.1.52:3000/group/all/${route.route.params.id}`, {
+      method: "DELETE",
     })
       .then((res) => res.json()) // or res.json()
       .then(() => {
-        navigation.navigate('Discussion_Repo', { screen: 'groups' });
+        navigation.navigate("Discussion_Repo", { screen: "groups" });
       });
   };
 
   const renderMemebers = () => {
     const arr = [];
-    
-   
-    Array.from(members).sort((a, b) => a.Nom.localeCompare(b.Nom)).forEach((elt) => {
-      arr.push(
-        
-        <Contact
-          key={elt.userId}
-          id={elt.userId}
-          name={elt.Nom}
-          imgUrl={elt.PhotoProfil}
-          grp={false}
-          // onNav={() => navigation.navigate('Chat', { recieverId: contacts[i].Id, senderId: userId })}
-          component={
-            ownerId === userId && (
-              elt.userId === userId ?
-                 <View style={{ borderRadius: 10 }}><Text style={{ color: 'green' }}>Admin</Text></View> :
-              <View style={{ borderRadius: 10 }}>
-                <TouchableOpacity onPress={() => leaveGroup(elt.userId, true)}>
-                  <Text style={{ color: 'red' }}>retirer</Text>
-                </TouchableOpacity>
-              </View>
-              
-              
-            )
-          }
-        />
-      );
-  
-    });
 
-    return arr;
+    Array.from(members)
+      .sort((a, b) => a.Nom.localeCompare(b.Nom))
+      .forEach((elt) => {
+        arr.push(
+          <Contact
+            key={elt.userId}
+            id={elt.userId}
+            name={elt.Nom}
+            imgUrl={elt.PhotoProfil}
+            grp={false}
+            component={
+              ownerId === userId &&
+              (elt.userId === userId ? (
+                <View style={{ borderRadius: 10 }}>
+                  <Text style={{ color: "green" }}>Admin</Text>
+                </View>
+              ) : (
+                <View style={{ borderRadius: 10 }}>
+                  <TouchableOpacity
+                    onPress={() => leaveGroup(elt.userId, true)}
+                  >
+                    <Text style={{ color: "red" }}>retirer</Text>
+                  </TouchableOpacity>
+                </View>
+              ))
+            }
+          />
+        );
+      });
+
+    return <View>{arr}</View>;
   };
 
   return (
@@ -102,7 +101,7 @@ function ChatOption(route) {
           <Button
             title="Ajouter Membre"
             onPress={() =>
-              navigation.navigate('AddGroupMem', {
+              navigation.navigate("Ajouter Membres", {
                 mem: members,
                 grpId: route.route.params.id,
               })
@@ -114,11 +113,7 @@ function ChatOption(route) {
 
       {ownerId === userId && (
         <View style={styles.suprimerGrp}>
-          <Button
-            title="suprimer le group"
-            onPress={deleteGroup}
-            color="red"
-          />
+          <Button title="suprimer le group" onPress={deleteGroup} color="red" />
         </View>
       )}
       {ownerId !== userId && (
@@ -128,10 +123,33 @@ function ChatOption(route) {
           color="red"
         />
       )}
-      <View style={{ backgroundColor: 'white', marginTop: 10 }}>
+      <View style={{ backgroundColor: "white", marginTop: 10 }}>
         <Text style={styles.participant}>Participants</Text>
       </View>
-      {renderMemebers()}
+      {members
+        .sort((a, b) => a.Nom.localeCompare(b.Nom))
+        .map((l, i) => (
+          <ListItem key={i} bottomDivider>
+            <Avatar source={{ uri: l.PhotoProfil }} />
+            <ListItem.Content>
+              <ListItem.Title>{l.Nom}</ListItem.Title>
+              {l.userId === userId ? (
+                <TouchableOpacity
+                  style={styles.retirer}
+                  
+                >
+                  <Text style={{ color: "green" }}>Admin</Text>
+                </TouchableOpacity>
+              ) : (
+                <TouchableOpacity style={styles.ajouter}
+                onPress={() => leaveGroup(l.userId, true)}
+                >
+                  <Text style={{ color: "red" }}>retirer</Text>
+                </TouchableOpacity>
+              )}
+            </ListItem.Content>
+          </ListItem>
+        ))}
     </View>
   );
 }
@@ -142,12 +160,18 @@ const styles = StyleSheet.create({
   },
   suprimerGrp: {
     marginTop: 10,
-    backgroundColor: 'red',
+    backgroundColor: "red",
   },
 
   participant: {
-    color: 'green',
+    color: "green",
     fontSize: 16,
+  },
+  retirer: {
+    left: "80%",
+  },
+  ajouter: {
+    left: "80%",
   },
 });
 

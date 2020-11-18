@@ -22,7 +22,6 @@ import RecentChat from "./recentChats";
 import { useNavigation } from "@react-navigation/native";
 import { ListItem, Avatar } from "react-native-elements";
 
-import GroupChat from "./groupChat";
 import GroupScreen from "./GroupScreen";
 import contactStorage from "./contact_storage";
 
@@ -66,7 +65,7 @@ function Discussion_Repo(route, props) {
     } else if (disp === "groups") {
       return (
         <GroupScreen />
-        // <GroupChat />
+      
       );
     } else if (disp === "contacts") {
       let arr = [];
@@ -89,7 +88,7 @@ function Discussion_Repo(route, props) {
             component={
               <View style={{ borderRadius: 10 }}>
                 <TouchableOpacity>
-                  <TouchableOpacity
+                  <TouchableOpacity style = {{width:50, left: "50%"}}
                     onPress={() => {
                       contactStorage(elt.Id);
                       getContact();
@@ -129,13 +128,13 @@ function Discussion_Repo(route, props) {
               iconName="account-plus"
               icon="account-plus"
               style={styles.materialButtonShare}
-              nav="addContact"
+              nav="Ajouter un contact"
             ></MaterialButtonShare>
           )}
           {disp == "groups" && (
             <TouchableOpacity
               style={[styles.groupAdd, props.style]}
-              onPress={() => navigation.navigate("GroupChat")}
+              onPress={() => navigation.navigate("selectioner Membres")}
             >
               <Icon
                 name="account-multiple-plus"
@@ -222,6 +221,7 @@ const styles = StyleSheet.create({
   deleteForv: {
     color: "red",
     fontSize: 22,
+    top: -25
   },
   buttonWrapper1: {
     flex: 1,

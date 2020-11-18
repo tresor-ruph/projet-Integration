@@ -35,7 +35,6 @@ function AddGroupMem(route) {
     if (group.length === 0) {
       setErr(true);
     } else {
-      console.log(group);
       const requestOptions = {
         method: 'POST',
         headers: new Headers({
@@ -49,7 +48,7 @@ function AddGroupMem(route) {
         }),
       };
       try {
-        fetch('http://localhost:3000/group/addSingleGroup', requestOptions)
+        fetch('http://192.168.1.52:3000/group/addSingleGroup', requestOptions)
           .then((response) => response.json())
           .then(() => {
             navigation.goBack();
@@ -66,9 +65,7 @@ function AddGroupMem(route) {
       res = JSON.parse(res);
 
       const arr = [];
-      console.log(existMem);
-      console.log(res);
-
+     
       for (let i = 0; i < res.length; i++) {
         let verif = false;
         for (let j = 0; j < existMem.length; j++) {
@@ -81,7 +78,6 @@ function AddGroupMem(route) {
         }
       }
       setContact(arr);
-      console.log(arr);
     };
 
     getContact();
