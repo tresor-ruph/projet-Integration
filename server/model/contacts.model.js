@@ -11,7 +11,7 @@ user.findContacts = (result) => {
       result(null, err);
       return;
     }
-    console.log("contacts :", res);
+    console.log("contacts :", res)
     result(null, res);
   });
 };
