@@ -1,6 +1,7 @@
 import React from "react";
 import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, Dimensions   } from "react-native";
 import PassMeter from "react-native-passmeter";
+import AsyncStorage from '@react-native-community/async-storage';
 //import DateTimePicker from '@react-native-community/datetimepicker';
 
 
@@ -18,6 +19,7 @@ class Form extends React.Component {
         adresse: '',
         dateNaissance: '', 
         mail: '',
+        codePostal: '',
         showPassword: true,
         label: ["Trop court", "Il faut au moins 1 chiffre et 1 lettre majuscule !", "Il faut au moins 1 lettre majuscule et 1 chiffre !", "Mot de passe valide"],
       }
@@ -97,7 +99,38 @@ class Form extends React.Component {
         simpleAlertHandler();
         return;
       }
-    }
+      
+      fetch('http://localhost:3000/auth/', {
+        method: 'POST',
+        body: JSON.stringify({
+          nom: this.state.nom,
+          prenom: this.state.prenom,
+          adresse: this.state.adresse,
+          dateNaissance: this.state.dateNaissance,
+          Mail: this.state.mail,
+          codePostal: this.state.codePostal,
+          password: this.state.motdepasse
+        }),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          "Access-Control-Allow-Origin":"true"
+        }
+      }).then(response => response.json())
+      .then(json => {
+        if(json.message == 'inscription finie'){
+            this.storeToken(json.id);
+            this.props.navigation.navigate('Succes');
+          }
+  
+          
+        }).catch((error) => {
+          console.error(error);
+        });
+      
+    
+  
+ }
 
     render() {
       return ( 
@@ -122,6 +155,13 @@ class Form extends React.Component {
               maxLength={50}
               autoCapitalize="sentences"
               onChangeText={(text)=> { this.setState({ adresse: text }) }}
+              style={styles.textInput}
+            ></TextInput>
+            <TextInput
+              placeholder="Code postal"
+              maxLength={50}
+              autoCapitalize="sentences"
+              onChangeText={(text)=> { this.setState({ codePostal: text }) }}
               style={styles.textInput}
             ></TextInput>
            <TextInput

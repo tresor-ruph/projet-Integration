@@ -15,27 +15,33 @@ export default function Login(props)  {
    
     
     // eslint-disable-next-line no-undef
+    /*
     fetch(`http://localhost:3000/contacts/${username}`)
     .then(reponse => reponse.json())
     .then( json => {
-      console.log(json);
-      const name = json[0].Nom;
-      const Id = json[0].Id
-      const avatar = json[0].PhotoProfil
-      setUserId(json[0].Id)
-    
-      const user = { Id, name, avatar };
-       AsyncStorage.setItem('user', JSON.stringify(user));
-       //props.navigation.navigate('HomeScreen', { userid: json[0].Id });
-
+      try{
+        console.log(json);
+        const name = json[0].Nom;
+        const Id = json[0].Id
+        const avatar = json[0].PhotoProfil
+        setUserId(json[0].Id)
       
-    });
+        const user = { Id, name, avatar };
+        AsyncStorage.setItem('user', JSON.stringify(user));
+        //props.navigation.navigate('HomeScreen', { userid: json[0].Id });
+      }catch{
+        handleTextValue('email non valide'); 
+      }
+      
+    });*/
+    
 
     //var t = this;
 fetch('http://localhost:3000/login/', {
         method: 'POST',
         body: JSON.stringify({
-          Mail : username
+          Mail : username,
+          password: password
         }),
         headers: {
           Accept: 'application/json',
@@ -47,13 +53,22 @@ fetch('http://localhost:3000/login/', {
 
 
         if(json.message == "entrée dans l'appli" ){
-    
-          console.log(json.hash)
           
-        }else{
+            AsyncStorage.setItem('id', JSON.stringify(json.id));
+            props.navigation.navigate('HomeScreen', { userid: json.Id });
+         
+            
+            
+            
           
-          handleTextValue('email non valide');
+          
+       
+        }else if (json.message == 'erreur de mot de passe'){
+          
+          handleTextValue('mot de passe non valide');
         
+        }else{
+          handleTextValue('email non valide');
         }
        
     })

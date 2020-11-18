@@ -22,6 +22,13 @@ class Demande extends React.Component{
        descriptif:'',
      }
    }
+   componentDidMount(){
+     let t = this;
+    this.getToken().then(function(result) {
+      t.setState({userId : result});
+   });
+   
+   }
 
    componentDidMount(){
      async function getUserId(){
@@ -36,7 +43,6 @@ class Demande extends React.Component{
      
   
    submit(){
-  
      //console.log(this.state) 
      const newDemande = {categorie: this.state.categorie, descriptif: this.state.descriptif, userId: userId}
      console.log(newDemande);
