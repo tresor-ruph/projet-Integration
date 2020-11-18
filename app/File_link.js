@@ -36,6 +36,8 @@ render() {
             <Stack.Screen name = "ListeDem" component = {ListeDem} />
             <Stack.Screen name = "Demande" component = {Demande} />
             <Stack.Screen name = "Notation" component = {Notation} />
+            <Stack.Screen name = "mesDemandes" component = {mesDemandes} />
+
 
             {/*<Stack.Screen name = "login" component = {Login} />*/}
 

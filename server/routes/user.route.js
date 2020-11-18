@@ -26,7 +26,10 @@ module.exports = (app) => {
   app.get("/demande/all", demande.findAll);
   app.post("/demandeE/", demande.create);
   app.get("/demande/:categorie/:codeP", demande.findOne);
+  app.get("/demandeCat/:categorie", demande.findOneCat);
+  app.get("/demandeCode/:codeP", demande.findOneCode);
   app.get("/demandeU/:userId", demande.findOneUI);
   app.get("/demandeD/:userId", demande.findDescri);
+  app.delete("/demandeS/:idDemande", demande.delete);
 
 };

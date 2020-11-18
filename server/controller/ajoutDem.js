@@ -17,9 +17,63 @@ exports.findAll = (req,res) => {
   });
 };
 
+exports.delete = (req, res) => {
+  demande.supprimerDemande(req.params.idDemande, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Customer with id ${req.body.idDemande}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Could not delete Customer with id " + req.body.idDemande
+        });
+      }
+    } else res.send({ message: `Customer was deleted successfully!` });
+  });
+};
+
 
 exports.findOne = (req, res) => {
   demande.findDemandeFilter(req.params.categorie, req.params.codeP, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found demande with categorie ${req.params.categorie}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving demande with categorie " + req.params.categorie,
+        });
+      }
+    } else {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.send(data);
+    }
+  });
+};
+
+exports.findOneCat = (req, res) => {
+  demande.findDemandeFilterT(req.params.categorie, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found demande with categorie ${req.params.categorie}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving demande with categorie " + req.params.categorie,
+        });
+      }
+    } else {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.send(data);
+    }
+  });
+};
+
+exports.findOneCode = (req, res) => {
+  demande.findDemandeFilterCode(req.params.codeP, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({

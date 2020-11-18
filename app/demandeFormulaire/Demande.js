@@ -1,11 +1,12 @@
 import React from 'react'
 import {StyleSheet, View, TextInput,TouchableOpacity, Text, Alert, Picker } from 'react-native'
 import { Title, Paragraph } from 'react-native-paper';
-import AsyncStorage from '@react-native-community/async-storage';
+import AsyncStorage from "@react-native-community/async-storage";
 
 
 
 
+let userId = 0
 class Demande extends React.Component{
 
   
@@ -19,7 +20,6 @@ class Demande extends React.Component{
      this.state={
        categorie:'Courses',
        descriptif:'',
-       userId: 0
      }
    }
    componentDidMount(){
@@ -30,20 +30,21 @@ class Demande extends React.Component{
    
    }
 
-   async getToken() {
-    try {
-      let userData = await AsyncStorage.getItem("id");
-      let data = JSON.parse(userData);
-      console.log(data);
-      return data;
-    } catch (error) {
-      console.log("Something went wrong", error);
+   componentDidMount(){
+     async function getUserId(){
+      let id = await AsyncStorage.getItem('user')
+      id = JSON.parse(id).Id
+      console.log(id)
+      console.log(userId)
+      userId = id
+     }
+     getUserId()
     }
-  }
+     
   
    submit(){
      //console.log(this.state) 
-     const newDemande = {categorie: this.state.categorie, descriptif: this.state.descriptif, userId: this.state.userId}
+     const newDemande = {categorie: this.state.categorie, descriptif: this.state.descriptif, userId: userId}
      console.log(newDemande);
 
      fetch('http://localhost:3000/demandeE/', {  
@@ -54,7 +55,6 @@ class Demande extends React.Component{
         'Access-Control-Allow-Origin': true,
       },
       body: JSON.stringify({
-        
         categorie: newDemande.categorie,
         descriptif: newDemande.descriptif,
         userId: newDemande.userId,

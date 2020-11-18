@@ -3,7 +3,6 @@ import React, { Component, useEffect, useState } from 'react';
 import { Button, TextInput, View, StyleSheet,Text } from 'react-native';
 
 
-
 export default function Login(props)  {
 
     const [username, setusername] = useState(" ");
