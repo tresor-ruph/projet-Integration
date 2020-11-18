@@ -28,7 +28,22 @@ class Form extends React.Component {
     toggleSwitch() {
       this.setState({ showPassword: !this.state.showPassword });
     }
-
+    async storeToken(m) {
+      try {
+         await AsyncStorage.setItem("id", JSON.stringify(m));
+      } catch (error) {
+        console.log("Something went wrong", error);
+      }
+    }
+    async getToken() {
+      try {
+        let userData = await AsyncStorage.getItem("id");
+        let data = JSON.parse(userData);
+        console.log(data);
+      } catch (error) {
+        console.log("Something went wrong", error);
+      }
+    }
 
     submit() {
       //envoie msg d'erreur si un champ est encore vide
@@ -82,30 +97,6 @@ class Form extends React.Component {
         simpleAlertHandler();
         return;
       }
-
-      fetch('http://localhost:8080/auth/', {
-        method: 'POST',
-        body: JSON.stringify({
-          nom: this.state.nom,
-          prenom: this.state.prenom,
-          adresse: this.state.adresse,
-          dateNaissance: this.state.dateNaissance,
-          mail: this.state.mail,
-          password: this.state.motdepasse
-        }),
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          "Access-Control-Allow-Origin":"true"
-        }
-      }).then(response => response.json())
-      .then(json => {
-      console.log(json);
-      }).catch((error) => {
-        console.error(error);
-      });
-      
-      this.props.navigation.navigate("Succes");
     }
 
     render() {

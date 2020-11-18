@@ -2,6 +2,7 @@ module.exports = (app) => {
   const contacts = require("../controller/contacts.controller");
   const userController = require("../controller/user.controller");
   const demande = require('./../controller/ajoutDem');
+  const connexion = require('./../controller/connexion');
   //get all contacts
   app.get("/contacts/", contacts.findAll);
   //get the contacts with userIds
@@ -16,7 +17,8 @@ module.exports = (app) => {
   app.get("/contacts/:email", contacts.findOne);
   app.get("/chat/:senderId/:recieverId", contacts.findRoom)
   app.post("/chat/addroom", contacts.createChat )
-
+  app.post("/auth", connexion.create)
+  app.post("/login", connexion.access)
   
     //get user with id = id
   app.get("/demande/all", demande.findAll);

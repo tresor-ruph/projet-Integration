@@ -4,7 +4,8 @@
   "description": "node.js restful crud api with node.js,express and mysql",
   "main": "server.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "nodemon server.js",
+    "test": "mocha --reporter spec"
   },
   "keywords": [
     "nodejs",
@@ -16,19 +17,19 @@
   "license": "ISC",
   "dependencies": {
     "@react-native-community/masked-view": "^0.1.10",
+    "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
+    "chai": "^4.2.0",
+    "chai-http": "^4.3.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
+    "mocha-junit-reporter": "^2.0.0",
     "mysql": "^2.18.1",
-    "react-native-gesture-handler": "^1.8.0",
-    "react-native-reanimated": "^1.13.2",
-    "react-native-safe-area-context": "^3.1.9",
-    "react-native-screens": "^2.15.0",
-    "yarn": "^1.22.10"
+    "request": "^2.88.2",
+    "should": "^13.2.3",
+    "supertest": "^6.0.1"
   },
   "devDependencies": {
-    "chai": "^4.2.0",
-    "request": "^2.88.2",
-    "should": "^13.2.3"
+    "mocha": "^8.2.1"
   }
 }
