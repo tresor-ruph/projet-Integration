@@ -4,14 +4,11 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import 'react-native';
 import React from 'react';
-import Contact from './../../Messenger/contact';
+import Profil from './../../Profil/Profil';
 import renderer from 'react-test-renderer';
 
-beforeAll(() => { 
-    jest.mock('@react-native-community/async-storage');
-  });
-
 it('renders correctly', () => {
-    const tree = renderer.create(<Contact />).toJSON();
+    const tree = renderer.create(<Profil />).toJSON();
     expect(tree).toMatchSnapshot();
+
 });

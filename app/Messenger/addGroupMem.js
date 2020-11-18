@@ -1,56 +1,83 @@
-/* eslint-disable quotes */
 /* eslint-disable import/no-named-as-default */
 /* eslint-disable import/no-named-as-default-member */
+/* eslint-disable no-undef */
 /* eslint-disable import/no-unresolved */
 /* eslint-disable import/no-extraneous-dependencies */
-import React, { useEffect, useState } from "react";
+
+import React, { useEffect, useState } from 'react';
 import {
   StyleSheet,
   TouchableOpacity,
   View,
   SafeAreaView,
   ScrollView,
-  // Alert,
-  //Platform,
   Text,
-} from "react-native";
+} from 'react-native';
 
-import { CheckBox } from "react-native-elements";
-import Icon from "react-native-vector-icons/MaterialCommunityIcons";
-import Constants from "expo-constants";
+import { CheckBox } from 'react-native-elements';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import Constants from 'expo-constants';
+import AsyncStorage from '@react-native-community/async-storage';
+import { useNavigation } from '@react-navigation/native';
 
-import AsyncStorage from "@react-native-community/async-storage";
-import { useNavigation } from "@react-navigation/native";
-import Contact from "./contact";
+import Contact from './contact';
 
 //let contact = ' ';
-function GroupChat() {
+function AddGroupMem(route) {
   const [group, setGroup] = useState([]);
   const [contact, setContact] = useState([]);
-  const [owner, setOwner] = useState([]);
   const [chk, setchk] = useState(false);
   const [err, setErr] = useState(false);
   const navigation = useNavigation();
-
-  const handlePress = () => {
-    console.log(group);
+  const existMem = route.route.params.mem;
+  //console.log(route.route.params.mem);
+  const handleAdd = () => {
     if (group.length === 0) {
       setErr(true);
-    } else navigation.navigate("Creer groupe", { grp: group, grpowner: owner });
+    } else {
+      const requestOptions = {
+        method: 'POST',
+        headers: new Headers({
+          Accept: 'application/json',
+          'content-Type': 'application/json',
+          'Access-Control-Allow-Origin': '*',
+        }),
+        body: JSON.stringify({
+          groupId: route.route.params.grpId,
+          users: group,
+        }),
+      };
+      try {
+        fetch('http://localhost:3000/group/addSingleGroup', requestOptions)
+          .then((response) => response.json())
+          .then(() => {
+            navigation.goBack();
+          });
+      } catch (error) {
+        console.log(error);
+      }
+    }
   };
+
   useEffect(() => {
     const getContact = async () => {
-      let res = await AsyncStorage.getItem("contact");
+      let res = await AsyncStorage.getItem('contact');
       res = JSON.parse(res);
-      res = Array.from(res).sort((a, b) => a.Nom.localeCompare(b.Nom));
-      setContact(res);
 
-      const res2 = await AsyncStorage.getItem("user");
-      setOwner(JSON.parse(res2).Id);
-      const AsyncGrp = await AsyncStorage.getItem("group");
-      if (AsyncGrp === null) {
-        await AsyncStorage.setItem("group", JSON.stringify([]));
+      const arr = [];
+     
+      for (let i = 0; i < res.length; i++) {
+        let verif = false;
+        for (let j = 0; j < existMem.length; j++) {
+          if (existMem[j].userId === res[i].Id) {
+            verif = true;
+          }
+        }
+        if (verif === false) {
+          arr.push(res[i]);
+        }
       }
+      setContact(arr);
     };
 
     getContact();
@@ -73,16 +100,14 @@ function GroupChat() {
           }
           checked={contact[i].check}
           onPress={() => {
-            console.log(contact[i].Id);
-            console.log(chk);
-            if (chk) {
-              console.log("yeah");
+            setchk((prevState) => !prevState);
+            contact[i].check = chk;
+
+            if (chk === true) {
               //we add the contact into group
               setGroup((prevState) => [...prevState, contact[i].Id]);
               setErr(false);
-              console.log(group);
             } else {
-              console.log("no");
               //we remove the contact from group if it exist
 
               // eslint-disable-next-line no-lonely-if
@@ -92,10 +117,7 @@ function GroupChat() {
                   prevState.filter((elt) => elt !== contact[i].Id)
                 );
               }
-              console.log(group);
             }
-            setchk((prevState) => !prevState);
-            contact[i].check = chk;
           }}
         />
       );
@@ -111,8 +133,8 @@ function GroupChat() {
       )}
       <ScrollView style={styles.scrollView}>{renderContact()}</ScrollView>
       <View>
-        <TouchableOpacity style={styles.navTo} onPress={handlePress}>
-          <Icon name={"arrow-right-bold"} style={styles.icon} />
+        <TouchableOpacity style={styles.navTo} onPress={handleAdd}>
+          <Icon name={'arrow-right-bold'} style={styles.icon} />
         </TouchableOpacity>
       </View>
     </SafeAreaView>
@@ -132,18 +154,18 @@ const styles = StyleSheet.create({
     height: 70,
     // position: "fixed",
     flex: 0.1,
-    left: "80%",
+    left: '80%',
     right: 0,
     bottom: 80,
   },
   navTo: {
     height: 56,
     width: 56,
-    backgroundColor: "#3F51B5",
-    alignItems: "center",
-    justifyContent: "center",
+    backgroundColor: '#3F51B5',
+    alignItems: 'center',
+    justifyContent: 'center',
     borderRadius: 28,
-    shadowColor: "#111",
+    shadowColor: '#111',
     shadowOffset: {
       width: 0,
       height: 2,
@@ -153,25 +175,25 @@ const styles = StyleSheet.create({
     elevation: 2,
     minWidth: 40,
     minHeight: 40,
-    left: "80%",
+    left: '80%',
 
     right: 0,
     bottom: 80,
     // position: 'fixed',
   },
   icon: {
-    color: "#fff",
+    color: '#fff',
     fontSize: 24,
-    alignSelf: "center",
+    alignSelf: 'center',
   },
   mess1: {
-    width: "100%",
-    backgroundColor: "rgba(255,62,62,1)",
+    width: '100%',
+    backgroundColor: 'rgba(255,62,62,1)',
 
-    textAlign: "center",
-    fontWeight: "bold",
+    textAlign: 'center',
+    fontWeight: 'bold',
     fontSize: 18,
     marginTop: 10,
   },
 });
-export default GroupChat;
+export default AddGroupMem;

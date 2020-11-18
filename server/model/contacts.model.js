@@ -17,6 +17,7 @@ user.findContacts = (result) => {
 };
 
 user.findById = (email, result) => {
+  console.log(email)
   email = "'" + email + "'";
 
   sql.query(`SELECT * FROM Utilisateurs WHERE Mail = ${email}`, (err, res) => {
@@ -30,31 +31,258 @@ user.findById = (email, result) => {
   });
 };
 
+user.findGroupById = (Id, result) => {
+  console.log(Id);
+
+  sql.query(
+    `select * from ChatGroupUsers inner join ChatGroup on ChatGroup.Id = ChatGroupUsers.groupId where userId = ${Id}`,
+    (err, res) => {
+      if (err) {
+        console.log("error : ", err);
+        result(null, err);
+        return;
+      }
+      console.log("group :", res);
+      result(null, res);
+    }
+  );
+};
+
+user.findGroupUsersById = (Id, result) => {
+  console.log(Id);
+
+  sql.query(
+    `
+    select userId, groupId, Nom, Prenom, PhotoProfil,ownerId from 
+    ChatGroupUsers join Utilisateurs join ChatGroup where ChatGroupUsers.userId = Utilisateurs.Id 
+    and (ChatGroup.Id = ${Id} and ChatGroupUsers.groupId =${Id}) 
+    `,
+    (err, res) => {
+      if (err) {
+        console.log("error : ", err);
+        result(null, err);
+        return;
+      }
+      console.log("group :", res);
+      result(null, res);
+    }
+  );
+};
 
 user.createChat = (Chat, result) => {
-  const req ="insert into Chat(senderId,recieverId,roomId) values ?";
-  const values = [[Chat.senderId, Chat.recieverId, Chat.chatId]]
-  sql.query(req , [values])
-  result(null , 'Values inserted')
-}
+  console.log("hahahhaa")
+  const req = "insert into Chat(senderId,recieverId,roomId,contact) values ?";
+  const values = [[Chat.senderId, Chat.recieverId, Chat.chatId,Chat.contact]];
+  sql.query(req, [values], (err,res) => {
+    if(err) {
+      console.log("error :", err);
+      result(null, err)
+      return
+    }
+    result(null, "Values inserted");
+    return result
+  });
+
+};
+
+user.createGroup = (group, result) => {
+  console.log('test key')
+  console.log(group.grpId)
+  const req = "insert into ChatGroup(Id,ownerId,GroupName,GroupImage) values ?";
+  
+  const values = [[group.grpId, group.ownerId, group.Name, group.groupImage]];
+  sql.query(req, [values], (err, res) => {
+    if (err) {
+      console.log("error :", err);
+      result(null, err);
+      return;
+    } else {
+      console.log("xxxxxxxxxxxxxxxxxxx")
+      console.log(group.members)
+      group.members.forEach((element) => {
+        sql.query(
+          `insert into ChatGroupUsers(userId,groupId) values
+      (${element},${group.grpId})`,
+          (err, res) => {
+            if (err) {
+              console.log("error :", err);
+              result(null, err);
+              return;
+            }
+          }
+        );
+      });
+      sql.query(`insert into ChatGroupUsers(userId,groupId) values (${group.ownerId},${group.grpId})`)
+    }
+  });
+};
+
+
+/*user.createGroup = (group, result) => {
+  console.log("test key");
+  console.log(group.grpId);
+  sql.query(`select * from ChatGroup where Id= ${group.grpId}`, (err, re) => {
+    if (err) {
+      console.log(err);
+      result(null, err);
+    } else {
+      if (res.length == 0) {
+        const req =
+          "insert into ChatGroup(Id,ownerId,GroupName,GroupImage) values ?";
+
+        const values = [
+          [group.grpId, group.ownerId, group.Name, group.groupImage],
+        ];
+        sql.query(req, [values], (err, res) => {
+          if (err) {
+            console.log("error :", err);
+            result(null, err);
+            return;
+          } else {
+            group.members.forEach((element) => {
+              sql.query(
+                `insert into ChatGroupUsers(userId,groupId) values
+            (${element},${group.grpId})`,
+                (err, res) => {
+                  if (err) {
+                    console.log("error :", err);
+                    result(null, err);
+                    return;
+                  } else {
+                    sql.query(
+                      `insert into ChatGroupUsers(userId,groupId) values (${group.ownerId},${group.grpId})`
+                    );
+                  }
+                }
+              );
+            });
+          }
+        });
+      } else {
+        group.members.forEach((element) => {
+          sql.query(
+            `insert into ChatGroupUsers(userId,groupId) values
+        (${element},${group.grpId})`,
+            (err, res) => {
+              if (err) {
+                console.log("error :", err);
+                result(null, err);
+                return;
+              } else {
+                sql.query(
+                  `insert into ChatGroupUsers(userId,groupId) values (${group.ownerId},${group.grpId})`
+                );
+              }
+            }
+          );
+        });
+      }
+    }
+  });
+};*/
+
+user.addGroup = (group, result) => {
+  console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+  console.log(group.users);
+  group.users.forEach((elt) => {
+    sql.query(
+      `insert into ChatGroupUsers(userId, groupId) values 
+    (${elt},${group.grpId})`,
+      (err, res) => {
+        if (err) {
+          console.log("error :", err);
+          result(null, err);
+          return;
+        }
+        result(null, res);
+      }
+    );
+  });
+};
 
 user.findRoom = (senderId, recieverId, result) => {
   senderId = "'" + senderId + "'";
   recieverId = "'" + recieverId + "'";
-  console.log(senderId)
-  console.log(recieverId)
+  console.log(senderId);
+  console.log(recieverId);
+  sql.query(
+    `select roomId from chat where (senderId = ${senderId} and recieverId = ${recieverId}) or (senderId =${recieverId} and recieverId = ${senderId}) `,
+    (err, res) => {
+      if (err) {
+        console.log("error : ", err);
+        result(null, err);
+        return;
+      }
+      console.log("contacts :", res);
+      result(null, res);
+    }
+  );
+};
+
+user.findConversRoom = (userId, result) => {
+  console.log('bigbang')
+  userId = "'" + userId + "'";
+  
+  sql.query(
+    `select * from chat join utilisateurs where chat.recieverId = utilisateurs.Id and contact = 'false' and (senderId =${userId} or recieverId =${userId})  `,
+    (err, res) => {
+      if (err) {
+        console.log("error : ", err);
+        result(null, err);
+        return;
+      }
+      console.log("contacts :", res);
+      result(null, res);
+    }
+  );
+};
 
 
-  sql.query(`select roomId from Chat where (senderId = ${senderId} and recieverId = ${recieverId}) or (senderId =${recieverId} and recieverId = ${senderId}) `, (err, res) => {
+
+
+user.leaveGroup = (id, result) => {
+  sql.query(`delete from ChatGroupUsers where userId = ${id}`, (err, res) => {
     if (err) {
-      console.log("error : ", err);
+      console.log("error: ", err);
       result(null, err);
       return;
     }
-    console.log("contacts :", res);
+
+    if (res.affectedRows == 0) {
+      // not found Customer with the id
+      result({ kind: "not_found" }, null);
+      return;
+    }
+
+    console.log("deleted user from group with id: ", id);
     result(null, res);
   });
+};
 
-}
+user.removeGroup = (id, result) => {
+  sql.query(`delete from ChatGroupUsers where groupId = ${id}`, (err, res) => {
+    if (err) {
+      console.log("error: ", err);
+      result(null, err);
+      return;
+    }
+
+    if (res.affectedRows == 0) {
+      // not found Customer with the id
+      result({ kind: "not_found" }, null);
+      return;
+    }
+    sql.query(`delete from ChatGroup where Id = ${id}`, (err, res) => {
+      if (err) {
+        console.log("error: ", err);
+        result(null, err);
+        return;
+      }
+    });
+
+    console.log("deleted group with id: ", id);
+    result(null, res);
+  });
+};
 
 module.exports = user;

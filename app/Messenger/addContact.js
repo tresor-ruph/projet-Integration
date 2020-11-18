@@ -25,21 +25,37 @@ function Addcontact(props) {
     } else {
       async function getContact(x) {
         try {
+          let userId = await AsyncStorage.getItem('user')
+          userId = JSON.parse(userId).Id
           const value = await AsyncStorage.getItem("contact");
           let value2 = JSON.parse(value);
           if (value2.length === 0) {
+
+            if(x[0].Id != userId){
             value2.push(x[0]);
             await AsyncStorage.setItem("contact", JSON.stringify(value2));
             setMess("contact ajouté !");
+            }
           } else {
-            if (value2[0].Id === x[0].Id) {
-              setMess("le contact ci existe deja");
-            } else {
+            if(x[0].Id != userId){
+            let verif = true;
+           Array.from(value2).forEach(element => {
+
+              if(element.Id == x[0].Id){
+                console.log("tetette")
+                setMess("le contact ci existe deja");
+                verif=false
+
+              }
+            });
+           if(verif){
               value2.push(x[0]);
               await AsyncStorage.setItem("contact", JSON.stringify(value2));
               setMess("contact ajouté !");
-            }
+           }
+            
           }
+        }
         } catch (e) {
           console.log(e);
         }
@@ -63,6 +79,19 @@ function Addcontact(props) {
     }
   }
 
+  function renderMessageLog() {
+    if(mess ===""){
+      
+    }else if(mess ==="contact ajouté !"){
+      return (<View>
+        <Text style={styles.mess1}>{mess}</Text>
+      </View>)
+    }else {
+      return(<View>
+        <Text style={styles.mess2}>{mess}</Text>
+      </View>)
+    }
+  }
   let handleNom = (event) => {
     setName(event.target.value);
   };
@@ -71,21 +100,14 @@ function Addcontact(props) {
   };
   return (
     <View style={styles.container}>
-      {mess === "contact ajouté !" ? (
-        <View>
-          <Text style={styles.mess1}>{mess}</Text>
-        </View>
-      ) : (
-        <View>
-          <Text style={styles.mess2}>{mess}</Text>
-        </View>
-      )}
+
+     {renderMessageLog()}
       <View style={[styles.input1, props.style]}>
         <Icon name="email" style={styles.iconStyle}></Icon>
         <TextInput
           placeholder="Email"
           style={styles.inputStyle}
-          onChange={handleEmail}
+          onChangeText={text => setEmail(text)}
         ></TextInput>
       </View>
       <View style={[styles.input2, props.style]}>
@@ -93,7 +115,7 @@ function Addcontact(props) {
         <TextInput
           placeholder="Nom."
           style={styles.inputStyle2}
-          onChange={handleNom}
+          onChangeText={text => setName(text)}
         ></TextInput>
       </View>
       <View style={styles.footer}>
@@ -162,7 +184,9 @@ const styles = StyleSheet.create({
   },
 
   cupertinoFooter1: {
-    position: "fixed",
+  //  position: "fixed",
+  position: "absolute",
+
     flex: 0.1,
     left: 0,
     right: 0,
@@ -200,7 +224,7 @@ const styles = StyleSheet.create({
   footer: {
     width: "100%",
     flexDirection: "row",
-    position: "fixed",
+    position: "absolute",
     flex: 0.1,
     left: 0,
     right: 0,

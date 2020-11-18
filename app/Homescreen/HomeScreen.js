@@ -7,10 +7,14 @@ import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommun
 
 function Mainscreen(props) {
   const handlePress = () => {
-    props.navigation.navigate('Discussion_Repo');
+    props.navigation.navigate('Discussion_Repo', { screen: 'disc' });
   };
   const handleProfil = () => {
     props.navigation.navigate('Profil');
+  };
+
+  const handleDemande = () => {
+    props.navigation.navigate('demande');
   };
 
   return (
@@ -22,7 +26,7 @@ function Mainscreen(props) {
             J&#39;offre mon{'\n'}service
           </Text>
         </TouchableOpacity>
-        <TouchableOpacity style={styles.button2}>
+        <TouchableOpacity style={styles.button2} onPress={handleDemande}>
           <Text style={styles.demandeDaide}>Demande {'\n'}d&#39;aide</Text>
         </TouchableOpacity>
       </View>
