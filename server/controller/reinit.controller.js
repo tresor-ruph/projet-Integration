@@ -42,7 +42,26 @@ exports.cibleUser = (req, res) => {
       });
   
     };
-  
 
 
- 
+    exports.resetPassword = (req, res) => {
+      const passwd = {
+        motdepasse: req.body.motdepasse,
+        email: req.body.email,
+      };
+      reinitmdp.resetPassword(passwd, (err, data) => {
+        console.log(data)
+        if (err) {
+              res.status(500).send({
+                message: "Error reset mdp "
+              });
+            }
+          else {
+            res.header("Access-Control-Allow-Origin","*");
+            res.send(data);
+          }
+    });
+    
+    }
+
+   

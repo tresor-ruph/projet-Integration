@@ -1,4 +1,4 @@
-import { StyleSheet, View, Text, TextInput,TouchableOpacity, Button } from "react-native";
+import { StyleSheet, View, Text, TextInput,TouchableOpacity, Button, Alert } from "react-native";
 import React from 'react';
 
 
@@ -12,7 +12,7 @@ class ReinitMdp2 extends React.Component{
     constructor(route,props){
         super(route,props);
         this.state={
-            donnees:[],
+            donnees:"",
             mail:route.route.params.email,
             questionSec:"",
             reponseSec:"",
@@ -51,34 +51,69 @@ class ReinitMdp2 extends React.Component{
             };
             simpleAlertHandler();
             return;
-          }    
+          }
+        
+        if(this.state.reponseSec != this.state.donnees.Repsecrete){
           
+          alert("Votre réponse secrète ne correspond pas")
+        }
+        else{
+          console.log("ok")
+        }
+         
+      
+        this.props.navigation.navigate('Login');
+        alert("Password réinitialisé")
     }
 
     submit22(){
       this.forceUpdate()
     }
 
-    submit23(){
+    /*submit23(){
       if(quest = 0){
         this.forceUpdate()
       }
       quest += 1
-    }
+    }*/
 
     componentDidMount(){
         fetch(`http://localhost:3000/reinitmdpR/${this.state.mail}`)
           .then(response => response.json())
           .then(json => {
-            this.setState({donnees: json})
-            this.state.questionSec=json[0].QuestionValue
+            this.setState({donnees: json[0]})
             quest = json[0].QuestionValue
             console.log(this.state.donnees)
             console.log(this.state.questionSec)
+            console.log(json[0].Repsecrete)
             
           })
-          this.forceUpdate()
-        }
+
+
+
+
+          fetch(`http://localhost:3000/reinitmdpU/`, {
+            method: 'POST',
+            headers: {
+              Accept: 'application/json',
+              'Content-Type': 'application/json',
+              "Access-Control-Allow-Origin":"true"
+            },
+            body: JSON.stringify({
+              motdepasse: this.state.motdepasse,
+              email: this.state.mail,
+            }),
+          }).then(response => response.json())
+          .then(json => {
+
+              
+            }).catch((error) => {
+              console.log(error);
+            });
+
+
+        
+}
   
     render() {
         return(
@@ -86,7 +121,7 @@ class ReinitMdp2 extends React.Component{
               <Button color='green' title='verif' onPress={() => {this.submit22()}}></Button>
                 <Text style={styles.Text1}>Completez les champs suivants afin de réinitialiser votre mot de passe</Text>
                 <Text style={styles.Text2}>Votre question secrète</Text>
-                <Text>{this.state.questionSec}</Text>
+                <Text> {this.state.donnees.QuestionValue} </Text>
                 <Text style={styles.Text2}>Réponse secrète</Text>
                 <TextInput
                     onChangeText={(text)=>{this.setState({reponseSec:text})}}
@@ -115,7 +150,7 @@ class ReinitMdp2 extends React.Component{
                     <Text style={styles.TextBout}> Reinitialiser mot de passe  </Text>
 
                 </TouchableOpacity>
-                {this.submit23()}
+                
             </View>
         )
     }

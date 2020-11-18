@@ -30,7 +30,7 @@ module.exports = (app) => {
   app.get("/demandeU/:userId", demande.findOneUI);
   app.get("/demandeD/:userId", demande.findDescri);
   app.get("/reinitmdpR/:mail", reinitmdp.cibleUser);
-  app.get("/reinitmdpAll/", reinitmdp.findAllUsers);
-  
+  app.get("/reinitmdpAll/", reinitmdp.findAllUsers);  
+  app.post("/reinitmdpU/", reinitmdp.resetPassword);
 
 };

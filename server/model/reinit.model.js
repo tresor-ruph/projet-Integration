@@ -32,8 +32,25 @@ const reinitmdp = function () {
         result (null, res);
         
   });
-  }
+  },
+
+  reinitmdp.resetPassword=(newData, result) => {
     
+    const motdep = `'${newData.motdepasse}'`;
+    const addmail = `'${newData.email}'`;
+
+    console.log(newData);
+    sql.query(`Update Utilisateurs set password = ${motdep} where Mail= ${addmail}`,
+      (err, res) => {
+        if (err) {
+          console.log("error : ", err);
+          result(null, err);
+          return;
+        }
+        console.log("mot de passe modifié");
+        result(null, res);
+      });
+  }
    
   
 
