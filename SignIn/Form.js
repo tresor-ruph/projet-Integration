@@ -1,8 +1,8 @@
 import React from "react";
-import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, Dimensions   } from "react-native";
+import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, Dimensions, Animated } from "react-native";
 import PassMeter from "react-native-passmeter";
 import AsyncStorage from '@react-native-community/async-storage';
-
+import jwt from "react-native-pure-jwt";
 
 console.disableYellowBox = true;
 
@@ -19,7 +19,7 @@ class Form extends React.Component {
         dateNaissance: '', 
         mail: '',
         showPassword: true,
-        label: ["Trop court", "Il faut au moins 1 chiffre et 1 lettre majuscule !", "Il faut au moins 1 lettre majuscule et 1 chiffre !", "Mot de passe valide"],
+        label: ["Trop court !", "Il faut au moins 1 chiffre et 1 lettre majuscule !", "Il faut au moins 1 lettre majuscule et 1 chiffre !", "Mot de passe valide"],
       }
       //sert ds la visualisation du mdp
       this.toggleSwitch = this.toggleSwitch.bind(this);  
@@ -31,12 +31,12 @@ class Form extends React.Component {
 
     async storeToken(m, cle) {
       try {
-         await AsyncStorage.setItem(cle, JSON.stringify(m));
+         await AsyncStorage.setItem(cle, m);
       } catch (error) {
         console.log("Something went wrong", error);
       }
     }
-    async getToken() {
+    /*async getToken() {
       try {
         let userData = await AsyncStorage.getItem("id");
         let data = JSON.parse(userData);
@@ -44,7 +44,7 @@ class Form extends React.Component {
       } catch (error) {
         console.log("Something went wrong", error);
       }
-    }
+    }*/
 
     submit() {
       //envoie msg d'erreur si un champ est encore vide
@@ -55,23 +55,23 @@ class Form extends React.Component {
         simpleAlertHandler();
         return;
       }
-      //envoie msg d'erreur si dateNaissance est != 10 , ne comprends pas de ',' ou contient autre chose que chiffre et tiret
-      if( this.state.dateNaissance.length != 10 || this.state.dateNaissance.includes(',') == false || this.state.dateNaissance.match(/[^0-9,]/) != null){
+      //envoie msg d'erreur si dateNaissance est != 10 , ne comprends pas de '/' ou contient autre chose que chiffre et /
+      if( this.state.dateNaissance.length != 10 || this.state.dateNaissance.includes('/') == false || this.state.dateNaissance.match(/[^0-9/]/) != null){
         let simpleAlertHandler = () => {
           alert("La date de naissance ne correspond pas au format !");
         };
         simpleAlertHandler();
         return;
       } 
-      //envoie msg d'erreur si le nbre de chiffre != 8 , si nbre ',' != 2 et si tiret mal placé
-      if(this.state.dateNaissance.match(/[0-9]/g).length != 8 || this.state.dateNaissance.match(/[,]/g).length != 2 || this.state.dateNaissance.indexOf(',') != 2 || this.state.dateNaissance.lastIndexOf(',') != 5) {
+      //envoie msg d'erreur si le nbre de chiffre != 8 , si position '/' != 2 et != 5
+      if(this.state.dateNaissance.match(/[0-9]/g).length != 8 || this.state.dateNaissance.match(/[/]/g).length != 2 || this.state.dateNaissance.indexOf('/') != 2 || this.state.dateNaissance.lastIndexOf('/') != 5) {
         let simpleAlertHandler = () => {
-          alert("La date de naissance ne correspond pas au format 22!");
+          alert("La date de naissance ne correspond pas au format !");
         };
         simpleAlertHandler();
-        console.log(this.state.dateNaissance.match(/[0-9]/g).length)
+        /*console.log(this.state.dateNaissance.match(/[0-9]/g).length)
         console.log(this.state.dateNaissance.match(/[,]/g).length)
-        console.log(this.state.dateNaissance.indexOf(','))
+        console.log(this.state.dateNaissance.indexOf(','))*/
         return;
       } 
       //envoie msg d'erreur si email ne contient pas @ et . et est plus petit que 8
@@ -105,15 +105,39 @@ class Form extends React.Component {
       catch (error) {
           console.log("Something went wrong", error);
       }
-      
-      //localStorage.getItem('mail')
+      /*try {
+        localStorage.setItem('mail', JSON.stringify({
+          token: result.token
+        }))
+        }
+        catch (error) {
+          console.log("Something went wrong", error);
+        }
+        */
+        /*jwt.sign(
+        {
+          exp: new Date().getTime() + 3600 * 1000,
+        },
+        {
+          alg: "HS256"
+        },
+        {
+          sub: `${this.state.mail}`
+        }
+      );
+        console.log(jwt)*/
+        //onsole.log(p.replace(regex, 'ferret'));
+
+
+      var bonneDate = this.state.dateNaissance.replaceAll('/', ',');
+
       fetch('http://localhost:8080/auth/', {
         method: 'POST',
         body: JSON.stringify({
           nom: this.state.nom,
           prenom: this.state.prenom,
           adresse: this.state.adresse,
-          dateNaissance: this.state.dateNaissance,
+          dateNaissance: bonneDate,
           mail: this.state.mail,
           password: this.state.motdepasse,
           token: localStorage.getItem('mail')
@@ -130,10 +154,10 @@ class Form extends React.Component {
         alert("Echec de connexion. Réessayez.");
       });
     }
-
+    //useNativeDriver= {true}  ; https://reactnative.dev/docs/animated; https://reactnative.dev/blog/2017/02/14/using-native-driver-for-animated#resources
     render() {
       return ( 
-        <ScrollView useNativeDriver= {true}>
+        <ScrollView>
           <View style={styles.container}>
             <TextInput
               placeholder="Nom"
@@ -157,7 +181,7 @@ class Form extends React.Component {
               style={styles.textInput}
             ></TextInput>
            <TextInput
-              placeholder="Date de naissance (ex:20,01,2000)"
+              placeholder="Date de naissance (ex:20/01/2000)"
               onChangeText={(text)=> { this.setState({ dateNaissance: text }) }}
               style={styles.textInput}
             ></TextInput>
@@ -201,7 +225,7 @@ class Form extends React.Component {
               onPress={()=>{this.submit()}}
             ></Button>
           </View>
-        </ScrollView>
+          </ScrollView>
       )
     }
 }

@@ -67,8 +67,17 @@ app.get('/Mail', (req,res) =>{
   res.json({message: 'ok'});
 })
   });
-  
-app.post('/auth',(req, res) => {//envoie mail + crée userEnAttente
+
+app.get('/emailVerif',(req, res) =>{
+  var mailV = req.query.mail
+  var sql = "update Utilisateurs set EmailVerif = true where Mail = '"+mailV+"'";
+  db.query(sql, (err )=> {
+    console.log(err);
+  });
+  res.send('Validation réussie ! Vous pouvez vous connecter.' )
+});
+
+app.post('/auth',(req, res) => {//envoie mail + crée Utilisateurs
 
   const nodemailer = require("nodemailer");
 
@@ -80,12 +89,12 @@ app.post('/auth',(req, res) => {//envoie mail + crée userEnAttente
     },
   });
 
-  let mailOptions = {
+  let mailOptions = { 
     from: '"HelpRecover" <HelpRecover2020@gmail.com>', 
-    to: "inconnu12345612@gmail.com", //req.body.mail
+    to: "inconnu12345612@gmail.com", 
     subject: "Vérification email", 
     text: "Vérifiez votre email", 
-    html: "<b>Vérifiez votre email : <a href='http://localhost:19006/${req.body.token}'>redirection : http://localhost:19006/${req.body.token}</a></b>", 
+    html: `<b>Vérifiez votre email : <a href='http://localhost:8080/emailVerif/?mail=${req.body.mail}'>redirection : ${req.body.token}</a></b>`,
   };
 
   try {
@@ -94,6 +103,7 @@ app.post('/auth',(req, res) => {//envoie mail + crée userEnAttente
         return console.log(error);
       }
       console.log("Message sent: %s", info.messageId);
+      console.log(req.body);
     })
   }
   catch(error) {
@@ -106,11 +116,12 @@ app.post('/auth',(req, res) => {//envoie mail + crée userEnAttente
     var dateNaissance = req.body.dateNaissance;
     var mail = req.body.mail;
     var password = req.body.motdepasse;
+    var emailVerif = false;
       
     console.log( req.body );
     console.log("passse direct ici");
 
-    var sql = "INSERT INTO userEnAttente(Nom,Prenom, Adresse , dateNaissance , Mail, password) VALUES ('"+nom+"' ,'"+prenom+"' , '"+adresse+"',STR_TO_DATE('"+dateNaissance+"','%d,%m,%Y'),'"+mail+"','"+password+"')";
+    var sql = "INSERT INTO Utilisateurs(Nom,Prenom, Adresse , dateNaissance , Mail, password, EmailVerif) VALUES ('"+nom+"' ,'"+prenom+"' , '"+adresse+"',STR_TO_DATE('"+dateNaissance+"','%d,%m,%Y'),'"+mail+"','"+password+"','"+emailVerif+"')";
     //var values = [[nom,prenom,adresse,dateNaissance,mail,password]];
     db.query(sql);
     req.session.email = mail;
