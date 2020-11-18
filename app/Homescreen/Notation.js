@@ -47,7 +47,7 @@ try{
         t.afficher();
         //t.setState({chain: t.afficher()});
     });
-}catch{
+}catch() {
     this.props.navigation.navigate('login');
 }
         
