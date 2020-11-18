@@ -1,6 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component, useEffect, useState } from 'react';
 import { Button, TextInput, View, StyleSheet,Text } from 'react-native';
+const bcrypt = require('bcryptjs');
 
 
 

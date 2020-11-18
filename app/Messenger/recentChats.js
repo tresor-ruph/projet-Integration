@@ -1,4 +1,3 @@
-import AsyncStorage from "@react-native-community/async-storage";
 import React, { useEffect, useState } from "react";
 import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import Contact from "./contact";
