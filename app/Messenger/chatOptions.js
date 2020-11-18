@@ -5,7 +5,7 @@ import { useNavigation, useIsFocused } from "@react-navigation/native";
 import AsyncStorage from "@react-native-community/async-storage";
 import { View, StyleSheet, Button, TouchableOpacity, Text } from "react-native";
 import { ListItem, Avatar } from "react-native-elements";
-import Contact from "./contact";
+
 
 function ChatOption(route) {
   const [ownerId, setOwnerId] = useState("ownerId");
@@ -106,7 +106,8 @@ function ChatOption(route) {
                   <Text style={{ color: "green" }}>Admin</Text>
                 </TouchableOpacity>
               ) : (
-                <TouchableOpacity style={styles.ajouter}
+                <TouchableOpacity
+style={styles.ajouter}
                 onPress={() => leaveGroup(l.userId, true)}
                 >
                   <Text style={{ color: "red" }}>retirer</Text>

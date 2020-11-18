@@ -1,7 +1,8 @@
 import React from "react";
 import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, Dimensions   } from "react-native";
 import PassMeter from "react-native-passmeter";
-//import DateTimePicker from '@react-native-community/datetimepicker';
+import AsyncStorage from '@react-native-community/async-storage';
+
 
 
 console.disableYellowBox = true;
@@ -18,6 +19,7 @@ class Form extends React.Component {
         adresse: '',
         dateNaissance: '', 
         mail: '',
+        codePostal: '',
         showPassword: true,
         label: ["Trop court", "Il faut au moins 1 chiffre et 1 lettre majuscule !", "Il faut au moins 1 lettre majuscule et 1 chiffre !", "Mot de passe valide"],
       }
@@ -28,7 +30,22 @@ class Form extends React.Component {
     toggleSwitch() {
       this.setState({ showPassword: !this.state.showPassword });
     }
-
+    async storeToken(m) {
+      try {
+         await AsyncStorage.setItem("id", JSON.stringify(m));
+      } catch (error) {
+        console.log("Something went wrong", error);
+      }
+    }
+    async getToken() {
+      try {
+        let userData = await AsyncStorage.getItem("id");
+        let data = JSON.parse(userData);
+        console.log(data);
+      } catch (error) {
+        console.log("Something went wrong", error);
+      }
+    }
 
     submit() {
       //envoie msg d'erreur si un champ est encore vide
@@ -39,25 +56,25 @@ class Form extends React.Component {
         simpleAlertHandler();
         return;
       }
-      //envoie msg d'erreur si dateNaissance est != 10 , ne comprends pas de ',' ou contient autre chose que chiffre et tiret
-      if( this.state.dateNaissance.length != 10 || this.state.dateNaissance.includes(',') == false || this.state.dateNaissance.match(/[^0-9,]/) != null){
+     //envoie msg d'erreur si dateNaissance est != 10 , ne comprends pas de '/' ou contient autre chose que chiffre et /
+      if( this.state.dateNaissance.length != 10 || this.state.dateNaissance.includes('/') == false || this.state.dateNaissance.match(/[^0-9/]/) != null){
         let simpleAlertHandler = () => {
           alert("La date de naissance ne correspond pas au format !");
         };
         simpleAlertHandler();
         return;
-      } 
-      //envoie msg d'erreur si le nbre de chiffre != 8 , si nbre ',' != 2 et si tiret mal placÃ©
-      if(this.state.dateNaissance.match(/[0-9]/g).length != 8 || this.state.dateNaissance.match(/[,]/g).length != 2 || this.state.dateNaissance.indexOf(',') != 2 || this.state.dateNaissance.lastIndexOf(',') != 5) {
+      }
+      //envoie msg d'erreur si le nbre de chiffre != 8 , si position '/' != 2 et != 5
+      if(this.state.dateNaissance.match(/[0-9]/g).length != 8 || this.state.dateNaissance.match(/[/]/g).length != 2 || this.state.dateNaissance.indexOf('/') != 2 || this.state.dateNaissance.lastIndexOf('/') != 5) {
         let simpleAlertHandler = () => {
-          alert("La date de naissance ne correspond pas au format 22!");
+          alert("La date de naissance ne correspond pas au format !");
         };
         simpleAlertHandler();
-        console.log(this.state.dateNaissance.match(/[0-9]/g).length)
+        /*console.log(this.state.dateNaissance.match(/[0-9]/g).length)
         console.log(this.state.dateNaissance.match(/[,]/g).length)
-        console.log(this.state.dateNaissance.indexOf(','))
+        console.log(this.state.dateNaissance.indexOf(','))*/
         return;
-      } 
+      }
       //envoie msg d'erreur si email ne contient pas @ et . et est plus petit que 8
       if(this.state.mail.includes('@') == false || this.state.mail.includes('.') == false || this.state.mail.length < 8) {
         let simpleAlertHandler = () => {
@@ -66,10 +83,10 @@ class Form extends React.Component {
         simpleAlertHandler();
         return;
       }      
-      //envoie msg d'erreur si mdp rÃ©pÃ©tÃ© est diffÃ©rent
+      //envoie msg d'erreur si mdp répété est différent
       if(this.state.motdepasse != this.state.repMotdepasse) {
         let simpleAlertHandler = () => {
-          alert("Le mot de passe n'est pas correctement rÃ©pÃ©tÃ© !");
+          alert("Le mot de passe n'est pas correctement répété !");
         };
         simpleAlertHandler();
         return;
@@ -77,20 +94,30 @@ class Form extends React.Component {
       //envoie msg d'erreur si le mdp est < Ã  8 OU ne contient pas de chiffre OU ne contient pas de majuscule
       if(this.state.motdepasse.length < 8 || this.state.motdepasse.match(/\d+/) == null || this.state.motdepasse == this.state.motdepasse.toLowerCase()) {
         let simpleAlertHandler = () => {
-          alert("Le mot de passe n'est pas suffisament compliquÃ© !");
+          alert("Le mot de passe n'est pas suffisament compliqué !");
+        };
+        simpleAlertHandler();
+        return;
+      }
+      //envoie un msg d'erreur si code postal ne contient pas que des chiffres
+      if(this.state.codePostal.match(/[0-9]/g) == null) {
+        let simpleAlertHandler = () => {
+          alert("Le code postal n'est pas correct, uniquement les chiffres sont acceptés !");
         };
         simpleAlertHandler();
         return;
       }
 
-      fetch('http://localhost:8080/auth/', {
+      var bonneDate = this.state.dateNaissance.replaceAll('/', ',');
+      fetch('http://localhost:3000/auth/', {
         method: 'POST',
         body: JSON.stringify({
           nom: this.state.nom,
           prenom: this.state.prenom,
           adresse: this.state.adresse,
-          dateNaissance: this.state.dateNaissance,
-          mail: this.state.mail,
+          dateNaissance: bonneDate,
+          Mail: this.state.mail,
+          codePostal: this.state.codePostal,
           password: this.state.motdepasse
         }),
         headers: {
@@ -100,17 +127,20 @@ class Form extends React.Component {
         }
       }).then(response => response.json())
       .then(json => {
-      console.log(json);
-      }).catch((error) => {
-        console.error(error);
-      });
+        if(json.message == 'inscription finie'){
+            this.storeToken(json.id);
+            this.props.navigation.navigate('Succes');
+          }
+  
+          
+        }).catch((error) => {
+          alert("Echec de connexion. Réessayez.");
+        });
       
-      this.props.navigation.navigate("Succes");
-    }
-
+ }
     render() {
       return ( 
-        <ScrollView useNativeDriver= {true}>
+        <ScrollView>
           <View style={styles.container}>
             <TextInput
               placeholder="Nom"
@@ -133,8 +163,14 @@ class Form extends React.Component {
               onChangeText={(text)=> { this.setState({ adresse: text }) }}
               style={styles.textInput}
             ></TextInput>
+            <TextInput
+              placeholder="Code postal"
+              maxLength={50}
+              onChangeText={(text)=> { this.setState({ codePostal: text }) }}
+              style={styles.textInput}
+            ></TextInput>
            <TextInput
-              placeholder="Date de naissance (ex:20,01,2000)"
+              placeholder="Date de naissance (ex:20/01/2000)"
               onChangeText={(text)=> { this.setState({ dateNaissance: text }) }}
               style={styles.textInput}
             ></TextInput>

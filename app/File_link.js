@@ -24,18 +24,28 @@ import MessHeader from './header';
 import AddGroupMem from './Messenger/addGroupMem';
 import DiscHeader from './discHeader';
 import Demande from './demandeFormulaire/Demande';
+import ListeDem from './Catalogue/ListeDem';
+import mesDemandes from './Catalogue/mesDemandes';
 
 //import Login from './Login/login'
-
+import Notation from './Homescreen/Notation';
 // Create the navigator
 const Stack = createStackNavigator();
 function Nav() {
-  return (
-    <NavigationContainer>
-      <Stack.Navigator>
-        <Stack.Screen name="Home" component={Home} />
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="demande" component={Demande} />
+    return (
+        <NavigationContainer>
+            <Stack.Navigator>
+            <Stack.Screen name="Home" component={Home} />
+           <Stack.Screen name="Login" component={Login} />
+
+
+            <Stack.Screen name="signup" component={Form} />
+            <Stack.Screen name="succes" component={Succes} />
+            
+            <Stack.Screen name="ListeDem" component={ListeDem} />
+            <Stack.Screen name="Demande" component={Demande} />
+            <Stack.Screen name="Notation" component={Notation} />
+            <Stack.Screen name="mesDemandes" component={mesDemandes} />
 
         <Stack.Screen
 name="Ajouter Membres" component={AddGroupMem}
@@ -74,8 +84,7 @@ name="Parametres" component={ChatOption}
         }}
         />
 
-        <Stack.Screen name="signup" component={Form} />
-        <Stack.Screen name="succes" component={Succes} />
+
 
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="Profil" component={Profil} />
@@ -113,5 +122,5 @@ name="Ajouter un contact" component={addContact}
     </NavigationContainer>
   );
 }
-
 export default Nav;
+

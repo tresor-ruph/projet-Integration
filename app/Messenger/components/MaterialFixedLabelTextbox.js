@@ -1,11 +1,11 @@
-import React, { Component } from "react";
-import { StyleSheet, View, Text, TextInput } from "react-native";
+import React from 'react';
+import { StyleSheet, View, Text, TextInput } from 'react-native';
 
 function MaterialFixedLabelTextbox(props) {
   return (
     <View style={[styles.container, props.style]}>
-      <Text style={styles.label}>{props.label || "FixedLabel"}</Text>
-      <TextInput style={styles.inputStyle}></TextInput>
+      <Text style={styles.label}>{props.label || 'FixedLabel'}</Text>
+      <TextInput style={styles.inputStyle} />
     </View>
   );
 }
@@ -13,9 +13,9 @@ function MaterialFixedLabelTextbox(props) {
 const styles = StyleSheet.create({
   container: {
     borderBottomWidth: 1,
-    borderColor: "#D9D5DC",
-    backgroundColor: "transparent",
-    flexDirection: "row",
+    borderColor: '#D9D5DC',
+    backgroundColor: 'transparent',
+    flexDirection: 'row',
     paddingLeft: 16
   },
   label: {
@@ -23,15 +23,15 @@ const styles = StyleSheet.create({
     lineHeight: 16,
     paddingTop: 16,
     paddingBottom: 8,
-    color: "#000",
+    color: '#000',
     opacity: 0.5,
-    alignSelf: "flex-start"
+    alignSelf: 'flex-start'
   },
   inputStyle: {
-    color: "#000",
+    color: '#000',
     paddingRight: 5,
     fontSize: 16,
-    alignSelf: "stretch",
+    alignSelf: 'stretch',
     flex: 1,
     lineHeight: 16,
     paddingTop: 14,

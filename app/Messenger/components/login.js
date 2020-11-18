@@ -23,9 +23,7 @@ export default function Login(props) {
         props.navigation.navigate("HomeScreen", { userid: json[0].Id });
       });
   };
-  const handlePassword = (event) => {
-    // setPassword(event.target.value);
-  };
+ 
 
   return (
     <View style={styles.container}>
@@ -36,7 +34,7 @@ export default function Login(props) {
       />
       <TextInput
         placeholder={"Password"}
-        onChange={handlePassword}
+      
         style={styles.input}
       />
 

@@ -4,7 +4,6 @@ import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-
 function Mainscreen(props) {
   const handlePress = () => {
     props.navigation.navigate('Discussion_Repo', { screen: 'disc' });
@@ -14,14 +13,18 @@ function Mainscreen(props) {
   };
 
   const handleDemande = () => {
-    props.navigation.navigate('demande');
+    props.navigation.navigate('Demande');
   };
 
+  const handleListeDem = () => {
+    props.navigation.navigate('ListeDem');
+  };
+    
   return (
-    <View style={styles.container}>
 
+    <View style={styles.container}>
       <View style={styles.buttonRow}>
-        <TouchableOpacity style={styles.button}>
+        <TouchableOpacity style={styles.button} onPress={handleListeDem}>
           <Text style={styles.joffreMonService1}>
             J&#39;offre mon{'\n'}service
           </Text>

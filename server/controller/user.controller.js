@@ -31,7 +31,11 @@ module.exports = {
             message: "Error retrieving user ",
           });
         }
-      } else {
+      } 
+      if(!data.length){
+        res.status(404).send('user with the provided id not found')
+      }
+      else {
         res.header("Access-Control-Allow-Origin", "*");
         res.status(200);
         res.send(data);
@@ -49,4 +53,16 @@ module.exports = {
       }
     });
   },
+
+  updateEmail: (req, res) => {
+    let email = req.params.email;
+    // update the user data
+      appUser.validationEmail(email, (err, data) => {
+        if (err) throw err;
+        else {
+          res.header("Access-Control-Allow-Origin", "*");
+          res.status(200).json(data);
+        }
+      });
+    }
 };

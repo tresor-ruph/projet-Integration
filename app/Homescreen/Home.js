@@ -31,6 +31,12 @@ class Home extends React.Component {
             >
             <Text style={styles.inscrivezVous}>Page Home</Text>
             </TouchableOpacity>
+            <TouchableOpacity
+            onPress={() => this.props.navigation.navigate('Notation')}
+            style={styles.button3}
+            >
+            <Text style={styles.inscrivezVous}>notation</Text>
+            </TouchableOpacity>
         </View>
         </View>
   );

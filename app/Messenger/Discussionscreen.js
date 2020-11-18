@@ -20,7 +20,6 @@ import AsyncStorage from "@react-native-community/async-storage";
 import { useIsFocused } from "@react-navigation/native";
 import RecentChat from "./recentChats";
 import { useNavigation } from "@react-navigation/native";
-import { ListItem, Avatar } from "react-native-elements";
 
 import GroupScreen from "./GroupScreen";
 import contactStorage from "./contact_storage";

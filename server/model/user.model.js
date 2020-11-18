@@ -44,4 +44,18 @@ module.exports = {
         result(null, res);
       });
   },
+  validationEmail: (emailV, result) => {
+    
+    console.log(emailV);
+    sql.query(`update Utilisateurs set EmailVerif = true where Mail = "${emailV}"`,
+      (err, res) => {
+        if (err) {
+          console.log("error : ", err);
+          result(null, err);
+          return;
+        }
+        console.log("data successfully updated");
+        result(null, 'Validation réussie ! Vous pouvez vous connecter.');
+      });
+  }
 };

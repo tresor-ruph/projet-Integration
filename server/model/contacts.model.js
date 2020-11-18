@@ -182,7 +182,6 @@ user.createGroup = (group, result) => {
 };*/
 
 user.addGroup = (group, result) => {
-  console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
   console.log(group.users);
   group.users.forEach((elt) => {
     sql.query(
@@ -206,7 +205,7 @@ user.findRoom = (senderId, recieverId, result) => {
   console.log(senderId);
   console.log(recieverId);
   sql.query(
-    `select roomId from chat where (senderId = ${senderId} and recieverId = ${recieverId}) or (senderId =${recieverId} and recieverId = ${senderId}) `,
+    `select roomId from Chat where (senderId = ${senderId} and recieverId = ${recieverId}) or (senderId =${recieverId} and recieverId = ${senderId}) `,
     (err, res) => {
       if (err) {
         console.log("error : ", err);
@@ -224,7 +223,7 @@ user.findConversRoom = (userId, result) => {
   userId = "'" + userId + "'";
   
   sql.query(
-    `select * from chat join utilisateurs where chat.recieverId = utilisateurs.Id and contact = 'false' and (senderId =${userId} or recieverId =${userId})  `,
+    `select * from Chat join Utilisateurs where Chat.recieverId = Utilisateurs.Id and contact = 'false' and (senderId =${userId} or recieverId =${userId})  `,
     (err, res) => {
       if (err) {
         console.log("error : ", err);
