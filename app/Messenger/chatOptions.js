@@ -26,7 +26,7 @@ function ChatOption(route) {
   }, [isFocused]);
 
   function getMembers() {
-    fetch(`http://192.168.1.52:3000/groupUsers/${route.route.params.id}`)
+    fetch(`http://localhost:3000/groupUsers/${route.route.params.id}`)
       .then((response) => response.json())
       .then((json) => {
         setOwnerId(json[0].ownerId);
@@ -35,7 +35,7 @@ function ChatOption(route) {
   }
 
   const leaveGroup = (id, bol) => {
-    fetch(`http://192.168.1.52:3000/group/${id}`, {
+    fetch(`http://localhost:3000/group/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -49,7 +49,7 @@ function ChatOption(route) {
   };
 
   const deleteGroup = () => {
-    fetch(`http://192.168.1.52:3000/group/all/${route.route.params.id}`, {
+    fetch(`http://localhost:3000/group/all/${route.route.params.id}`, {
       method: "DELETE",
     })
       .then((res) => res.json()) // or res.json()
@@ -58,41 +58,6 @@ function ChatOption(route) {
       });
   };
 
-  const renderMemebers = () => {
-    const arr = [];
-
-    Array.from(members)
-      .sort((a, b) => a.Nom.localeCompare(b.Nom))
-      .forEach((elt) => {
-        arr.push(
-          <Contact
-            key={elt.userId}
-            id={elt.userId}
-            name={elt.Nom}
-            imgUrl={elt.PhotoProfil}
-            grp={false}
-            component={
-              ownerId === userId &&
-              (elt.userId === userId ? (
-                <View style={{ borderRadius: 10 }}>
-                  <Text style={{ color: "green" }}>Admin</Text>
-                </View>
-              ) : (
-                <View style={{ borderRadius: 10 }}>
-                  <TouchableOpacity
-                    onPress={() => leaveGroup(elt.userId, true)}
-                  >
-                    <Text style={{ color: "red" }}>retirer</Text>
-                  </TouchableOpacity>
-                </View>
-              ))
-            }
-          />
-        );
-      });
-
-    return <View>{arr}</View>;
-  };
 
   return (
     <View>

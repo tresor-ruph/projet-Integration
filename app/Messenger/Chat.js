@@ -105,7 +105,7 @@ export default function Chat(route, navigation) {
     } else {
 
       fetch(
-        `http://192.168.1.52:3000/chat/${route.route.params.senderId}/${route.route.params.recieverId}`
+        `http://localhost:3000/chat/${route.route.params.senderId}/${route.route.params.recieverId}`
       )
         .then((reponse) => reponse.json())
         .then((json) => {
@@ -128,7 +128,7 @@ export default function Chat(route, navigation) {
             };
             try {
               console.log("try request");
-              fetch("http://192.168.1.52:3000/chat/addroom", requestOptions)
+              fetch("http://localhost:3000/chat/addroom", requestOptions)
                 .then((response) => response.json())
                 .then((data) => {
                   console.log("hello");
@@ -195,91 +195,7 @@ export default function Chat(route, navigation) {
     }
 
     return async function cleanup() {
-      /* if(groups){
-        console.log("groups")
-        let group = await AsyncStorage.getItem("group");
-        group = JSON.parse(group);
-        console.log(route.route.params.recieverId)
-      let alter = function (elt) {
-        return (elt.groupId === route.route.params.recieverId);
-      };
-      group.filter(alter);
-      console.log(group)
-      try {
-        console.log(group[0].Name)
-        lastMessage.profilPic = group[0].groupImage;
-        lastMessage.Nom = group[0].Name;
-        lastMessage.senderId = route.route.params.senderId;
-        lastMessage.recieverId = route.route.params.recieverId;
-        let recentChats = await AsyncStorage.getItem("recentChats");
-        recentChats = JSON.parse(recentChats);
-        
-      
-      if (recentChats.length === 10) {
-        recentChats.pop();
-      }
-      if (recentChats.length > 0) {
-        console.log("yes first")
-        console.log(lastMessage.recieverId)
-        let alter = function (elt) {
-          return elt.recieverId !== lastMessage.recieverId;
-        };
-        const filterChat = recentChats.filter(alter);
-        console.log(filterChat);
-        filterChat.unshift(lastMessage);
-        await AsyncStorage.setItem("recentChats", JSON.stringify(filterChat));
-      }  else {
-        console.log("hehehhe")
-        recentChats.unshift(lastMessage);
-        await AsyncStorage.setItem(
-          "recentChats",
-          JSON.stringify(recentChats)
-        );
-      }
-    } catch (error) {
-      console.log(error);
-    }
-
-      }else {
-      console.log("out ")
-      let contacts = await AsyncStorage.getItem("contact");
-      contacts = JSON.parse(contacts);
-      let alter = function (elt) {
-        return (elt.Id = route.route.params.recieverId);
-      };
-      contacts.filter(alter);
-      try {
-       
-
-        lastMessage.profilPic = contacts[0].PhotoProfil;
-        lastMessage.Nom = contacts[0].Nom;
-        let recentChats = await AsyncStorage.getItem("recentChats");
-        recentChats = JSON.parse(recentChats);
-        lastMessage.senderId = route.route.params.senderId;
-        lastMessage.recieverId = route.route.params.recieverId;
-
-        if (recentChats.length === 10) {
-          recentChats.pop();
-        }
-        if (recentChats.length > 0) {
-          let alter = function (elt) {
-            return elt.recieverId !== lastMessage.recieverId;
-          };
-          const filterChat = recentChats.filter(alter);
-
-          filterChat.unshift(lastMessage);
-          await AsyncStorage.setItem("recentChats", JSON.stringify(filterChat));
-        } else {
-          recentChats.unshift(lastMessage);
-          await AsyncStorage.setItem(
-            "recentChats",
-            JSON.stringify(recentChats)
-          );
-        }
-      } catch (error) {
-        console.log("an error occured");
-      }
-    }*/
+    
     };
   }, []);
 

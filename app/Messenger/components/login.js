@@ -9,7 +9,7 @@ export default function Login(props) {
 
   const onLogin = async () => {
     // eslint-disable-next-line no-undef
-    fetch(`http://192.168.1.52:3000/contacts/${username}`)
+    fetch(`http://localhost:3000/contacts/${username}`)
       .then((reponse) => reponse.json())
       .then((json) => {
         console.log(json);

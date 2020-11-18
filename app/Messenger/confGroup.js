@@ -50,9 +50,7 @@ function ConfGroup(route, props) {
     }
   };
 
-  const handleGroup = (event) => {
-    setGroupName(event.target.value);
-  };
+  
   const handleSent = async () => {
     const chatGroup = {
       groupId: Math.round(Math.random() * 10000000000000),
@@ -84,7 +82,7 @@ function ConfGroup(route, props) {
       }),
     };
     try {
-      fetch('http://192.168.1.52:3000/group/addGroup', requestOptions)
+      fetch('http://localhost:3000/group/addGroup', requestOptions)
         .then((response) => response.json())
         .then((data) => {
           console.log(data);

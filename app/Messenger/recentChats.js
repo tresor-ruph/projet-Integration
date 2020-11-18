@@ -22,7 +22,7 @@ function RecentChat() {
       //setUserId(id);
 
       // eslint-disable-next-line no-undef
-      fetch(`http://192.168.1.52:3000/chatconv/${id}`)
+      fetch(`http://localhost:3000/chatconv/${id}`)
         .then((response) => response.json())
         .then((json) => {
           setRecent(json);
@@ -45,7 +45,7 @@ function RecentChat() {
           key={i}
           name={element.Nom}
           imgUrl={element.PhotoProfil}
-          lastMess={"test test"}
+         
           repert={false}
           onNav={() =>
             navigation.navigate("Chat", {
