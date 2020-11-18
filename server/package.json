@@ -15,10 +15,16 @@
   "author": "Tresor",
   "license": "ISC",
   "dependencies": {
+    "@react-native-community/masked-view": "^0.1.10",
     "body-parser": "^1.19.0",
     "cors": "^2.8.5",
     "express": "^4.17.1",
-    "mysql": "^2.18.1"
+    "mysql": "^2.18.1",
+    "react-native-gesture-handler": "^1.8.0",
+    "react-native-reanimated": "^1.13.2",
+    "react-native-safe-area-context": "^3.1.9",
+    "react-native-screens": "^2.15.0",
+    "yarn": "^1.22.10"
   },
   "devDependencies": {
     "chai": "^4.2.0",

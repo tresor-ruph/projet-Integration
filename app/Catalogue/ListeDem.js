@@ -5,6 +5,7 @@ import { ListItem, Avatar } from 'react-native-elements';
 import { View, StyleSheet, TextInput, Text, TouchableOpacity, Picker, Button } from 'react-native';
 
 
+
 class ListeDem extends React.Component {
   click_MesDem =() => { this.props.navigation.navigate('mesDemandes'); }
   constructor(props) {
@@ -23,7 +24,7 @@ class ListeDem extends React.Component {
   componentDidMount() {
     console.log(this.state.codeP)
     console.log(this.state.filtre);
-    if (this.state.filtre === 'all' & this.state.codeP ==='') {
+    if (this.state.filtre === 'all' & this.state.codeP ==='' || this.state.codeP == NaN) {
     fetch('http://localhost:3000/demande/all')
     .then(response => response.json())
     .then(json => {
@@ -97,9 +98,9 @@ class ListeDem extends React.Component {
         
         
       {
-        this.state.demande.map((l, i) => (
+        this.state.demande.reverse().map((l, i) => (
           <ListItem key={i} bottomDivider>
-            <Avatar source={{ uri: l.PhotoProfil }} />
+            <Avatar onPress={() => {this.submitId(l.userId)}} size={70} source={{ uri: l.PhotoProfil }} />
             <ListItem.Content>
               <ListItem.Title>{l.Prenom} {l.Nom}</ListItem.Title>
               <ListItem.Subtitle style={styles.descri}>{l.categorie}</ListItem.Subtitle>
