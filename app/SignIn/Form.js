@@ -83,7 +83,7 @@ class Form extends React.Component {
         simpleAlertHandler();
         return;
       }      
-      //envoie msg d'erreur si mdp rÃ©pÃ©tÃ© est diffÃ©rent
+      //envoie msg d'erreur si mdp répété est différent
       if(this.state.motdepasse != this.state.repMotdepasse) {
         let simpleAlertHandler = () => {
           alert("Le mot de passe n'est pas correctement répété !");
@@ -99,6 +99,15 @@ class Form extends React.Component {
         simpleAlertHandler();
         return;
       }
+      //envoie un msg d'erreur si code postal ne contient pas que des chiffres
+      if(this.state.codePostal.match(/[0-9]/g) == null) {
+        let simpleAlertHandler = () => {
+          alert("Le code postal n'est pas correct, uniquement les chiffres sont acceptés !");
+        };
+        simpleAlertHandler();
+        return;
+      }
+
       var bonneDate = this.state.dateNaissance.replaceAll('/', ',');
       fetch('http://localhost:3000/auth/', {
         method: 'POST',
@@ -125,7 +134,7 @@ class Form extends React.Component {
   
           
         }).catch((error) => {
-          console.error(error);
+          alert("Echec de connexion. Réessayez.");
         });
       
  }
@@ -161,7 +170,7 @@ class Form extends React.Component {
               style={styles.textInput}
             ></TextInput>
            <TextInput
-              placeholder="Date de naissance (ex:20,01,2000)"
+              placeholder="Date de naissance (ex:20/01/2000)"
               onChangeText={(text)=> { this.setState({ dateNaissance: text }) }}
               style={styles.textInput}
             ></TextInput>

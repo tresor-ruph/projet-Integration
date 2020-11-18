@@ -44,7 +44,7 @@ if(spotted){
           to: "inconnu12345612@gmail.com", 
           subject: "Vérification email", 
           text: "Vérifiez votre email", 
-          html: `<b>Vérifiez votre email : <a href='http://localhost:3000/emailVerif/${con.Mail}'>redirection</a></b>`,
+          html: `<b>Vérifiez votre email : <a href='http://localhost:3000/emailVerif/${con.Mail}'>Cliquez ici pour confirmer votre inscription.</a></b>`,
         };
       
         try {
