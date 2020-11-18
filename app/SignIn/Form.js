@@ -97,44 +97,7 @@ class Form extends React.Component {
         simpleAlertHandler();
         return;
       }
-      let bcrypt = require('bcryptjs');
-      let t = this;
-      
-      bcrypt.genSalt(10, function(err, salt) {
-        bcrypt.hash(t.state.motdepasse, salt, function(err, hash) {
-          console.log('ufgrihzjoepdozub');
-      fetch('http://localhost:3000/auth/', {
-        method: 'POST',
-        body: JSON.stringify({
-          nom: t.state.nom,
-          prenom: t.state.prenom,
-          adresse: t.state.adresse,
-          dateNaissance: t.state.dateNaissance,
-          Mail: t.state.mail,
-          password: hash
-        }),
-        headers: {
-          Accept: 'application/json',
-          'Content-Type': 'application/json',
-          "Access-Control-Allow-Origin":"true"
-        }
-      }).then(response => response.json())
-      .then(json => {
-        if(json.message == 'inscription finie'){
-            t.storeToken(json.id);
-            t.props.navigation.navigate('Succes');
-          
-          }
-  
-          
-        }).catch((error) => {
-          console.error(error);
-        });
-      
-    
-  
-  });
-});}
+    }
 
     render() {
       return ( 

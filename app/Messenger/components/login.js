@@ -1,8 +1,6 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, { Component, useEffect, useState } from 'react';
 import { Button, TextInput, View, StyleSheet,Text } from 'react-native';
-const bcrypt = require('bcryptjs');
-
 
 
 export default function Login(props)  {
@@ -49,20 +47,9 @@ fetch('http://localhost:3000/login/', {
 
 
         if(json.message == "entrée dans l'appli" ){
+    
           console.log(json.hash)
-          bcrypt.compare(password, json.hash, function(err, re) {
-            console.log(re);
-          if(re){
-            AsyncStorage.setItem('id', JSON.stringify(json.id));
-            props.navigation.navigate('HomeScreen', { userid: json.Id });
-          }else{
-            console.log('err');
-            
-            
-            handleTextValue('mot de passe non valide');
           
-          }
-        });
         }else{
           
           handleTextValue('email non valide');
