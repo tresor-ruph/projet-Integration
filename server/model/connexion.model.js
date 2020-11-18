@@ -58,6 +58,7 @@ console.log(cons.Mail);
     let rechsql = 'SELECT * from Utilisateurs where Mail = "'+cons.Mail+'"';
     sql.query(rechsql, function (err, res) {
         console.log(res);
+        console.log(err);
 if(res == undefined || res[0] == undefined){
     result(null , {message:'erreur de mail'});
 }else{

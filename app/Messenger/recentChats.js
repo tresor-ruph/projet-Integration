@@ -1,7 +1,7 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import React, { useEffect, useState } from "react";
 import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
-import user from "../../server/model/contacts.model";
+//import user from "../../server/model/contacts.model";
 import Contact from "./contact";
 import { useNavigation } from '@react-navigation/native';
 import RecentChatStorage from './recentChat_storage'
