@@ -16,6 +16,7 @@ export default function Login(props)  {
    
     
     // eslint-disable-next-line no-undef
+    /*
     fetch(`http://localhost:3000/contacts/${username}`)
     .then(reponse => reponse.json())
     .then( json => {
@@ -33,7 +34,7 @@ export default function Login(props)  {
         handleTextValue('email non valide'); 
       }
       
-    });
+    });*/
     
 
     //var t = this;

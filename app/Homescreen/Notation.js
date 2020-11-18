@@ -123,7 +123,7 @@ afficher(){
             }else{
                 for(let i = 0 ; i < json.resultat.length; i++){
                   
-                  test.push(<View style={styles.group} key={i}> <View style={styles.rect2}><View style={styles.ericCartmanStack}><Text style={styles.ericCartman}>{json.resultat[i].Prenom}{"\n"}{json.resultat[i].Nom}</Text><Image source={require("../assets/eric-cartman.png")} resizeMode="contain" style={styles.image}></Image></View><AirbnbRating count={5} reviews={[ "décevant", "moyen", "bon","top","Jesus"]} defaultRating={json.resultat[i].rating} size={20} onFinishRating={(rating)=>{this.ratingCompleted(rating,json.resultat[i].donneurId);}} />   <TextInput style={styles.InputS} onChangeText={text => this.onChangeText(text,json.resultat[i].donneurId)} value={this.state.commentaire[i]} /> <TouchableOpacity style={styles.containerButton} onPress={() => this.onPressButton(json.resultat[i].donneurId)}><Text style={styles.envoyer}>Envoyer</Text></TouchableOpacity></View> </View>);
+                  test.push(<View style={styles.group} key={i}> <View style={styles.rect2}><View style={styles.ericCartmanStack}><Text style={styles.ericCartman}>{json.resultat[i].Prenom}{"\n"}{json.resultat[i].Nom}</Text><Image source={{uri:json.resultat[i].PhotoProfil}} resizeMode="contain" style={styles.image}></Image></View><AirbnbRating count={5} reviews={[ "décevant", "moyen", "bon","top","Jesus"]} defaultRating={json.resultat[i].rating} size={20} onFinishRating={(rating)=>{this.ratingCompleted(rating,json.resultat[i].donneurId);}} />   <TextInput style={styles.InputS} multiline maxLength={255} onChangeText={text => this.onChangeText(text,json.resultat[i].donneurId)} value={this.state.commentaire[i]} /> <TouchableOpacity style={styles.containerButton} onPress={() => this.onPressButton(json.resultat[i].donneurId)}><Text style={styles.envoyer}>Envoyer</Text></TouchableOpacity></View> </View>);
                   this.setState(state => { state.rate.push(json.resultat[i].rating)});
                   this.setState(state => { state.donneurId.push(json.resultat[i].donneurId)})
                   this.setState(state => { state.commentaire.push(json.resultat[i].commentaire)});
@@ -206,23 +206,19 @@ this.setState(state => { state.donneurId.push(json.resultat[i].donneurId)};
 */
 const styles = StyleSheet.create({
   container: {
-    width: 417,
-    height: 966,
     backgroundColor:"rgba(237,210,133,1)"
   },
   rect5Filler: {
     flex: 1
   },
   rect5: {
-    width: 417,
-    height: 966,
     backgroundColor: "rgba(237,210,133,1)"
   },
   rect: {
     width: 400,
     height: 66,
     backgroundColor: "rgba(124,202,187,1)",
-    marginTop: 104,
+    marginTop: 20,
     marginLeft: 0
   },
   rateYour: {
@@ -235,8 +231,9 @@ const styles = StyleSheet.create({
   group: {
     width: 276,
     height: 168,
-    marginTop: 55,
-    marginLeft: 53
+    marginTop: 50,
+    marginLeft: 53,
+    marginBottom: 200
   },
   rect2: {
     width: 276,
@@ -262,10 +259,11 @@ const styles = StyleSheet.create({
     width : 160
   },
   image: {
+    marginTop: 10,
     top: 0,
     left: 0,
-    width: 93,
-    height: 92,
+    width: 70,
+    height: 70,
     position: "absolute"
   },
   ericCartmanStack: {
@@ -656,8 +654,10 @@ const styles = StyleSheet.create({
     marginRight: 30
   },
   InputS:{
-    height: 100,width : 100, borderColor: 'white', borderWidth: 3 ,
-    marginLeft: 85,
+    height: 60,width : 269, borderColor: 'white', borderWidth: 3 ,
+    marginLeft: 3,
+    marginBottom: 10,
+    marginTop: 10,
     justifyContent: "center",
     alignItems: "center",
     position: "relative",
