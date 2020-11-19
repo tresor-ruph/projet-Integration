@@ -29,6 +29,7 @@ import mesDemandes from './Catalogue/mesDemandes';
 
 //import Login from './Login/login'
 import Notation from './Homescreen/Notation';
+import checkProfil from './Profil/checkProfil';
 // Create the navigator
 const Stack = createStackNavigator();
 function Nav() {
@@ -36,7 +37,8 @@ function Nav() {
         <NavigationContainer>
             <Stack.Navigator>
             <Stack.Screen name="Home" component={Home} />
-           <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="checkProfil" component={checkProfil} />
 
 
             <Stack.Screen name="signup" component={Form} />

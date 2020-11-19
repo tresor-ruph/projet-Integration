@@ -71,7 +71,7 @@ class ListeDem extends React.Component {
  }
 
  submitId(idRecu){
-   console.log(idRecu)
+  console.log(idRecu);
  }
 
 
@@ -100,7 +100,7 @@ class ListeDem extends React.Component {
       {
         this.state.demande.reverse().map((l, i) => (
           <ListItem key={i} bottomDivider>
-            <Avatar onPress={() => {this.submitId(l.userId)}} size={70} source={{ uri: l.PhotoProfil }} />
+            <Avatar onPress={() => this.props.navigation.navigate('checkProfil', { id: l.userId, nom: l.Nom, prenom: l.Prenom })} size={70} source={{ uri: l.PhotoProfil }} />
             <ListItem.Content>
               <ListItem.Title>{l.Prenom} {l.Nom}</ListItem.Title>
               <ListItem.Subtitle style={styles.descri}>{l.categorie}</ListItem.Subtitle>
