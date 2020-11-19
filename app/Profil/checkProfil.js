@@ -37,7 +37,7 @@ export default function checkProfil({ navigation, route }) {
 
   useEffect(() => {
     const init = async () => {
-      fetch(`http://192.168.1.7:3000/users/${value}`)
+      fetch(`http://localhost:3000/users/${value}`)
       .then((response) => response.json())
       .then((json) => {
         console.log(json[0]);

@@ -70,8 +70,9 @@ class ListeDem extends React.Component {
    this.setState({ codeP: myCode });
  }
 
- submitId(idRecu){
+ submitId(idRecu, idDem){
   console.log(idRecu);
+  console.log(idDem);
  }
 
 
@@ -106,7 +107,7 @@ class ListeDem extends React.Component {
               <ListItem.Subtitle style={styles.descri}>{l.categorie}</ListItem.Subtitle>
               <ListItem.Subtitle >{l.descriptif}</ListItem.Subtitle>
               <View style={styles.boutsss}>
-                <Button title='Chat' onPress={() => {this.submitId(l.userId)}}></Button>
+                <Button title='Chat' onPress={() => {this.submitId(l.userId, l.idDemande)}}></Button>
               </View>
             </ListItem.Content>
           </ListItem>
