@@ -14,6 +14,8 @@ Notifications.setNotificationHandler({
 
 export default function App() {
   const [value, onChangeText] = React.useState('test notifiacation')
+  const user = 'Tresor'
+
  
 
   const [expoPushToken, setExpoPushToken] = useState('');
@@ -59,17 +61,16 @@ export default function App() {
       <Button
         title="Press to schedule a notification"
         onPress={async () => {
-          await schedulePushNotification(value);
+          await schedulePushNotification(value,user);
         }}
       />
     </View>
   );
 }
-
-async function schedulePushNotification(text) {
+async function schedulePushNotification(text,user) {
   await Notifications.scheduleNotificationAsync({
     content: {
-      title: "Vous avez reçus un message",
+      title: "Vous avez reçus un message de "+user,
       body: text,
       data: { data: 'test' },
     },
