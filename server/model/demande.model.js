@@ -126,6 +126,18 @@ demande.supprimerPropos = (idProposition, result) => {
     });
 }
 
+demande.supprimerProposA = (idProposition, result) => {
+    sql.query(`delete from PropositionConfirme where idPropositionConfirme = ${idProposition}`, (err,res) => {
+        if(err) {
+            console.log("error : ", err);
+            result (null ,err);
+            return;
+        }
+            console.log("contacts :" , res);
+            result (null, res);
+    });
+}
+
 
 
 demande.findDemandeDescriptif = (userId, result) => {

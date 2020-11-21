@@ -35,6 +35,17 @@ class PropositionAssignee extends React.Component {
     
   } 
 
+  submit(idDem){
+    alert('Etes vous sur ?')
+    fetch(`http://localhost:3000/demandeS/${idDem}`, {  
+      method: 'delete',
+    })
+    .then(response => response.json())
+    .catch(err => console.log(err))
+    this.componentDidMount()
+    this.forceUpdate()
+  }
+
 
   
 
@@ -50,7 +61,7 @@ class PropositionAssignee extends React.Component {
             <ListItem.Content>
               <ListItem.Title>{l.Prenom} {l.Nom}</ListItem.Title>
               <ListItem.Subtitle>{l.categorie}</ListItem.Subtitle>
-              <Button color='green' title='Cloturer' onPress={() => {console.log('Yes')}}></Button>
+              <Button color='green' title='Cloturer' onPress={() => {this.submit(l.idDemande)}}></Button>
             </ListItem.Content>
           </ListItem>
         ))
