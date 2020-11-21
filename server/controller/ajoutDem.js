@@ -33,6 +33,22 @@ exports.delete = (req, res) => {
   });
 };
 
+exports.deletePropos = (req, res) => {
+  demande.supprimerPropos(req.params.idProposition, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Customer with id ${req.body.idProposition}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Could not delete Customer with id " + req.body.idProposition
+        });
+      }
+    } else res.send({ message: `Customer was deleted successfully!` });
+  });
+};
+
 
 exports.findOne = (req, res) => {
   demande.findDemandeFilter(req.params.categorie, req.params.codeP, (err, data) => {
@@ -91,6 +107,25 @@ exports.findOneCode = (req, res) => {
   });
 };
 
+exports.findPropo = (req, res) => {
+  demande.findProposition(req.params.id, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found demande with categorie ${req.params.id}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving demande with categorie " + req.params.id,
+        });
+      }
+    } else {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.send(data);
+    }
+  });
+};
+
 exports.findOneUI = (req, res) => {
   demande.findDemandeFilterU(req.params.userId, (err, data) => {
     if (err) {
@@ -137,6 +172,26 @@ exports.create = (req, res) => {
     userId: req.body.userId
   };
   demande.createDemande(demande3, (err, data) => {
+    console.log(data)
+    if (err) {
+          res.status(500).send({
+            message: "Error creating demande "
+          });
+        }
+      else {
+        res.header("Access-Control-Allow-Origin","*");
+        res.send(data);
+      }
+  });
+}
+
+exports.createPropos = (req, res) => {
+  const propos = {
+    idServeur: req.body.idServeur,
+    idDemande: req.body.idDemande,
+    idDemandeur: req.body.idDemandeur
+  };
+  demande.confPropo(propos, (err, data) => {
     console.log(data)
     if (err) {
           res.status(500).send({

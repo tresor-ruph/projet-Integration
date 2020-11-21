@@ -26,6 +26,7 @@ import DiscHeader from './discHeader';
 import Demande from './demandeFormulaire/Demande';
 import ListeDem from './Catalogue/ListeDem';
 import mesDemandes from './Catalogue/mesDemandes';
+import Proposition from './Catalogue/proposition';
 
 //import Login from './Login/login'
 import Notation from './Homescreen/Notation';
@@ -48,6 +49,7 @@ function Nav() {
             <Stack.Screen name="Demande" component={Demande} />
             <Stack.Screen name="Notation" component={Notation} />
             <Stack.Screen name="mesDemandes" component={mesDemandes} />
+            <Stack.Screen name="Proposition" component={Proposition} />
 
         <Stack.Screen
 name="Ajouter Membres" component={AddGroupMem}

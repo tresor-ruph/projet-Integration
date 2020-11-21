@@ -27,12 +27,15 @@ module.exports = (app) => {
   app.delete("/group/all/:userId/", contacts.removeGroup);
   app.get("/demande/all", demande.findAll);
   app.post("/demandeE/", demande.create);
+  app.post("/propositionE/", demande.createPropos);
   app.get("/demande/:categorie/:codeP", demande.findOne);
   app.get("/demandeCat/:categorie", demande.findOneCat);
   app.get("/demandeCode/:codeP", demande.findOneCode);
   app.get("/demandeU/:userId", demande.findOneUI);
   app.get("/demandeD/:userId", demande.findDescri);
   app.delete("/demandeS/:idDemande", demande.delete);
+  app.delete("/proposS/:idProposition", demande.deletePropos);
+  app.get("/propositionG/:id", demande.findPropo);
   app.post("/notation", notation.access)
   app.post("/rating", notation.rating)
   app.post("/login", connexion.access)

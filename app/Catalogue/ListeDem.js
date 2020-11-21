@@ -31,7 +31,7 @@ class ListeDem extends React.Component {
       this.setState({ demande: json });
     });
     }
-    else if(this.state.codeP === ''){
+    else if (this.state.codeP === ''){
       fetch(`http://localhost:3000/demandeCat/'${this.state.filtre}'/`)
     .then(response => response.json())
     .then(json => {
@@ -40,7 +40,7 @@ class ListeDem extends React.Component {
       console.log(this.state.demande);
     })
     }
-    else if(this.state.filtre === 'all'){
+    else if (this.state.filtre === 'all'){
       fetch(`http://localhost:3000/demandeCode/'${this.state.codeP}'/`)
     .then(response => response.json())
     .then(json => {
