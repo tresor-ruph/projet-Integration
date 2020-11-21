@@ -126,6 +126,25 @@ exports.findPropo = (req, res) => {
   });
 };
 
+exports.findPropoA = (req, res) => {
+  demande.findPropositionA(req.params.id, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found demande with categorie ${req.params.id}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving demande with categorie " + req.params.id,
+        });
+      }
+    } else {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.send(data);
+    }
+  });
+};
+
 exports.findOneUI = (req, res) => {
   demande.findDemandeFilterU(req.params.userId, (err, data) => {
     if (err) {

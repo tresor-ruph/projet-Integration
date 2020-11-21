@@ -46,6 +46,19 @@ demande.findProposition = (id, result) => {
     });
 };
 
+demande.findPropositionA = (id, result) => {
+    sql.query(`select * from PropositionConfirme inner join Demande on PropositionConfirme.idDemande = Demande.idDemande inner join Utilisateurs on PropositionConfirme.idServeur = Utilisateurs.Id WHERE PropositionConfirme.idDemandeur = ${id}`, (err,res) => {
+        if(err) {
+            console.log("error : ", err);
+            result (null ,err);
+            return;
+        }
+            console.log("contacts :" , res);
+            result (null, res);
+            
+    });
+};
+
 
 
 demande.findDemandeFilterT = (categorie, result) => {

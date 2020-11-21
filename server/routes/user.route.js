@@ -36,6 +36,7 @@ module.exports = (app) => {
   app.delete("/demandeS/:idDemande", demande.delete);
   app.delete("/proposS/:idProposition", demande.deletePropos);
   app.get("/propositionG/:id", demande.findPropo);
+  app.get("/propositionA/:id", demande.findPropoA);
   app.post("/notation", notation.access)
   app.post("/rating", notation.rating)
   app.post("/login", connexion.access)

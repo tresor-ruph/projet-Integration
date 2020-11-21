@@ -4,13 +4,15 @@ import { View, StyleSheet,TextInput,Text,TouchableOpacity, Button} from 'react-n
 import AsyncStorage from "@react-native-community/async-storage";
 
 let userId = 0
-class ListeDem extends React.Component {
-  click_MesProp =() => { this.props.navigation.navigate('Proposition'); }
-  click_MesPropA =() => { this.props.navigation.navigate('PropositionA'); }
+class PropositionAssignee extends React.Component {
+    
   constructor(props){
     super(props);
     this.state = { 
-      demande : [],
+      propositions : [],
+      idServeur: 0,
+      idDemande: 0,
+      idDemandeur: 0
     };
   }  
   
@@ -24,41 +26,31 @@ class ListeDem extends React.Component {
      }
      getUserId()
 
-    fetch(`http://localhost:3000/demandeU/${userId}`)
+    fetch(`http://localhost:3000/propositionA/${userId}`)
     .then(response => response.json())
     .then(json => {
-      this.setState({demande: json})
+      this.setState({propositions: json})
     })
-
+    
     
   } 
 
-  submit(idDem){
-    fetch(`http://localhost:3000/demandeS/${idDem}`, {  
-      method: 'delete',
-    })
-    .then(response => response.json())
-    .catch(err => console.log(err))
-    this.componentDidMount()
-    this.forceUpdate()
-  }
+
   
 
   render(){
     return(
       <View>
-        <Button color='green' title='Propositions de services' onPress={this.click_MesProp}></Button>
-        <Button color='purple' title='Demandes assignées' onPress={this.click_MesPropA}></Button>
-        <Text style={styles.mesde}>Mes Demandes en cours :</Text>
+        <Text style={styles.mesde}>Offre de services :</Text>
           
       {
-        this.state.demande.map((l, i) => (
+        this.state.propositions.map((l, i) => (
           <ListItem key={i} bottomDivider>
             <Avatar source={{uri: l.PhotoProfil}} />
             <ListItem.Content>
-              <ListItem.Title>{l.userName}</ListItem.Title>
+              <ListItem.Title>{l.Prenom} {l.Nom}</ListItem.Title>
               <ListItem.Subtitle>{l.categorie}</ListItem.Subtitle>
-              <Button color='red' title='Supprimer' onPress={() => {this.submit(l.idDemande)}}></Button>
+              <Button color='green' title='Cloturer' onPress={() => {console.log('Yes')}}></Button>
             </ListItem.Content>
           </ListItem>
         ))
@@ -75,4 +67,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default ListeDem;
+export default PropositionAssignee;
