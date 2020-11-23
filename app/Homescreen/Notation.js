@@ -136,25 +136,7 @@ afficher(){
           }
         }
       })
-      /*
 
-<View style={styles.container}> <View style={styles.containerText}> <Text style={styles.commentaire}>commentaire</Text> <TextInput style={styles.inputStyle}></TextInput> </View> <TouchableOpacity style={styles.containerButton}><Text style={styles.envoyer}>Envoyer</Text></TouchableOpacity></View>
-           <TextInput style={{ height: 40, borderColor: 'gray', borderWidth: 1 }} onChangeText={text => onChangeText(text)} value='commentaire' />
-
-
-this.setState(state => { state.donneurId.push(json.resultat[i].donneurId)};
-
-
-
-<View style={styles.container}>
-            <MaterialFixedLabelTextbox
-              style={styles.materialFixedLabelTextbox}
-            ></MaterialFixedLabelTextbox>
-            <MaterialButtonDark
-              style={styles.materialButtonDark}
-            ></MaterialButtonDark>
-          </View>
-      */
 
 }
      
@@ -181,32 +163,7 @@ this.setState(state => { state.donneurId.push(json.resultat[i].donneurId)};
   );
 }}
 
-/* {this.state.html.map((object,i)=>{
-            return <View style={styles.group}> <View style={styles.rect2}><View style={styles.ericCartmanStack}><Text style={styles.ericCartman}>{object.prenom}{"\n"}{object.nom}</Text><Image source={require("../assets/eric-cartman.png")} resizeMode="contain" style={styles.image}></Image></View><AirbnbRating count={10} reviews={["à éviter", "décevant", "bof", "moyen", "pas mal", "bon", "très bon", "top", "incroyable", "Jesus"]} defaultRating={6} size={20} onFinishRating={this.ratingCompleted} /> </View> </View>
-        })}*/
 
-
-/*
-            <View style={styles.group}>
-          <View style={styles.rect2}>
-            <View style={styles.ericCartmanStack}>
-              <Text style={styles.ericCartman}>Eric{"\n"}Cartman</Text>
-              <Image
-                source={require("../assets/eric-cartman.png")}
-                resizeMode="contain"
-                style={styles.image}
-              ></Image>
-            </View>
-                <AirbnbRating
-                    count={10}
-                    reviews={["à éviter", "décevant", "bof", "moyen", "pas mal", "bon", "très bon", "top", "incroyable", "Jesus"]}
-                    defaultRating={6}
-                    size={20}
-                    onFinishRating={this.ratingCompleted}
-                    />
-          </View>
-        </View>
-*/
 const styles = StyleSheet.create({
   container: {
     backgroundColor:"rgba(237,210,133,1)"

@@ -74,7 +74,7 @@ exports.findGroupUsers = (req, res) => {
 
 exports.findRoom = (req, res) => {
   console.log(req.params)
-  contacts.findRoom(req.params.senderId, req.params.recieverId, (err, data) => {
+  contacts.findRoom(req.params.senderId, req.params.recieverId, req.params.verif, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
         res.status(404).send({
@@ -93,7 +93,7 @@ exports.findRoom = (req, res) => {
 };
 
 exports.findConversRoom = (req, res) => {
-  console.log("bambal")
+ 
   contacts.findConversRoom(req.params.userId, (err, data) => {
     if (err) {
       if (err.kind === "not_found") {
@@ -138,7 +138,29 @@ exports.createChat = (req, res) =>{
 
 }
 
+exports.createService = (req, res) =>{
+  if(!req.body){
+  res.status(400).send({
+    message : "body cannot be empty",
+  });
+  }
 
+  const chat = {
+    idDemandeur : req.body.idDemandeur,
+    idOffreur : req.body.idOffreur,
+    IdService : req.body.IdService,
+    
+  }
+
+  contacts.createService(chat,(err, data) => {
+    if(err)
+    res.status(500).send({
+      message : err.message || "some error occured while creating chatId"
+    })
+    else res.send(data)
+  })
+
+}
 
 
 exports.creategroup = (req, res) =>{

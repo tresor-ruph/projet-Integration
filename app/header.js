@@ -33,7 +33,15 @@ function MessHeader(props) {
           leftComponent={{
             icon: "keyboard-return",
             color: "#fff",
-            onPress: () => navigation.goBack(),
+            onPress: () =>{ 
+              console.log(props.id.scene.route.params);
+              if(props.id.scene.route.params.check === "offre"){
+               // route.params.handleItem = "test";
+               props.id.scene.route.params.handleItem('confOffre');
+              
+              }
+
+              navigation.goBack()}
           }}
         />
       )}

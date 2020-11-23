@@ -13,7 +13,7 @@ import Discussion_Repo from './Messenger/Discussionscreen';
 import addContact from './Messenger/addContact';
 import Login from './Messenger/components/login';
 import Profil from './Profil/Profil';
-//import Form from './SignIn/Form'
+
 import Succes from './SignIn/Success';
 import Form from './SignIn/Form';
 import Home from './Homescreen/Home';
@@ -27,8 +27,9 @@ import Demande from './demandeFormulaire/Demande';
 import ListeDem from './Catalogue/ListeDem';
 import mesDemandes from './Catalogue/mesDemandes';
 
-//import Login from './Login/login'
+
 import Notation from './Homescreen/Notation';
+import checkProfil from './Profil/checkProfil';
 // Create the navigator
 const Stack = createStackNavigator();
 function Nav() {
@@ -36,15 +37,16 @@ function Nav() {
         <NavigationContainer>
             <Stack.Navigator>
             <Stack.Screen name="Home" component={Home} />
-           <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="Login" component={Login} />
+            <Stack.Screen name="checkProfil" component={checkProfil} />
 
 
-            <Stack.Screen name="signup" component={Form} />
+           <Stack.Screen name="signup" component={Form} /> 
             <Stack.Screen name="succes" component={Succes} />
             
             <Stack.Screen name="ListeDem" component={ListeDem} />
             <Stack.Screen name="Demande" component={Demande} />
-            <Stack.Screen name="Notation" component={Notation} />
+            <Stack.Screen name="Notation" component={Notation} /> 
             <Stack.Screen name="mesDemandes" component={mesDemandes} />
 
         <Stack.Screen
@@ -87,7 +89,7 @@ name="Parametres" component={ChatOption}
 
 
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
-        <Stack.Screen name="Profil" component={Profil} />
+        <Stack.Screen name="Profil" component={Profil} /> 
 
         <Stack.Screen
           name="Chat"
@@ -97,7 +99,7 @@ name="Parametres" component={ChatOption}
           }}
         />
 
-        <Stack.Screen name="Succes" component={Succes} />
+         <Stack.Screen name="Succes" component={Succes} /> 
 
         <Stack.Screen
 name="Discussion_Repo"

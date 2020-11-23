@@ -50,23 +50,21 @@ export default function Chat(route, navigation) {
 
   let chatsRef = db.collection("chats");
 
+  const setServ = async () => {
+    await  AsyncStorage.setItem("serv", JSON.stringify(route.route.params.idDem))
+    console.log(route.route.params.idDem)
+  }
   useEffect(() => {
-    async function verif() {
-      let ct = await AsyncStorage.getItem("contact");
-      ct = JSON.parse(ct);
-      let check = false;
-      Array.from(ct).forEach((elt) => {
-        if (elt.Id === route.route.params.recieverId) {
-          check = true;
-        }
-      });
-      if (check == false) {
-        moreInfo = "false";
-      }
-    }
+  
+   
 
     if (!groups) {
-      verif();
+      if(route.route.params.check === "offre"){
+    setServ()
+    console.log("test")
+        moreInfo = "false";
+       
+      }
     }
 
     if (groups) {
@@ -103,14 +101,21 @@ export default function Chat(route, navigation) {
         //setErrorMess(true);
       }
     } else {
-
+      console.log("test request 2")
       fetch(
-        `http://localhost:3000/chat/${route.route.params.senderId}/${route.route.params.recieverId}`
+        `http://localhost:3000/chat/${route.route.params.senderId}/${route.route.params.recieverId}/${moreInfo}`
       )
         .then((reponse) => reponse.json())
         .then((json) => {
+          
           if (json.length === 0) {
             chatRoom = chatId();
+            if(route.route.params.check ==="offre"){
+              moreInfo =route.route.params.idDem;
+            }else {
+              moreInfo = -1
+            }
+           
             //chatsRef = db.collection('chats').doc(chatId()).collection('message');
             const requestOptions = {
               method: "POST",
@@ -120,6 +125,7 @@ export default function Chat(route, navigation) {
                 "Access-Control-Allow-Origin": "*",
               }),
               body: JSON.stringify({
+                
                 senderId: route.route.params.senderId,
                 recieverId: route.route.params.recieverId,
                 chatId: chatId(),
@@ -128,7 +134,7 @@ export default function Chat(route, navigation) {
             };
             try {
               console.log("try request");
-              fetch("http://localhost:3000/chat/addroom", requestOptions)
+              fetch("http://192.168.1.52:3000/chat/addroom", requestOptions)
                 .then((response) => response.json())
                 .then((data) => {
                   console.log("hello");
@@ -195,6 +201,13 @@ export default function Chat(route, navigation) {
     }
 
     return async function cleanup() {
+      if(moreInfo === "false"){
+        console.log("hzhz")
+     
+      }else {
+        console.log("bye bye");
+      }
+     
     
     };
   }, []);

@@ -18,9 +18,11 @@ module.exports = (app) => {
   app.get("/contacts/:email/", contacts.findOne);
   app.get("/group/:Id", contacts.findGroups);
   app.get("/groupUsers/:Id", contacts.findGroupUsers);
-  app.get("/chat/:senderId/:recieverId/", contacts.findRoom);
+  app.get("/chat/:senderId/:recieverId/:verif", contacts.findRoom);
   app.get("/chatconv/:userId/", contacts.findConversRoom);
   app.post("/chat/addroom/", contacts.createChat )
+  app.post("/service/addService/", contacts.createService )
+
   app.post("/group/addGroup/", contacts.creategroup )
   app.post("/group/addSingleGroup/", contacts.addGroup )
   app.delete("/group/:userId/", contacts.leaveGroup);
