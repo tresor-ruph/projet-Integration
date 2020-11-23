@@ -1,7 +1,8 @@
 import React from "react";
-import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, Dimensions   } from "react-native";
+import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, Dimensions, ImageBackground   } from "react-native";
 import PassMeter from "react-native-passmeter";
 import AsyncStorage from '@react-native-community/async-storage';
+
 
 
 
@@ -141,7 +142,9 @@ class Form extends React.Component {
     render() {
       return ( 
         <ScrollView>
+          <ImageBackground source={require('../img/degrade4.jpg')}>
           <View style={styles.container}>
+          
             <Text style={{fontSize: '130%', fontWeight: 'bold', textAlign: "auto", marginBottom: '1%'}}>Formulaire d'inscription</Text>
             <TextInput
               placeholder="Nom"
@@ -217,6 +220,7 @@ class Form extends React.Component {
             ></Button>
             </View>
           </View>
+          </ImageBackground>
         </ScrollView>
       )
     }
