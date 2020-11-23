@@ -47,9 +47,15 @@ class ListeDem extends React.Component {
   render(){
     return(
       <View>
-        <Button color='green' title='Propositions de services' onPress={this.click_MesProp}></Button>
-        <Button color='purple' title='Demandes assignées' onPress={this.click_MesPropA}></Button>
-        <Text style={styles.mesde}>Mes Demandes en cours :</Text>
+        <View style={{flexDirection: 'row'}}>
+          <View style={{flex: 1, marginRight: '1%'}}>
+            <Button color='green' title="Propositions d'aide" onPress={this.click_MesProp}></Button>
+          </View>
+          <View style={{flex: 1, marginLeft: '1%'}}>
+            <Button color='black' title='Demandes assignées' onPress={this.click_MesPropA}></Button>
+          </View>
+        </View>
+        <Text style={styles.mesde}>Mes Demandes en cours</Text>
           
       {
         this.state.demande.map((l, i) => (
@@ -71,6 +77,10 @@ class ListeDem extends React.Component {
 const styles = StyleSheet.create({
   picks:{
     width: '50%'
+  },
+  mesde:{
+    fontSize: '140%',
+    fontWeight: 'bold'
   }
 
 })

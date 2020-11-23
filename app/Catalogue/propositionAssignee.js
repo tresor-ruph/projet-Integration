@@ -46,13 +46,24 @@ class PropositionAssignee extends React.Component {
     this.forceUpdate()
   }
 
+  submit2(idDem){
+    alert('Etes vous sur ?')
+    fetch(`http://localhost:3000/proposSA/${idDem}`, {  
+      method: 'delete',
+    })
+    .then(response => response.json())
+    .catch(err => console.log(err))
+    this.componentDidMount()
+    this.forceUpdate()
+  }
+
 
   
 
   render(){
     return(
       <View>
-        <Text style={styles.mesde}>Offre de services :</Text>
+        <Text style={styles.mesde}>Vos demandes assignées</Text>
           
       {
         this.state.propositions.map((l, i) => (
@@ -61,7 +72,14 @@ class PropositionAssignee extends React.Component {
             <ListItem.Content>
               <ListItem.Title>{l.Prenom} {l.Nom}</ListItem.Title>
               <ListItem.Subtitle>{l.categorie}</ListItem.Subtitle>
-              <Button color='green' title='Cloturer' onPress={() => {this.submit(l.idDemande)}}></Button>
+              <View style={{flexDirection: 'row', width:'100%'}}>
+              <View style={{flex: 1}}>
+                <Button color='blue' title='Cloturer' onPress={() => {this.submit(l.idDemande)}}></Button>
+              </View>
+              <View style={{flex: 1, marginLeft: '4%'}}>
+                <Button color='red' title='Annuler' onPress={() => {this.submit2(l.idPropositionConfirme)}}></Button>
+              </View>
+              </View>
             </ListItem.Content>
           </ListItem>
         ))
@@ -74,6 +92,11 @@ class PropositionAssignee extends React.Component {
 const styles = StyleSheet.create({
   picks:{
     width: '50%'
+  },
+
+  mesde:{
+    fontSize: '140%',
+    fontWeight: 'bold'
   }
 
 })

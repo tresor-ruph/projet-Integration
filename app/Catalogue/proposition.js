@@ -66,7 +66,7 @@ class Proposition extends React.Component {
   render(){
     return(
       <View>
-        <Text style={styles.mesde}>Offre de services :</Text>
+        <Text style={styles.mesde}>Propositions de services</Text>
           
       {
         this.state.propositions.map((l, i) => (
@@ -88,6 +88,10 @@ class Proposition extends React.Component {
 const styles = StyleSheet.create({
   picks:{
     width: '50%'
+  },
+  mesde:{
+    fontSize: '140%',
+    fontWeight: 'bold'
   }
 
 })
