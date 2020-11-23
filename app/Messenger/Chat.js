@@ -51,6 +51,8 @@ export default function Chat(route, navigation) {
   let chatsRef = db.collection("chats");
 
   const setServ = async () => {
+    console.log("test")
+    console.log(route.route.params)
     await  AsyncStorage.setItem("serv", JSON.stringify(route.route.params.idDem))
     console.log(route.route.params.idDem)
   }

@@ -105,7 +105,7 @@ class ListeDem extends React.Component {
             idDem={this.state.idDem}
             idOffre={this.state.idOffre}
             userId={userId}
-            descrip={idNom}
+            descrip={this.state.idNom}
           />
         )}
         <View style={{ flexDirection: "row" }}>

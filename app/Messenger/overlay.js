@@ -34,7 +34,7 @@ const OverlayExample = (props) => {
   const setServId = async () => {
     let serv = await AsyncStorage.getItem("servicesId");
     if (serv === null) {
-    
+      console.log("hahaha")
       const arr = [props.idOffre];
 
 
