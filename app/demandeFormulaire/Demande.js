@@ -57,7 +57,8 @@ class Demande extends React.Component{
         descriptif: newDemande.descriptif,
         userId: newDemande.userId,
       })
-    }) 
+    })
+    alert('Demande envoyée.') 
   }
   
   render(){
@@ -71,7 +72,7 @@ class Demande extends React.Component{
           <Picker style={{height:'9%', fontSize:19, width:'90%', marginLeft:'5%', marginTop:'2%'}} selectedValue = {this.state.categorie}  onValueChange = {this.updateCategorie}>
               <Picker.Item label="Aller faire des courses" value="Courses" />
               <Picker.Item label="Aller chercher un colis" value="Colis" />
-              <Picker.Item label="Aller chercher les enfants" value="Récupérer une personne" />
+              <Picker.Item label="Récupérer/Emmener une personne" value="Récupérer une personne" />
               <Picker.Item label="Aller faire des lessives" value="Lessive" />
               <Picker.Item label="Autres" value="Autres" />
           </Picker>

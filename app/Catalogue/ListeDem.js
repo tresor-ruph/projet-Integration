@@ -37,18 +37,19 @@ class ListeDem extends React.Component {
   }
 
   componentDidMount() {
-    async function getUser() {
+    async function getUser(x) {
       userId = await AsyncStorage.getItem("user");
       userId = JSON.parse(userId).Id;
+      console.log(x)
     }
-    getUser();
+    getUser(this.state.filtre);
     console.log(this.state.codeP);
     console.log(this.state.filtre);
     if (
       (this.state.filtre === "all") & (this.state.codeP === "") ||
       this.state.codeP == NaN
     ) {
-      fetch("http://localhost:3000/demande/all")
+      fetch(`http://localhost:3000/demande/all/${userId}`)
         .then((response) => response.json())
         .then((json) => {
           this.setState({ demande: json });
@@ -117,7 +118,7 @@ class ListeDem extends React.Component {
             <Picker.Item label="Aller faire des courses" value="Courses" />
             <Picker.Item label="Aller chercher un colis" value="Colis" />
             <Picker.Item
-              label="Aller chercher les enfants"
+              label="Récupérer/Emmener une personne"
               value="Récupérer une personne"
             />
             <Picker.Item label="Aller faire des lessives" value="Lessive" />

@@ -1,7 +1,8 @@
 import React from "react";
-import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, Dimensions   } from "react-native";
+import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, Dimensions, ImageBackground   } from "react-native";
 import PassMeter from "react-native-passmeter";
 import AsyncStorage from '@react-native-community/async-storage';
+
 
 
 
@@ -141,7 +142,10 @@ class Form extends React.Component {
     render() {
       return ( 
         <ScrollView>
+          <ImageBackground source={require('../img/degrade4.jpg')}>
           <View style={styles.container}>
+          
+            <Text style={{fontSize: '130%', fontWeight: 'bold', textAlign: "auto", marginBottom: '1%'}}>Formulaire d'inscription</Text>
             <TextInput
               placeholder="Nom"
               maxLength={50}
@@ -169,7 +173,7 @@ class Form extends React.Component {
               onChangeText={(text)=> { this.setState({ codePostal: text }) }}
               style={styles.textInput}
             ></TextInput>
-           <TextInput
+            <TextInput
               placeholder="Date de naissance (ex:20/01/2000)"
               onChangeText={(text)=> { this.setState({ dateNaissance: text }) }}
               style={styles.textInput}
@@ -209,11 +213,14 @@ class Form extends React.Component {
               value={!this.state.showPassword}
               style={styles.switch}
             />
-            <Button
+            <View style={styles.inscrip}>
+            <Button 
               title="S'inscrire"
               onPress={()=>{this.submit()}}
             ></Button>
+            </View>
           </View>
+          </ImageBackground>
         </ScrollView>
       )
     }
@@ -225,28 +232,36 @@ const windowHeight = Dimensions.get('window').height;
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 50,
-    backgroundColor: "#eaeaea",    
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 15,
+    marginTop: '5%'
+  },
+
+  inscrip:{
+    width: '90%',
   },
 
   textInput: {
-   marginTop: 25,
-   borderWidth:1,
-   borderColor:'blue',
-   borderRadius: 10,
-   textAlign: "center",
-   height: 45,
+    height: 50,
+    width: '93%',
+    paddingHorizontal: 5,
+    backgroundColor: 'white',
+    marginBottom: '3%',
+    borderRadius: 8,
+    fontSize: '105%'
   },
+  
   text: {
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: '105%',
     marginTop: 10,
   },
   switch: {
     transform:[{ scaleX: 1.5 }, { scaleY: 1.5 }],
-    marginRight: (windowWidth-100)/2,
-    marginBottom: 40,
-    marginTop: 10,
+    marginLeft: '0%',
+    marginBottom: '5%',
+    marginTop: '5%',
   },
   bar: {
     width: "10%"
