@@ -14,8 +14,8 @@ import addContact from './Messenger/addContact';
 import Login from './Messenger/components/login';
 import Profil from './Profil/Profil';
 
-import Succes from './SignIn/Success';
-import Form from './SignIn/Form';
+//import Succes from './SignIn/Success';
+//import Form from './SignIn/Form';
 import Home from './Homescreen/Home';
 import ConfGroup from './Messenger/confGroup';
 import GroupChat from './Messenger/groupChat';
@@ -23,12 +23,12 @@ import ChatOption from './Messenger/chatOptions';
 import MessHeader from './header';
 import AddGroupMem from './Messenger/addGroupMem';
 import DiscHeader from './discHeader';
-import Demande from './demandeFormulaire/Demande';
+//import Demande from './demandeFormulaire/Demande';
 import ListeDem from './Catalogue/ListeDem';
 import mesDemandes from './Catalogue/mesDemandes';
 
 
-import Notation from './Homescreen/Notation';
+//import Notation from './Homescreen/Notation';
 import checkProfil from './Profil/checkProfil';
 // Create the navigator
 const Stack = createStackNavigator();
@@ -41,12 +41,12 @@ function Nav() {
             <Stack.Screen name="checkProfil" component={checkProfil} />
 
 
-           <Stack.Screen name="signup" component={Form} /> 
-            <Stack.Screen name="succes" component={Succes} />
+         {/*   <Stack.Screen name="signup" component={Form} /> */}
+          {/*  <Stack.Screen name="succes" component={Succes} />*/}
             
             <Stack.Screen name="ListeDem" component={ListeDem} />
-            <Stack.Screen name="Demande" component={Demande} />
-            <Stack.Screen name="Notation" component={Notation} /> 
+           {/* <Stack.Screen name="Demande" component={Demande} />*/}
+           {/* <Stack.Screen name="Notation" component={Notation} /> */}
             <Stack.Screen name="mesDemandes" component={mesDemandes} />
 
         <Stack.Screen
@@ -85,9 +85,6 @@ name="Parametres" component={ChatOption}
           },
         }}
         />
-
-
-
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="Profil" component={Profil} /> 
 
@@ -99,7 +96,7 @@ name="Parametres" component={ChatOption}
           }}
         />
 
-         <Stack.Screen name="Succes" component={Succes} /> 
+        {/*  <Stack.Screen name="Succes" component={Succes} /> */}
 
         <Stack.Screen
 name="Discussion_Repo"

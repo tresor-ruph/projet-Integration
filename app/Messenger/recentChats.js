@@ -28,7 +28,7 @@ function RecentChat() {
       //setUserId(id);
 
       // eslint-disable-next-line no-undef
-      fetch(`http://localhost:3000/chatconv/${id}`)
+      fetch(`http://192.168.1.52:3000/chatconv/${id}`)
         .then((response) => response.json())
         .then((json) => {
           setRecent(json);

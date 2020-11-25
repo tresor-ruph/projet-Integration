@@ -105,7 +105,7 @@ export default function Chat(route, navigation) {
     } else {
       console.log("test request 2")
       fetch(
-        `http://localhost:3000/chat/${route.route.params.senderId}/${route.route.params.recieverId}/${moreInfo}`
+        `http://192.168.1.52:3000/chat/${route.route.params.senderId}/${route.route.params.recieverId}/${moreInfo}`
       )
         .then((reponse) => reponse.json())
         .then((json) => {
@@ -113,7 +113,7 @@ export default function Chat(route, navigation) {
           if (json.length === 0) {
             chatRoom = chatId();
             if(route.route.params.check ==="offre"){
-              moreInfo =route.route.params.idDem;
+              moreInfo =route.route.params.iddem;
             }else {
               moreInfo = -1
             }

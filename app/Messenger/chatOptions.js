@@ -26,7 +26,7 @@ function ChatOption(route) {
   }, [isFocused]);
 
   function getMembers() {
-    fetch(`http://localhost:3000/groupUsers/${route.route.params.id}`)
+    fetch(`http://192.168.1.52:3000/groupUsers/${route.route.params.id}`)
       .then((response) => response.json())
       .then((json) => {
         setOwnerId(json[0].ownerId);
@@ -35,7 +35,7 @@ function ChatOption(route) {
   }
 
   const leaveGroup = (id, bol) => {
-    fetch(`http://localhost:3000/group/${id}`, {
+    fetch(`http://192.168.1.52:3000/group/${id}`, {
       method: "DELETE",
     })
       .then((res) => res.json())
@@ -49,7 +49,7 @@ function ChatOption(route) {
   };
 
   const deleteGroup = () => {
-    fetch(`http://localhost:3000/group/all/${route.route.params.id}`, {
+    fetch(`http://192.168.1.52:3000/group/all/${route.route.params.id}`, {
       method: "DELETE",
     })
       .then((res) => res.json()) // or res.json()

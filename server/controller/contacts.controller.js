@@ -122,6 +122,7 @@ exports.createChat = (req, res) =>{
   }
 
   const chat = {
+    
     senderId : req.body.senderId,
     recieverId : req.body.recieverId,
     chatId : req.body.chatId,

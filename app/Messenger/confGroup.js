@@ -82,7 +82,7 @@ function ConfGroup(route, props) {
       }),
     };
     try {
-      fetch('http://localhost:3000/group/addGroup', requestOptions)
+      fetch('http://192.168.1.52:3000/group/addGroup', requestOptions)
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
