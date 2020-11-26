@@ -3,27 +3,31 @@ import { Button, Overlay } from "react-native-elements";
 import { Text, View, StyleSheet } from "react-native";
 import AsyncStorage from "@react-native-community/async-storage";
 
-
 const OverlayExample = (props) => {
   const [visible, setVisible] = useState(true);
   const [load, setLoad] = useState(true);
 
   useEffect(() => {
-   
     async function verif() {
       let x = await AsyncStorage.getItem("servicesId");
-      x = JSON.parse(x);
-      let y = false;
-      Array.from(x).forEach((elt) => {
-        if (elt == props.idOffre) {
-          y = true;
-          console.log(elt)
-          console.log("found")
+      if (x === null) {
+        console.log("hahaha");
+        const arr = [props.idOffre];
+
+        await AsyncStorage.setItem("servicesId", JSON.stringify(arr));
+      } else {
+        x = JSON.parse(x);
+        let y = false;
+        Array.from(x).forEach((elt) => {
+          if (elt == props.idOffre) {
+            y = true;
+            console.log(elt);
+            console.log("found");
+          }
+        });
+        if (y === true) {
+          setLoad(false);
         }
-      });
-      if (y === true) {
-        setLoad(false);
-        
       }
     }
     verif();
@@ -34,13 +38,11 @@ const OverlayExample = (props) => {
   const setServId = async () => {
     let serv = await AsyncStorage.getItem("servicesId");
     if (serv === null) {
-    
+      console.log("hahaha");
       const arr = [props.idOffre];
-
 
       await AsyncStorage.setItem("servicesId", JSON.stringify(arr));
     } else {
-     
       serv = JSON.parse(serv);
       let verif = false;
       Array.from(serv).forEach((elt) => {
@@ -64,49 +66,45 @@ const OverlayExample = (props) => {
   const handleAccept = () => {
     setServId();
 
-    
-  const requestOptions = {
-    method: "POST",
-    headers: new Headers({
-      Accept: "application/json",
-      "content-Type": "application/json",
-      "Access-Control-Allow-Origin": "*",
-    }),
-    body: JSON.stringify({
-      
-      idDemandeur: props.idDem,
-      idOffreur: props.userId,
-      IdService:props.idOffre,
-    }),
-  };
-  try {
-    fetch("http://localhost:3000/service/addService", requestOptions)
-      .then((response) => response.json())
-      .then((data) => {
-        console.log(data);
-      });
-  } catch (error) {
-    console.log(error);
-  }
+    const requestOptions = {
+      method: "POST",
+      headers: new Headers({
+        Accept: "application/json",
+        "content-Type": "application/json",
+        "Access-Control-Allow-Origin": "*",
+      }),
+      body: JSON.stringify({
+        idDemandeur: props.idDem,
+        idOffreur: props.userId,
+        IdService: props.idOffre,
+      }),
+    };
+    try {
+      fetch("http://192.168.1.52:3000/service/addService", requestOptions)
+        .then((response) => response.json())
+        .then((data) => {
+          console.log(data);
+        });
+    } catch (error) {
+      console.log(error);
+    }
     setVisible(false);
   };
   const handleReject = () => {
-   // removeServ();
-   setServId();
-    
+    // removeServ();
+    setServId();
   };
   const handleLater = () => {
     setVisible(false);
-  }
+  };
   return (
     <View>
       {load ? (
-      
         <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
           <Text>Allez vous rendre service a cette personne ?</Text>
-      <Text style= {{ color: "gray"}}>service :{props.descrip}</Text>
+          <Text style={{ color: "gray" }}>service :{props.descrip}</Text>
           <View style={styles.container}>
-          <View>{console.log("found")}</View>
+            <View>{console.log("found")}</View>
             <View style={styles.button1}>
               <Button
                 title="Oui"
@@ -131,7 +129,6 @@ const OverlayExample = (props) => {
           </View>
         </Overlay>
       ) : (
-        
         <View>{console.log("caanot log")}</View>
       )}
     </View>
@@ -153,6 +150,6 @@ const styles = StyleSheet.create({
   button3: {
     left: "65%",
     position: "absolute",
-  }
+  },
 });
 export default OverlayExample;

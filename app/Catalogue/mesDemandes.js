@@ -23,7 +23,7 @@ class ListeDem extends React.Component {
      }
      getUserId()
 
-    fetch(`http://localhost:3000/demandeU/${userId}`)
+    fetch(`http://192.168.1.52:3000/demandeU/${userId}`)
     .then(response => response.json())
     .then(json => {
       this.setState({demande: json})
@@ -33,7 +33,7 @@ class ListeDem extends React.Component {
   } 
 
   submit(idDem){
-    fetch(`http://localhost:3000/demandeS/${idDem}`, {  
+    fetch(`http://192.168.1.52:3000/demandeS/${idDem}`, {  
       method: 'delete',
     })
     .then(response => response.json())

@@ -20,7 +20,7 @@ function GroupScreen(props) {
         id = JSON.parse(id).Id
        userId = id
        try {
-           fetch(`http://localhost:3000/group/${userId}`)
+           fetch(`http://192.168.1.52:3000/group/${userId}`)
            .then(response => response.json())
            .then(json => {
              setGroups(json);

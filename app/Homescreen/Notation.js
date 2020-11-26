@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     marginLeft: 0
   },
   rateYour: {
-    fontFamily: "roboto-regular",
+   // fontFamily: "roboto-regular",
     color: "#121212",
     marginTop: 25,
     marginLeft: 110,
@@ -213,7 +213,7 @@ const styles = StyleSheet.create({
     top: 33,
     left: 76,
     position: "absolute",
-    fontFamily: "roboto-regular",
+    //fontFamily: "roboto-regular",
     color: "#121212",
     fontSize: 20,
     width : 160
@@ -290,7 +290,7 @@ const styles = StyleSheet.create({
     marginLeft: 26
   },
   ericCartman1: {
-    fontFamily: "roboto-regular",
+    //fontFamily: "roboto-regular",
     color: "#121212",
     marginTop: -59,
     marginLeft: 76
@@ -335,7 +335,7 @@ const styles = StyleSheet.create({
     marginLeft: 26
   },
   ericCartman3: {
-    fontFamily: "roboto-regular",
+    //fontFamily: "roboto-regular",
     color: "#121212",
     marginTop: -59,
     marginLeft: 75
@@ -425,7 +425,7 @@ const styles = StyleSheet.create({
     marginLeft: 26
   },
   ericCartman2: {
-    fontFamily: "roboto-regular",
+   // fontFamily: "roboto-regular",
     color: "#121212",
     marginTop: -59,
     marginLeft: 76
@@ -470,7 +470,7 @@ const styles = StyleSheet.create({
     marginLeft: 26
   },
   ericCartman4: {
-    fontFamily: "roboto-regular",
+   // fontFamily: "roboto-regular",
     color: "#121212",
     marginTop: -59,
     marginLeft: 75
