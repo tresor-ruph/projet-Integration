@@ -54,7 +54,7 @@ export default function Chat(route, navigation) {
     console.log("test")
     console.log(route.route.params)
     await  AsyncStorage.setItem("serv", JSON.stringify(route.route.params.idDem))
-    console.log(route.route.params.idDem)
+    console.log(route.route.params.iddem)
   }
   useEffect(() => {
   
@@ -113,7 +113,7 @@ export default function Chat(route, navigation) {
           if (json.length === 0) {
             chatRoom = chatId();
             if(route.route.params.check ==="offre"){
-              moreInfo =route.route.params.idDem;
+              moreInfo =route.route.params.iddem;
             }else {
               moreInfo = -1
             }
@@ -136,7 +136,7 @@ export default function Chat(route, navigation) {
             };
             try {
               console.log("try request");
-              fetch("http://192.168.1.52:3000/chat/addroom", requestOptions)
+              fetch("http://localhost:3000/chat/addroom", requestOptions)
                 .then((response) => response.json())
                 .then((data) => {
                   console.log("hello");

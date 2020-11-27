@@ -35,14 +35,12 @@ class ListeDem extends React.Component {
   submit() {
     this.componentDidMount();
   }
-
-  componentDidMount() {
-    async function getUser(x) {
-      userId = await AsyncStorage.getItem("user");
-      userId = JSON.parse(userId).Id;
-      console.log(x)
-    }
-    getUser(this.state.filtre);
+   async getUser() {
+    userId = await AsyncStorage.getItem("user");
+    userId = JSON.parse(userId).Id;
+    console.log(userId)
+    
+   
     console.log(this.state.codeP);
     console.log(this.state.filtre);
     if (
@@ -81,6 +79,11 @@ class ListeDem extends React.Component {
           console.log(this.state.demande);
         });
     }
+    
+  }
+
+  componentDidMount() {
+    this.getUser()
   }
 
   updateFiltre = (filtre) => {

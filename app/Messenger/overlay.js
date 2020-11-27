@@ -11,7 +11,15 @@ const OverlayExample = (props) => {
   useEffect(() => {
    
     async function verif() {
+      
       let x = await AsyncStorage.getItem("servicesId");
+      if (x === null) {
+        console.log("hahaha")
+        const arr = [props.idOffre];
+  
+  
+        await AsyncStorage.setItem("servicesId", JSON.stringify(arr));
+      }else {
       x = JSON.parse(x);
       let y = false;
       Array.from(x).forEach((elt) => {
@@ -25,6 +33,7 @@ const OverlayExample = (props) => {
         setLoad(false);
         
       }
+    }
     }
     verif();
   });

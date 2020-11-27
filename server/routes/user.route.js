@@ -45,8 +45,4 @@ module.exports = (app) => {
   app.post("/login", connexion.access)
   app.post("/auth", connexion.create)
   app.get("/emailVerif/:email", userController.updateEmail)
-
-
-
-
 };
