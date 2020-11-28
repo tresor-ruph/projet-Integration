@@ -6,8 +6,8 @@ import { Button, TextInput, View, StyleSheet,Text } from 'react-native';
 
 export default function Login(props)  {
 
-    const [username, setusername] = useState(" ");
-    const [password, setPassword] = useState(" ");
+    const [username, setusername] = useState("");
+    const [password, setPassword] = useState("");
     const [userId , setUserId] = useState("")
     const [textValue , setTextValue] = useState("")
   
@@ -54,8 +54,12 @@ fetch('http://localhost:3000/login/', {
 
 
         if(json.message == "entrée dans l'appli" ){
-          
+            const Id = json.id;
+            const user = { Id};
             AsyncStorage.setItem('id', JSON.stringify(json.id));
+            AsyncStorage.setItem('user', JSON.stringify(user));
+            setPassword('');
+            setusername('');
             props.navigation.navigate('HomeScreen', { userid: json.Id });
          
             
@@ -120,10 +124,12 @@ if(txt == ""){
                   
           onChange={handleUsername}
           style={styles.input}
+          value={username}
         />
         <TextInput
            placeholder={'Password'}
          secureTextEntry={true}
+         value={password}
           onChange={ handlePassword }
           style={styles.input}
         />

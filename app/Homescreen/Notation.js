@@ -1,9 +1,9 @@
 import React, { Component } from "react";
 import { StyleSheet, View, Text, Image, ImageBackground ,TextInput,TouchableOpacity, Button} from "react-native";
-import { Rating, AirbnbRating , Overlay} from 'react-native-elements';
+import { Rating, AirbnbRating , Overlay,Avatar} from 'react-native-elements';
 import AsyncStorage from '@react-native-community/async-storage';
 import Modal from 'modal-react-native-web';
-import pdp from '../assets/pdp.jpg';
+import pdp from '../assets/profil_defaut.png';
 class Notation extends React.Component {
     constructor(props) {
         super(props);
@@ -129,12 +129,12 @@ afficher(){
                 for(let i = 0 ; i < json.resultat.length; i++){
                   
                  if(json.resultat[i].donneurId == this.state.donneurId  && json.resultat[i].idDemande == this.state.idDemande){
-                  //this.setState(state => { state.commentaire.push(json.resultat[i].commentaire)});
-                  if(json.resultat[i].PhotoProfil==null){
-                    test.push(<View style={styles.group} key={i}> <View style={styles.rect2}><View style={styles.ericCartmanStack}><Text style={styles.ericCartman}>{json.resultat[i].Prenom}{"\n"}{json.resultat[i].Nom}</Text><Image source={pdp} resizeMode="contain" style={styles.image}></Image></View><AirbnbRating count={5} reviews={[ "décevant", "moyen", "bon","top","Jesus"]} defaultRating={json.resultat[i].rating} size={20} onFinishRating={(rating)=>{this.ratingCompleted(rating);}} />   <TextInput style={styles.InputS} multiline maxLength={255} onChangeText={text => this.onChangeText(text)} value={this.state.commentaire[i]} /> <TouchableOpacity style={styles.containerButton} onPress={() => this.onPressButton()}><Text style={styles.envoyer}>Envoyer</Text></TouchableOpacity></View> </View>);
-
+                   
+                  if(json.resultat[i].PhotoProfil == 'null'){
+                    test.push(<View style={styles.group} key={i}> <View style={styles.rect2}><View style={styles.ericCartmanStack}><Text style={styles.ericCartman}>{json.resultat[i].Prenom}{"\n"}{json.resultat[i].Nom}</Text><Image source={pdp} resizeMode="contain" style={{width: 70, height: 70,marginTop: 10}}></Image></View><AirbnbRating count={5} reviews={[ "décevant", "moyen", "bon","top","Jesus"]} defaultRating={json.resultat[i].rating} size={20} onFinishRating={(rating)=>{this.ratingCompleted(rating);}} />   <TextInput style={styles.InputS} multiline placeholder={'Commentaire'} maxLength={255} onChangeText={text => this.onChangeText(text)} value={this.state.commentaire[i]} /> <TouchableOpacity style={styles.containerButton} onPress={() => this.onPressButton()}><Text style={styles.envoyer}>Envoyer</Text></TouchableOpacity></View> </View>);
+                    
                   }else{
-                  test.push(<View style={styles.group} key={i}> <View style={styles.rect2}><View style={styles.ericCartmanStack}><Text style={styles.ericCartman}>{json.resultat[i].Prenom}{"\n"}{json.resultat[i].Nom}</Text><Image source={{uri:json.resultat[i].PhotoProfil}} resizeMode="contain" style={styles.image}></Image></View><AirbnbRating count={5} reviews={[ "décevant", "moyen", "bon","top","Jesus"]} defaultRating={json.resultat[i].rating} size={20} onFinishRating={(rating)=>{this.ratingCompleted(rating);}} />   <TextInput style={styles.InputS} multiline maxLength={255} onChangeText={text => this.onChangeText(text)} value={this.state.commentaire[i]} /> <TouchableOpacity style={styles.containerButton} onPress={() => this.onPressButton()}><Text style={styles.envoyer}>Envoyer</Text></TouchableOpacity></View> </View>);
+                  test.push(<View style={styles.group} key={i}> <View style={styles.rect2}><View style={styles.ericCartmanStack}><Text style={styles.ericCartman}>{json.resultat[i].Prenom}{"\n"}{json.resultat[i].Nom}</Text><Image source={{uri:json.resultat[i].PhotoProfil}} resizeMode="contain" style={{width: 70, height: 70, marginTop: 10}}></Image></View><AirbnbRating count={5} reviews={[ "décevant", "moyen", "bon","top","Jesus"]} defaultRating={json.resultat[i].rating} size={20} onFinishRating={(rating)=>{this.ratingCompleted(rating);}} />   <TextInput style={styles.InputS} multiline placeholder={'Commentaire'} maxLength={255} onChangeText={text => this.onChangeText(text)} value={this.state.commentaire[i]} /> <TouchableOpacity style={styles.containerButton} onPress={() => this.onPressButton()}><Text style={styles.envoyer}>Envoyer</Text></TouchableOpacity></View> </View>);
                   }
                   this.setState({chain: test});
                   this.render();
@@ -171,7 +171,7 @@ afficher(){
       <Text>Votre notation a bien été envoyée</Text>
       <View style={{flexDirection: 'row', width:'100%'}}>
               <View style={{flex: 1}}>
-                <Button color='black' title='ok' onPress={() => {this.toggle();this.props.navigation.navigate('Home')}}></Button>
+                <Button color='black' title='ok' onPress={() => {this.toggle();this.props.navigation.navigate('HomeScreen')}}></Button>
 
               </View>
               
