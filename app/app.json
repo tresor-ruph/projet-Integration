@@ -18,13 +18,13 @@
     ],
     "ios": {
       "supportsTablet": true,
-      "bundleIdentifier": "my.Ios"
+      "bundleIdentifier": "com.iosHelpRecover.com"
     },
     "web": {
       "favicon": "./assets/favicon.png"
     },
     "android": {
-      "package": "my.Android"
+      "package": "com.androidHelpRecover.com"
     }
   }
 }

@@ -60,7 +60,7 @@
       <dict>
         <key>CFBundleURLSchemes</key>
         <array>
-          <string>my.Ios</string>
+          <string>com.iosHelpRecover.com</string>
         </array>
       </dict>
     </array>

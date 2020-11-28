@@ -310,13 +310,13 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "my.Ios";
-				PRODUCT_NAME = Ios;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.iosHelpRecover.com";
+				PRODUCT_NAME = com;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				CODE_SIGN_ENTITLEMENTS = C:\Users\treso\Documents\proj_int\projet-Integration\app\ios\app\Ios.entitlements;
+				CODE_SIGN_ENTITLEMENTS = app/com.entitlements;
 			};
 			name = Debug;
 		};
@@ -336,12 +336,12 @@
 					"-ObjC",
 					"-lc++",
 				);
-				PRODUCT_BUNDLE_IDENTIFIER = "my.Ios";
-				PRODUCT_NAME = Ios;
+				PRODUCT_BUNDLE_IDENTIFIER = "com.iosHelpRecover.com";
+				PRODUCT_NAME = com;
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 				TARGETED_DEVICE_FAMILY = "1,2";
-				CODE_SIGN_ENTITLEMENTS = C:\Users\treso\Documents\proj_int\projet-Integration\app\ios\app\Ios.entitlements;
+				CODE_SIGN_ENTITLEMENTS = app/com.entitlements;
 			};
 			name = Release;
 		};
@@ -402,7 +402,7 @@
 				MTL_ENABLE_DEBUG_INFO = YES;
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
-				CODE_SIGN_ENTITLEMENTS = C:\Users\treso\Documents\proj_int\projet-Integration\app\ios\app\Ios.entitlements;
+				CODE_SIGN_ENTITLEMENTS = app/com.entitlements;
 			};
 			name = Debug;
 		};
@@ -456,7 +456,7 @@
 				MTL_ENABLE_DEBUG_INFO = NO;
 				SDKROOT = iphoneos;
 				VALIDATE_PRODUCT = YES;
-				CODE_SIGN_ENTITLEMENTS = C:\Users\treso\Documents\proj_int\projet-Integration\app\ios\app\Ios.entitlements;
+				CODE_SIGN_ENTITLEMENTS = app/com.entitlements;
 			};
 			name = Release;
 		};
