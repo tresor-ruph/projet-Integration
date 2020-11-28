@@ -1,0 +1,200 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+        "height": 196,
+        "marginLeft": 9,
+        "marginRight": 4,
+        "marginTop": 157,
+      }
+    }
+  >
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "rgba(227,144,153,1)",
+          "borderRadius": 22,
+          "height": 194,
+          "opacity": 1,
+          "width": "46%",
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#121212",
+            "fontFamily": "roboto-300",
+            "fontSize": 18,
+            "lineHeight": 18,
+            "marginLeft": 40,
+            "marginTop": 77,
+            "textAlign": "center",
+          }
+        }
+      >
+        J'offre mon
+        
+
+        service
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      focusable={false}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "rgba(118,171,227,1)",
+          "borderRadius": 22,
+          "height": 194,
+          "marginLeft": 23,
+          "marginTop": 2,
+          "opacity": 1,
+          "width": "46%",
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#121212",
+            "fontFamily": "roboto-300",
+            "fontSize": 18,
+            "marginLeft": 41,
+            "marginTop": 75,
+            "textAlign": "center",
+          }
+        }
+      >
+        Demande 
+        
+
+        d'aide
+      </Text>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "flexDirection": "row",
+        "height": 194,
+        "marginLeft": 9,
+        "marginRight": 4,
+        "marginTop": 10,
+      }
+    }
+  >
+    <View
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "rgba(189,244,123,1)",
+          "borderRadius": 22,
+          "height": 194,
+          "opacity": 1,
+          "width": "46%",
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#121212",
+            "fontFamily": "arial-regular",
+            "fontSize": 18,
+            "marginLeft": 58,
+            "marginTop": 73,
+          }
+        }
+      >
+        Profile
+      </Text>
+    </View>
+    <View
+      accessible={true}
+      focusable={true}
+      onClick={[Function]}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "backgroundColor": "rgba(183,154,209,1)",
+          "borderRadius": 22,
+          "height": 194,
+          "marginLeft": 23,
+          "opacity": 1,
+          "width": "46%",
+        }
+      }
+    >
+      <Text
+        style={
+          Object {
+            "color": "#121212",
+            "fontFamily": "roboto-300",
+            "fontSize": 21,
+            "marginLeft": 30,
+            "marginTop": 73,
+            "textAlign": "center",
+          }
+        }
+      >
+        Discussion
+      </Text>
+    </View>
+  </View>
+  <View
+    style={
+      Object {
+        "height": 85,
+        "marginLeft": -105,
+        "marginTop": -576,
+        "width": 78,
+      }
+    }
+  >
+    <Text />
+    <Text />
+    <Text />
+  </View>
+  <Text />
+</View>
+`;
