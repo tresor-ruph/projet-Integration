@@ -14,10 +14,11 @@ import Form from './SignIn/Form'
 import Home from './Homescreen/Home'
 import ListeDem from './Catalogue/ListeDem'
 import mesDemandes from './Catalogue/mesDemandes'
-import descriptifDemande from './Catalogue/descriptifDemande'
+
 import Demande from './demandeFormulaire/Demande'
 //import Login from './Login/login'
 import Notation from './Homescreen/Notation'
+import checkProfil from "./Profil/checkProfil";
 // Create the navigator
 const Stack = createStackNavigator();
 class Nav extends React.Component {
@@ -31,6 +32,7 @@ render() {
 
 
             <Stack.Screen name = "signup" component = {Form} />
+            <Stack.Screen name = "checkProfil" component = {checkProfil} />
             <Stack.Screen name = "succes" component = {Succes} />
             
             <Stack.Screen name = "ListeDem" component = {ListeDem} />
