@@ -13,6 +13,7 @@ module.exports = (app) => {
         after changing the route make sure the parameter userId match in user.model and user.controller
     **/
   app.get("/users", userController.findAll);
+  app.get("/users", userController.findAll);
   app.get("/users/:id/", userController.findOne);
   app.put("/updateData/", userController.update)
   app.get("/contacts/:email/", contacts.findOne);
@@ -28,6 +29,8 @@ module.exports = (app) => {
   app.delete("/group/:userId/", contacts.leaveGroup);
   app.delete("/group/all/:userId/", contacts.removeGroup);
   app.get("/demande/all/:id", demande.findAll);
+  app.get("/demande/allAt/", demande.findAllAttente);
+
   app.post("/demandeE/", demande.create);
   app.post("/propositionE/", demande.createPropos);
   app.get("/demande/:categorie/:codeP", demande.findOne);

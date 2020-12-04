@@ -4,15 +4,13 @@ import { View, StyleSheet,TextInput,Text,TouchableOpacity, Button} from 'react-n
 import AsyncStorage from "@react-native-community/async-storage";
 
 let userId = 0
-class PropositionAssignee extends React.Component {
-    
+class listeAttente extends React.Component {
+  click_MesProp =() => { this.props.navigation.navigate('Proposition'); }
+  click_MesPropA =() => { this.props.navigation.navigate('PropositionA'); }
   constructor(props){
     super(props);
     this.state = { 
-      propositions : [],
-      idServeur: 0,
-      idDemande: 0,
-      idDemandeur: 0
+      attente : [],
     };
   }  
   
@@ -26,62 +24,47 @@ class PropositionAssignee extends React.Component {
      }
      getUserId()
 
-    fetch(`http://localhost:3000/propositionA/${userId}`)
+    fetch(`http://localhost:3000/demandeU/${userId}`)
     .then(response => response.json())
     .then(json => {
-      this.setState({propositions: json})
+      this.setState({attente: json})
     })
-    
+
     
   } 
 
-  submit(idDem, userid){
-    alert('Etes vous sur ?')
+  submit(idDem){
     fetch(`http://localhost:3000/demandeS/${idDem}`, {  
       method: 'delete',
     })
-
-    .then(response => response.json())
-    .catch(err => console.log(err))
-    this.componentDidMount()
-    this.forceUpdate()
-
-  }
-
-  submit2(idDem){
-    alert('Etes vous sur ?')
-    fetch(`http://localhost:3000/proposSA/${idDem}`, {  
-      method: 'delete',
-    })
     .then(response => response.json())
     .catch(err => console.log(err))
     this.componentDidMount()
     this.forceUpdate()
   }
-
-
   
 
   render(){
     return(
       <View>
-        <Text style={styles.mesde}>Vos demandes assignées</Text>
+        <View style={{flexDirection: 'row'}}>
+          <View style={{flex: 1, marginRight: '1%'}}>
+            <Button color='green' title="Propositions d'aide" onPress={this.click_MesProp}></Button>
+          </View>
+          <View style={{flex: 1, marginLeft: '1%'}}>
+            <Button color='black' title='Demandes assignées' onPress={this.click_MesPropA}></Button>
+          </View>
+        </View>
+        <Text style={styles.mesde}>Mes Demandes en cours</Text>
           
       {
-        this.state.propositions.map((l, i) => (
+        this.state.attente.map((l, i) => (
           <ListItem key={i} bottomDivider>
             <Avatar source={{uri: l.PhotoProfil}} />
             <ListItem.Content>
-              <ListItem.Title>{l.Prenom} {l.Nom}</ListItem.Title>
+              <ListItem.Title>{l.userName}</ListItem.Title>
               <ListItem.Subtitle>{l.categorie}</ListItem.Subtitle>
-              <View style={{flexDirection: 'row', width:'100%'}}>
-              <View style={{flex: 1}}>
-                <Button color='blue' title='Cloturer' onPress={() => {this.submit(l.idDemande)}}></Button>
-              </View>
-              <View style={{flex: 1, marginLeft: '4%'}}>
-                <Button color='red' title='Annuler' onPress={() => {this.submit2(l.idPropositionConfirme)}}></Button>
-              </View>
-              </View>
+              <Button color='red' title='Supprimer' onPress={() => {this.submit(l.idDemande)}}></Button>
             </ListItem.Content>
           </ListItem>
         ))
@@ -95,7 +78,6 @@ const styles = StyleSheet.create({
   picks:{
     width: '50%'
   },
-
   mesde:{
     fontSize: '140%',
     fontWeight: 'bold'
@@ -103,4 +85,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default PropositionAssignee;
+export default listeAttente;

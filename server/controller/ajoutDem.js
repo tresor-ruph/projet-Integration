@@ -13,6 +13,21 @@ exports.findAll = (req,res) => {
         else {
           res.header("Access-Control-Allow-Origin","*");
           res.send(data);
+          res.status(200).json(data);
+        }
+  });
+};
+
+exports.findAllAttente = (req,res) => {
+  demande.findAttente((err, data) => {
+      if (err) {
+            res.status(500).send({
+              message: "Error retrieving * demande "
+            });
+          }
+        else {
+          res.header("Access-Control-Allow-Origin","*");
+          res.send(data);
         }
   });
 };

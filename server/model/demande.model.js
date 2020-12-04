@@ -5,7 +5,20 @@ const demande = function(user) {
 }
 
 demande.findDemande = (id, result) => {
-    sql.query(`select * from Demande inner join Utilisateurs on Demande.userId=Utilisateurs.Id where not userId = ${id} `  , (err,res) => {
+    sql.query(`select * from Demande inner join Utilisateurs on Demande.userId=Utilisateurs.Id where not userId = ${id}`  , (err,res) => {
+        if(err) {
+            console.log("error : ", err);
+            result (null ,err);
+            return;
+        }
+            console.log("contacts :" , res);
+            result (null, res);
+            
+    });
+};
+
+demande.findAttente = (result) => {
+    sql.query(`select * from UtilisateursAttente`  , (err,res) => {
         if(err) {
             console.log("error : ", err);
             result (null ,err);
