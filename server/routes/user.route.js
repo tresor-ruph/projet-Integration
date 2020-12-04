@@ -44,6 +44,7 @@ module.exports = (app) => {
   app.get("/propositionG/:id", demande.findPropo);
   app.get("/propositionA/:id", demande.findPropoA);
   app.post("/notation", notation.access)
+  app.post("/ajoutNotation", notation.ajout)
   app.post("/rating", notation.rating)
   app.post("/login", connexion.access)
   app.post("/auth", connexion.create)
