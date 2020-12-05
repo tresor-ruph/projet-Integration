@@ -10,7 +10,12 @@ import {
   View,
   Image,
   TextInput,
+  ActivityIndicator,
+  Platform,
+  Text,
+  KeyboardAvoidingView,
 } from "react-native";
+import NetInfo from "@react-native-community/netinfo";
 
 
 // eslint-disable-next-line require-jsdoc
@@ -28,6 +33,8 @@ export default function checkProfil({ navigation, route }) {
   const [code, setCode] = useState(' ');
   const [bool, setBool] = useState(false);
   const [image, setImage] = useState(null);
+  const [isLoaded, setLoaded] = useState(false);
+  const [isConnected, setConnection] = useState(true);
 
   React.useLayoutEffect(() => {
     navigation.setOptions({
@@ -36,11 +43,14 @@ export default function checkProfil({ navigation, route }) {
   }, [navigation, title1]);
 
   useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      handleConnectivityChange(state.isConnected);
+    });
     const init = async () => {
       fetch(`http://localhost:3000/users/${value}`)
       .then((response) => response.json())
       .then((json) => {
-        console.log(json[0]);
+        setLoaded(true);
         setNom(json[0].Nom);
         setPrenom(json[0].Prenom);
         setAdresse(json[0].Adresse);
@@ -51,11 +61,19 @@ export default function checkProfil({ navigation, route }) {
         console.error(error);
       });
     };
+    unsubscribe();
     init();
   }, []);
 
-  return (
-    <View style={styles.container}>
+  const handleConnectivityChange = connect => {
+    setConnection({ connect });
+  };
+
+  return !isLoaded ? (isConnected ? <ActivityIndicator size="large" color="blue" /> : <View><Text>No internet Connection !</Text></View>) :
+  (<KeyboardAvoidingView
+    behavior={Platform.OS == "ios" ? "padding" : "height"}
+    style={styles.container}
+  >
       <View style={styles.top}>
         <Image
           source={{ uri: image || 'http://ssl.gstatic.com/accounts/ui/avatar_2x.png' }}
@@ -102,7 +120,7 @@ export default function checkProfil({ navigation, route }) {
           mode='outlined'
         />
       </View>
-    </View>
+    </KeyboardAvoidingView>
   );
 }
 
