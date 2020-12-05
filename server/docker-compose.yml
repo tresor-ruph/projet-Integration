@@ -1,0 +1,31 @@
+version: "3.7"
+
+services:
+  express-server:
+    container_name: helprecover-server
+    image: patrick450/helprecover
+    restart: unless-stopped
+    ports:
+      - "3000:3000"
+    env_file:
+      - .env.dev
+    networks:
+      - helprecover-network
+    depends_on:
+      - database
+
+  database:
+    container_name: mysql-container
+    image: mysql
+    command: --default-authentication-plugin=mysql_native_password
+    env_file:
+      - .env.dev
+    ports:
+      - "8080:8080"
+    restart: unless-stopped
+    networks:
+      - helprecover-network
+
+networks:
+  helprecover-network:
+    driver: bridge

@@ -19,10 +19,6 @@ buildscript {
         // in the individual module build.gradle files
     }
 }
-dependencies {
-  compile project(':WebRTCModule')
-}
-
 allprojects {
     repositories {
         mavenLocal()
