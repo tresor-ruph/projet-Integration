@@ -1,9 +1,15 @@
 {
+<<<<<<< HEAD
   "webpackServerPort": 19006,
   "packagerPort": 19001,
   "packagerPid": 7528,
+=======
+  "webpackServerPort": null,
+  "packagerPort": null,
+  "packagerPid": null,
+>>>>>>> parent of 52f0b209... EXpo eject and Improving my personal user story
   "devToolsPort": 19002,
-  "expoServerPort": 19000,
+  "expoServerPort": null,
   "expoServerNgrokUrl": null,
   "packagerNgrokUrl": null,
   "ngrokPid": null

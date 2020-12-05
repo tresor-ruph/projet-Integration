@@ -17,14 +17,10 @@
       "**/*"
     ],
     "ios": {
-      "supportsTablet": true,
-      "bundleIdentifier": "com.patoche450.app"
+      "supportsTablet": true
     },
     "web": {
       "favicon": "./assets/favicon.png"
-    },
-    "android": {
-      "package": "com.patoche450.app"
     }
   }
 }

@@ -10,11 +10,11 @@ describe("help recover api test",function(){
     
     it("this should update the informations of one user",function(done){
         const data = {
-            "Nom": "Etoile",
-              "Prenom": "Demer",
-              "CodePostal": "1050",
+            "Nom": "Tchoupe",
+              "Prenom": "Patrick",
+              "CodePostal": "1000",
               "Adresse": "Bruxelles",
-              "userId": 162,
+              "userId": 2,
               "Photo": null
         };
       request.put(

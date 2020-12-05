@@ -1,8 +1,9 @@
 {
+  "main": "node_modules/expo/AppEntry.js",
   "scripts": {
-    "start": "react-native start",
-    "android": "react-native run-android",
-    "ios": "react-native run-ios",
+    "start": "expo start",
+    "android": "expo start --android",
+    "ios": "expo start --ios",
     "web": "expo start --web",
     "eject": "expo eject",
     "test": "jest"
@@ -11,7 +12,6 @@
     "@react-native-async-storage/async-storage": "^1.13.2",
     "@react-native-community/async-storage": "^1.12.1",
     "@react-native-community/masked-view": "^0.1.10",
-    "@react-native-community/netinfo": "^5.9.9",
     "@react-native-firebase/app": "^8.4.3",
     "@react-navigation/drawer": "^5.11.2",
     "@react-navigation/native": "^5.7.3",
@@ -20,13 +20,11 @@
     "expo": "~39.0.2",
     "expo-device": "~2.3.0",
     "expo-image-picker": "~9.1.0",
-    "expo-splash-screen": "~0.6.2",
     "expo-status-bar": "~1.0.2",
-    "expo-updates": "~0.3.2",
     "firebase": "7.9.0",
     "react": "16.13.1",
     "react-dom": "16.13.1",
-    "react-native": "~0.63.3",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz",
     "react-native-crypto-js": "^1.0.0",
     "react-native-elements": "^3.0.0-alpha.1",
     "react-native-gesture-handler": "^1.8.0",
@@ -37,7 +35,6 @@
     "react-native-safe-area-context": "^3.1.9",
     "react-native-screens": "^2.15.0",
     "react-native-svg": "^12.1.0",
-    "react-native-unimodules": "~0.11.0",
     "react-native-web": "~0.13.12",
     "react-navigation": "^4.4.1",
     "react-navigation-stack": "^2.8.3",
@@ -45,9 +42,6 @@
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
-    "babel-jest": "~25.2.6",
-    "jest": "~25.2.6",
-    "react-test-renderer": "~16.13.1",
     "eslint-config-rallycoding": "^3.2.0",
     "jest-expo": "^39.0.0"
   },
@@ -65,7 +59,5 @@
       "!**/jest.setup.js"
     ]
   },
-  "private": true,
-  "name": "app",
-  "version": "1.0.0"
+  "private": true
 }

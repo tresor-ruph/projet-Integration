@@ -38,7 +38,7 @@ function Mainscreen(props) {
       </View>
       <View style={styles.button3Row}>
         <TouchableOpacity style={styles.button3} onPress={handleProfil}>
-          <Text style={styles.profile}>Profil</Text>
+          <Text style={styles.profile}>Profile</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={handlePress}

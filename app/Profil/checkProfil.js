@@ -1,4 +1,3 @@
-/* eslint-disable no-unused-vars */
 /* eslint-disable no-alert */
 /* eslint-disable jsx-quotes */
 /* eslint-disable no-use-before-define */
@@ -14,13 +13,7 @@ import {
 
 
 // eslint-disable-next-line require-jsdoc
-export default function checkProfil({ navigation, route }) {
-  // eslint-disable-next-line no-unused-vars
-  const [value, onChangeValue] = React.useState(route.params.id);
-  // eslint-disable-next-line no-unused-vars
-  const [nom1, onChangeNom] = React.useState(route.params.nom);
-  const [prenom1, onChangePrenom] = React.useState(route.params.prenom);
-  const title1 = `${nom1} ${prenom1}`;
+export default function checkProfil(props) {
 
   const [nom, setNom] = useState(' ');
   const [prenom, setPrenom] = useState(' ');
@@ -29,15 +22,10 @@ export default function checkProfil({ navigation, route }) {
   const [bool, setBool] = useState(false);
   const [image, setImage] = useState(null);
 
-  React.useLayoutEffect(() => {
-    navigation.setOptions({
-      title: title1 === '' ? 'No title' : title1,
-    });
-  }, [navigation, title1]);
 
   useEffect(() => {
     const init = async () => {
-      fetch(`http://localhost:3000/users/${value}`)
+      fetch(`http://192.168.1.7:3000/users/${props.id}`)
       .then((response) => response.json())
       .then((json) => {
         console.log(json[0]);
@@ -67,7 +55,7 @@ export default function checkProfil({ navigation, route }) {
         />
       </View>
 
-      <View style={styles.middle}>
+      <View>
         <TextInput
           value={nom}
           style={styles.textInput}
@@ -115,7 +103,7 @@ const styles = StyleSheet.create({
     padding: 20,
   },
   top: {
-    flex: 0.5,
+    flex: 0.3,
     borderTopLeftRadius: 20,
     borderTopRightRadius: 20,
     alignItems: 'center',
@@ -130,7 +118,9 @@ const styles = StyleSheet.create({
     borderWidth: 1,
     marginBottom: 10,
   },
-  middle: {
-    flex: 0.5,
+  bottom: {
+    flex: 0.3,
+    flexDirection: "column",
+    justifyContent: "space-between",
   },
-})
+});
