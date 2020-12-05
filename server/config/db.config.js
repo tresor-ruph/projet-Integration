@@ -1,8 +1,8 @@
 module.exports = {
-HOST :"sql7.freemysqlhosting.net",
-USER :"sql7343279",
-PASSWORD :"lm5ksRt97g",
-DB :"sql7343279"
+HOST :"eu-cdbr-west-03.cleardb.net",
+USER :"b500a81222d1e2",
+PASSWORD :"c3276b49",
+DB :"heroku_a43966f528611e5"
 
     /*HOST : "127.0.0.1",
     USER : "root",

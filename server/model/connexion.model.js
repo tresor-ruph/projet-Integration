@@ -5,7 +5,7 @@ const connexion = function () {
  
 
 connexion.create = (con, result) => {
-  let rechsql = 'SELECT Mail from Utilisateurs';
+  let rechsql = 'SELECT Mail from utilisateursattente';
   let spotted = true;
   sql.query(rechsql, (err, res)=> {
   
@@ -20,10 +20,10 @@ connexion.create = (con, result) => {
     bcrypt.genSalt(10, function(err, salt) {
     bcrypt.hash(con.password, salt, function(err, hash) {
     //insert into Notation(userId,idDemande,donneurId,rating) values(172,69,203,9);
-    const req = 'INSERT INTO Utilisateurs(Nom , Prenom , Adresse , CodePostal,Mail,password, emailVerif) VALUES ? ';
+    const req = 'INSERT INTO utilisateursattente(Nom , Prenom , Adresse , CodePostal,Mail,password, emailVerif) VALUES ? ';
     const values = [[con.nom,con.prenom,con.adresse,con.codePostal,con.Mail,hash, false]];
     sql.query(req , [values] ,function (err, resu, fields) {
-      let rechid = 'SELECT Id from Utilisateurs where Mail = "'+con.Mail+'"';
+      let rechid = 'SELECT Id from utilisateursattente where Mail = "'+con.Mail+'"';
       sql.query(rechid, function (err, resu, fields) {
         if(resu == undefined){
           result(null , { message: 'erreur interne'});
@@ -85,26 +85,27 @@ connexion.create = (con, result) => {
 
 
 connexion.access = (cons, result) => {
-console.log(cons.Mail);
-    let rechsql = 'SELECT * from Utilisateurs where Mail = "'+cons.Mail+'"';
-    sql.query(rechsql, function (err, res) {
-        console.log(res);
-        console.log(err);
-if(res == undefined || res[0] == undefined){
-    result(null , {message:'erreur de mail'});
-}else{
-  var bcrypt = require('bcryptjs');
-  bcrypt.compare(cons.password, res[0].password, function(err, re) {
-    console.log(re);
-    console.log(err);
-    if(re){
-    result(null , {message: "entrée dans l'appli" , id : res[0].Id});
-    }else{
-      result(null , {message:'erreur de mot de passe'});
-    }
-  });
-}
-  })
+  console.log(cons.Mail);
+      let rechsql = 'SELECT * from utilisateurs where Mail = "'+cons.Mail+'"';
+      sql.query(rechsql, function (err, res) {
+          console.log(res);
+          console.log(err);
+  if(res == undefined || res[0] == undefined){
+      result(null , {message:'erreur de mail'});
+  }
+  else{
+    var bcrypt = require('bcryptjs');
+    bcrypt.compare(cons.password, res[0].password, function(err, re) {
+      console.log(re);
+      console.log(err);
+      if(re){
+      result(null , {message: "entrée dans l'appli" , id : res[0].Id});
+      }else{
+        result(null , {message:'erreur de mot de passe'});
+      }
+    });
+  }
+    })
 
 
 }

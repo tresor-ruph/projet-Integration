@@ -14,6 +14,7 @@ module.exports = (app) => {
     **/
   app.get("/users", userController.findAll);
   app.get("/users", userController.findAll);
+  app.get("/users/attente", demande.findAllAttente);
   app.get("/users/:id/", userController.findOne);
   app.put("/updateData/", userController.update)
   app.get("/contacts/:email/", contacts.findOne);

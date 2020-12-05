@@ -13,7 +13,6 @@ exports.findAll = (req,res) => {
         else {
           res.header("Access-Control-Allow-Origin","*");
           res.send(data);
-          res.status(200).json(data);
         }
   });
 };

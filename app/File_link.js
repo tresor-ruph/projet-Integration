@@ -28,6 +28,7 @@ import ListeDem from './Catalogue/ListeDem';
 import mesDemandes from './Catalogue/mesDemandes';
 import Proposition from './Catalogue/proposition';
 import PropositionA from './Catalogue/propositionAssignee';
+import attente from './adminPage/listeAttente';
 
 
 import Notation from './Homescreen/Notation';
@@ -45,6 +46,7 @@ function Nav() {
 
            <Stack.Screen name="signup" component={Form} /> 
             <Stack.Screen name="succes" component={Succes} />
+            <Stack.Screen name="admin" component={attente} />
             
             <Stack.Screen name="ListeDem" component={ListeDem} />
             <Stack.Screen name="Demande" component={Demande} />

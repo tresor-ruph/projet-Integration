@@ -5,7 +5,7 @@ const demande = function(user) {
 }
 
 demande.findDemande = (id, result) => {
-    sql.query(`select * from Demande inner join Utilisateurs on Demande.userId=Utilisateurs.Id where not userId = ${id}`  , (err,res) => {
+    sql.query(`select * from demande inner join utilisateurs on demande.userId = utilisateurs.Id where not userId = ${id}`  , (err,res) => {
         if(err) {
             console.log("error : ", err);
             result (null ,err);
@@ -18,7 +18,7 @@ demande.findDemande = (id, result) => {
 };
 
 demande.findAttente = (result) => {
-    sql.query(`select * from UtilisateursAttente`  , (err,res) => {
+    sql.query(`select * from utilisateursattente`  , (err,res) => {
         if(err) {
             console.log("error : ", err);
             result (null ,err);
@@ -34,7 +34,7 @@ demande.findAttente = (result) => {
 
 
 demande.findDemandeFilter = (categorie, codeP,  result) => {
-    sql.query(`select * from Demande inner join Utilisateurs on Demande.userId=Utilisateurs.Id WHERE categorie = ${categorie} and CodePostal = ${codeP}`, (err,res) => {
+    sql.query(`select * from demande inner join utilisateurs on demande.userId=utilisateurs.Id WHERE categorie = ${categorie} and CodePostal = ${codeP}`, (err,res) => {
         if(err) {
             console.log("error : ", err);
             result (null ,err);
@@ -47,7 +47,7 @@ demande.findDemandeFilter = (categorie, codeP,  result) => {
 };
 
 demande.findProposition = (id, result) => {
-    sql.query(`select * from Proposition inner join Demande on Proposition.idDem = Demande.idDemande inner join Utilisateurs on Proposition.idServeur = Utilisateurs.Id WHERE Proposition.idDemandeur = ${id}`, (err,res) => {
+    sql.query(`select * from proposition inner join demande on proposition.idDem = demande.iddemande inner join utilisateurs on proposition.idServeur = utilisateurs.Id WHERE proposition.iddemandeur = ${id}`, (err,res) => {
         if(err) {
             console.log("error : ", err);
             result (null ,err);
@@ -60,7 +60,7 @@ demande.findProposition = (id, result) => {
 };
 
 demande.findPropositionA = (id, result) => {
-    sql.query(`select * from PropositionConfirme inner join Demande on PropositionConfirme.idDemande = Demande.idDemande inner join Utilisateurs on PropositionConfirme.idServeur = Utilisateurs.Id WHERE PropositionConfirme.idDemandeur = ${id}`, (err,res) => {
+    sql.query(`select * from propositionconfirme inner join demande on propositionconfirme.iddemande = demande.iddemande inner join utilisateurs on propositionconfirme.idServeur = utilisateurs.Id WHERE propositionconfirme.iddemandeur = ${id}`, (err,res) => {
         if(err) {
             console.log("error : ", err);
             result (null ,err);
@@ -75,7 +75,7 @@ demande.findPropositionA = (id, result) => {
 
 
 demande.findDemandeFilterT = (categorie, result) => {
-    sql.query(`select * from Demande inner join Utilisateurs on Demande.userId=Utilisateurs.Id WHERE categorie = ${categorie}  `, (err,res) => {
+    sql.query(`select * from demande inner join utilisateurs on demande.userId=utilisateurs.Id WHERE categorie = ${categorie}  `, (err,res) => {
         if(err) {
             console.log("error : ", err);
             result (null ,err);
@@ -88,7 +88,7 @@ demande.findDemandeFilterT = (categorie, result) => {
 };
 
 demande.findDemandeFilterCode = (codeP, result) => {
-    sql.query(`select * from Demande inner join Utilisateurs on Demande.userId=Utilisateurs.Id WHERE CodePostal = ${codeP}  `, (err,res) => {
+    sql.query(`select * from demande inner join utilisateurs on demande.userId=utilisateurs.Id WHERE CodePostal = ${codeP}  `, (err,res) => {
         if(err) {
             console.log("error : ", err);
             result (null ,err);
@@ -103,7 +103,7 @@ demande.findDemandeFilterCode = (codeP, result) => {
 
 
 demande.findDemandeFilterU = (userId, result) => {
-    sql.query(`select * from Demande inner join Utilisateurs on Demande.userId=Utilisateurs.Id WHERE userId = ${userId}`, (err,res) => {
+    sql.query(`select * from demande inner join utilisateurs on demande.userId=utilisateurs.Id WHERE userId = ${userId}`, (err,res) => {
         if(err) {
             console.log("error : ", err);
             result (null ,err);
@@ -115,8 +115,8 @@ demande.findDemandeFilterU = (userId, result) => {
 };
 
 
-demande.supprimerDemande = (idDemande, result) => {
-    sql.query(`delete from Demande where idDemande = ${idDemande}`, (err,res) => {
+demande.supprimerDemande = (iddemande, result) => {
+    sql.query(`delete from demande where iddemande = ${iddemande}`, (err,res) => {
         if(err) {
             console.log("error : ", err);
             result (null ,err);
@@ -127,8 +127,8 @@ demande.supprimerDemande = (idDemande, result) => {
     });
 }
 
-demande.supprimerPropos = (idProposition, result) => {
-    sql.query(`delete from Proposition where idProposition = ${idProposition}`, (err,res) => {
+demande.supprimerPropos = (idproposition, result) => {
+    sql.query(`delete from proposition where idproposition = ${idproposition}`, (err,res) => {
         if(err) {
             console.log("error : ", err);
             result (null ,err);
@@ -139,8 +139,8 @@ demande.supprimerPropos = (idProposition, result) => {
     });
 }
 
-demande.supprimerProposA = (idProposition, result) => {
-    sql.query(`delete from PropositionConfirme where idPropositionConfirme = ${idProposition}`, (err,res) => {
+demande.supprimerProposA = (idproposition, result) => {
+    sql.query(`delete from propositionconfirme where idpropositionconfirme = ${idproposition}`, (err,res) => {
         if(err) {
             console.log("error : ", err);
             result (null ,err);
@@ -154,7 +154,7 @@ demande.supprimerProposA = (idProposition, result) => {
 
 
 demande.findDemandeDescriptif = (userId, result) => {
-    sql.query(`select * from Demande WHERE idDemande = ${userId}`, (err,res) => {
+    sql.query(`select * from demande WHERE iddemande = ${userId}`, (err,res) => {
         if(err) {
             console.log("error : ", err);
             result (null ,err);
@@ -167,17 +167,17 @@ demande.findDemandeDescriptif = (userId, result) => {
 
 
 demande.createDemande = (Newdemande, result) => {
-    var requete = "INSERT INTO Demande(categorie, descriptif, userId) VALUES ? ";
+    var requete = "INSERT INTO demande(categorie, descriptif, userId) VALUES ? ";
     var values = [[Newdemande.categorie , Newdemande.descriptif, Newdemande.userId]];
     sql.query(requete, [values]);
-    result (null, 'Demande envoyée')
+    result (null, 'demande envoyée')
 };
 
 demande.confPropo = (propos, result) => {
-    var requete = "INSERT INTO PropositionConfirme(idServeur, idDemande, idDemandeur) VALUES ? ";
-    var values = [[propos.idServeur , propos.idDemande, propos.idDemandeur]];
+    var requete = "INSERT INTO propositionconfirme(idServeur, iddemande, iddemandeur) VALUES ? ";
+    var values = [[propos.idServeur , propos.iddemande, propos.iddemandeur]];
     sql.query(requete, [values]);
-    result (null, 'Demande envoyée')
+    result (null, 'demande envoyée')
 };
 
 module.exports = demande;
