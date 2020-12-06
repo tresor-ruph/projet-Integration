@@ -10,7 +10,7 @@ export default function Login(props) {
     if (username === 'tresor'){
         AsyncStorage.setItem('user', JSON.stringify(1));
         console.log('value set well set');
-        props.navigation.navigate('chatvideo');
+        props.navigation.navigate('HomeScreen');
     } else if (username === 'raoul'){
         AsyncStorage.setItem('user', JSON.stringify(2));
         console.log('value set well set');
