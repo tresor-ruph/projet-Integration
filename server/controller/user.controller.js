@@ -28,7 +28,7 @@ module.exports = {
           });
         } else {
           res.status(500).send({
-            message: "Error retrieving user ",
+            message: "internal server error ",
           });
         }
       } 

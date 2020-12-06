@@ -52,8 +52,7 @@ user.findGroupUsersById = (Id, result) => {
   console.log(Id);
 
   sql.query(
-    `
-    select userId, groupId, Nom, Prenom, PhotoProfil,ownerId from 
+    `select userId, groupId, Nom, Prenom, PhotoProfil,ownerId from 
     ChatGroupUsers join Utilisateurs join ChatGroup where ChatGroupUsers.userId = Utilisateurs.Id 
     and (ChatGroup.Id = ${Id} and ChatGroupUsers.groupId =${Id}) 
     `,
@@ -101,14 +100,14 @@ user.createChat = (Chat, result) => {
 
 user.createService = (serv, result) => {
  
-  sql.query(`select * from Proposition where idDem =${serv.IdService} and userId=${serv.idOffreur} and idDemandeur=${serv.idDemandeur}`,
+  sql.query(`select * from Proposition where idDem =${serv.IdService} and idServeur=${serv.idOffreur} and idDemandeur=${serv.idDemandeur}`,
   ((err,res) => {
     if(err){
       result(null, err)
       return
     }else {
       if(res.length === 0){
-      const req = "insert into Proposition(idDem,userId,idDemandeur) values ?";
+      const req = "insert into Proposition(idDem,idServeur,idDemandeur) values ?";
       const values = [[serv.IdService, serv.idOffreur, serv.idDemandeur]];
       sql.query(req, [values], (err,res) => {
         if(err) {

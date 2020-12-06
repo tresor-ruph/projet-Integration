@@ -225,7 +225,7 @@ exports.leaveGroup = (req, res) => {
           message: "Could not delete user  with id " + req.params.userId
         });
       }
-    } else res.send({ message: `Customer was deleted successfully!` });
+    } else res.send({ message: `user removed from group!` });
   });
 };
 exports.removeGroup = (req, res) => {
@@ -240,6 +240,6 @@ exports.removeGroup = (req, res) => {
           message: "Could not delete user  with id " + req.params.userId
         });
       }
-    } else res.send({ message: `Customer was deleted successfully!` });
+    } else res.send({ message: `group was deleted successfully!` });
   });
 };
