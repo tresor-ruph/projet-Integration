@@ -14,7 +14,7 @@ describe("help recover api test",function(){
               "Prenom": "Patrick",
               "CodePostal": "1000",
               "Adresse": "Bruxelles",
-              "userId": 2,
+              "userId": 172,
               "Photo": null
         };
       request.put(
