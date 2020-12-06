@@ -31,6 +31,27 @@ class listeAttente extends React.Component {
     
   } 
 
+  accepter(Nome, Prenome, Adressee, CodeP, date, scanner, Maile, passworde){
+    fetch('http://localhost:3000/users/confirmation', {
+        method: 'POST',
+        body: JSON.stringify({
+          Nom: Nome,
+          Prenom: Prenome,
+          Adresse: Adressee,
+          dateNaissance: date,
+          Mail: Maile,
+          CodePostal: CodeP,
+          password: passworde,
+          ScannerDoc: scanner
+        }),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          "Access-Control-Allow-Origin":"true"
+        }
+      }).then(response => response.json())
+  }
+
   submit(idDem){
     fetch(`http://localhost:3000/demandeS/${idDem}`, {  
       method: 'delete',
@@ -63,8 +84,7 @@ class listeAttente extends React.Component {
               <ListItem.Subtitle>{l.ScannerDoc}</ListItem.Subtitle>
               <View style={{flexDirection: 'row', width:'100%'}}>
               <View style={{flex: 1}}>
-                <Button color='green' title='Accepter'></Button>
-
+                <Button color='green' title='Accepter' onPress={() => {this.accepter(l.Nom, l.Prenom, l.Adresse, l.CodePostal, l.dateNaissance, l.ScannerDoc, l.Mail, l.password)}}></Button>
               </View>
               <View style={{flex: 1, marginLeft: '4%'}}>
                 <Button color='red' title='Refuser'></Button>

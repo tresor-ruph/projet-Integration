@@ -234,6 +234,32 @@ exports.create = (req, res) => {
   });
 }
 
+exports.createUser1 = (req, res) => {
+  const newUser = {
+    Nom: req.body.Nom,
+    Prenom: req.body.Prenom,
+    Adresse: req.body.Adresse,
+    CodePostal: req.body.CodePostal,
+    dateNaissance: req.body.dateNaissance,
+    ScannerDoc: req.body.ScannerDoc,
+    Mail: req.body.Mail,
+    password: req.body.password
+  };
+  demande.createUser2(newUser, (err, data) => {
+    console.log(data)
+    if (err) {
+          res.status(500).send({
+            message: "Error creating demande "
+          });
+        }
+      else {
+        res.header("Access-Control-Allow-Origin","*");
+        res.send(data);
+      }
+  });
+}
+
+
 exports.createPropos = (req, res) => {
   const propos = {
     idServeur: req.body.idServeur,

@@ -15,6 +15,7 @@ module.exports = (app) => {
   app.get("/users", userController.findAll);
   app.get("/users", userController.findAll);
   app.get("/users/attente", demande.findAllAttente);
+  app.post("/users/confirmation", demande.createUser1);
   app.get("/users/:id/", userController.findOne);
   app.put("/updateData/", userController.update)
   app.get("/contacts/:email/", contacts.findOne);
@@ -26,7 +27,7 @@ module.exports = (app) => {
   app.post("/service/addService/", contacts.createService )
 
   app.post("/group/addGroup/", contacts.creategroup )
-  app.post("/group/addSingleGroup/", contacts.addGroup )
+  app.post("/group/addSingleGroup/", contacts.addGroup)
   app.delete("/group/:userId/", contacts.leaveGroup);
   app.delete("/group/all/:userId/", contacts.removeGroup);
   app.get("/demande/all/:id", demande.findAll);

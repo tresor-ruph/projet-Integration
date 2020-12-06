@@ -12,10 +12,10 @@ demande.findDemande = (id, result) => {
             return;
         }
             console.log("contacts :" , res);
-            result (null, res);
-            
+            result (null, res);   
     });
 };
+
 
 demande.findAttente = (result) => {
     sql.query(`select * from utilisateursattente`  , (err,res) => {
@@ -26,7 +26,6 @@ demande.findAttente = (result) => {
         }
             console.log("contacts :" , res);
             result (null, res);
-            
     });
 };
 
@@ -42,7 +41,6 @@ demande.findDemandeFilter = (categorie, codeP,  result) => {
         }
             console.log("contacts :" , res);
             result (null, res);
-            
     });
 };
 
@@ -55,7 +53,6 @@ demande.findProposition = (id, result) => {
         }
             console.log("contacts :" , res);
             result (null, res);
-            
     });
 };
 
@@ -68,7 +65,6 @@ demande.findPropositionA = (id, result) => {
         }
             console.log("contacts :" , res);
             result (null, res);
-            
     });
 };
 
@@ -83,7 +79,6 @@ demande.findDemandeFilterT = (categorie, result) => {
         }
             console.log("contacts :" , res);
             result (null, res);
-            
     });
 };
 
@@ -96,7 +91,6 @@ demande.findDemandeFilterCode = (codeP, result) => {
         }
             console.log("contacts :" , res);
             result (null, res);
-            
     });
 };
 
@@ -172,6 +166,22 @@ demande.createDemande = (Newdemande, result) => {
     sql.query(requete, [values]);
     result (null, 'demande envoyée')
 };
+
+
+demande.createUser2 = (newUser, result) => {
+    var requete = "INSERT INTO utilisateurs(Nom , Prenom , Adresse , CodePostal, dateNaissance, ScannerDoc, Mail, password) VALUES ? ";
+    var values = [[newUser.Nom, newUser.Prenom, newUser.Adresse, newUser.CodePostal, newUser.dateNaissance, newUser.ScannerDoc, newUser.Mail, newUser.password]];
+    sql.query(requete, [values], (err, res) => {
+        if (err){
+            result (null, err)
+            return
+        }
+        else{
+            result (null, 'utilisateur confirmé')  
+        }
+    });
+};
+
 
 demande.confPropo = (propos, result) => {
     var requete = "INSERT INTO propositionconfirme(idServeur, iddemande, iddemandeur) VALUES ? ";
