@@ -2,6 +2,7 @@ import React from "react";
 import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, Dimensions   } from "react-native";
 import PassMeter from "react-native-passmeter";
 import AsyncStorage from '@react-native-community/async-storage';
+import {test,tokenNotif} from '../Notification/Notification.js';
 
 
 
@@ -21,10 +22,13 @@ class Form extends React.Component {
         mail: '',
         codePostal: '',
         showPassword: true,
+        tokenNotif: tokenNotif,
         label: ["Trop court", "Il faut au moins 1 chiffre et 1 lettre majuscule !", "Il faut au moins 1 lettre majuscule et 1 chiffre !", "Mot de passe valide"],
       }
       //sert ds la visualisation du mdp
-      this.toggleSwitch = this.toggleSwitch.bind(this);  
+      this.toggleSwitch = this.toggleSwitch.bind(this);
+      console.log(test)
+      console.log(tokenNotif)
     }
     //sert ds la visualisation du mdp
     toggleSwitch() {
