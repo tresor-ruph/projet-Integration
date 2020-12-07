@@ -90,11 +90,12 @@ function ChatOption(route) {
             <Avatar source={{uri: l.PhotoProfil}} />
             <ListItem.Content>
               <ListItem.Title>{l.Nom}</ListItem.Title>
-              {l.userId === userId ? (
+              {l.userId === userId && (
                 <TouchableOpacity style={styles.retirer}>
                   <Text style={{color: 'green'}}>Admin</Text>
                 </TouchableOpacity>
-              ) : (
+              )}
+              {ownerId === userId && (
                 <TouchableOpacity style={styles.ajouter} onPress={() => leaveGroup(l.userId, true)}>
                   <Text style={{color: 'red'}}>retirer</Text>
                 </TouchableOpacity>

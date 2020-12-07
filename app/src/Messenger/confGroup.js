@@ -3,6 +3,7 @@
 import React, {useState} from 'react';
 import {StyleSheet, View, Text, TextInput, TouchableOpacity, Image, Platform} from 'react-native';
 import * as ImagePicker from 'expo-image-picker';
+//import * as Permissions from 'expo-permissions';
 import * as firebase from 'firebase';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useNavigation} from '@react-navigation/native';
@@ -11,7 +12,7 @@ function ConfGroup(route, props) {
   const [image, setImage] = useState(null);
   const [isPicked, setIsPicked] = useState(false);
   const [groupName, setGroupName] = useState(null);
-  const [url, setUrl] = useState(null);
+  const [url, setUrl] = useState('http://ssl.gstatic.com/accounts/ui/avatar_2x.png');
   const navigation = useNavigation();
 
   let imageName = 'group';
@@ -45,7 +46,7 @@ function ConfGroup(route, props) {
   const handleSent = async () => {
     const chatGroup = {
       groupId: Math.round(Math.random() * 10000000000000),
-      ownerId: route.route.params.grpowner,
+      ownerId: 1,
       Name: groupName,
       groupImage: url,
       members: route.route.params.grp,
