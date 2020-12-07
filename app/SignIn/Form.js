@@ -2,11 +2,20 @@ import React from "react";
 import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, Dimensions   } from "react-native";
 import PassMeter from "react-native-passmeter";
 import AsyncStorage from '@react-native-community/async-storage';
-import {test,tokenNotif} from '../Notification/Notification.js';
+import * as Notifications from 'expo-notifications';
+import * as Permissions from 'expo-permissions';
 
 
 
 console.disableYellowBox = true;
+
+Notifications.setNotificationHandler({
+  handleNotification: async () => ({
+    shouldShowAlert: true,
+    shouldPlaySound: false,
+    shouldSetBadge: false,
+  }),
+});
 
 
 class Form extends React.Component {
@@ -22,13 +31,11 @@ class Form extends React.Component {
         mail: '',
         codePostal: '',
         showPassword: true,
-        tokenNotif: tokenNotif,
+        tokenNotif:"",
         label: ["Trop court", "Il faut au moins 1 chiffre et 1 lettre majuscule !", "Il faut au moins 1 lettre majuscule et 1 chiffre !", "Mot de passe valide"],
       }
       //sert ds la visualisation du mdp
-      this.toggleSwitch = this.toggleSwitch.bind(this);
-      console.log(test)
-      console.log(tokenNotif)
+      this.toggleSwitch = this.toggleSwitch.bind(this);  
     }
     //sert ds la visualisation du mdp
     toggleSwitch() {
@@ -49,6 +56,24 @@ class Form extends React.Component {
       } catch (error) {
         console.log("Something went wrong", error);
       }
+    }
+    
+    componentDidMount(){
+    this.registerForPushNotificationAsync();
+    }
+
+    async registerForPushNotificationAsync(){
+      //On demande la permission
+      const {status} = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+      //Si la permission n'est pas accordée on fait rien
+      if( status !== "granted"){
+        alert("No notification permissions!")
+        return;
+      }
+      //On récupère le token
+      let token = await Notifications.getExpoPushTokenAsync();
+      console.log(token.data)
+      this.setState({tokenNotif: token.data})
     }
 
     submit() {
@@ -112,17 +137,19 @@ class Form extends React.Component {
         return;
       }
 
-      var bonneDate = this.state.dateNaissance.replaceAll('/', ',');
-      fetch('http://localhost:3000/auth/', {
+      //var bonneDate = this.state.dateNaissance.replaceAll('/', ',');
+      fetch('http://localhost:3000/auth/', { //mettre adresse ip de mon pc
         method: 'POST',
         body: JSON.stringify({
           nom: this.state.nom,
           prenom: this.state.prenom,
           adresse: this.state.adresse,
-          dateNaissance: bonneDate,
+          dateNaissance: this.state.dateNaissance,
           Mail: this.state.mail,
           codePostal: this.state.codePostal,
-          password: this.state.motdepasse
+          password: this.state.motdepasse,
+          tokenNotif: this.state.tokenNotif
+
         }),
         headers: {
           Accept: 'application/json',

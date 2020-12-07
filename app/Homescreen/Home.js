@@ -2,7 +2,6 @@ import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 //import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
 class Home extends React.Component {
   // eslint-disable-next-line no-useless-constructor
   constructor() {

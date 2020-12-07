@@ -27,9 +27,6 @@ import Demande from './demandeFormulaire/Demande';
 import ListeDem from './Catalogue/ListeDem';
 import mesDemandes from './Catalogue/mesDemandes';
 
-import Notification from './Notification/Notification';
-
-
 import Notation from './Homescreen/Notation';
 import checkProfil from './Profil/checkProfil';
 // Create the navigator
@@ -50,7 +47,6 @@ function Nav() {
             <Stack.Screen name="Demande" component={Demande} />
             <Stack.Screen name="Notation" component={Notation} /> 
             <Stack.Screen name="mesDemandes" component={mesDemandes} />
-            <Stack.Screen name="Notification" component={Notification} />
 
 
         <Stack.Screen

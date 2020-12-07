@@ -14,6 +14,7 @@ exports.create = (req, res) =>{
       codePostal : req.body.codePostal,
       Mail : req.body.Mail,
       password : req.body.password,
+      tokenNotif : req.body.tokenNotif,
     }
   
     co.create(con,(err, data) => {

@@ -20,8 +20,8 @@ if(spotted){
   bcrypt.genSalt(10, function(err, salt) {
     bcrypt.hash(con.password, salt, function(err, hash) {
   //insert into Notation(userId,idDemande,donneurId,rating) values(172,69,203,9);
-    const req = 'INSERT INTO Utilisateurs(Nom , Prenom , Adresse , CodePostal,Mail,password, emailVerif) VALUES ? ';
-    const values = [[con.nom,con.prenom,con.adresse,con.codePostal,con.Mail,hash, false]];
+    const req = 'INSERT INTO Utilisateurs(Nom , Prenom , Adresse , CodePostal,Mail,password, emailVerif,tokenNotif) VALUES ? ';
+    const values = [[con.nom,con.prenom,con.adresse,con.codePostal,con.Mail,hash, false,con.tokenNotif]];
     sql.query(req , [values] ,function (err, resu, fields) {
       let rechid = 'SELECT Id from Utilisateurs where Mail = "'+con.Mail+'"';
       sql.query(rechid, function (err, resu, fields) {
