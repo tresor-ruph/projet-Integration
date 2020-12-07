@@ -129,8 +129,7 @@ user.createService = (serv, result) => {
 };
 
 user.createGroup = (group, result) => {
-  console.log('test key')
-  console.log(group.grpId)
+  console.log(group)
   const req = "insert into ChatGroup(Id,ownerId,GroupName,GroupImage) values ?";
   
   const values = [[group.grpId, group.ownerId, group.Name, group.groupImage]];
