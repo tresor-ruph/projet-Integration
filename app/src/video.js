@@ -15,6 +15,7 @@ import * as firebase from 'firebase';
 import 'firebase/firestore';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useNavigation} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {RTCPeerConnection, RTCView, mediaDevices} from 'react-native-webrtc';
 
@@ -44,7 +45,7 @@ export default function VideoWeb(route) {
   const [cachedLocalPC, setCachedLocalPC] = React.useState();
   const [isMuted, setIsMuted] = React.useState(false);
   const [disp, setdisp] = useState(false);
-  const [corrName, setCorrName] = useState('tresor');
+  const [corrName, setCorrName] = useState('utilisateur');
   const [mess, setMess] = useState('');
   const [loopBlock, setLoopBlock] = useState(0);
 
@@ -80,7 +81,6 @@ export default function VideoWeb(route) {
       .then((json) => {
         chatRoom = json[0].roomId;
       });
-   
 
     retrieveData();
     startLocalStream();
@@ -94,8 +94,7 @@ export default function VideoWeb(route) {
           .map(({doc}) => {
             const message = doc.data();
             setLoopBlock((prevState) => prevState + 1);
-           
-           
+
             if (message.user == userId) {
               console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
               console.log(loopBlock);
@@ -113,7 +112,7 @@ export default function VideoWeb(route) {
                 console.log(
                   `i am user with userId = ${userId} and i recieved the offer from user${route.route.params.recieverId}`,
                 );
-                if(message.again === 'yes'){
+                if (message.again === 'yes') {
                   setCorrName(message.name);
                 }
                 let res = JSON.parse(message.offer);
@@ -140,6 +139,8 @@ export default function VideoWeb(route) {
       });
 
     return () => unsubscribe();
+
+
   }, [chatRoom]);
   const startLocalStream = async () => {
     // isFront will determine if the initial camera should face user or environment
@@ -185,7 +186,12 @@ export default function VideoWeb(route) {
       await localPC.setLocalDescription(offer);
       db.doc(chatRoom)
         .collection('data')
-        .add({offer: JSON.stringify(offer), user: route.route.params.recieverId, again: 'yes', name: route.route.params.sendername});
+        .add({
+          offer: JSON.stringify(offer),
+          user: route.route.params.recieverId,
+          again: 'yes',
+          name: route.route.params.sendername,
+        });
       console.log(`user ${userId} is sending offer to the other`);
     } catch (err) {
       console.error('an error occured with genOffer method');
@@ -244,12 +250,16 @@ export default function VideoWeb(route) {
           </Text>
         </View>
         <View style={{flexDirection: 'row', marginTop: '30%'}}>
-          <View style={{marginRight: '50%'}}>
-            <Button title="Accepter" color="green" onPress={() => setAnswer()} />
-          </View>
-          <View>
-            <Button title="refuser" color="red" onPress={() => closeStreams()} />
-          </View>
+          <TouchableOpacity style={styles.callIn} onPress={() => setAnswer()}>
+            <Icon name="phone-incoming" style={styles.icon} />
+          </TouchableOpacity>
+          <TouchableOpacity style={styles.cancel} onPress={() => closeStreams()}>
+            <Icon name="cancel" style={styles.icon2} />
+          </TouchableOpacity>
+
+          {/*  <Button title="Accepter" color="green" onPress={() => setAnswer()} />
+
+            <Button title="refuser" color="red" onPress={() => closeStreams()} />*/}
         </View>
       </View>
     );
@@ -335,5 +345,37 @@ const styles = StyleSheet.create({
     width: '100%',
     flexDirection: 'row',
     justifyContent: 'space-around',
+  },
+  callIn: {
+    marginLeft: '10%',
+    backgroundColor: 'rgba(38,96,23,1)',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 70,
+    shadowColor: '#111',
+
+    minWidth: 100,
+    minHeight: 100,
+  },
+  cancel: {
+    marginLeft: '30%',
+    backgroundColor: 'red',
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 70,
+    shadowColor: '#111',
+
+    minWidth: 100,
+    minHeight: 100,
+  },
+  icon: {
+    color: '#fff',
+    fontSize: 30,
+    alignSelf: 'center',
+  },
+  icon2: {
+    color: '#fff',
+    fontSize: 30,
+    alignSelf: 'center',
   },
 });
