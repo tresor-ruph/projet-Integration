@@ -74,7 +74,7 @@ function ConfGroup(route, props) {
       }),
     };
     try {
-      fetch('http://192.168.1.60:3000/group/addGroup', requestOptions)
+      fetch('http://192.168.1.52:3000/group/addGroup', requestOptions)
         .then((response) => response.json())
         .then((data) => {
           console.log(data);
@@ -99,7 +99,6 @@ function ConfGroup(route, props) {
 
   const handleUpload = async () => {
     const test1 = isPicked ? await uploadImage(image, imageName) : image;
-    console.log(test1);
     setIsPicked(false);
   };
 

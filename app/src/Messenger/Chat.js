@@ -102,8 +102,9 @@ export default function Chat(route, navigation) {
         //setErrorMess(true);
       }
     } else {
-      console.log('test request 2');
-      fetch(`http://192.168.1.60:3000/chat/${route.route.params.senderId}/${route.route.params.recieverId}/${moreInfo}`)
+      fetch(
+        `http://192.168.1.52:3000/chat/${route.route.params.senderId}/${route.route.params.recieverId}/${route.route.params.moreInfo}`,
+      )
         .then((reponse) => reponse.json())
         .then((json) => {
           if (json.length === 0) {
@@ -131,7 +132,7 @@ export default function Chat(route, navigation) {
             };
             try {
               console.log('try request');
-              fetch('http://192.168.1.60:3000/chat/addroom', requestOptions)
+              fetch('http://192.168.1.52:3000/chat/addroom', requestOptions)
                 .then((response) => response.json())
                 .then((data) => {
                   console.log('hello');

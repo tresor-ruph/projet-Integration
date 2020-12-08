@@ -1,31 +1,34 @@
 /* eslint-disable prettier/prettier */
+/* eslint-disable quotes */
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {useState} from 'react';
 import {Button, TextInput, View, StyleSheet} from 'react-native';
 
 export default function Login(props) {
   const [username, setusername] = useState(' ');
+  //const [user, setUserId] = useState("")
 
   const onLogin = async () => {
-    if (username === 'tresor'){
-        AsyncStorage.setItem('user', JSON.stringify(1));
-        console.log('value set well set');
-        props.navigation.navigate('HomeScreen');
-    } else if (username === 'raoul'){
-        AsyncStorage.setItem('user', JSON.stringify(2));
-        console.log('value set well set');
-        props.navigation.navigate('chatvideo');
+    // eslint-disable-next-line no-undef
+    fetch(`http://192.168.1.52:3000/contacts/${username}`)
+      .then((reponse) => reponse.json())
+      .then((json) => {
+        console.log(json);
+        const name = json[0].Nom;
+        const Id = json[0].Id;
+        const avatar = json[0].PhotoProfil;
+        // setUserId(json[0].Id);
 
-
-    } else {
-        console.log('user can be tresor (id 1) or raoul (id 2)');
-    }
-
+        const user = {Id, name, avatar};
+        AsyncStorage.setItem('user', JSON.stringify(user));
+        props.navigation.navigate('HomeScreen', {userid: json[0].Id});
+      });
   };
 
   return (
     <View style={styles.container}>
       <TextInput placeholder={'Username'} onChangeText={(text) => setusername(text)} style={styles.input} />
+      <TextInput placeholder={'Password'} style={styles.input} />
 
       <Button title={'Login'} style={styles.input} onPress={onLogin} />
     </View>

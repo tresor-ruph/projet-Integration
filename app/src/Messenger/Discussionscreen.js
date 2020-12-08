@@ -24,6 +24,7 @@ import contactStorage from './contact_storage';
 
 let userId = ' ';
 let disp = ' ';
+let userName;
 function Discussion_Repo(route, props) {
   const [contacts, setContact] = useState(' ');
   const [loaded, setLoaded] = useState(false);
@@ -48,6 +49,7 @@ function Discussion_Repo(route, props) {
     setLoaded(true);
 
     let id = await AsyncStorage.getItem('user');
+    userName = JSON.parse(id).name;
     id = JSON.parse(id).Id;
     userId = id;
   }
@@ -72,25 +74,27 @@ function Discussion_Repo(route, props) {
               <Avatar source={{uri: elt.PhotoProfil}} size="large" rounded />
               <ListItem.Content>
                 <ListItem.Title>{elt.Nom}</ListItem.Title>
-                <View style={{flexDirection: "row", left: "200%", top: -25}}>
-                <Icon
-                  name="message"
-                  style={{left: '65%', fontSize: 25, color: "green"}}
-                  onPress={() => {
-                    navigation.navigate('Chat', {
-                      recieverId: elt.Id,
-                      senderId: userId,
-                    });
-                  }}
-                /> 
-                 <Icon
-                  name="delete-forever"
-                  style={{left: '80%',fontSize: 25, color: "red", marginLeft: 50}}
-                  onPress={() => {
-                    contactStorage(elt.Id);
-                    getContact();
-                  }}
-                />
+                <View style={{flexDirection: 'row', left: '200%', top: -25}}>
+                  <Icon
+                    name="message"
+                    style={{left: '65%', fontSize: 25, color: 'green'}}
+                    onPress={() => {
+                      navigation.navigate('Chat', {
+                        recieverId: elt.Id,
+                        senderId: userId,
+                        moreInfo: -1,
+                        sendername: userName,
+                      });
+                    }}
+                  />
+                  <Icon
+                    name="delete-forever"
+                    style={{left: '80%', fontSize: 25, color: 'red', marginLeft: 50}}
+                    onPress={() => {
+                      contactStorage(elt.Id);
+                      getContact();
+                    }}
+                  />
                 </View>
               </ListItem.Content>
             </ListItem>,

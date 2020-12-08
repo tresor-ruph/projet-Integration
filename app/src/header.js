@@ -6,12 +6,16 @@ import React from 'react';
 import {View} from 'react-native';
 import {Header} from 'react-native-elements';
 import {useNavigation} from '@react-navigation/native';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 function MessHeader(props) {
   const navigation = useNavigation();
+  
   const recieverId = props.id.scene.route.params.recieverId;
+  const senderId = props.id.scene.route.params.senderId;
   const group = props.id.scene.route.params.group;
-
+const moreInfo = props.id.scene.route.params.moreInfo;
+const sendername = props.id.scene.route.params.sendername
   return (
     <View>
       {group ? (
@@ -44,6 +48,13 @@ function MessHeader(props) {
               navigation.goBack();
             },
           }}
+          rightComponent={
+            <Icon
+              name="video"
+              style={{color: 'blue', fontSize:28}}
+              onPress={() => navigation.navigate('chatvideo', {recieverId: recieverId, senderId: senderId, moreInfo: moreInfo,sendername: sendername})}
+            />
+          }
         />
       )}
     </View>

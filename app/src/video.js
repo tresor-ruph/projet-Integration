@@ -14,6 +14,7 @@ import {View, SafeAreaView, Button, ScrollView, Text, TouchableOpacity, TextInpu
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 import AsyncStorage from '@react-native-community/async-storage';
+import {useNavigation} from '@react-navigation/native';
 
 import {RTCPeerConnection, RTCView, mediaDevices} from 'react-native-webrtc';
 
@@ -35,27 +36,22 @@ const db = firebase.firestore().collection('video');
 
 const configuration = {iceServers: [{url: 'stun:stun.l.google.com:19302'}]};
 const localPC = new RTCPeerConnection(configuration);
-const remotePC = new RTCPeerConnection(configuration);
 let userId;
-export default function VideoWeb(props) {
+let chatRoom;
+export default function VideoWeb(route) {
   const [localStream, setLocalStream] = React.useState();
   const [remoteStream, setRemoteStream] = React.useState();
   const [cachedLocalPC, setCachedLocalPC] = React.useState();
-  const [cachedRemotePC, setCachedRemotePC] = React.useState();
-  const [sdpDescription, setSdpDescription] = useState('');
-  const [dispText, setDispText] = useState('tic tack');
   const [isMuted, setIsMuted] = React.useState(false);
   const [disp, setdisp] = useState(false);
   const [corrName, setCorrName] = useState('tresor');
-  const [mess, setMess] = useState('')
+  const [mess, setMess] = useState('');
+  const [loopBlock, setLoopBlock] = useState(0);
+
   const retrieveData = async () => {
     try {
-      const value = await AsyncStorage.getItem('user');
-      if (value !== null) {
-        const result = JSON.parse(value);
-
-        userId = result;
-      }
+      let id = await AsyncStorage.getItem('user');
+      userId = JSON.parse(id).Id;
     } catch (error) {
       console.log('an error occured with retrieving data');
     }
@@ -63,71 +59,88 @@ export default function VideoWeb(props) {
 
   async function setOffer(x) {
     await localPC.setRemoteDescription(x);
-    console.log('i recieved the offer and i am user :', userId);
+    console.log('i correctly set the offer i recieved from user:', userId);
   }
 
   async function setAnswer() {
     console.log(`i am user ${userId} and this is my response`);
-    genCandidate(1, 'no');
+    genCandidate(route.route.params.recieverId, 'no');
     localPC.addStream(localStream);
     genAnswer();
     setCachedLocalPC(localPC);
     setdisp(false);
   }
+  const navigation = useNavigation();
 
   useEffect(() => {
+    fetch(
+      `http://192.168.1.52:3000/chat/${route.route.params.senderId}/${route.route.params.recieverId}/${route.route.params.moreInfo}`,
+    )
+      .then((reponse) => reponse.json())
+      .then((json) => {
+        chatRoom = json[0].roomId;
+      });
+   
+
     retrieveData();
     startLocalStream();
-    console.log(userId);
-    let i = 0;
-    let verif = false;
-    const unsubscribe = db.onSnapshot((querySnapshot) => {
-      const messagesFirestore = querySnapshot
-        .docChanges()
-        .filter(({type}) => type === 'added')
-        .map(({doc}) => {
-          const message = doc.data();
-          //console.log(message.offer);
-          if (message.user == userId) {
-            if (message.again == 'yes') {
-              setdisp(true);
+    const unsubscribe = db
+      .doc(chatRoom)
+      .collection('data')
+      .onSnapshot((querySnapshot) => {
+        querySnapshot
+          .docChanges()
+          .filter(({type}) => type === 'added')
+          .map(({doc}) => {
+            const message = doc.data();
+            setLoopBlock((prevState) => prevState + 1);
+           
+           
+            if (message.user == userId) {
+              console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+              console.log(loopBlock);
+              console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+              if (message.again == 'yes') {
+                setdisp(true);
+              }
+              if (message.cdt != undefined) {
+                let res = JSON.parse(message.cdt);
+                localPC.addIceCandidate(res);
+                console.log('i recieved the candidates and i am user', userId);
+              }
+
+              if (message.offer != undefined) {
+                console.log(
+                  `i am user with userId = ${userId} and i recieved the offer from user${route.route.params.recieverId}`,
+                );
+                if(message.again === 'yes'){
+                  setCorrName(message.name);
+                }
+                let res = JSON.parse(message.offer);
+                setOffer(res);
+              }
+              try {
+                localPC.onaddstream = (e) => {
+                  setRemoteStream(e.stream);
+                  console.log(`i am user ${userId} and the remote stream was set correctly`);
+                  //setMess('appel termine');
+                };
+              } catch (err) {
+                console.log('cannot set remote stream');
+              }
             }
-            if (message.cdt != undefined) {
-              let res = JSON.parse(message.cdt);
-              localPC.addIceCandidate(res);
-              console.log('i recieved the candidates and i am user', userId);
+            if (message.cancel === 'true') {
+              closeStreams();
             }
 
-            if (message.offer != undefined) {
-              let res = JSON.parse(message.offer);
-              setOffer(res);
-            }
-            try {
-              localPC.onaddstream = (e) => {
-                setRemoteStream(e.stream);
-                setMess('appel termine')
-              };
-            } catch (err) {
-              console.log('cannot set remote stream');
-            }
-          
-
-        
-          }
-          if (message.cancel === 'true') {
-            closeStreams();
-          }
-
-          
-
-          return {
-            message,
-          };
-        });
-    });
+            // return {
+            //   message,
+            // };
+          });
+      });
 
     return () => unsubscribe();
-  }, []);
+  }, [chatRoom]);
   const startLocalStream = async () => {
     // isFront will determine if the initial camera should face user or environment
     const isFront = true;
@@ -156,7 +169,9 @@ export default function VideoWeb(props) {
     localPC.onicecandidate = (e) => {
       try {
         if (e.candidate) {
-          db.add({cdt: JSON.stringify(e.candidate), user: x, again: y});
+          db.doc(chatRoom)
+            .collection('data')
+            .add({cdt: JSON.stringify(e.candidate), user: x, again: y});
           console.log(`user ${userId} is sending to the other`);
         }
       } catch (err) {
@@ -168,13 +183,10 @@ export default function VideoWeb(props) {
     try {
       const offer = await localPC.createOffer();
       await localPC.setLocalDescription(offer);
-      db.add({offer: JSON.stringify(offer), user: 2, again: 'yes'});
+      db.doc(chatRoom)
+        .collection('data')
+        .add({offer: JSON.stringify(offer), user: route.route.params.recieverId, again: 'yes', name: route.route.params.sendername});
       console.log(`user ${userId} is sending offer to the other`);
-      // await remotePC.setRemoteDescription(localPC.localDescription);
-      //
-
-      //
-      //await localPC.setRemoteDescription(remotePC.localDescription);
     } catch (err) {
       console.error('an error occured with genOffer method');
     }
@@ -182,13 +194,15 @@ export default function VideoWeb(props) {
   const genAnswer = async () => {
     const answer = await localPC.createAnswer();
     await localPC.setLocalDescription(answer);
-    db.add({offer: JSON.stringify(answer), user: 1, again: 'no'});
+    db.doc(chatRoom)
+      .collection('data')
+      .add({offer: JSON.stringify(answer), user: route.route.params.recieverId, again: 'no'});
   };
 
   const startCall = async () => {
     console.log(`i am user ${userId} and this is my call`);
 
-    genCandidate(2, 'yes');
+    genCandidate(route.route.params.recieverId, 'yes');
     localPC.addStream(localStream);
     genOffer();
     setCachedLocalPC(localPC);
@@ -217,16 +231,17 @@ export default function VideoWeb(props) {
 
     setLocalStream();
     setRemoteStream();
-    setCachedRemotePC();
     setCachedLocalPC();
-    db.add({cancel: 'true'});
-    props.navigation.navigate('login');
+    db.doc(chatRoom).collection('data').add({cancel: 'true'});
+    navigation.navigate('Chat');
   };
   const renderPhoneCall = () => {
     return (
       <View>
         <View style={{padding: 15, marginTop: '30%'}}>
-          <Text style={{fontSize: 22, textAlign: 'center', color: 'white'}}>{corrName} souhaite vous joindre par video</Text>
+          <Text style={{fontSize: 22, textAlign: 'center', color: 'white'}}>
+            {corrName} souhaite vous joindre par video
+          </Text>
         </View>
         <View style={{flexDirection: 'row', marginTop: '30%'}}>
           <View style={{marginRight: '50%'}}>
@@ -242,7 +257,7 @@ export default function VideoWeb(props) {
   const renderCallScreen = () => {
     return (
       <View>
-        <View>{localStream && <Button title="call" onPress={() => (userId === 1 ? startCall() : setAnswer())} />}</View>
+        <View>{localStream && <Button title="call" onPress={() => startCall()} />}</View>
         <View>
           {localStream && (
             <View style={styles.toggleButtons}>
@@ -272,10 +287,8 @@ export default function VideoWeb(props) {
             )}
           </View>
         </View>
-            <Text>{mess}</Text>
+        <Text>{mess}</Text>
         <Button title="Click to stop call" onPress={closeStreams} disabled={!remoteStream} />
-        
-
       </View>
     );
   };

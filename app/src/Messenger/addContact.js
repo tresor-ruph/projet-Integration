@@ -51,7 +51,7 @@ function Addcontact(props) {
       }
 
       try {
-        fetch(`http://192.168.1.60:3000/contacts/${email}`)
+        fetch(`http://192.168.1.52:3000/contacts/${email}`)
           .then((response) => response.json())
           .then((json) => {
             if (json.length === 1) {

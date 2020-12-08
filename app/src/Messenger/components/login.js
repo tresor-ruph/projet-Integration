@@ -1,3 +1,4 @@
+/* eslint-disable quotes */
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {useState} from 'react';
 import {Button, TextInput, View, StyleSheet} from 'react-native';
@@ -7,6 +8,7 @@ export default function Login(props) {
   //const [user, setUserId] = useState("")
 
   const onLogin = async () => {
+    // eslint-disable-next-line no-undef
     fetch(`http://192.168.1.60:3000/contacts/${username}`)
       .then((reponse) => reponse.json())
       .then((json) => {

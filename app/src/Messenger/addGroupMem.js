@@ -35,7 +35,7 @@ function AddGroupMem(route) {
         }),
       };
       try {
-        fetch('http://192.168.1.60:3000/group/addSingleGroup', requestOptions)
+        fetch('http://192.168.1.52:3000/group/addSingleGroup', requestOptions)
           .then((response) => response.json())
           .then(() => {
             navigation.goBack();

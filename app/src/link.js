@@ -22,9 +22,10 @@ function Nav() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen name="login" component={Login} />
-        <Stack.Screen name="chatvideo" component={VideoWeb} />
+        {/*<Stack.Screen name="login" component={Login} />*/}
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
+
+        <Stack.Screen name="chatvideo" component={VideoWeb} />
 
         <Stack.Screen
           name="Ajouter Membres"
