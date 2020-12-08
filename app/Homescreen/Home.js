@@ -1,6 +1,7 @@
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text, ImageBackground  } from 'react-native';
 //import AsyncStorage from '@react-native-async-storage/async-storage';
+
 
 
 class Home extends React.Component {
@@ -12,6 +13,7 @@ class Home extends React.Component {
   render() {
     return (
         <View style={styles.container}>
+          <ImageBackground source={require('../img/degrade4.jpg')}>
         <View style={styles.rect}>
             <TouchableOpacity
             onPress={() => this.props.navigation.navigate('Login')}
@@ -31,13 +33,9 @@ class Home extends React.Component {
             >
             <Text style={styles.inscrivezVous}>Page Home</Text>
             </TouchableOpacity>
-            <TouchableOpacity
-            onPress={() => this.props.navigation.navigate('Notation')}
-            style={styles.button3}
-            >
-            <Text style={styles.inscrivezVous}>notation</Text>
-            </TouchableOpacity>
+            
         </View>
+        </ImageBackground>
         </View>
   );
     }
@@ -57,7 +55,7 @@ const styles = StyleSheet.create({
     height: 71,
     backgroundColor: 'rgba(222,72,72,1)',
     borderRadius: 20,
-    marginTop: 247,
+    marginTop: '30%',
     marginLeft: 59
   },
   connectezVous: {

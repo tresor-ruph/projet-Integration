@@ -10,11 +10,18 @@ import {
   View,
   Image,
   TextInput,
+  ActivityIndicator,
+  Platform,
+  Text,
+  KeyboardAvoidingView,
 } from "react-native";
+import NetInfo from "@react-native-community/netinfo";
 import { Button as Test } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import * as firebase from 'firebase';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import AsyncStorage from '@react-native-community/async-storage';
+
+
 //import App from './firebase'
 
 // eslint-disable-next-line require-jsdoc
@@ -28,12 +35,16 @@ export default function Profil() {
   const [btnDisplay, setBtn] = useState(true);
   const [image, setImage] = useState(null);
   const [isPicked, setIsPicked] = useState(false);
-
+  const [isLoaded, setLoaded] = useState(false);
+  const [isConnected, setConnection] = useState(true);
 
  // firebase.initializeApp(firebaseConfig);
  // firebase.analytics();
 
   useEffect(() => {
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      handleConnectivityChange(state.isConnected);
+    });
     const retrieveData = async () => {
       try {
         const value = await AsyncStorage.getItem('user');
@@ -52,7 +63,7 @@ export default function Profil() {
       fetch(`http://localhost:3000/users/${test}`)
       .then((response) => response.json())
       .then((json) => {
-        console.log(json[0]);
+        setLoaded(true);
         setNom(json[0].Nom);
         setId(json[0].Id);
         setPrenom(json[0].Prenom);
@@ -64,9 +75,14 @@ export default function Profil() {
         console.error(error);
       });
     };
+    unsubscribe();
     retrieveData();
     init();
   }, []);
+
+  const handleConnectivityChange = connect => {
+    setConnection({ connect });
+  };
 
   const pickImage = async () => {
     const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
@@ -89,7 +105,7 @@ export default function Profil() {
   };
 
   const deleteImage = () => {
-    setImage(null);
+    setImage('http://ssl.gstatic.com/accounts/ui/avatar_2x.png');
   };
 
   const uploadImage = async (uri, imgName) => {
@@ -148,7 +164,7 @@ export default function Profil() {
     fetch(`http://localhost:3000/users/${userId}`)
       .then((response) => response.json())
       .then((json) => {
-        console.log(json[0]);
+        setLoaded(true);
         setNom(json[0].Nom);
         setPrenom(json[0].Prenom);
         setAdresse(json[0].Adresse);
@@ -163,8 +179,11 @@ export default function Profil() {
   };
 
 
-  return (
-    <View style={styles.container}>
+  return !isLoaded ? (isConnected ? <ActivityIndicator size="large" color="blue" /> : <View><Text>No internet Connection !</Text></View>) : 
+      (<KeyboardAvoidingView
+        behavior={Platform.OS == "ios" ? "padding" : "height"}
+        style={styles.container}
+      >
       <View style={styles.top}>
         <Image
           source={{ uri: image || 'http://ssl.gstatic.com/accounts/ui/avatar_2x.png' }}
@@ -257,8 +276,8 @@ export default function Profil() {
           )
         }
       </View>
-    </View>
-  );
+    </KeyboardAvoidingView>
+      );
 }
 
 const styles = StyleSheet.create({
@@ -290,4 +309,5 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-between",
   },
-});
+}
+)

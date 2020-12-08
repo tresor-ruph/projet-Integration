@@ -8,7 +8,7 @@ user.findContacts = (result) => {
   sql.query("select * from Utilisateurs", (err, res) => {
     if (err) {
       console.log("error : ", err);
-      result(null, err);
+      result(null, err)
       return;
     }
     console.log("contacts :", res)
@@ -70,18 +70,62 @@ user.findGroupUsersById = (Id, result) => {
 };
 
 user.createChat = (Chat, result) => {
-  console.log("hahahhaa")
-  const req = "insert into Chat(senderId,recieverId,roomId,contact) values ?";
-  const values = [[Chat.senderId, Chat.recieverId, Chat.chatId,Chat.contact]];
-  sql.query(req, [values], (err,res) => {
-    if(err) {
-      console.log("error :", err);
+  sql.query(`select * from Chat where senderId =${Chat.senderId} and recieverId =${Chat.recieverId} and roomId ="${ Chat.chatId}" and contact =${Chat.contact}`,
+  ((err,res) => {
+    if(err){
+      result(null,err)
+      return
+    }else {
+      if(res.length === 0){
+        const req = "insert into Chat(senderId,recieverId,roomId,contact) values ?";
+        const values = [[Chat.senderId, Chat.recieverId, Chat.chatId,Chat.contact]];
+        sql.query(req, [values], (err,res) => {
+          if(err) {
+            console.log("error :", err);
+            result(null, err)
+            return
+          }
+          result(null, "Values inserted");
+         
+        });
+      }else {
+        result(null, "cette entre existe deja");
+      }
+      return result;
+    }
+  })
+  )
+
+
+};
+
+user.createService = (serv, result) => {
+ 
+  sql.query(`select * from Proposition where idDem =${serv.IdService} and idServeur=${serv.idOffreur} and idDemandeur=${serv.idDemandeur}`,
+  ((err,res) => {
+    if(err){
       result(null, err)
       return
+    }else {
+      if(res.length === 0){
+      const req = "insert into Proposition(idDem,idServeur,idDemandeur) values ?";
+      const values = [[serv.IdService, serv.idOffreur, serv.idDemandeur]];
+      sql.query(req, [values], (err,res) => {
+        if(err) {
+          console.log("error :", err);
+          result(null, err)
+         
+        }
+        result(null, "Values inserted");
+       
+      });
+    }else {
+      result(null, "cette entre existe deja")
     }
-    result(null, "Values inserted");
+    }
     return result
-  });
+  }))
+ 
 
 };
 
@@ -97,7 +141,7 @@ user.createGroup = (group, result) => {
       result(null, err);
       return;
     } else {
-      console.log("xxxxxxxxxxxxxxxxxxx")
+     
       console.log(group.members)
       group.members.forEach((element) => {
         sql.query(
@@ -118,69 +162,6 @@ user.createGroup = (group, result) => {
 };
 
 
-/*user.createGroup = (group, result) => {
-  console.log("test key");
-  console.log(group.grpId);
-  sql.query(`select * from ChatGroup where Id= ${group.grpId}`, (err, re) => {
-    if (err) {
-      console.log(err);
-      result(null, err);
-    } else {
-      if (res.length == 0) {
-        const req =
-          "insert into ChatGroup(Id,ownerId,GroupName,GroupImage) values ?";
-
-        const values = [
-          [group.grpId, group.ownerId, group.Name, group.groupImage],
-        ];
-        sql.query(req, [values], (err, res) => {
-          if (err) {
-            console.log("error :", err);
-            result(null, err);
-            return;
-          } else {
-            group.members.forEach((element) => {
-              sql.query(
-                `insert into ChatGroupUsers(userId,groupId) values
-            (${element},${group.grpId})`,
-                (err, res) => {
-                  if (err) {
-                    console.log("error :", err);
-                    result(null, err);
-                    return;
-                  } else {
-                    sql.query(
-                      `insert into ChatGroupUsers(userId,groupId) values (${group.ownerId},${group.grpId})`
-                    );
-                  }
-                }
-              );
-            });
-          }
-        });
-      } else {
-        group.members.forEach((element) => {
-          sql.query(
-            `insert into ChatGroupUsers(userId,groupId) values
-        (${element},${group.grpId})`,
-            (err, res) => {
-              if (err) {
-                console.log("error :", err);
-                result(null, err);
-                return;
-              } else {
-                sql.query(
-                  `insert into ChatGroupUsers(userId,groupId) values (${group.ownerId},${group.grpId})`
-                );
-              }
-            }
-          );
-        });
-      }
-    }
-  });
-};*/
-
 user.addGroup = (group, result) => {
   console.log(group.users);
   group.users.forEach((elt) => {
@@ -199,13 +180,15 @@ user.addGroup = (group, result) => {
   });
 };
 
-user.findRoom = (senderId, recieverId, result) => {
+user.findRoom = (senderId, recieverId,verif, result) => {
   senderId = "'" + senderId + "'";
   recieverId = "'" + recieverId + "'";
+  verif = "'" + verif + "'";
   console.log(senderId);
-  console.log(recieverId);
+  
+  console.log(verif);
   sql.query(
-    `select roomId from Chat where (senderId = ${senderId} and recieverId = ${recieverId}) or (senderId =${recieverId} and recieverId = ${senderId}) `,
+    `select roomId from Chat where ((senderId = ${senderId} and recieverId = ${recieverId}) or (senderId =${recieverId} and recieverId = ${senderId})) and contact= ${verif}`,
     (err, res) => {
       if (err) {
         console.log("error : ", err);
@@ -223,7 +206,7 @@ user.findConversRoom = (userId, result) => {
   userId = "'" + userId + "'";
   
   sql.query(
-    `select * from Chat join Utilisateurs where Chat.recieverId = Utilisateurs.Id and contact = 'false' and (senderId =${userId} or recieverId =${userId})  `,
+    `select * from Chat join Utilisateurs join Demande where Chat.recieverId = Utilisateurs.Id and contact != -1 and (senderId =${userId} or recieverId =${userId}) and Chat.contact = Demande.idDemande `,
     (err, res) => {
       if (err) {
         console.log("error : ", err);

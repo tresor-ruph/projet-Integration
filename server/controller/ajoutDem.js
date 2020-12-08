@@ -4,7 +4,21 @@ const sql = require('../model/db');
 
 exports.findAll = (req,res) => {
   console.log('test1')
-  demande.findDemande( (err, data) => {
+  demande.findDemande(req.params.id, (err, data) => {
+      if (err) {
+            res.status(500).send({
+              message: "Error retrieving * demande "
+            });
+          }
+        else {
+          res.header("Access-Control-Allow-Origin","*");
+          res.send(data);
+        }
+  });
+};
+
+exports.findAllAttente = (req,res) => {
+  demande.findAttente((err, data) => {
       if (err) {
             res.status(500).send({
               message: "Error retrieving * demande "
@@ -27,6 +41,38 @@ exports.delete = (req, res) => {
       } else {
         res.status(500).send({
           message: "Could not delete Customer with id " + req.body.idDemande
+        });
+      }
+    } else res.send({ message: `Customer was deleted successfully!` });
+  });
+};
+
+exports.deletePropos = (req, res) => {
+  demande.supprimerPropos(req.params.idProposition, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Customer with id ${req.body.idProposition}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Could not delete Customer with id " + req.body.idProposition
+        });
+      }
+    } else res.send({ message: `Customer was deleted successfully!` });
+  });
+};
+
+exports.deleteProposA = (req, res) => {
+  demande.supprimerProposA(req.params.idProposition, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Customer with id ${req.body.idProposition}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Could not delete Customer with id " + req.body.idProposition
         });
       }
     } else res.send({ message: `Customer was deleted successfully!` });
@@ -91,6 +137,44 @@ exports.findOneCode = (req, res) => {
   });
 };
 
+exports.findPropo = (req, res) => {
+  demande.findProposition(req.params.id, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found demande with categorie ${req.params.id}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving demande with categorie " + req.params.id,
+        });
+      }
+    } else {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.send(data);
+    }
+  });
+};
+
+exports.findPropoA = (req, res) => {
+  demande.findPropositionA(req.params.id, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found demande with categorie ${req.params.id}.`,
+        });
+      } else {
+        res.status(500).send({
+          message: "Error retrieving demande with categorie " + req.params.id,
+        });
+      }
+    } else {
+      res.header("Access-Control-Allow-Origin", "*");
+      res.send(data);
+    }
+  });
+};
+
 exports.findOneUI = (req, res) => {
   demande.findDemandeFilterU(req.params.userId, (err, data) => {
     if (err) {
@@ -137,6 +221,52 @@ exports.create = (req, res) => {
     userId: req.body.userId
   };
   demande.createDemande(demande3, (err, data) => {
+    console.log(data)
+    if (err) {
+          res.status(500).send({
+            message: "Error creating demande "
+          });
+        }
+      else {
+        res.header("Access-Control-Allow-Origin","*");
+        res.send(data);
+      }
+  });
+}
+
+exports.createUser1 = (req, res) => {
+  const newUser = {
+    Nom: req.body.Nom,
+    Prenom: req.body.Prenom,
+    Adresse: req.body.Adresse,
+    CodePostal: req.body.CodePostal,
+    dateNaissance: req.body.dateNaissance,
+    ScannerDoc: req.body.ScannerDoc,
+    Mail: req.body.Mail,
+    password: req.body.password
+  };
+  demande.createUser2(newUser, (err, data) => {
+    console.log(data)
+    if (err) {
+          res.status(500).send({
+            message: "Error creating demande "
+          });
+        }
+      else {
+        res.header("Access-Control-Allow-Origin","*");
+        res.send(data);
+      }
+  });
+}
+
+
+exports.createPropos = (req, res) => {
+  const propos = {
+    idServeur: req.body.idServeur,
+    idDemande: req.body.idDemande,
+    idDemandeur: req.body.idDemandeur
+  };
+  demande.confPropo(propos, (err, data) => {
     console.log(data)
     if (err) {
           res.status(500).send({

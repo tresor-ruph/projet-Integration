@@ -4,13 +4,15 @@ import { View, StyleSheet,TextInput,Text,TouchableOpacity, Button} from 'react-n
 import AsyncStorage from "@react-native-community/async-storage";
 
 let userId = 0
-class ListeDem extends React.Component {
-  click_MesProp =() => { this.props.navigation.navigate('Proposition'); }
-  click_MesPropA =() => { this.props.navigation.navigate('PropositionA'); }
+class Proposition extends React.Component {
+    
   constructor(props){
     super(props);
     this.state = { 
-      demande : [],
+      propositions : [],
+      idServeur: 0,
+      idDemande: 0,
+      idDemandeur: 0
     };
   }  
   
@@ -24,17 +26,34 @@ class ListeDem extends React.Component {
      }
      getUserId()
 
-    fetch(`http://localhost:3000/demandeU/${userId}`)
+    fetch(`http://localhost:3000/propositionG/${userId}`)
     .then(response => response.json())
     .then(json => {
-      this.setState({demande: json})
+      this.setState({propositions: json})
     })
-
+    
     
   } 
 
-  submit(idDem){
-    fetch(`http://localhost:3000/demandeS/${idDem}`, {  
+  submit(idDem, idServ, idDemandeur, idProp){
+    const propos = {idServeur: idServ, idDemande: idDem, idDemandeur: idDemandeur}
+     console.log(propos);
+
+     fetch('http://localhost:3000/propositionE/', {  
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Content-Type': 'application/json',
+        'Access-Control-Allow-Origin': true,
+      },
+      body: JSON.stringify({
+        idServeur: propos.idServeur,
+        idDemande: propos.idDemande,
+        idDemandeur: propos.idDemandeur,
+      })
+    })
+    
+    fetch(`http://localhost:3000/proposS/${idProp}`, {  
       method: 'delete',
     })
     .then(response => response.json())
@@ -47,24 +66,16 @@ class ListeDem extends React.Component {
   render(){
     return(
       <View>
-        <View style={{flexDirection: 'row'}}>
-          <View style={{flex: 1, marginRight: '1%'}}>
-            <Button color='green' title="Propositions d'aide" onPress={this.click_MesProp}></Button>
-          </View>
-          <View style={{flex: 1, marginLeft: '1%'}}>
-            <Button color='black' title='Demandes assignées' onPress={this.click_MesPropA}></Button>
-          </View>
-        </View>
-        <Text style={styles.mesde}>Mes Demandes en cours</Text>
+        <Text style={styles.mesde}>Propositions de services</Text>
           
       {
-        this.state.demande.map((l, i) => (
+        this.state.propositions.map((l, i) => (
           <ListItem key={i} bottomDivider>
             <Avatar source={{uri: l.PhotoProfil}} />
             <ListItem.Content>
-              <ListItem.Title>{l.userName}</ListItem.Title>
+              <ListItem.Title>{l.Prenom} {l.Nom}</ListItem.Title>
               <ListItem.Subtitle>{l.categorie}</ListItem.Subtitle>
-              <Button color='red' title='Supprimer' onPress={() => {this.submit(l.idDemande)}}></Button>
+              <Button color='green' title='Accepter' onPress={() => {this.submit(l.idDem, l.idServeur, l.idDemandeur, l.idProposition)}}></Button>
             </ListItem.Content>
           </ListItem>
         ))
@@ -85,4 +96,4 @@ const styles = StyleSheet.create({
 
 })
 
-export default ListeDem;
+export default Proposition;

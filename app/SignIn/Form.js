@@ -141,81 +141,84 @@ class Form extends React.Component {
     render() {
       return ( 
         <ScrollView>
+          <ImageBackground source={require('../img/degrade4.jpg')}>
           <View style={styles.container}>
-              <TextInput
-                placeholder="Nom"
-                maxLength={50}
-                autoCapitalize="sentences"
-                onChangeText={(text)=> { this.setState({ nom: text }) }}
-                style={[styles.textInput, ]} 
-              ></TextInput>
-              <TextInput
-                placeholder="Prenom"
-                maxLength={50}
-                autoCapitalize="sentences"
-                onChangeText={(text)=> { this.setState({ prenom: text }) }}
-                style={styles.textInput}
-              ></TextInput>
-              <TextInput
-                placeholder="Adresse"
-                maxLength={50}
-                autoCapitalize="sentences"
-                onChangeText={(text)=> { this.setState({ adresse: text }) }}
-                style={styles.textInput}
-              ></TextInput>
-              <TextInput
-                placeholder="Code postal"
-                maxLength={50}
-                onChangeText={(text)=> { this.setState({ codePostal: text }) }}
-                style={styles.textInput}
-              ></TextInput>
+            <Text style={{fontSize: '130%', fontWeight: 'bold', textAlign: "auto", marginBottom: '1%'}}>Formulaire d'inscription</Text>
             <TextInput
-                placeholder="Date de naissance (ex:20/01/2000)"
-                onChangeText={(text)=> { this.setState({ dateNaissance: text }) }}
-                style={styles.textInput}
-              ></TextInput>
-              <TextInput
-                placeholder="Adresse mail"
-                maxLength={50}
-                onChangeText={(text)=> { this.setState({ mail: text }) }}
-                style={styles.textInput}
-              ></TextInput>
-              <TextInput
-                placeholder="Mot de passe"
-                maxLength={50}
-                secureTextEntry={this.state.showPassword}
-                onChangeText={(text)=> { this.setState({ motdepasse: text }) }}
-                style={styles.textInputS}
-              ></TextInput>
-              <PassMeter
-                showLabels
-                password={this.state.motdepasse}
-                maxLength={50}
-                minLength={8}
-                labels={ this.state.label }
-              />
-              <TextInput
-                placeholder="Repetition du mot de passe"
-                maxLength={50}
-                secureTextEntry={this.state.showPassword}
-                onChangeText={(text)=> { this.setState({ repMotdepasse: text }) }}
-                style={styles.textInput}
-              ></TextInput>
-              <Text style={styles.text}>
-                Cliquer pour afficher les mots de passe
-              </Text>
-              <Switch
-                onValueChange={this.toggleSwitch}
-                value={!this.state.showPassword}
-                style={styles.switch}
-              />
-              <Button
-                title="S'inscrire"
-                onPress={()=>{this.submit()}}
-                accessibilityLabel="s'inscrire"
-              ></Button>
+              placeholder="Nom"
+              maxLength={50}
+              autoCapitalize="sentences"
+              onChangeText={(text)=> { this.setState({ nom: text }) }}
+              style={styles.textInput}
+            ></TextInput>
+            <TextInput
+              placeholder="Prenom"
+              maxLength={50}
+              autoCapitalize="sentences"
+              onChangeText={(text)=> { this.setState({ prenom: text }) }}
+              style={styles.textInput}
+            ></TextInput>
+            <TextInput
+              placeholder="Adresse"
+              maxLength={50}
+              autoCapitalize="sentences"
+              onChangeText={(text)=> { this.setState({ adresse: text }) }}
+              style={styles.textInput}
+            ></TextInput>
+            <TextInput
+              placeholder="Code postal"
+              maxLength={50}
+              onChangeText={(text)=> { this.setState({ codePostal: text }) }}
+              style={styles.textInput}
+            ></TextInput>
+            <TextInput
+              placeholder="Date de naissance (ex:20/01/2000)"
+              onChangeText={(text)=> { this.setState({ dateNaissance: text }) }}
+              style={styles.textInput}
+            ></TextInput>
+            <TextInput
+              placeholder="Adresse mail"
+              maxLength={50}
+              onChangeText={(text)=> { this.setState({ mail: text }) }}
+              style={styles.textInput}
+            ></TextInput>
+            <TextInput
+              placeholder="Mot de passe"
+              maxLength={50}
+              secureTextEntry={this.state.showPassword}
+              onChangeText={(text)=> { this.setState({ motdepasse: text }) }}
+              style={styles.textInput}
+            ></TextInput>
+            <PassMeter
+              showLabels
+              password={this.state.motdepasse}
+              maxLength={12}
+              minLength={8}
+              labels={ this.state.label }
+            />
+            <TextInput
+              placeholder="Repetition du mot de passe"
+              maxLength={50}
+              secureTextEntry={this.state.showPassword}
+              onChangeText={(text)=> { this.setState({ repMotdepasse: text }) }}
+              style={styles.textInput}
+            ></TextInput>
+            <Text style={styles.text}>
+              Cliquer pour afficher les mots de passe
+            </Text>
+            <Switch
+              onValueChange={this.toggleSwitch}
+              value={!this.state.showPassword}
+              style={styles.switch}
+            />
+            <View style={styles.inscrip}>
+            <Button 
+              title="S'inscrire"
+              onPress={()=>{this.submit()}}
+            ></Button>
+            </View>
           </View>
-          
+          </ImageBackground>
         </ScrollView>
       )
     }
@@ -226,8 +229,15 @@ const windowWidth = Dimensions.get('window').width;
 
 const styles = StyleSheet.create({
   container: {
-    padding: 50,
-    backgroundColor: "#eaeaea",    
+    flex: 1,
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 15,
+    marginTop: '5%'
+  },
+
+  inscrip:{
+    width: '90%',
   },
   image: {
     flex: 1,
@@ -235,36 +245,25 @@ const styles = StyleSheet.create({
   },
 
   textInput: {
-   marginTop: 25,
-   borderWidth:2,
-   borderTopColor: 'transparent',
-   borderLeftColor: 'transparent',
-   borderRightColor: 'transparent',
-   borderBottomColor:'#006880',
-   //borderRadius: 10,
-   //textAlign: "center",
-   height: 45,
+    height: 50,
+    width: '93%',
+    paddingHorizontal: 5,
+    backgroundColor: 'white',
+    marginBottom: '3%',
+    borderRadius: 8,
+    fontSize: '105%'
   },
-  textInputS: {
-    marginTop: 25,
-    marginBottom: 7,
-    borderWidth:2,
-    borderTopColor: 'transparent',
-    borderLeftColor: 'transparent',
-    borderRightColor: 'transparent',
-    borderBottomColor:'#006880',
-    height: 45,
-   },
+  
   text: {
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: '105%',
     marginTop: 10,
   },
   switch: {
     transform:[{ scaleX: 1.5 }, { scaleY: 1.5 }],
-    marginRight: (windowWidth-100)/2,
-    marginBottom: 40,
-    marginTop: 10,
+    marginLeft: '0%',
+    marginBottom: '5%',
+    marginTop: '5%',
   },
 })
 
