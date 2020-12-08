@@ -177,7 +177,7 @@ export default function Profil() {
         {bool && 
               <View>
                 <Test onPress={pickImage} icon="camera" />
-              <Test onPress={deleteImage} icon="delete" />
+                <Test onPress={deleteImage} icon="delete" />
               </View>
         }
       </View>

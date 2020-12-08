@@ -122,7 +122,6 @@ const styles = StyleSheet.create({
   picks: {
     width: '70%',
     marginTop: '1%',
-    float: 'left'
   },
 
   boutsss:{

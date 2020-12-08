@@ -14,15 +14,15 @@ module.exports = (app) => {
     **/
   app.get("/users", userController.findAll);
   app.get("/users/:id/", userController.findOne);
-  app.put("/updateData/", userController.update)
+  app.put("/updateData/", userController.update);
   app.get("/contacts/:email/", contacts.findOne);
   app.get("/group/:Id", contacts.findGroups);
   app.get("/groupUsers/:Id", contacts.findGroupUsers);
   app.get("/chat/:senderId/:recieverId/", contacts.findRoom);
   app.get("/chatconv/:userId/", contacts.findConversRoom);
-  app.post("/chat/addroom/", contacts.createChat )
-  app.post("/group/addGroup/", contacts.creategroup )
-  app.post("/group/addSingleGroup/", contacts.addGroup )
+  app.post("/chat/addroom/", contacts.createChat );
+  app.post("/group/addGroup/", contacts.creategroup );
+  app.post("/group/addSingleGroup/", contacts.addGroup );
   app.delete("/group/:userId/", contacts.leaveGroup);
   app.delete("/group/all/:userId/", contacts.removeGroup);
   app.get("/demande/all", demande.findAll);
@@ -33,11 +33,13 @@ module.exports = (app) => {
   app.get("/demandeU/:userId", demande.findOneUI);
   app.get("/demandeD/:userId", demande.findDescri);
   app.delete("/demandeS/:idDemande", demande.delete);
-  app.post("/notation", notation.access)
-  app.post("/rating", notation.rating)
-  app.post("/login", connexion.access)
-  app.post("/auth", connexion.create)
-  app.get("/emailVerif/:email", userController.updateEmail)
+  app.post("/notation", notation.access);
+  app.post("/rating", notation.rating);
+  app.post("/login", connexion.access);
+  app.post("/auth", connexion.create);
+  app.get("/emailVerif/:email", userController.updateEmail);
+  app.delete("/supp/:email",userController.suppCompte);
+  app.get("/usersMM/:mail/", userController.findMM );
 
 
 
