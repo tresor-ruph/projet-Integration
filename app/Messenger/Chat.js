@@ -1,11 +1,14 @@
 // @refresh reset
 
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import { GiftedChat } from "react-native-gifted-chat";
 import AsyncStorage from "@react-native-community/async-storage";
 import { StyleSheet, Text } from "react-native";
 import * as firebase from "firebase";
 import "firebase/firestore";
+import Constants from 'expo-constants';
+import * as Notifications from 'expo-notifications';
+import * as Permissions from 'expo-permissions';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDRItqqCOKaYRO3hMHpIc_m1V61oOQcfSY",
@@ -31,12 +34,18 @@ let moreInfo = "true";
 export default function Chat(route, navigation) {
   const [user, setUser] = useState(null);
   const [messages, setMessages] = useState([]);
-  const [errorMess, setErrorMess] = useState(false);
+  const [errorMess, setErrorMess,notification, setNotification] = useState(false);
   const [groups, setGroups] = useState(route.route.params.group);
+  const [expoPushToken, setExpoPushToken] = useState('');
+  const notificationListener = useRef();
+  const responseListener = useRef();
+
 
   const chatId = () => {
     const chatterId = route.route.params.senderId;
+    //id de l'envoyeur
     const chateeId = route.route.params.recieverId;
+    //id qui recois
     const chatIdPre = [];
     chatIdPre.push(chatterId);
     chatIdPre.push(chateeId);
@@ -212,7 +221,65 @@ export default function Chat(route, navigation) {
      
     
     };
+    //mettre ici ma partie notifications
+    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+
+    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
+      setNotification(notification);
+    });
+
+    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
+      console.log(response);
+    });
+    return () => {
+      Notifications.removeNotificationSubscription(notificationListener);
+      Notifications.removeNotificationSubscription(responseListener);
+    };
+
   }, []);
+
+  async function schedulePushNotification(text,user) {
+    await Notifications.scheduleNotificationAsync({
+      content: {
+        title: "Vous avez reçus un message de "+user,
+        body: text,
+        data: { data: 'test' },
+      },
+      trigger: { seconds: 2 },
+    });
+  }//fin fonction
+  
+  async function registerForPushNotificationsAsync() {
+    let token;
+    if (Constants.isDevice) {
+      const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
+      let finalStatus = existingStatus;
+      if (existingStatus !== 'granted') {
+        const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
+        finalStatus = status;
+      }
+      if (finalStatus !== 'granted') {
+        alert('Failed to get push token for push notification!');
+        return;
+      }
+      //token = (await Notifications.getExpoPushTokenAsync()).data;
+      token = "ExponentPushToken[oqoweINbgum4lW8nv-dfo8]"
+      console.log(token);
+    } else {
+      alert('Must use physical device for Push Notifications');
+    }
+  
+    if (Platform.OS === 'android') {
+      Notifications.setNotificationChannelAsync('default', {
+        name: 'default',
+        importance: Notifications.AndroidImportance.MAX,
+        vibrationPattern: [0, 250, 250, 250],
+        lightColor: '#FF231F7C',
+      });
+    }
+  
+    return token;
+  }
 
   const appendMessages = useCallback(
     //prevent recent message from replacing previouse one
@@ -231,6 +298,7 @@ export default function Chat(route, navigation) {
       //  const _id = Math.random().toString(36).substring(7);
       const _id = JSON.parse(user).Id;
       const name = JSON.parse(user).name;
+      //sender name
       const avatar = JSON.parse(user).avatar;
       setUser({ _id, name, avatar });
     }
@@ -241,11 +309,13 @@ export default function Chat(route, navigation) {
   }
   async function handleSend(messages) {
     lastMessage = messages[0];
-
+    //last Message
+    schedulePushNotification(lastMessage,"toto")
     const writes = messages.map((m) =>
       chatsRef.doc(chatRoom).collection("message").add(m)
     );
     await Promise.all(writes);
+    //cette fonction envoie le message
   }
 
   return errorMess ? (
