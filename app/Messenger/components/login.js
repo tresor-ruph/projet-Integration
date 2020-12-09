@@ -5,8 +5,8 @@ import { Button, TextInput, View, StyleSheet,Text } from 'react-native';
 
 export default function Login(props)  {
 
-    const [username, setusername] = useState(" ");
-    const [password, setPassword] = useState(" ");
+    const [username, setusername] = useState("");
+    const [password, setPassword] = useState("");
     const [userId , setUserId] = useState("")
     const [textValue , setTextValue] = useState("")
     const [questionValue, setQuestion] = useState(" ");
@@ -56,14 +56,34 @@ fetch('http://localhost:3000/login/', {
 
 
         if(json.message == "entrée dans l'appli" ){
+<<<<<<< HEAD
           
+=======
+            const Id = json.id;
+            const user = { Id};
+>>>>>>> 580549ce9a46b8a5b198b7640ab8afd914ab8ab9
             AsyncStorage.setItem('id', JSON.stringify(json.id));
+            AsyncStorage.setItem('user', JSON.stringify(user));
+            setPassword('');
+            setusername('');
             props.navigation.navigate('HomeScreen', { userid: json.Id });
+<<<<<<< HEAD
 
           
        
         }else if (json.message == 'erreur de mot de passe'){
           
+=======
+         
+            
+            
+            
+          
+          
+       
+        }else if (json.message == 'erreur de mot de passe'){
+          
+>>>>>>> 580549ce9a46b8a5b198b7640ab8afd914ab8ab9
           handleTextValue('mot de passe non valide');
         
         }else{
@@ -125,10 +145,12 @@ if(txt == ""){
                   
           onChange={handleUsername}
           style={styles.input}
+          value={username}
         />
         <TextInput
            placeholder={'Password'}
          secureTextEntry={true}
+         value={password}
           onChange={ handlePassword }
           style={styles.input}
         />
@@ -186,6 +208,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 7,
     marginLeft: 5
+<<<<<<< HEAD
   },
   rect6: {
     marginTop:'15%',
@@ -195,4 +218,7 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     marginLeft:'25%',
   },
+=======
+  }
+>>>>>>> 580549ce9a46b8a5b198b7640ab8afd914ab8ab9
 });

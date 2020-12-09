@@ -9,15 +9,24 @@ import {
   Button,
   View,
   Image,
+  TextInput,
+  ActivityIndicator,
   Platform,
+  Text,
+  KeyboardAvoidingView,
+  TouchableOpacity,
 } from "react-native";
-import { TextInput, Button as Test } from 'react-native-paper';
+import NetInfo from "@react-native-community/netinfo";
+import { Button as Test } from 'react-native-paper';
 import * as ImagePicker from 'expo-image-picker';
 import * as firebase from 'firebase';
+import AsyncStorage from '@react-native-community/async-storage';
+
+
 //import App from './firebase'
 
 // eslint-disable-next-line require-jsdoc
-export default function Profil() {
+export default function Profil({ navigation: { navigate } }) {
   const [nom, setNom] = useState(' ');
   const [prenom, setPrenom] = useState(' ');
   const [adresse, setAdresse] = useState(' ');
@@ -27,18 +36,37 @@ export default function Profil() {
   const [btnDisplay, setBtn] = useState(true);
   const [image, setImage] = useState(null);
   const [isPicked, setIsPicked] = useState(false);
+  const [isLoaded, setLoaded] = useState(false);
+  const [isConnected, setConnection] = useState(true);
 
  // firebase.initializeApp(firebaseConfig);
  // firebase.analytics();
 
-
   useEffect(() => {
-    fetch('http://localhost:3000/users/2')
+    const unsubscribe = NetInfo.addEventListener((state) => {
+      handleConnectivityChange(state.isConnected);
+    });
+    const retrieveData = async () => {
+      try {
+        const value = await AsyncStorage.getItem('user');
+        if (value !== null) {
+          // We have data!!
+          const result = JSON.parse(value);
+          console.log(result.Id);
+          return result.Id;
+        }
+      } catch (error) {
+        // Error retrieving data
+      }
+    };
+    const init = async () => {
+      const test = await retrieveData();
+      fetch(`http://localhost:3000/users/${test}`)
       .then((response) => response.json())
       .then((json) => {
-        console.log(json[0]);
-        setId(json[0].Id);
+        setLoaded(true);
         setNom(json[0].Nom);
+        setId(json[0].Id);
         setPrenom(json[0].Prenom);
         setAdresse(json[0].Adresse);
         setCode(json[0].CodePostal);
@@ -47,41 +75,38 @@ export default function Profil() {
       .catch((error) => {
         console.error(error);
       });
+    };
+    unsubscribe();
+    retrieveData();
+    init();
   }, []);
 
-  const handleChangeName = (event) => {
-    setNom(event.target.value);
-  };
-  const handleChangeSurname = (event) => {
-    setPrenom(event.target.value);
-  };
-  const handleChangeAddress = (event) => {
-    setAdresse(event.target.value);
-  };
-  const handleChangePostal = (event) => {
-    setCode(event.target.value);
+  const handleConnectivityChange = connect => {
+    setConnection({ connect });
   };
 
   const pickImage = async () => {
-    if (Platform.OS !== 'web') {
-      const { status } = await ImagePicker.requestCameraRollPermissionsAsync();
-      if (status !== 'granted') {
-        alert('Sorry, we need camera roll permissions to make this work!');
-      }
-    }
+    const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
 
+    if (permissionResult.granted === false) {
+      alert('Permission to access camera roll is required!');
+      return;
+    }
     const result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
     });
-
     console.log(result);
     if (!result.cancelled) {
       setImage(result.uri);
       setIsPicked(true);
     }
+  };
+
+  const deleteImage = () => {
+    setImage('http://ssl.gstatic.com/accounts/ui/avatar_2x.png');
   };
 
   const uploadImage = async (uri, imgName) => {
@@ -91,17 +116,17 @@ export default function Profil() {
     const ref = firebase.storage().ref().child(imgName);
     ref.put(blob);
 
-    const test = await firebase.storage()
+    const urlImage = await firebase.storage()
       .ref(`/${imgName}`)
       .getDownloadURL();
 
-    return test;
+    return urlImage;
   };
 
   const handleSubmit = async () => {
     const imageName = `profile${userId}`;
 
-    const test1 = isPicked ? await uploadImage(image, imageName) : image;
+    const temp = isPicked ? await uploadImage(image, imageName) : image;
 
     const requestOptions = {
       method: 'PUT',
@@ -116,13 +141,13 @@ export default function Profil() {
         CodePostal: code,
         Adresse: adresse,
         userId,
-        Photo: test1,
+        Photo: temp,
       }),
     };
     console.log(requestOptions.body);
 
-    fetch("http://localhost:3000/updateData", requestOptions)
-      .then(() => ("Data successfully updated"))
+    fetch('http://localhost:3000/updateData', requestOptions)
+      .then()
       .catch((error) => {
         console.log(error);
       });
@@ -135,12 +160,12 @@ export default function Profil() {
     setBtn(false);
     setBool(true);
   };
+
   const handleCancel = () => {
-    fetch('http://localhost:3000/users/2')
+    fetch(`http://localhost:3000/users/${userId}`)
       .then((response) => response.json())
       .then((json) => {
-        console.log(json[0]);
-        setId(json[0].Id);
+        setLoaded(true);
         setNom(json[0].Nom);
         setPrenom(json[0].Prenom);
         setAdresse(json[0].Adresse);
@@ -154,8 +179,12 @@ export default function Profil() {
     setBool(false);
   };
 
-  return (
-    <View style={styles.container}>
+
+ // return !isLoaded ? (isConnected ? <ActivityIndicator size="large" color="blue" /> : <View><Text>No internet Connection !</Text></View>) : 
+  return (<KeyboardAvoidingView
+        behavior={Platform.OS == "ios" ? "padding" : "height"}
+        style={styles.container}
+      >
       <View style={styles.top}>
         <Image
           source={{ uri: image || 'http://ssl.gstatic.com/accounts/ui/avatar_2x.png' }}
@@ -166,43 +195,50 @@ export default function Profil() {
           }}
         />
         {bool && 
-              <Test onPress={pickImage} icon="camera" />
+              <View>
+                <Test onPress={pickImage} icon="camera" />
+                <Test onPress={deleteImage} icon="delete" />
+              </View>
         }
       </View>
 
       <View>
         <TextInput
           value={nom}
+          style={styles.textInput}
           label="Nom"
           name="Nom"
           mode='outlined'
           editable={bool}
-          onChange={handleChangeName}
+          onChangeText={text => setNom(text)}
         />
         <TextInput
           value={prenom}
+          style={styles.textInput}
           editable={bool}
           mode='outlined'
           label="Prenom"
           name="Prenom"
-          onChange={handleChangeSurname}
+          onChangeText={text => setPrenom(text)}
         />
         <TextInput
           value={adresse}
+          style={styles.textInput}
           editable={bool}
           label="Adresse"
           name="adresse"
           mode='outlined'
-          onChange={handleChangeAddress}
+          onChangeText={text => setAdresse(text)}
 
         />
         <TextInput
           value={code}
+          style={styles.textInput}
           editable={bool}
           label="Code postal"
           name="code"
           mode='outlined'
-          onChange={handleChangePostal}
+          onChangeText={text => setCode(text)}
         />
       </View>
       <View style={styles.bottom}>
@@ -219,7 +255,7 @@ export default function Profil() {
         {
           !btnDisplay
           && (
-            <View style={{ flex: 2, padding: '10' }}>
+            <View style={{ flex: 2, padding: 10 }}>
               <Button
                 title="Enregistrer"
                 onPress={handleSubmit}
@@ -231,7 +267,7 @@ export default function Profil() {
         <View style={{ flex: 0.1 }} />
         {
           !btnDisplay && (
-            <View style={{ flex: 2, padding: '10' }}>
+            <View style={{ flex: 2, padding: 10 }}>
               <Button
                 title="Annuler"
                 onPress={handleCancel}
@@ -241,8 +277,13 @@ export default function Profil() {
           )
         }
       </View>
-    </View>
-  );
+      <Button
+        title="voir mes notations"
+        onPress={() => navigate('Notation2')}
+      />
+    
+    </KeyboardAvoidingView>
+      );
 }
 
 const styles = StyleSheet.create({
@@ -274,4 +315,5 @@ const styles = StyleSheet.create({
     flexDirection: "column",
     justifyContent: "space-between",
   },
-});
+}
+)

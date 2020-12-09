@@ -4,7 +4,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import 'react-native';
 import React from 'react';
-import Chat from './../../Messenger/contact';
+import Contact from './../../Messenger/contact';
 import renderer from 'react-test-renderer';
 
 beforeAll(() => { 
@@ -12,6 +12,6 @@ beforeAll(() => {
   });
 
 it('renders correctly', () => {
-    const tree = renderer.create(<Chat />).toJSON();
+    const tree = renderer.create(<Contact />).toJSON();
     expect(tree).toMatchSnapshot();
 });

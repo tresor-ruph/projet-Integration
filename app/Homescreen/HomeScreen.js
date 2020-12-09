@@ -4,10 +4,9 @@ import React from 'react';
 import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 
-
 function Mainscreen(props) {
   const handlePress = () => {
-    props.navigation.navigate('Discussion_Repo');
+    props.navigation.navigate('Discussion_Repo', { screen: 'disc' });
   };
   const handleProfil = () => {
     props.navigation.navigate('Profil');
@@ -20,10 +19,20 @@ function Mainscreen(props) {
   const handleListeDem = () => {
     props.navigation.navigate('ListeDem');
   };
+    
+  const handleAdmin = () => {
+    props.navigation.navigate('admin');
+  };
 
   return (
+
     <View style={styles.container}>
 
+      <TouchableOpacity  onPress={handleAdmin}>
+          <Text style={styles.joffreMonService1}>
+            Administration
+          </Text>
+      </TouchableOpacity>
       <View style={styles.buttonRow}>
         <TouchableOpacity style={styles.button} onPress={handleListeDem}>
           <Text style={styles.joffreMonService1}>
@@ -36,7 +45,7 @@ function Mainscreen(props) {
       </View>
       <View style={styles.button3Row}>
         <TouchableOpacity style={styles.button3} onPress={handleProfil}>
-          <Text style={styles.profile}>Profile</Text>
+          <Text style={styles.profile}>Profil</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={handlePress}
@@ -105,7 +114,7 @@ const styles = StyleSheet.create({
   buttonRow: {
     height: 196,
     flexDirection: 'row',
-    marginTop: 157,
+    marginTop: '5%',
     marginLeft: 9,
     marginRight: 4
   },
@@ -140,7 +149,7 @@ const styles = StyleSheet.create({
   button3Row: {
     height: 194,
     flexDirection: 'row',
-    marginTop: 10,
+    marginTop: '5%',
     marginLeft: 9,
     marginRight: 4
   },

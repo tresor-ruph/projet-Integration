@@ -48,12 +48,34 @@ exports.cibleUser = (req, res) => {
       const passwd = {
         motdepasse: req.body.motdepasse,
         email: req.body.email,
+        reponsesecrete: req.body.reponsesecrete,
       };
       reinitmdp.resetPassword(passwd, (err, data) => {
         console.log(data)
         if (err) {
               res.status(500).send({
                 message: "Error reset mdp "
+              });
+            }
+          else {
+            res.header("Access-Control-Allow-Origin","*");
+            res.send(data);
+          }
+    });
+    
+    }
+
+    exports.pushDonnees = (req, res) => {
+      const donnees = {
+        mail: req.body.mail,
+        question: req.body.question,
+        reponseSec: req.body.reponseSec
+      };
+      reinitmdp.pushDonnees(donnees, (err, data) => {
+        console.log(data)
+        if (err) {
+              res.status(500).send({
+                message: "Error creating demande "
               });
             }
           else {

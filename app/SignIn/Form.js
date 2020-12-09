@@ -1,29 +1,31 @@
 import React from "react";
 import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, Dimensions, Picker   } from "react-native";
 import PassMeter from "react-native-passmeter";
-//import DateTimePicker from '@react-native-community/datetimepicker';
+import AsyncStorage from '@react-native-community/async-storage';
+
 
 
 console.disableYellowBox = true;
 
 
 class Form extends React.Component {
-    constructor() {
-      super();
-      this.state={
-        nom:'',
-        prenom:'',
-        motdepasse:'',
-        repMotdepasse:'',
-        adresse: '',
-        dateNaissance: '', 
-        mail: '',
-        showPassword: true,
-        question:"Quel était le prénom de votre premier animal domestique ?",
-        reponseSec:"",
-        label: ["Trop court", "Il faut au moins 1 chiffre et 1 lettre majuscule !", "Il faut au moins 1 lettre majuscule et 1 chiffre !", "Mot de passe valide"],
+  constructor() {
+    super();
+    this.state={
+      nom:'',
+      prenom:'',
+      motdepasse:'',
+      repMotdepasse:'',
+      adresse: '',
+      dateNaissance: '', 
+      mail: '',
+      codePostal: '',
+      showPassword: true,
+      question:"Quel était le prénom de votre premier animal domestique ?",
+      reponseSec:"",
+      label: ["Trop court", "Il faut au moins 1 chiffre et 1 lettre majuscule !", "Il faut au moins 1 lettre majuscule et 1 chiffre !", "Mot de passe valide"],
 
-      }
+    }
       //sert ds la visualisation du mdp
       this.toggleSwitch = this.toggleSwitch.bind(this);  
     }
@@ -31,10 +33,6 @@ class Form extends React.Component {
     toggleSwitch() {
       this.setState({ showPassword: !this.state.showPassword });
     }
-
-    updateQuestion = (question) => {
-      this.setState({ question: question })
-   }
     async storeToken(m) {
       try {
          await AsyncStorage.setItem("id", JSON.stringify(m));
@@ -52,34 +50,38 @@ class Form extends React.Component {
       }
     }
 
+    updateQuestion = (question) => {
+      this.setState({ question: question })
+   }
+
     submit() {
       //envoie msg d'erreur si un champ est encore vide
-      if(this.state.nom == '' || this.state.prenom == '' || this.state.motdepasse == '' || this.state.repMotdepasse == '' || this.state.adresse == '' || this.state.dateNaissance == '' || this.state.mail == '') {
+      if(this.state.nom == '' || this.state.prenom == '' || this.state.motdepasse == '' || this.state.repMotdepasse == '' || this.state.adresse == '' || this.state.dateNaissance == '' || this.state.mail == '' || this.state.reponseSec == '') {
         let simpleAlertHandler = () => {
           alert("Tous les champs ne sont pas remplis !");
         };
         simpleAlertHandler();
         return;
       }
-      //envoie msg d'erreur si dateNaissance est != 10 , ne comprends pas de ',' ou contient autre chose que chiffre et tiret
-      if( this.state.dateNaissance.length != 10 || this.state.dateNaissance.includes(',') == false || this.state.dateNaissance.match(/[^0-9,]/) != null){
+     //envoie msg d'erreur si dateNaissance est != 10 , ne comprends pas de '/' ou contient autre chose que chiffre et /
+      if( this.state.dateNaissance.length != 10 || this.state.dateNaissance.includes('/') == false || this.state.dateNaissance.match(/[^0-9/]/) != null){
         let simpleAlertHandler = () => {
           alert("La date de naissance ne correspond pas au format !");
         };
         simpleAlertHandler();
         return;
-      } 
-      //envoie msg d'erreur si le nbre de chiffre != 8 , si nbre ',' != 2 et si tiret mal placÃ©
-      if(this.state.dateNaissance.match(/[0-9]/g).length != 8 || this.state.dateNaissance.match(/[,]/g).length != 2 || this.state.dateNaissance.indexOf(',') != 2 || this.state.dateNaissance.lastIndexOf(',') != 5) {
+      }
+      //envoie msg d'erreur si le nbre de chiffre != 8 , si position '/' != 2 et != 5
+      if(this.state.dateNaissance.match(/[0-9]/g).length != 8 || this.state.dateNaissance.match(/[/]/g).length != 2 || this.state.dateNaissance.indexOf('/') != 2 || this.state.dateNaissance.lastIndexOf('/') != 5) {
         let simpleAlertHandler = () => {
-          alert("La date de naissance ne correspond pas au format 22!");
+          alert("La date de naissance ne correspond pas au format !");
         };
         simpleAlertHandler();
-        console.log(this.state.dateNaissance.match(/[0-9]/g).length)
+        /*console.log(this.state.dateNaissance.match(/[0-9]/g).length)
         console.log(this.state.dateNaissance.match(/[,]/g).length)
-        console.log(this.state.dateNaissance.indexOf(','))
+        console.log(this.state.dateNaissance.indexOf(','))*/
         return;
-      } 
+      }
       //envoie msg d'erreur si email ne contient pas @ et . et est plus petit que 8
       if(this.state.mail.includes('@') == false || this.state.mail.includes('.') == false || this.state.mail.length < 8) {
         let simpleAlertHandler = () => {
@@ -88,10 +90,10 @@ class Form extends React.Component {
         simpleAlertHandler();
         return;
       }      
-      //envoie msg d'erreur si mdp rÃ©pÃ©tÃ© est diffÃ©rent
+      //envoie msg d'erreur si mdp répété est différent
       if(this.state.motdepasse != this.state.repMotdepasse) {
         let simpleAlertHandler = () => {
-          alert("Le mot de passe n'est pas correctement rÃ©pÃ©tÃ© !");
+          alert("Le mot de passe n'est pas correctement répété !");
         };
         simpleAlertHandler();
         return;
@@ -99,26 +101,51 @@ class Form extends React.Component {
       //envoie msg d'erreur si le mdp est < Ã  8 OU ne contient pas de chiffre OU ne contient pas de majuscule
       if(this.state.motdepasse.length < 8 || this.state.motdepasse.match(/\d+/) == null || this.state.motdepasse == this.state.motdepasse.toLowerCase()) {
         let simpleAlertHandler = () => {
-          alert("Le mot de passe n'est pas suffisament compliquÃ© !");
+          alert("Le mot de passe n'est pas suffisament compliqué !");
         };
         simpleAlertHandler();
         return;
       }
-     
-      let t = this;
-      
-      
+      //envoie un msg d'erreur si code postal ne contient pas que des chiffres
+      if(this.state.codePostal.match(/[0-9]/g) == null) {
+        let simpleAlertHandler = () => {
+          alert("Le code postal n'est pas correct, uniquement les chiffres sont acceptés !");
+        };
+        simpleAlertHandler();
+        return;
+      }
+      else{
+        this.envoie()
+      }
+   
+ }
+
+
+    envoie(){
+      fetch('http://localhost:3000/reinitmdpE/',{
+        method: 'POST',
+        body: JSON.stringify({
+          mail: this.state.mail,
+          reponseSec : this.state.reponseSec,
+          question : this.state.question,
+        }),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          "Access-Control-Allow-Origin":"true"
+        }
+      })
+
       fetch('http://localhost:3000/auth/', {
         method: 'POST',
         body: JSON.stringify({
-          nom: t.state.nom,
-          prenom: t.state.prenom,
-          adresse: t.state.adresse,
-          dateNaissance: t.state.dateNaissance,
-          Mail: t.state.mail,
-          password: hash,
-          reponseSec: t.state.reponseSec,
-          question: t.state.question,
+          nom: this.state.nom,
+          prenom: this.state.prenom,
+          adresse: this.state.adresse,
+          dateNaissance: this.state.dateNaissance,
+          Mail: this.state.mail,
+          codePostal: this.state.codePostal,
+          password: this.state.motdepasse
         }),
         headers: {
           Accept: 'application/json',
@@ -128,24 +155,19 @@ class Form extends React.Component {
       }).then(response => response.json())
       .then(json => {
         if(json.message == 'inscription finie'){
-            t.storeToken(json.id);
-            t.props.navigation.navigate('Succes');
-          
+            this.storeToken(json.id);
+            this.props.navigation.navigate('Succes');
           }
   
           
         }).catch((error) => {
-          console.error(error);
+          alert("Echec de connexion. Réessayez.");
         });
-      
-    
-  
-  
-;}
+    }
 
     render() {
       return ( 
-        <ScrollView useNativeDriver= {true}>
+        <ScrollView>
           <View style={styles.container}>
             <TextInput
               placeholder="Nom"
@@ -168,8 +190,14 @@ class Form extends React.Component {
               onChangeText={(text)=> { this.setState({ adresse: text }) }}
               style={styles.textInput}
             ></TextInput>
+            <TextInput
+              placeholder="Code postal"
+              maxLength={50}
+              onChangeText={(text)=> { this.setState({ codePostal: text }) }}
+              style={styles.textInput}
+            ></TextInput>
            <TextInput
-              placeholder="Date de naissance (ex:20,01,2000)"
+              placeholder="Date de naissance (ex:20/01/2000)"
               onChangeText={(text)=> { this.setState({ dateNaissance: text }) }}
               style={styles.textInput}
             ></TextInput>
@@ -200,10 +228,10 @@ class Form extends React.Component {
               onChangeText={(text)=> { this.setState({ repMotdepasse: text }) }}
               style={styles.textInput}
             ></TextInput>
-            <Text styles={{marginTop:50}}>
+            <Text style={styles.textq}>
               Choisissez votre question secrète
             </Text>
-            <Picker style={{height:'8%', fontSize:14, width:'80%', marginLeft:'5%', marginTop:'5%', marginBottom:'3%'}} selectedValue = {this.state.question}  onValueChange = {this.updateQuestion}>
+            <Picker style={{height:'8%', fontSize:14, width:'80%', marginLeft:'13%', marginTop:'5%', marginBottom:'3%'}} selectedValue = {this.state.question}  onValueChange = {this.updateQuestion}>
               <Picker.Item label="Quel était le prénom de votre premier animal domestique ?" value="Quel était le prénom de votre premier animal domestique ?" />
               <Picker.Item label="Quelle était la marque de votre première voiture ?" value="Quelle était la marque de votre première voiture ?" />
               <Picker.Item label="Quel est votre lieux de naissance ?" value="Quel est votre lieux de naissance ?" />
@@ -217,11 +245,11 @@ class Form extends React.Component {
             <TextInput
               placeholder="Entrez votre réponse"
               onChangeText={(text)=> { this.setState({ reponseSec: text }) }}
-              style={styles.reponseSec}
+              style={styles.textInput2}
             >
             </TextInput>
 
-            <Text styles={{marginBottom:'5%', textAlign:'center'}}>
+            <Text style={styles.messageimp}>
               ⚠️ Il est extrêmement important de conserver cette réponse ⚠️
             </Text>
             <Text style={styles.text}>
@@ -236,9 +264,7 @@ class Form extends React.Component {
               title="S'inscrire"
               onPress={()=>{this.submit()}}
             ></Button>
-            
-        </View>
-          
+          </View>
         </ScrollView>
       )
     }
@@ -254,6 +280,13 @@ const styles = StyleSheet.create({
     backgroundColor: "#eaeaea",    
   },
 
+  image: {
+    width: '100%',
+    height: '100%',
+    flex: 1,
+
+  },
+
   textInput: {
    marginTop: 25,
    borderWidth:1,
@@ -262,6 +295,16 @@ const styles = StyleSheet.create({
    textAlign: "center",
    height: 45,
   },
+
+  textInput2: {
+    marginTop: 25,
+    borderWidth:1,
+    borderColor:'blue',
+    borderRadius: 10,
+    textAlign: "center",
+    height: 45,
+    marginBottom:'8%'
+   },
   text: {
     textAlign: 'center',
     fontSize: 20,
@@ -298,9 +341,24 @@ const styles = StyleSheet.create({
     marginLeft:'20%',
     marginTop:'4%',
     marginBottom:'5%',
-    fontSize:'100%',
+    fontSize:15,
     textAlign:'center'
   },
+
+  textq:{
+    fontSize:25,
+    marginLeft:'15%',
+    marginTop:'10%'
+  },
+
+  messageimp:{
+    fontSize:17,
+    textAlign:'center',
+    marginBottom:'5%',
+    marginTop:'5%' 
+
+  },
+
 })
 
 export default Form;

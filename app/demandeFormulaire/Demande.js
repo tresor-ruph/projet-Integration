@@ -1,11 +1,10 @@
 import React from 'react'
 import {StyleSheet, View, TextInput,TouchableOpacity, Text, Alert, Picker } from 'react-native'
 import { Title, Paragraph } from 'react-native-paper';
+import AsyncStorage from "@react-native-community/async-storage";
 
 
-
-
-
+let userId = 0
 class Demande extends React.Component{
 
   
@@ -14,6 +13,7 @@ class Demande extends React.Component{
       this.setState({ categorie: categorie })
    }
 
+<<<<<<< HEAD
    constructor(props){
     super(props);
     this.state={
@@ -24,11 +24,38 @@ class Demande extends React.Component{
     }
   }
 
+=======
+  constructor(props){
+     super(props);
+     this.state={
+       categorie:'Courses',
+       descriptif:'',
+     }
+   }
+   componentDidMount(){
+     let t = this;
+    this.getToken().then(function(result) {
+      t.setState({userId : result});
+   });
+   
+   }
+
+   componentDidMount(){
+     async function getUserId(){
+      let id = await AsyncStorage.getItem('user')
+      id = JSON.parse(id).Id
+      console.log(id)
+      console.log(userId)
+      userId = id
+     }
+     getUserId()
+    }
+     
+>>>>>>> 580549ce9a46b8a5b198b7640ab8afd914ab8ab9
   
    submit(){
-  
      //console.log(this.state) 
-     const newDemande = {categorie: this.state.categorie, descriptif: this.state.descriptif, userId: this.state.userId}
+     const newDemande = {categorie: this.state.categorie, descriptif: this.state.descriptif, userId: userId}
      console.log(newDemande);
 
      fetch('http://localhost:3000/demandeE/', {  
@@ -39,12 +66,12 @@ class Demande extends React.Component{
         'Access-Control-Allow-Origin': true,
       },
       body: JSON.stringify({
-        
         categorie: newDemande.categorie,
         descriptif: newDemande.descriptif,
         userId: newDemande.userId,
       })
-    }) 
+    })
+    alert('Demande envoyée.') 
   }
   
   render(){
@@ -58,7 +85,7 @@ class Demande extends React.Component{
           <Picker style={{height:'9%', fontSize:19, width:'90%', marginLeft:'5%', marginTop:'2%'}} selectedValue = {this.state.categorie}  onValueChange = {this.updateCategorie}>
               <Picker.Item label="Aller faire des courses" value="Courses" />
               <Picker.Item label="Aller chercher un colis" value="Colis" />
-              <Picker.Item label="Aller chercher les enfants" value="Récupérer une personne" />
+              <Picker.Item label="Récupérer/Emmener une personne" value="Récupérer une personne" />
               <Picker.Item label="Aller faire des lessives" value="Lessive" />
               <Picker.Item label="Autres" value="Autres" />
           </Picker>

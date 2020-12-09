@@ -1,14 +1,8 @@
 import { StyleSheet, View, Text, TextInput,TouchableOpacity, Button, Alert } from "react-native";
 import React from 'react';
 
-
-
-
-
-
 let quest = 0
 class ReinitMdp2 extends React.Component{
-
     constructor(route,props){
         super(route,props);
         this.state={
@@ -18,17 +12,12 @@ class ReinitMdp2 extends React.Component{
             reponseSec:"",
             motdepasse:"",
             motdepasseVerif:'',
-        };
-
-     
-          
+            reponsecomparaison:"",
+        };       
     }  
 
-    
-    submit() {
-
-        this.componentDidMount();
-        
+    async submit() {
+     
         if( this.state.reponseSec == '' || this.state.motdepasse == '' || this.state.motdepasseVerif == '' ) {
           let simpleAlertHandler = () => {
             alert("Tous les champs ne sont pas remplis !");
@@ -37,56 +26,60 @@ class ReinitMdp2 extends React.Component{
           return;
         }
 
-        if(this.state.motdepasse != this.state.motdepasseVerif) {
+        else if(this.state.motdepasse.length < 8 || this.state.motdepasse.match(/\d+/) == null || this.state.motdepasse == this.state.motdepasse.toLowerCase()) {
+          let simpleAlertHandler = () => {
+            alert("Le mot de passe n'est pas suffisament compliqué !");
+          };
+          simpleAlertHandler();
+          return;
+        }
+
+        else if(this.state.motdepasse != this.state.motdepasseVerif) {
             let simpleAlertHandler = () => {
               alert("Les mots de passes ne correspondent pas !");
             };
             simpleAlertHandler();
             return;
           }
-          //envoie msg d'erreur si le mdp est < 8 OU ne contient pas de chiffre OU ne contient pas de majuscule
-        if(this.state.motdepasse.length < 8 || this.state.motdepasse.match(/\d+/) == null || this.state.motdepasse == this.state.motdepasse.toLowerCase()) {
-            let simpleAlertHandler = () => {
-              alert("Le mot de passe n'est pas suffisament compliqué !");
-            };
-            simpleAlertHandler();
-            return;
-          }
-        
-        if(this.state.reponseSec != this.state.donnees.Repsecrete){
-          let simpleAlertHandler = () => {
-            alert("Votre réponse secrète ne correspond pas")
-          };
-          simpleAlertHandler();
-          return;
+          //envoie msg d'erreur si le mdp est < 8 OU ne contient pas de chiffre OU ne contient pas de majuscul
+
+        else{
+ 
+          
+          console.log("envoyé")
+          await  this.Envoie();
+          this.componentDidMount()
+          console.log("bjr")
+          this.statut();
           
         }
-
-        
-        
-      
-        this.props.navigation.navigate('Login');
-        alert("Password réinitialisé")
     }
 
-    
-
+  statut(){
+      if(this.state.reponsecomparaison=='erreur de réponse secrète'){
+        alert("Erreur de reponse secrète")
+      }
+      else{
+        alert("Mot de passe réinitialisé")
+        this.props.navigation.navigate('Login');
+      }
+    }
     componentDidMount(){
+
         fetch(`http://localhost:3000/reinitmdpR/${this.state.mail}`)
           .then(response => response.json())
           .then(json => {
             this.setState({donnees: json[0]})
             quest = json[0].QuestionValue
-            /*console.log(this.state.donnees)
-            console.log(this.state.questionSec)
-            console.log(json[0].Repsecrete)*/
+            //console.log(this.state.donnees)
+            //console.log(this.state.questionSec)
+            //console.log(json[0].Repsecrete)
+            //console.log(json[0].motdepasse)
             
           })
-
-
-
-
-          fetch(`http://localhost:3000/reinitmdpU/`, {
+    }
+   async Envoie(){
+        await fetch(`http://localhost:3000/reinitmdpU/`, {
             method: 'POST',
             headers: {
               Accept: 'application/json',
@@ -96,19 +89,20 @@ class ReinitMdp2 extends React.Component{
             body: JSON.stringify({
               motdepasse: this.state.motdepasse,
               email: this.state.mail,
+              reponsesecrete : this.state.reponseSec
             }),
           }).then(response => response.json())
-          .then(json => {
-
+            .then(json => {
+                  console.log(json.message);
+                  this.setState({reponsecomparaison : json.message})
+                  
               
-            }).catch((error) => {
+            })
+            .catch((error) => {
               console.log(error);
             });
-
-
-        
+        console.log(this.state.reponsecomparaison) 
 }
-  
     render() {
         return(
             <View style={styles.container}>
@@ -120,6 +114,7 @@ class ReinitMdp2 extends React.Component{
                     onChangeText={(text)=>{this.setState({reponseSec:text})}}
                     placeholder='Entrez votre reponse secrete'
                     maxLength={50}
+                    secureTextEntry={true}
                     style={styles.Input}>
                 </TextInput>
                 <Text style={styles.Text2}>Nouveau mot de passe : </Text>
@@ -139,17 +134,12 @@ class ReinitMdp2 extends React.Component{
                     style={styles.Input}>
                 </TextInput>
                 <TouchableOpacity style={styles.Bout} onPress={()=>{this.submit()}}>
-
                     <Text style={styles.TextBout}> Reinitialiser mot de passe </Text>
-
                 </TouchableOpacity>
-                
             </View>
         )
     }
 }
-
-
 
 const styles = StyleSheet.create({
     container: {
@@ -157,14 +147,14 @@ const styles = StyleSheet.create({
     },
 
     Text1: {
-        fontSize: '130%',
+        fontSize: 20,
         marginLeft:'7%',
         marginTop:'5%',
         marginBottom:'3%',
         width:'90%'
     },
     Text2: {
-        fontSize: '120%',
+        fontSize: 20,
         marginLeft:'7%',
         marginTop:'2%',
         width:'90%',
@@ -172,12 +162,14 @@ const styles = StyleSheet.create({
     },
 
     Text3:{
-      fontSize: '120%',
+        fontSize: 20,
         marginTop:'7%',
         marginBottom:'5%',
         marginLeft:'7%',
         width:'90%',
-        textAlign:'center'
+        textAlign:'center',
+        color:'green',
+        fontWeight:'bold',
     },
 
     Input: {
@@ -186,7 +178,7 @@ const styles = StyleSheet.create({
         marginTop:'5%',
         marginBottom:'5%',
         height:'10%',
-        fontSize:'120%',
+        fontSize:20,
         borderWidth:1,
         borderColor: "#20232a",
         borderRadius:10
@@ -209,6 +201,5 @@ const styles = StyleSheet.create({
     }
 
 });
-
 
 export default ReinitMdp2;

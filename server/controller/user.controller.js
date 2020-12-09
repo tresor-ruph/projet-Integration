@@ -31,7 +31,11 @@ module.exports = {
             message: "Error retrieving user ",
           });
         }
-      } else {
+      } 
+      if(!data.length){
+        res.status(404).send('user with the provided id not found')
+      }
+      else {
         res.header("Access-Control-Allow-Origin", "*");
         res.status(200);
         res.send(data);
@@ -49,4 +53,47 @@ module.exports = {
       }
     });
   },
+
+  updateEmail: (req, res) => {
+    let email = req.params.email;
+    // update the user data
+      appUser.validationEmail(email, (err, data) => {
+        if (err) throw err;
+        else {
+          res.header("Access-Control-Allow-Origin", "*");
+          res.status(200).json(data);
+        }
+      });
+  },
+  suppCompte: (req, res) => {
+    let email = req.params.email;//à verif
+    appUser.suppCompte(email, (err, data) => {
+      if (err) throw err;
+      else {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.status(200).json(data);
+      }
+    });
+  },
+  findMM: (req, res) => {
+    const mail = req.params.mail;
+    appUser.findMailMdp(mail, (err, data) => {
+      if (err) {
+        if (err.kind === "not_found") {
+          res.status(404).send({
+            message: `Not found user with mail ${mail}.`,
+          });
+        } else {
+          res.status(500).send({
+            message: "Error retrieving user ",
+          });
+        }
+      } 
+      else {
+        res.header("Access-Control-Allow-Origin", "*");
+        res.status(200);
+        res.send(data);
+      }
+    });
+  }
 };

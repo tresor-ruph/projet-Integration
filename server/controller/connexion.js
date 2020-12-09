@@ -12,6 +12,7 @@ exports.create = (req, res) =>{
       prenom : req.body.prenom,
       adresse : req.body.adresse,
       codePostal : req.body.codePostal,
+      dateNaissance : req.body.dateNaissance,
       Mail : req.body.Mail,
       password : req.body.password,
     }
@@ -35,6 +36,7 @@ exports.create = (req, res) =>{
   
     const cons = {
       Mail : req.body.Mail,
+      password : req.body.password,
     }
   
     co.access(cons,(err, data) => {
