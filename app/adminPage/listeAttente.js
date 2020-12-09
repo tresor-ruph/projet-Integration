@@ -31,7 +31,7 @@ class listeAttente extends React.Component {
     
   } 
 
-  accepter(Nome, Prenome, Adressee, CodeP, date, scanner, Maile, passworde){
+  accepter(Nome, Prenome, Adressee, CodeP, date, scanner, Maile, passworde, idUsere){
     fetch('http://localhost:3000/users/confirmation', {
         method: 'POST',
         body: JSON.stringify({
@@ -50,10 +50,18 @@ class listeAttente extends React.Component {
           "Access-Control-Allow-Origin":"true"
         }
       }).then(response => response.json())
+
+    fetch(`http://localhost:3000/suppFile/${idUsere}`, {  
+      method: 'delete',
+    })
+    .then(response => response.json())
+    .catch(err => console.log(err))
+    this.componentDidMount()
+    this.forceUpdate()
   }
 
-  submit(idDem){
-    fetch(`http://localhost:3000/demandeS/${idDem}`, {  
+  submit(idUsere){
+    fetch(`http://localhost:3000/suppFile/${idUsere}`, {  
       method: 'delete',
     })
     .then(response => response.json())
@@ -81,13 +89,13 @@ class listeAttente extends React.Component {
           <ListItem key={i} bottomDivider>
             <ListItem.Content>
               <ListItem.Title>{l.Nom} {l.Prenom}</ListItem.Title>
-              <ListItem.Subtitle>{l.ScannerDoc}</ListItem.Subtitle>
+              <ListItem.Subtitle>{l.nombre}</ListItem.Subtitle>
               <View style={{flexDirection: 'row', width:'100%'}}>
               <View style={{flex: 1}}>
-                <Button color='green' title='Accepter' onPress={() => {this.accepter(l.Nom, l.Prenom, l.Adresse, l.CodePostal, l.dateNaissance, l.ScannerDoc, l.Mail, l.password)}}></Button>
+                <Button color='green' title='Accepter' onPress={() => {this.accepter(l.Nom, l.Prenom, l.Adresse, l.CodePostal, l.dateNaissance, l.ScannerDoc, l.Mail, l.password, l.Id)}}></Button>
               </View>
               <View style={{flex: 1, marginLeft: '4%'}}>
-                <Button color='red' title='Refuser'></Button>
+                <Button color='red' title='Refuser' onPress={() => {this.submit(l.Id)}}></Button>
               </View>
               </View>
             </ListItem.Content>

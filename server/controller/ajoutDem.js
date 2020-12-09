@@ -47,6 +47,23 @@ exports.delete = (req, res) => {
   });
 };
 
+
+exports.deleteAtt = (req, res) => {
+  demande.supprimerAttente(req.params.idUser, (err, data) => {
+    if (err) {
+      if (err.kind === "not_found") {
+        res.status(404).send({
+          message: `Not found Customer with id ${req.body.idUser}.`
+        });
+      } else {
+        res.status(500).send({
+          message: "Could not delete Customer with id " + req.body.idUser
+        });
+      }
+    } else res.send({ message: `Customer was deleted successfully!` });
+  });
+};
+
 exports.deletePropos = (req, res) => {
   demande.supprimerPropos(req.params.idProposition, (err, data) => {
     if (err) {
@@ -243,7 +260,7 @@ exports.createUser1 = (req, res) => {
     dateNaissance: req.body.dateNaissance,
     ScannerDoc: req.body.ScannerDoc,
     Mail: req.body.Mail,
-    password: req.body.password
+    password: req.body.password,
   };
   demande.createUser2(newUser, (err, data) => {
     console.log(data)

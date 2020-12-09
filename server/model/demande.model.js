@@ -121,6 +121,18 @@ demande.supprimerDemande = (iddemande, result) => {
     });
 }
 
+demande.supprimerAttente = (idUser, result) => {
+    sql.query(`delete from utilisateursattente where Id = ${idUser}`, (err,res) => {
+        if(err) {
+            console.log("error : ", err);
+            result (null ,err);
+            return;
+        }
+            console.log("contacts :" , res);
+            result (null, res);
+    });
+}
+
 demande.supprimerPropos = (idproposition, result) => {
     sql.query(`delete from proposition where idproposition = ${idproposition}`, (err,res) => {
         if(err) {

@@ -23,6 +23,7 @@ class Form extends React.Component {
         codePostal: '',
         showPassword: true,
         label: ["Trop court", "Il faut au moins 1 chiffre et 1 lettre majuscule !", "Il faut au moins 1 lettre majuscule et 1 chiffre !", "Mot de passe valide"],
+        nombre: Math.floor(Math.random() * 100) + 1
       }
       //sert ds la visualisation du mdp
       this.toggleSwitch = this.toggleSwitch.bind(this);  
@@ -31,6 +32,8 @@ class Form extends React.Component {
     toggleSwitch() {
       this.setState({ showPassword: !this.state.showPassword });
     }
+
+    nombre= Math.floor(Math.random() * 100) + 1
     async storeToken(m) {
       try {
          await AsyncStorage.setItem("id", JSON.stringify(m));
@@ -110,6 +113,7 @@ class Form extends React.Component {
       }
 
       var bonneDate = this.state.dateNaissance.replaceAll('/', ',');
+      console.log(this.nombre)
       fetch('http://localhost:3000/auth/', {
         method: 'POST',
         body: JSON.stringify({
@@ -119,7 +123,8 @@ class Form extends React.Component {
           dateNaissance: bonneDate,
           Mail: this.state.mail,
           codePostal: this.state.codePostal,
-          password: this.state.motdepasse
+          password: this.state.motdepasse,
+          nombre: this.nombre
         }),
         headers: {
           Accept: 'application/json',
@@ -205,6 +210,8 @@ class Form extends React.Component {
               onChangeText={(text)=> { this.setState({ repMotdepasse: text }) }}
               style={styles.textInput}
             ></TextInput>
+            <Text style={{width: '95%', fontSize: '105%', textAlign: 'center'}}>Envoyer votre photo de carte d'identité avec ce nombre à coté de la carte. </Text>
+            <Text style={{width: '90%', fontSize: '140%', fontFamily: 'bold', textAlign: 'center'}}>{this.nombre} </Text>
             <Text style={styles.text}>
               Cliquer pour afficher les mots de passe
             </Text>

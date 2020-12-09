@@ -43,6 +43,7 @@ module.exports = (app) => {
   app.delete("/demandeS/:idDemande", demande.delete);
   app.delete("/proposS/:idProposition", demande.deletePropos);
   app.delete("/proposSA/:idProposition", demande.deleteProposA);
+  app.delete("/suppFile/:idUser", demande.deleteAtt);
   app.get("/propositionG/:id", demande.findPropo);
   app.get("/propositionA/:id", demande.findPropoA);
   app.post("/notation", notation.access)
