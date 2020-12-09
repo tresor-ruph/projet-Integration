@@ -14,6 +14,7 @@ import {
   Platform,
   Text,
   KeyboardAvoidingView,
+  TouchableOpacity,
 } from "react-native";
 import NetInfo from "@react-native-community/netinfo";
 import { Button as Test } from 'react-native-paper';
@@ -25,7 +26,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 //import App from './firebase'
 
 // eslint-disable-next-line require-jsdoc
-export default function Profil() {
+export default function Profil({ navigation: { navigate } }) {
   const [nom, setNom] = useState(' ');
   const [prenom, setPrenom] = useState(' ');
   const [adresse, setAdresse] = useState(' ');
@@ -179,8 +180,8 @@ export default function Profil() {
   };
 
 
-  return !isLoaded ? (isConnected ? <ActivityIndicator size="large" color="blue" /> : <View><Text>No internet Connection !</Text></View>) : 
-      (<KeyboardAvoidingView
+ // return !isLoaded ? (isConnected ? <ActivityIndicator size="large" color="blue" /> : <View><Text>No internet Connection !</Text></View>) : 
+  return (<KeyboardAvoidingView
         behavior={Platform.OS == "ios" ? "padding" : "height"}
         style={styles.container}
       >
@@ -196,7 +197,7 @@ export default function Profil() {
         {bool && 
               <View>
                 <Test onPress={pickImage} icon="camera" />
-              <Test onPress={deleteImage} icon="delete" />
+                <Test onPress={deleteImage} icon="delete" />
               </View>
         }
       </View>
@@ -272,6 +273,11 @@ export default function Profil() {
           )
         }
       </View>
+      <Button
+        title="voir mes notations"
+        onPress={() => navigate('Notation2')}
+      />
+    
     </KeyboardAvoidingView>
       );
 }

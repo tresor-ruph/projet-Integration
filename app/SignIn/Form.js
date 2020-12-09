@@ -13,6 +13,7 @@ class Form extends React.Component {
     constructor() {
       super();
       this.state={
+        //image: { uri: "fond-ecran.jpg" },
         nom:'',
         prenom:'',
         motdepasse:'',
@@ -22,10 +23,11 @@ class Form extends React.Component {
         mail: '',
         codePostal: '',
         showPassword: true,
-        label: ["Trop court", "Il faut au moins 1 chiffre et 1 lettre majuscule !", "Il faut au moins 1 lettre majuscule et 1 chiffre !", "Mot de passe valide"],
+        label: ["Trop court", "Il faut au moins 1 chiffre, 1 lettre majuscule et 1 lettre minuscule !", "Il faut au moins 1 lettre minuscule, 1 lettre majuscule et 1 chiffre !", "Mot de passe valide"],
       }
       //sert ds la visualisation du mdp
       this.toggleSwitch = this.toggleSwitch.bind(this);  
+      
     }
     //sert ds la visualisation du mdp
     toggleSwitch() {
@@ -71,9 +73,6 @@ class Form extends React.Component {
           alert("La date de naissance ne correspond pas au format !");
         };
         simpleAlertHandler();
-        /*console.log(this.state.dateNaissance.match(/[0-9]/g).length)
-        console.log(this.state.dateNaissance.match(/[,]/g).length)
-        console.log(this.state.dateNaissance.indexOf(','))*/
         return;
       }
       //envoie msg d'erreur si email ne contient pas @ et . et est plus petit que 8
@@ -93,7 +92,7 @@ class Form extends React.Component {
         return;
       }
       //envoie msg d'erreur si le mdp est < Ã  8 OU ne contient pas de chiffre OU ne contient pas de majuscule
-      if(this.state.motdepasse.length < 8 || this.state.motdepasse.match(/\d+/) == null || this.state.motdepasse == this.state.motdepasse.toLowerCase()) {
+      if (this.state.motdepasse.length < 8 || this.state.motdepasse.match(/\d+/) == null || this.state.motdepasse == this.state.motdepasse.toLowerCase()) {
         let simpleAlertHandler = () => {
           alert("Le mot de passe n'est pas suffisament compliqué !");
         };
@@ -101,7 +100,7 @@ class Form extends React.Component {
         return;
       }
       //envoie un msg d'erreur si code postal ne contient pas que des chiffres
-      if(this.state.codePostal.match(/[0-9]/g) == null) {
+      if (this.state.codePostal.match(/[0-9]/g) == null) {
         let simpleAlertHandler = () => {
           alert("Le code postal n'est pas correct, uniquement les chiffres sont acceptés !");
         };
@@ -109,8 +108,9 @@ class Form extends React.Component {
         return;
       }
 
-      var bonneDate = this.state.dateNaissance.replaceAll('/', ',');
-      fetch('http://localhost:3000/auth/', {
+      var bonneDate = this.state.dateNaissance.replace('/', ',');
+      bonneDate = bonneDate.replace('/', ',');
+      fetch('http://192.168.0.15:3000/auth/', { //192.168.0.15 localhost
         method: 'POST',
         body: JSON.stringify({
           nom: this.state.nom,
@@ -131,20 +131,18 @@ class Form extends React.Component {
         if(json.message == 'inscription finie'){
             this.storeToken(json.id);
             this.props.navigation.navigate('Succes');
-          }
-  
-          
+        }
         }).catch((error) => {
           alert("Echec de connexion. Réessayez.");
         });
-      
+       
+        
  }
     render() {
       return ( 
         <ScrollView>
           <ImageBackground source={require('../img/degrade4.jpg')}>
           <View style={styles.container}>
-          
             <Text style={{fontSize: '130%', fontWeight: 'bold', textAlign: "auto", marginBottom: '1%'}}>Formulaire d'inscription</Text>
             <TextInput
               placeholder="Nom"
@@ -227,7 +225,7 @@ class Form extends React.Component {
 }
 
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+//const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   container: {
@@ -240,6 +238,10 @@ const styles = StyleSheet.create({
 
   inscrip:{
     width: '90%',
+  },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
   },
 
   textInput: {
@@ -263,9 +265,6 @@ const styles = StyleSheet.create({
     marginBottom: '5%',
     marginTop: '5%',
   },
-  bar: {
-    width: "10%"
-  }
 })
 
 export default Form;

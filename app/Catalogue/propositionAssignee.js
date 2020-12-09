@@ -48,6 +48,7 @@ class PropositionAssignee extends React.Component {
     fetch(`http://localhost:3000/demandeS/${idDem}`, {  
       method: 'delete',
     })
+
     .then(response => response.json())
     .catch(err => console.log(err))
     let vis = !this.state.visible;

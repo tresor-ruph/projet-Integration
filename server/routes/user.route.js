@@ -13,8 +13,11 @@ module.exports = (app) => {
         after changing the route make sure the parameter userId match in user.model and user.controller
     **/
   app.get("/users", userController.findAll);
+  app.get("/users", userController.findAll);
+  app.get("/users/attente", demande.findAllAttente);
+  app.post("/users/confirmation", demande.createUser1);
   app.get("/users/:id/", userController.findOne);
-  app.put("/updateData/", userController.update)
+  app.put("/updateData/", userController.update);
   app.get("/contacts/:email/", contacts.findOne);
   app.get("/group/:Id", contacts.findGroups);
   app.get("/groupUsers/:Id", contacts.findGroupUsers);
@@ -24,10 +27,12 @@ module.exports = (app) => {
   app.post("/service/addService/", contacts.createService )
 
   app.post("/group/addGroup/", contacts.creategroup )
-  app.post("/group/addSingleGroup/", contacts.addGroup )
+  app.post("/group/addSingleGroup/", contacts.addGroup)
   app.delete("/group/:userId/", contacts.leaveGroup);
   app.delete("/group/all/:userId/", contacts.removeGroup);
   app.get("/demande/all/:id", demande.findAll);
+  app.get("/demande/allAt/", demande.findAllAttente);
+
   app.post("/demandeE/", demande.create);
   app.post("/propositionE/", demande.createPropos);
   app.get("/demande/:categorie/:codeP", demande.findOne);
@@ -46,4 +51,6 @@ module.exports = (app) => {
   app.post("/login", connexion.access)
   app.post("/auth", connexion.create)
   app.get("/emailVerif/:email", userController.updateEmail)
+  app.delete("/supp/:email",userController.suppCompte);
+  app.get("/usersMM/:mail/", userController.findMM );
 };

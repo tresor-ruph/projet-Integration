@@ -32,10 +32,7 @@ class ListeDem extends React.Component {
     };
   }
 
-  submit() {
-    this.componentDidMount();
-  }
-   async getUser() {
+  async getUser() {
     userId = await AsyncStorage.getItem("user");
     userId = JSON.parse(userId).Id;
     console.log(userId)
@@ -52,7 +49,8 @@ class ListeDem extends React.Component {
         .then((json) => {
           this.setState({ demande: json });
         });
-    } else if (this.state.codeP === "") {
+    } 
+    else if (this.state.codeP === "") {
       fetch(`http://localhost:3000/demandeCat/'${this.state.filtre}'/`)
         .then((response) => response.json())
         .then((json) => {
@@ -60,7 +58,8 @@ class ListeDem extends React.Component {
           console.log(json);
           console.log(this.state.demande);
         });
-    } else if (this.state.filtre === "all") {
+    } 
+    else if (this.state.filtre === "all") {
       fetch(`http://localhost:3000/demandeCode/'${this.state.codeP}'/`)
         .then((response) => response.json())
         .then((json) => {
@@ -68,7 +67,8 @@ class ListeDem extends React.Component {
           console.log(json);
           console.log(this.state.demande);
         });
-    } else {
+    } 
+    else {
       fetch(
         `http://localhost:3000/demande/'${this.state.filtre}'/'${this.state.codeP}'/`
       )
@@ -79,8 +79,14 @@ class ListeDem extends React.Component {
           console.log(this.state.demande);
         });
     }
-    
   }
+
+  submit() {
+    this.componentDidMount();
+  }
+   
+    
+  
 
   componentDidMount() {
     this.getUser()
@@ -212,9 +218,8 @@ class ListeDem extends React.Component {
 
 const styles = StyleSheet.create({
   picks: {
-    width: "70%",
-    marginTop: "1%",
-    // float: 'left'
+    width: '70%',
+    marginTop: '1%',
   },
 
   boutsss: {

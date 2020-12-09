@@ -28,8 +28,9 @@ import ListeDem from './Catalogue/ListeDem';
 import mesDemandes from './Catalogue/mesDemandes';
 import Proposition from './Catalogue/proposition';
 import PropositionA from './Catalogue/propositionAssignee';
+import attente from './adminPage/listeAttente';
 
-
+import Notation2 from './Homescreen/Notation2';
 import Notation from './Homescreen/Notation';
 import checkProfil from './Profil/checkProfil';
 // Create the navigator
@@ -45,10 +46,12 @@ function Nav() {
 
            <Stack.Screen name="signup" component={Form} /> 
             <Stack.Screen name="succes" component={Succes} />
+            <Stack.Screen name="admin" component={attente} />
             
             <Stack.Screen name="ListeDem" component={ListeDem} />
             <Stack.Screen name="Demande" component={Demande} />
             <Stack.Screen name="Notation" component={Notation} /> 
+            <Stack.Screen name="Notation2" component={Notation2} /> 
             <Stack.Screen name="mesDemandes" component={mesDemandes} />
             <Stack.Screen name="Proposition" component={Proposition} />
             <Stack.Screen name="PropositionA" component={PropositionA} />
