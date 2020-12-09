@@ -3,7 +3,12 @@
 import AsyncStorage from "@react-native-community/async-storage";
 import React, { useEffect, useState } from "react";
 <<<<<<< HEAD
+<<<<<<< HEAD
 import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
+=======
+import { View } from "react-native";
+import { useNavigation, useIsFocused } from "@react-navigation/native";
+>>>>>>> 580549ce9a46b8a5b198b7640ab8afd914ab8ab9
 =======
 import { View } from "react-native";
 import { useNavigation, useIsFocused } from "@react-navigation/native";

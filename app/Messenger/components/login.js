@@ -57,7 +57,12 @@ fetch('http://localhost:3000/login/', {
 
         if(json.message == "entrée dans l'appli" ){
 <<<<<<< HEAD
+<<<<<<< HEAD
           
+=======
+            const Id = json.id;
+            const user = { Id};
+>>>>>>> 580549ce9a46b8a5b198b7640ab8afd914ab8ab9
 =======
             const Id = json.id;
             const user = { Id};
@@ -68,12 +73,15 @@ fetch('http://localhost:3000/login/', {
             setusername('');
             props.navigation.navigate('HomeScreen', { userid: json.Id });
 <<<<<<< HEAD
+<<<<<<< HEAD
 
           
        
         }else if (json.message == 'erreur de mot de passe'){
           
 =======
+=======
+>>>>>>> 580549ce9a46b8a5b198b7640ab8afd914ab8ab9
          
             
             
@@ -83,6 +91,9 @@ fetch('http://localhost:3000/login/', {
        
         }else if (json.message == 'erreur de mot de passe'){
           
+<<<<<<< HEAD
+>>>>>>> 580549ce9a46b8a5b198b7640ab8afd914ab8ab9
+=======
 >>>>>>> 580549ce9a46b8a5b198b7640ab8afd914ab8ab9
           handleTextValue('mot de passe non valide');
         
@@ -220,5 +231,8 @@ const styles = StyleSheet.create({
   },
 =======
   }
+<<<<<<< HEAD
+>>>>>>> 580549ce9a46b8a5b198b7640ab8afd914ab8ab9
+=======
 >>>>>>> 580549ce9a46b8a5b198b7640ab8afd914ab8ab9
 });

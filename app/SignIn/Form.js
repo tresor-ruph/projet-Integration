@@ -1,7 +1,8 @@
 import React from "react";
-import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, Dimensions, Picker   } from "react-native";
+import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, Dimensions, ImageBackground, Picker  } from "react-native";
 import PassMeter from "react-native-passmeter";
 import AsyncStorage from '@react-native-community/async-storage';
+
 
 
 
@@ -28,6 +29,7 @@ class Form extends React.Component {
     }
       //sert ds la visualisation du mdp
       this.toggleSwitch = this.toggleSwitch.bind(this);  
+      
     }
     //sert ds la visualisation du mdp
     toggleSwitch() {
@@ -77,9 +79,6 @@ class Form extends React.Component {
           alert("La date de naissance ne correspond pas au format !");
         };
         simpleAlertHandler();
-        /*console.log(this.state.dateNaissance.match(/[0-9]/g).length)
-        console.log(this.state.dateNaissance.match(/[,]/g).length)
-        console.log(this.state.dateNaissance.indexOf(','))*/
         return;
       }
       //envoie msg d'erreur si email ne contient pas @ et . et est plus petit que 8
@@ -99,7 +98,7 @@ class Form extends React.Component {
         return;
       }
       //envoie msg d'erreur si le mdp est < Ã  8 OU ne contient pas de chiffre OU ne contient pas de majuscule
-      if(this.state.motdepasse.length < 8 || this.state.motdepasse.match(/\d+/) == null || this.state.motdepasse == this.state.motdepasse.toLowerCase()) {
+      if (this.state.motdepasse.length < 8 || this.state.motdepasse.match(/\d+/) == null || this.state.motdepasse == this.state.motdepasse.toLowerCase()) {
         let simpleAlertHandler = () => {
           alert("Le mot de passe n'est pas suffisament compliqué !");
         };
@@ -137,12 +136,24 @@ class Form extends React.Component {
       })
 
       fetch('http://localhost:3000/auth/', {
+      //envoie un msg d'erreur si code postal ne contient pas que des chiffres
+      if (this.state.codePostal.match(/[0-9]/g) == null) {
+        let simpleAlertHandler = () => {
+          alert("Le code postal n'est pas correct, uniquement les chiffres sont acceptés !");
+        };
+        simpleAlertHandler();
+        return;
+      }
+
+      var bonneDate = this.state.dateNaissance.replace('/', ',');
+      bonneDate = bonneDate.replace('/', ',');
+      fetch('http://192.168.0.15:3000/auth/', { //192.168.0.15 localhost
         method: 'POST',
         body: JSON.stringify({
           nom: this.state.nom,
           prenom: this.state.prenom,
           adresse: this.state.adresse,
-          dateNaissance: this.state.dateNaissance,
+          dateNaissance: bonneDate,
           Mail: this.state.mail,
           codePostal: this.state.codePostal,
           password: this.state.motdepasse
@@ -157,18 +168,19 @@ class Form extends React.Component {
         if(json.message == 'inscription finie'){
             this.storeToken(json.id);
             this.props.navigation.navigate('Succes');
-          }
-  
-          
+        }
         }).catch((error) => {
           alert("Echec de connexion. Réessayez.");
         });
-    }
-
+       
+        
+ }
     render() {
       return ( 
         <ScrollView>
+          <ImageBackground source={require('../img/degrade4.jpg')}>
           <View style={styles.container}>
+            <Text style={{fontSize: '130%', fontWeight: 'bold', textAlign: "auto", marginBottom: '1%'}}>Formulaire d'inscription</Text>
             <TextInput
               placeholder="Nom"
               maxLength={50}
@@ -196,7 +208,7 @@ class Form extends React.Component {
               onChangeText={(text)=> { this.setState({ codePostal: text }) }}
               style={styles.textInput}
             ></TextInput>
-           <TextInput
+            <TextInput
               placeholder="Date de naissance (ex:20/01/2000)"
               onChangeText={(text)=> { this.setState({ dateNaissance: text }) }}
               style={styles.textInput}
@@ -260,24 +272,37 @@ class Form extends React.Component {
               value={!this.state.showPassword}
               style={styles.switch}
             />
-            <Button
+            <View style={styles.inscrip}>
+            <Button 
               title="S'inscrire"
               onPress={()=>{this.submit()}}
             ></Button>
+            </View>
           </View>
+          </ImageBackground>
         </ScrollView>
       )
     }
 }
 
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+//const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    padding: 50,
-    backgroundColor: "#eaeaea",    
+    alignItems: 'center',
+    justifyContent: 'center',
+    marginBottom: 15,
+    marginTop: '5%'
+  },
+
+  inscrip:{
+    width: '90%',
+  },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
   },
 
   image: {
@@ -288,12 +313,13 @@ const styles = StyleSheet.create({
   },
 
   textInput: {
-   marginTop: 25,
-   borderWidth:1,
-   borderColor:'blue',
-   borderRadius: 10,
-   textAlign: "center",
-   height: 45,
+    height: 50,
+    width: '93%',
+    paddingHorizontal: 5,
+    backgroundColor: 'white',
+    marginBottom: '3%',
+    borderRadius: 8,
+    fontSize: '105%'
   },
 
   textInput2: {
@@ -307,14 +333,14 @@ const styles = StyleSheet.create({
    },
   text: {
     textAlign: 'center',
-    fontSize: 20,
+    fontSize: '105%',
     marginTop: 10,
   },
   switch: {
     transform:[{ scaleX: 1.5 }, { scaleY: 1.5 }],
-    marginRight: (windowWidth-100)/2,
-    marginBottom: 40,
-    marginTop: 10,
+    marginLeft: '0%',
+    marginBottom: '5%',
+    marginTop: '5%',
   },
   bar: {
     width: "10%"

@@ -51,6 +51,9 @@ class Demande extends React.Component{
      getUserId()
     }
      
+<<<<<<< HEAD
+>>>>>>> 580549ce9a46b8a5b198b7640ab8afd914ab8ab9
+=======
 >>>>>>> 580549ce9a46b8a5b198b7640ab8afd914ab8ab9
   
    submit(){

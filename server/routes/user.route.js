@@ -16,17 +16,6 @@ module.exports = (app) => {
         after changing the route make sure the parameter userId match in user.model and user.controller
     **/
   app.get("/users", userController.findAll);
-  app.get("/users/:id", userController.findOne);
-  app.put("/updateData", userController.update);
-  app.get("/contacts/:email", contacts.findOne);
-  app.get("/chat/:senderId/:recieverId", contacts.findRoom);
-  app.post("/chat/addroom", contacts.createChat );
-  app.post("/auth", connexion.create);
-  app.post("/login", connexion.access);
-  
-    //get user with id = id
-  app.get("/demande/all", demande.findAll);
-  app.get("/users", userController.findAll);
   app.get("/users/attente", demande.findAllAttente);
   app.post("/users/confirmation", demande.createUser1);
   app.get("/users/:id/", userController.findOne);

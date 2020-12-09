@@ -20,7 +20,7 @@ import 'react-native-gesture-handler';
 import HomeScreen from './Homescreen/HomeScreen';
 import Chat from './Messenger/Chat';
 
-
+import Discussion_Repo from './Messenger/Discussionscreen';
 import addContact from './Messenger/addContact';
 import Login from './Messenger/components/login';
 import Profil from './Profil/Profil';
@@ -50,7 +50,6 @@ function Nav() {
     return (
         <NavigationContainer>
             <Stack.Navigator>
-            <Stack.Screen name = "Home" component = {Home} />
             <Stack.Screen name="Home" component={Home} />
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="checkProfil" component={checkProfil} />
@@ -71,7 +70,6 @@ function Nav() {
             <Stack.Screen name="Proposition" component={Proposition} />
             <Stack.Screen name="PropositionA" component={PropositionA} />
 
-            <Stack.Screen name = "login" component = {Login} />
         <Stack.Screen
 name="Ajouter Membres" component={AddGroupMem}
         options={{
@@ -110,6 +108,8 @@ name="Parametres" component={ChatOption}
         />
 
 
+        <Stack.Screen name="HomeScreen" component={HomeScreen} />
+        <Stack.Screen name="Profil" component={Profil} /> 
 
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="Profil" component={Profil} /> 
@@ -124,25 +124,17 @@ name="Parametres" component={ChatOption}
 
          <Stack.Screen name="Succes" component={Succes} /> 
 
-            
-            
-
-            
-            </Stack.Navigator>
-        </NavigationContainer>
-    )
-}
         <Stack.Screen
-            name="Discussion_Repo"
-            component={Discussion_Repo} 
-            options={{
-              header: (navigation) => <DiscHeader id={navigation} />,
-            }}
+name="Discussion_Repo"
+        component={Discussion_Repo} 
+        options={{
+          header: (navigation) => <DiscHeader id={navigation} />,
+        }}
         />
         
       
         <Stack.Screen
-          name="Ajouter un contact" component={addContact} 
+name="Ajouter un contact" component={addContact} 
          options={{
 
           headerStyle: {
