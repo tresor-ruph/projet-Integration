@@ -3,13 +3,15 @@ import React, { Component, useEffect, useState } from 'react';
 import { Button, TextInput, View, StyleSheet,Text } from 'react-native';
 
 
-
 export default function Login(props)  {
 
     const [username, setusername] = useState("");
     const [password, setPassword] = useState("");
     const [userId , setUserId] = useState("")
     const [textValue , setTextValue] = useState("")
+    const [questionValue, setQuestion] = useState(" ");
+    const [reponseValue, setReponse] = useState(" ");
+
   
  
    const onLogin = async ()=> {
@@ -54,21 +56,23 @@ fetch('http://localhost:3000/login/', {
 
 
         if(json.message == "entrée dans l'appli" ){
+
+          
+
             const Id = json.id;
             const user = { Id};
+
             AsyncStorage.setItem('id', JSON.stringify(json.id));
             AsyncStorage.setItem('user', JSON.stringify(user));
             setPassword('');
             setusername('');
             props.navigation.navigate('HomeScreen', { userid: json.Id });
-         
-            
-            
-            
-          
+
+
           
        
-        }else if (json.message == 'erreur de mot de passe'){
+        }
+        else if (json.message == 'erreur de mot de passe'){
           
           handleTextValue('mot de passe non valide');
         
@@ -108,6 +112,13 @@ const handlePassword = (event) => {
 const handleUsername = (event) => {
   setusername(event.target.value);
 }
+const handleQuestion =(event)=>{
+  setQuestion(event.target.value);
+}
+
+const handleReponse = (event)=>{
+  setReponse(event.target.value);
+}
 const test = (txt) =>{
 if(txt == ""){
   return <View></View>
@@ -139,6 +150,11 @@ if(txt == ""){
           style={styles.input}
           onPress={onLogin}
         />
+        <View style={styles.rect6}>
+          <View style={styles.loremIpsumRow}> 
+            <Text style={styles.loremIpsum} onPress={() => props.navigation.navigate("ReinitMdp")}>Mot de passe oublié ? Cliquez ici</Text>
+          </View>
+        </View>
         
         {test(textValue)}
     
@@ -182,5 +198,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginTop: 7,
     marginLeft: 5
+
+  },
+  rect6: {
+    marginTop:'15%',
+    width: 328,
+    height: 50,
+    textAlign:'center',
+    flexDirection: "row",
+    marginLeft:'25%',
+  },
+
   }
-});
+);

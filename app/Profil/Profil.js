@@ -14,6 +14,7 @@ import {
   Platform,
   Text,
   KeyboardAvoidingView,
+  TouchableOpacity,
 } from "react-native";
 import NetInfo from "@react-native-community/netinfo";
 import { Button as Test } from 'react-native-paper';
@@ -25,7 +26,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 //import App from './firebase'
 
 // eslint-disable-next-line require-jsdoc
-export default function Profil() {
+export default function Profil({ navigation: { navigate } }) {
   const [nom, setNom] = useState(' ');
   const [prenom, setPrenom] = useState(' ');
   const [adresse, setAdresse] = useState(' ');
@@ -179,8 +180,8 @@ export default function Profil() {
   };
 
 
-  return !isLoaded ? (isConnected ? <ActivityIndicator size="large" color="blue" /> : <View><Text>No internet Connection !</Text></View>) : 
-      (<KeyboardAvoidingView
+ // return !isLoaded ? (isConnected ? <ActivityIndicator size="large" color="blue" /> : <View><Text>No internet Connection !</Text></View>) : 
+  return (<KeyboardAvoidingView
         behavior={Platform.OS == "ios" ? "padding" : "height"}
         style={styles.container}
       >
@@ -196,7 +197,7 @@ export default function Profil() {
         {bool && 
               <View>
                 <Test onPress={pickImage} icon="camera" />
-              <Test onPress={deleteImage} icon="delete" />
+                <Test onPress={deleteImage} icon="delete" />
               </View>
         }
       </View>
@@ -207,7 +208,6 @@ export default function Profil() {
           style={styles.textInput}
           label="Nom"
           name="Nom"
-          mode='outlined'
           editable={bool}
           onChangeText={text => setNom(text)}
         />
@@ -215,7 +215,6 @@ export default function Profil() {
           value={prenom}
           style={styles.textInput}
           editable={bool}
-          mode='outlined'
           label="Prenom"
           name="Prenom"
           onChangeText={text => setPrenom(text)}
@@ -226,7 +225,6 @@ export default function Profil() {
           editable={bool}
           label="Adresse"
           name="adresse"
-          mode='outlined'
           onChangeText={text => setAdresse(text)}
 
         />
@@ -236,7 +234,6 @@ export default function Profil() {
           editable={bool}
           label="Code postal"
           name="code"
-          mode='outlined'
           onChangeText={text => setCode(text)}
         />
       </View>
@@ -276,6 +273,11 @@ export default function Profil() {
           )
         }
       </View>
+      <Button
+        title="voir mes notations"
+        onPress={() => navigate('Notation2')}
+      />
+    
     </KeyboardAvoidingView>
       );
 }
@@ -298,11 +300,13 @@ const styles = StyleSheet.create({
     flex: 0.3,
   },
   textInput: {
-    padding: 10,
-    textAlign: 'center',
-    fontWeight: 'bold',
-    borderWidth: 1,
-    marginBottom: 10,
+    height: 50,
+    width: '93%',
+    paddingHorizontal: 5,
+    backgroundColor: 'grey',
+    marginBottom: 3,
+    borderRadius: 8,
+    fontSize: 20
   },
   bottom: {
     flex: 0.3,

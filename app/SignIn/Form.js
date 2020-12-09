@@ -1,5 +1,5 @@
 import React from "react";
-import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, Dimensions, ImageBackground   } from "react-native";
+import { StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, Dimensions, ImageBackground, Picker  } from "react-native";
 import PassMeter from "react-native-passmeter";
 import AsyncStorage from '@react-native-community/async-storage';
 
@@ -10,23 +10,26 @@ console.disableYellowBox = true;
 
 
 class Form extends React.Component {
-    constructor() {
-      super();
-      this.state={
-        nom:'',
-        prenom:'',
-        motdepasse:'',
-        repMotdepasse:'',
-        adresse: '',
-        dateNaissance: '', 
-        mail: '',
-        codePostal: '',
-        showPassword: true,
-        label: ["Trop court", "Il faut au moins 1 chiffre et 1 lettre majuscule !", "Il faut au moins 1 lettre majuscule et 1 chiffre !", "Mot de passe valide"],
-        nombre: Math.floor(Math.random() * 100) + 1
-      }
+  constructor() {
+    super();
+    this.state={
+      nom:'',
+      prenom:'',
+      motdepasse:'',
+      repMotdepasse:'',
+      adresse: '',
+      dateNaissance: '', 
+      mail: '',
+      codePostal: '',
+      showPassword: true,
+      question:"Quel était le prénom de votre premier animal domestique ?",
+      reponseSec:"",
+      label: ["Trop court", "Il faut au moins 1 chiffre et 1 lettre majuscule !", "Il faut au moins 1 lettre majuscule et 1 chiffre !", "Mot de passe valide"],
+
+    }
       //sert ds la visualisation du mdp
       this.toggleSwitch = this.toggleSwitch.bind(this);  
+      
     }
     //sert ds la visualisation du mdp
     toggleSwitch() {
@@ -51,9 +54,13 @@ class Form extends React.Component {
       }
     }
 
+    updateQuestion = (question) => {
+      this.setState({ question: question })
+   }
+
     submit() {
       //envoie msg d'erreur si un champ est encore vide
-      if(this.state.nom == '' || this.state.prenom == '' || this.state.motdepasse == '' || this.state.repMotdepasse == '' || this.state.adresse == '' || this.state.dateNaissance == '' || this.state.mail == '') {
+      if(this.state.nom == '' || this.state.prenom == '' || this.state.motdepasse == '' || this.state.repMotdepasse == '' || this.state.adresse == '' || this.state.dateNaissance == '' || this.state.mail == '' || this.state.reponseSec == '') {
         let simpleAlertHandler = () => {
           alert("Tous les champs ne sont pas remplis !");
         };
@@ -74,9 +81,6 @@ class Form extends React.Component {
           alert("La date de naissance ne correspond pas au format !");
         };
         simpleAlertHandler();
-        /*console.log(this.state.dateNaissance.match(/[0-9]/g).length)
-        console.log(this.state.dateNaissance.match(/[,]/g).length)
-        console.log(this.state.dateNaissance.indexOf(','))*/
         return;
       }
       //envoie msg d'erreur si email ne contient pas @ et . et est plus petit que 8
@@ -96,7 +100,7 @@ class Form extends React.Component {
         return;
       }
       //envoie msg d'erreur si le mdp est < Ã  8 OU ne contient pas de chiffre OU ne contient pas de majuscule
-      if(this.state.motdepasse.length < 8 || this.state.motdepasse.match(/\d+/) == null || this.state.motdepasse == this.state.motdepasse.toLowerCase()) {
+      if (this.state.motdepasse.length < 8 || this.state.motdepasse.match(/\d+/) == null || this.state.motdepasse == this.state.motdepasse.toLowerCase()) {
         let simpleAlertHandler = () => {
           alert("Le mot de passe n'est pas suffisament compliqué !");
         };
@@ -111,10 +115,31 @@ class Form extends React.Component {
         simpleAlertHandler();
         return;
       }
+      else{
+        this.envoie()
+      }
+   
+ }
 
-      var bonneDate = this.state.dateNaissance.replaceAll('/', ',');
-      console.log(this.nombre)
-      fetch('http://localhost:3000/auth/', {
+
+    envoie(){
+      fetch('http://localhost:3000/reinitmdpE/',{
+        method: 'POST',
+        body: JSON.stringify({
+          mail: this.state.mail,
+          reponseSec : this.state.reponseSec,
+          question : this.state.question,
+        }),
+        headers: {
+          Accept: 'application/json',
+          'Content-Type': 'application/json',
+          "Access-Control-Allow-Origin":"true"
+        }
+      })
+
+      var bonneDate = this.state.dateNaissance.replace('/', ',');
+      bonneDate = bonneDate.replace('/', ',');
+      fetch('http://localhost/auth/', { //192.168.0.15 localhost
         method: 'POST',
         body: JSON.stringify({
           nom: this.state.nom,
@@ -136,20 +161,16 @@ class Form extends React.Component {
         if(json.message == 'inscription finie'){
             this.storeToken(json.id);
             this.props.navigation.navigate('Succes');
-          }
-  
-          
+        }
         }).catch((error) => {
           alert("Echec de connexion. Réessayez.");
-        });
-      
+        });     
  }
     render() {
       return ( 
         <ScrollView>
           <ImageBackground source={require('../img/degrade4.jpg')}>
           <View style={styles.container}>
-          
             <Text style={{fontSize: '130%', fontWeight: 'bold', textAlign: "auto", marginBottom: '1%'}}>Formulaire d'inscription</Text>
             <TextInput
               placeholder="Nom"
@@ -212,6 +233,30 @@ class Form extends React.Component {
             ></TextInput>
             <Text style={{width: '95%', fontSize: '105%', textAlign: 'center'}}>Envoyer votre photo de carte d'identité avec ce nombre à coté de la carte. </Text>
             <Text style={{width: '90%', fontSize: '140%', fontFamily: 'bold', textAlign: 'center'}}>{this.nombre} </Text>
+            <Text style={styles.textq}>
+              Choisissez votre question secrète
+            </Text>
+            <Picker style={{height:'8%', fontSize:14, width:'80%', marginLeft:'13%', marginTop:'5%', marginBottom:'3%'}} selectedValue = {this.state.question}  onValueChange = {this.updateQuestion}>
+              <Picker.Item label="Quel était le prénom de votre premier animal domestique ?" value="Quel était le prénom de votre premier animal domestique ?" />
+              <Picker.Item label="Quelle était la marque de votre première voiture ?" value="Quelle était la marque de votre première voiture ?" />
+              <Picker.Item label="Quel est votre lieux de naissance ?" value="Quel est votre lieux de naissance ?" />
+              <Picker.Item label="Quel est le prénom de votre arrière-grand-mère maternelle ?" value="Quel est le prénom de votre arrière-grand-mère maternelle ?" />
+              <Picker.Item label="Où avez vous passé votre enfance ?" value="Où avez vous passé votre enfance ?" />
+              <Picker.Item label="Où êtes-vous parti pour la première fois en voyage ?" value="Où êtes-vous parti pour la première fois en voyage ?" />
+              <Picker.Item label="Dans quelle ville se sont rencontrés vos parents ?" value="Dans quelle ville se sont rencontrés vos parents ?" />
+              <Picker.Item label="Quel est le nom et prénom de votre premier amour ?" value="Quel est le nom et prénom de votre premier amour ?" />
+            </Picker>
+
+            <TextInput
+              placeholder="Entrez votre réponse"
+              onChangeText={(text)=> { this.setState({ reponseSec: text }) }}
+              style={styles.textInput2}
+            >
+            </TextInput>
+
+            <Text style={styles.messageimp}>
+              ⚠️ Il est extrêmement important de conserver cette réponse ⚠️
+            </Text>
             <Text style={styles.text}>
               Cliquer pour afficher les mots de passe
             </Text>
@@ -234,7 +279,7 @@ class Form extends React.Component {
 }
 
 const windowWidth = Dimensions.get('window').width;
-const windowHeight = Dimensions.get('window').height;
+//const windowHeight = Dimensions.get('window').height;
 
 const styles = StyleSheet.create({
   container: {
@@ -248,6 +293,17 @@ const styles = StyleSheet.create({
   inscrip:{
     width: '90%',
   },
+  image: {
+    flex: 1,
+    resizeMode: "cover",
+  },
+
+  image: {
+    width: '100%',
+    height: '100%',
+    flex: 1,
+
+  },
 
   textInput: {
     height: 50,
@@ -256,12 +312,21 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     marginBottom: '3%',
     borderRadius: 8,
-    fontSize: '105%'
+    fontSize: 20
   },
-  
+
+  textInput2: {
+    marginTop: 25,
+    borderWidth:1,
+    borderColor:'blue',
+    borderRadius: 10,
+    textAlign: "center",
+    height: 45,
+    marginBottom:'8%'
+   },
   text: {
     textAlign: 'center',
-    fontSize: '105%',
+    fontSize: 25,
     marginTop: 10,
   },
   switch: {
@@ -272,7 +337,47 @@ const styles = StyleSheet.create({
   },
   bar: {
     width: "10%"
-  }
+  },
+  rect6: {
+    marginTop:'15%',
+    width: 328,
+    height: 50,
+    textAlign:'center',
+    flexDirection: "row",
+    marginLeft:'25%',
+  },
+  input: {
+    width: 200,
+    height: 44,
+    padding: 10,
+    borderWidth: 1,
+    borderColor: 'black',
+    marginBottom: 10,
+  },
+  reponseSec:{
+    height:'7%',
+    width:'60%',
+    marginLeft:'20%',
+    marginTop:'4%',
+    marginBottom:'5%',
+    fontSize:15,
+    textAlign:'center'
+  },
+
+  textq:{
+    fontSize:25,
+    marginLeft:'15%',
+    marginTop:'10%'
+  },
+
+  messageimp:{
+    fontSize:17,
+    textAlign:'center',
+    marginBottom:'5%',
+    marginTop:'5%' 
+
+  },
+
 })
 
 export default Form;

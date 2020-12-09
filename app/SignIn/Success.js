@@ -4,7 +4,7 @@ import { View, Button, Text, StyleSheet } from "react-native";
 class Succes extends React.Component {
 
     submit() {
-        window.location.reload(true);
+        this.props.navigation.navigate('Home')
     }
 
     render() {

@@ -13,6 +13,7 @@ class Demande extends React.Component{
       this.setState({ categorie: categorie })
    }
 
+
   constructor(props){
      super(props);
      this.state={
@@ -38,7 +39,6 @@ class Demande extends React.Component{
      }
      getUserId()
     }
-     
   
    submit(){
      //console.log(this.state) 

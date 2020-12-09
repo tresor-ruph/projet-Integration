@@ -218,9 +218,8 @@ class ListeDem extends React.Component {
 
 const styles = StyleSheet.create({
   picks: {
-    width: "70%",
-    marginTop: "1%",
-    // float: 'left'
+    width: '70%',
+    marginTop: '1%',
   },
 
   boutsss: {

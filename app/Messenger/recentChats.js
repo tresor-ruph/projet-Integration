@@ -2,9 +2,8 @@
 
 import AsyncStorage from "@react-native-community/async-storage";
 import React, { useEffect, useState } from "react";
-import { View } from "react-native";
+import { View, TouchableOpacity, StyleSheet, Text } from "react-native";
 import { useNavigation, useIsFocused } from "@react-navigation/native";
-
 import Contact from "./contact";
 import OverlayExample from "./overlay";
 

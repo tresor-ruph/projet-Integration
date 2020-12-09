@@ -3,7 +3,7 @@ const connexion = function () {
    
   };
  
-
+  
 connexion.create = (con, result) => {
   let rechsql = 'SELECT Mail from utilisateursattente';
   let spotted = true;
@@ -25,6 +25,7 @@ connexion.create = (con, result) => {
     sql.query(req , [values] ,function (err, resu, fields) {
       let rechid = 'SELECT Id from utilisateursattente where Mail = "'+con.Mail+'"';
       sql.query(rechid, function (err, resu, fields) {
+        console.log(resu);
         if(resu == undefined){
           result(null , { message: 'erreur interne'});
         }else{
@@ -43,7 +44,7 @@ connexion.create = (con, result) => {
             {
               data: con.Mail
             }, '8376806802b688bf4d8ab6dc2762d91e',
-             { expiresIn: '100h' });
+             { expiresIn: '1000h' });
           
 
           let mailOptions = { 
@@ -53,6 +54,7 @@ connexion.create = (con, result) => {
             text: "Vérifiez votre email", 
             html: `<b>Vérifiez votre email : <a href='http://localhost:3000/emailVerif/${token}'>Cliquez ici pour confirmer votre inscription.</a></b>`,
           };
+      
           try {
             transporter.sendMail(mailOptions, (error, info) => {
               if (error) {

@@ -1,3 +1,7 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-empty */
+/* eslint-disable no-lonely-if */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-alert */
 /* eslint-disable jsx-quotes */
@@ -35,7 +39,7 @@ export default function checkProfil({ navigation, route }) {
   const [image, setImage] = useState(null);
   const [isLoaded, setLoaded] = useState(false);
   const [isConnected, setConnection] = useState(true);
-
+  const [rating, setRating] = useState(3);
   React.useLayoutEffect(() => {
     navigation.setOptions({
       title: title1 === '' ? 'No title' : title1,
@@ -61,6 +65,49 @@ export default function checkProfil({ navigation, route }) {
         console.error(error);
       });
     };
+let compte = 0;
+let c = 0;
+    fetch('http://localhost:3000/notation/', {
+                method: 'POST',
+                body: JSON.stringify({
+                  Id: value
+                }),
+                headers: {
+                  Accept: 'application/json',
+                  'Content-Type': 'application/json',
+                  "Access-Control-Allow-Origin": "true"
+                }
+              }).then(response => response.json())
+              .then(json => {
+                // eslint-disable-next-line eqeqeq
+                // eslint-disable-next-line no-empty
+                // eslint-disable-next-line eqeqeq
+                if (json.message == 'pas de demande a ce nom') {
+                } else {
+                  // eslint-disable-next-line eqeqeq
+                  // eslint-disable-next-line no-lonely-if
+                  // eslint-disable-next-line eqeqeq
+                  // eslint-disable-next-line no-lonely-if
+                  // eslint-disable-next-line eqeqeq
+                  // eslint-disable-next-line no-lonely-if
+                  // eslint-disable-next-line eqeqeq
+                  // eslint-disable-next-line no-lonely-if
+                  // eslint-disable-next-line eqeqeq
+                  if (json.resultat[0] == undefined) {
+                    compte = 3;
+                    setRating(compte);
+                  } else {
+                      for (let i = 0; i < json.resultat.length; i++) {
+                        compte += json.resultat[i].rating;
+                        c++;
+                      }
+                      compte /= c;
+                    setRating(compte);
+                }
+              }
+            });
+
+
     unsubscribe();
     init();
   }, []);
@@ -119,7 +166,16 @@ export default function checkProfil({ navigation, route }) {
           name="code"
           mode='outlined'
         />
+        <TextInput
+          value={`cote : ${rating}`}
+          style={styles.textInput}
+          editable={bool}
+          label="Code postal"
+          name="code"
+          mode='outlined'
+        />
       </View>
+      
     </KeyboardAvoidingView>
   );
 }

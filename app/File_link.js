@@ -4,6 +4,16 @@
 import { NavigationContainer } from '@react-navigation/native';
 import { createStackNavigator } from '@react-navigation/stack';
 
+
+//import Form from './SignIn/Form'
+
+
+
+import Reinit from './ReinitMdp/ReinitMdp'
+import ReinitP2 from "./ReinitMdp/reinitMdpP2";
+import ReinitMdp2 from "./ReinitMdp/reinitMdpP2";
+//import Login from './Login/login'
+
 import React from 'react';
 import 'react-native-gesture-handler';
 import HomeScreen from './Homescreen/HomeScreen';
@@ -30,7 +40,7 @@ import Proposition from './Catalogue/proposition';
 import PropositionA from './Catalogue/propositionAssignee';
 import attente from './adminPage/listeAttente';
 
-
+import Notation2 from './Homescreen/Notation2';
 import Notation from './Homescreen/Notation';
 import checkProfil from './Profil/checkProfil';
 // Create the navigator
@@ -43,6 +53,8 @@ function Nav() {
             <Stack.Screen name="Login" component={Login} />
             <Stack.Screen name="checkProfil" component={checkProfil} />
 
+            <Stack.Screen name = "ReinitMdp" component ={Reinit} />
+            <Stack.Screen name = "ReinitMdpP2" component ={ReinitMdp2} />
 
            <Stack.Screen name="signup" component={Form} /> 
             <Stack.Screen name="succes" component={Succes} />
@@ -51,6 +63,7 @@ function Nav() {
             <Stack.Screen name="ListeDem" component={ListeDem} />
             <Stack.Screen name="Demande" component={Demande} />
             <Stack.Screen name="Notation" component={Notation} /> 
+            <Stack.Screen name="Notation2" component={Notation2} /> 
             <Stack.Screen name="mesDemandes" component={mesDemandes} />
             <Stack.Screen name="Proposition" component={Proposition} />
             <Stack.Screen name="PropositionA" component={PropositionA} />
@@ -93,9 +106,9 @@ name="Parametres" component={ChatOption}
         />
 
 
-
         <Stack.Screen name="HomeScreen" component={HomeScreen} />
         <Stack.Screen name="Profil" component={Profil} /> 
+
 
         <Stack.Screen
           name="Chat"
