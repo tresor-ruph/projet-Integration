@@ -319,7 +319,7 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     marginBottom: '3%',
     borderRadius: 8,
-    fontSize: '105%'
+    fontSize: 20
   },
 
   textInput2: {
@@ -333,7 +333,7 @@ const styles = StyleSheet.create({
    },
   text: {
     textAlign: 'center',
-    fontSize: '105%',
+    fontSize: 25,
     marginTop: 10,
   },
   switch: {

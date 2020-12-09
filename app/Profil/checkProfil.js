@@ -1,3 +1,7 @@
+/* eslint-disable no-nested-ternary */
+/* eslint-disable eqeqeq */
+/* eslint-disable no-empty */
+/* eslint-disable no-lonely-if */
 /* eslint-disable no-unused-vars */
 /* eslint-disable no-alert */
 /* eslint-disable jsx-quotes */
@@ -66,30 +70,42 @@ let c = 0;
     fetch('http://localhost:3000/notation/', {
                 method: 'POST',
                 body: JSON.stringify({
-                  Id : value
+                  Id: value
                 }),
                 headers: {
                   Accept: 'application/json',
                   'Content-Type': 'application/json',
-                  "Access-Control-Allow-Origin":"true"
+                  "Access-Control-Allow-Origin": "true"
                 }
-              }) .then(response => response.json())
+              }).then(response => response.json())
               .then(json => {
-                if(json.message == 'pas de demande a ce nom'){
-                }else{
-                  if(json.resultat[0]==undefined){
+                // eslint-disable-next-line eqeqeq
+                // eslint-disable-next-line no-empty
+                // eslint-disable-next-line eqeqeq
+                if (json.message == 'pas de demande a ce nom') {
+                } else {
+                  // eslint-disable-next-line eqeqeq
+                  // eslint-disable-next-line no-lonely-if
+                  // eslint-disable-next-line eqeqeq
+                  // eslint-disable-next-line no-lonely-if
+                  // eslint-disable-next-line eqeqeq
+                  // eslint-disable-next-line no-lonely-if
+                  // eslint-disable-next-line eqeqeq
+                  // eslint-disable-next-line no-lonely-if
+                  // eslint-disable-next-line eqeqeq
+                  if (json.resultat[0] == undefined) {
                     compte = 3;
                     setRating(compte);
-                  }else{
-                      for(let i = 0;i<json.resultat.length;i++){
-                        compte = compte+json.resultat[i].rating;
+                  } else {
+                      for (let i = 0; i < json.resultat.length; i++) {
+                        compte += json.resultat[i].rating;
                         c++;
                       }
-                      compte = compte/c;
+                      compte /= c;
                     setRating(compte);
                 }
               }
-            })
+            });
 
 
     unsubscribe();
@@ -151,7 +167,7 @@ let c = 0;
           mode='outlined'
         />
         <TextInput
-          value={'cote : '+rating}
+          value={`cote : ${rating}`}
           style={styles.textInput}
           editable={bool}
           label="Code postal"

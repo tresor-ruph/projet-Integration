@@ -208,7 +208,6 @@ export default function Profil({ navigation: { navigate } }) {
           style={styles.textInput}
           label="Nom"
           name="Nom"
-          mode='outlined'
           editable={bool}
           onChangeText={text => setNom(text)}
         />
@@ -216,7 +215,6 @@ export default function Profil({ navigation: { navigate } }) {
           value={prenom}
           style={styles.textInput}
           editable={bool}
-          mode='outlined'
           label="Prenom"
           name="Prenom"
           onChangeText={text => setPrenom(text)}
@@ -227,7 +225,6 @@ export default function Profil({ navigation: { navigate } }) {
           editable={bool}
           label="Adresse"
           name="adresse"
-          mode='outlined'
           onChangeText={text => setAdresse(text)}
 
         />
@@ -237,7 +234,6 @@ export default function Profil({ navigation: { navigate } }) {
           editable={bool}
           label="Code postal"
           name="code"
-          mode='outlined'
           onChangeText={text => setCode(text)}
         />
       </View>
@@ -304,11 +300,13 @@ const styles = StyleSheet.create({
     flex: 0.3,
   },
   textInput: {
-    padding: 10,
-    textAlign: 'center',
-    fontWeight: 'bold',
-    borderWidth: 1,
-    marginBottom: 10,
+    height: 50,
+    width: '93%',
+    paddingHorizontal: 5,
+    backgroundColor: 'grey',
+    marginBottom: 3,
+    borderRadius: 8,
+    fontSize: 20
   },
   bottom: {
     flex: 0.3,
