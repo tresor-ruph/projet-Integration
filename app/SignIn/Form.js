@@ -249,12 +249,12 @@ const styles = StyleSheet.create({
     backgroundColor: 'white',
     marginBottom: '3%',
     borderRadius: 8,
-    fontSize: '105%'
+    fontSize: 20
   },
   
   text: {
     textAlign: 'center',
-    fontSize: '105%',
+    fontSize: 25,
     marginTop: 10,
   },
   switch: {

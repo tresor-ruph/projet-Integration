@@ -44,24 +44,7 @@ function Mainscreen(props) {
           <Text style={styles.discussion}>Discussion</Text>
         </TouchableOpacity>
       </View>
-      <View style={styles.iconStack}>
-        <MaterialCommunityIconsIcon
-          name='home'
-          style={styles.icon}
-        />
-        <MaterialCommunityIconsIcon
-          name="home"
-          style={styles.icon3}
-        />
-        <MaterialCommunityIconsIcon
-          name="account-circle"
-          style={styles.icon4}
-        />
-      </View>
-      <MaterialCommunityIconsIcon
-        name="home"
-        style={styles.icon2}
-      />
+      
     </View>
   );
 }
@@ -77,7 +60,6 @@ const styles = StyleSheet.create({
     borderRadius: 22
   },
   joffreMonService1: {
-    fontFamily: 'roboto-300',
     color: '#121212',
     lineHeight: 18,
     textAlign: 'center',
@@ -94,7 +76,6 @@ const styles = StyleSheet.create({
     marginTop: 2
   },
   demandeDaide: {
-    fontFamily: 'roboto-300',
     color: '#121212',
     fontSize: 18,
     textAlign: 'center',
@@ -115,7 +96,6 @@ const styles = StyleSheet.create({
     borderRadius: 22
   },
   profile: {
-    fontFamily: 'arial-regular',
     color: '#121212',
     fontSize: 18,
     marginTop: 73,
@@ -129,7 +109,6 @@ const styles = StyleSheet.create({
     marginLeft: 23
   },
   discussion: {
-    fontFamily: 'roboto-300',
     color: '#121212',
     fontSize: 21,
     textAlign: 'center',

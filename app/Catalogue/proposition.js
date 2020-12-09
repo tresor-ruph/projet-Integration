@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     width: '50%'
   },
   mesde:{
-    fontSize: '140%',
+    fontSize: 140,
     fontWeight: 'bold'
   }
 
