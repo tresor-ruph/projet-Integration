@@ -74,7 +74,7 @@ function ConfGroup(route, props) {
       }),
     };
     try {
-      fetch('http://192.168.1.52:3000/group/addGroup', requestOptions)
+      fetch('https://help-recover-api.herokuapp.com/group/addGroup', requestOptions)
         .then((response) => response.json())
         .then((data) => {
           console.log(data);

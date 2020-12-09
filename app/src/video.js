@@ -35,7 +35,18 @@ if (firebase.apps.length === 0) {
 
 const db = firebase.firestore().collection('video');
 
-const configuration = {iceServers: [{url: 'stun:stun.l.google.com:19302'}]};
+const configuration = {
+  iceServers: [
+    {url: 'stun:stun.l.google.com:19302'},
+
+    {
+        url: 'turn:numb.viagenie.ca',
+        credential: 'muazkh',
+        username: 'webrtc@live.com'
+    },
+    
+  ],
+};
 const localPC = new RTCPeerConnection(configuration);
 let userId;
 let chatRoom;
@@ -75,7 +86,7 @@ export default function VideoWeb(route) {
 
   useEffect(() => {
     fetch(
-      `http://192.168.1.52:3000/chat/${route.route.params.senderId}/${route.route.params.recieverId}/${route.route.params.moreInfo}`,
+      `https://help-recover-api.herokuapp.com/chat/${route.route.params.senderId}/${route.route.params.recieverId}/${route.route.params.moreInfo}`,
     )
       .then((reponse) => reponse.json())
       .then((json) => {
@@ -100,7 +111,6 @@ export default function VideoWeb(route) {
               console.log(loopBlock);
               console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
               if (message.again == 'yes') {
-                setdisp(true);
               }
               if (message.cdt != undefined) {
                 let res = JSON.parse(message.cdt);
@@ -114,6 +124,7 @@ export default function VideoWeb(route) {
                 );
                 if (message.again === 'yes') {
                   setCorrName(message.name);
+                  setdisp(true);
                 }
                 let res = JSON.parse(message.offer);
                 setOffer(res);
@@ -139,8 +150,6 @@ export default function VideoWeb(route) {
       });
 
     return () => unsubscribe();
-
-
   }, [chatRoom]);
   const startLocalStream = async () => {
     // isFront will determine if the initial camera should face user or environment

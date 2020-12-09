@@ -103,7 +103,7 @@ export default function Chat(route, navigation) {
       }
     } else {
       fetch(
-        `http://192.168.1.52:3000/chat/${route.route.params.senderId}/${route.route.params.recieverId}/${route.route.params.moreInfo}`,
+        `https://help-recover-api.herokuapp.com/chat/${route.route.params.senderId}/${route.route.params.recieverId}/${route.route.params.moreInfo}`,
       )
         .then((reponse) => reponse.json())
         .then((json) => {
@@ -132,7 +132,7 @@ export default function Chat(route, navigation) {
             };
             try {
               console.log('try request');
-              fetch('http://192.168.1.52:3000/chat/addroom', requestOptions)
+              fetch('https://help-recover-api.herokuapp.com/chat/addroom', requestOptions)
                 .then((response) => response.json())
                 .then((data) => {
                   console.log('hello');

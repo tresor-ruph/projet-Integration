@@ -23,7 +23,7 @@ function RecentChat() {
 
       //setUserId(id);
 
-      fetch(`http://192.168.1.52:3000/chatconv/${id}`)
+      fetch(`https://help-recover-api.herokuapp.com/chatconv/${id}`)
         .then((response) => response.json())
         .then((json) => {
           setRecent(json);

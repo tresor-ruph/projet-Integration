@@ -77,7 +77,7 @@ const OverlayExample = (props) => {
       }),
     };
     try {
-      fetch('http://192.168.1.52:3000/service/addService', requestOptions)
+      fetch('https://help-recover-api.herokuapp.com/service/addService', requestOptions)
         .then((response) => response.json())
         .then((data) => {
           console.log(data);

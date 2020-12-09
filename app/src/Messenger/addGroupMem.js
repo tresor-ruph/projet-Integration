@@ -35,7 +35,7 @@ function AddGroupMem(route) {
         }),
       };
       try {
-        fetch('http://192.168.1.52:3000/group/addSingleGroup', requestOptions)
+        fetch('https://help-recover-api.herokuapp.com/group/addSingleGroup', requestOptions)
           .then((response) => response.json())
           .then(() => {
             navigation.goBack();
