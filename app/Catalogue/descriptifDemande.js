@@ -14,7 +14,8 @@ class descriptifDemande extends React.Component {
   
   componentDidMount() {
     // eslint-disable-next-line no-undef
-    fetch(`http://localhost:3000/demandeD/${this.state.userId}`)
+    //mettre ici ip pc et puis localhost
+    fetch(`http://192.168.1.55:3000/demandeD/${this.state.userId}`)
     .then(response => response.json())
     .then(json => {
       this.setState({ demande: json });

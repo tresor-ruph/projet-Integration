@@ -129,7 +129,7 @@ export default function Profil() {
     };
     console.log(requestOptions.body);
 
-    fetch('http://localhost:3000/updateData', requestOptions)
+    fetch('http://192.168.1.55:3000/updateData', requestOptions)
       .then()
       .catch((error) => {
         console.log(error);
@@ -145,7 +145,7 @@ export default function Profil() {
   };
 
   const handleCancel = () => {
-    fetch(`http://localhost:3000/users/${userId}`)
+    fetch(`http://192.168.1.55:3000/users/${userId}`)
       .then((response) => response.json())
       .then((json) => {
         console.log(json[0]);

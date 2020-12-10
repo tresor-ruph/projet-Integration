@@ -47,7 +47,7 @@ class ListeDem extends React.Component {
     if (
       (this.state.filtre === "all") & (this.state.codeP === "") ||
       this.state.codeP == NaN
-    ) {
+    ) {//mettre ici ip pc et puis localhost
       fetch("http://localhost:3000/demande/all")
         .then((response) => response.json())
         .then((json) => {

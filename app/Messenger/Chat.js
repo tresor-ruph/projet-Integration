@@ -34,7 +34,7 @@ let moreInfo = "true";
 export default function Chat(route, navigation) {
   const [user, setUser] = useState(null);
   const [messages, setMessages] = useState([]);
-  const [errorMess, setErrorMess,notification, setNotification] = useState(false);
+  const [errorMess, setErrorMess] = useState(false);
   const [groups, setGroups] = useState(route.route.params.group);
   const [expoPushToken, setExpoPushToken] = useState('');
   const notificationListener = useRef();
@@ -145,6 +145,7 @@ export default function Chat(route, navigation) {
             };
             try {
               console.log("try request");
+              //mettre ici ip pc et puis localhost
               fetch("http://192.168.1.52:3000/chat/addroom", requestOptions)
                 .then((response) => response.json())
                 .then((data) => {
@@ -210,6 +211,8 @@ export default function Chat(route, navigation) {
           setErrorMess(true);
         });
     }
+    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+
 
     return async function cleanup() {
       if(moreInfo === "false"){
@@ -217,37 +220,28 @@ export default function Chat(route, navigation) {
      
       }else {
         console.log("bye bye");
-      }
-     
-    
+      }    
     };
-    //mettre ici ma partie notifications
-    registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
-
-    notificationListener.current = Notifications.addNotificationReceivedListener(notification => {
-      setNotification(notification);
-    });
-
-    responseListener.current = Notifications.addNotificationResponseReceivedListener(response => {
-      console.log(response);
-    });
-    return () => {
-      Notifications.removeNotificationSubscription(notificationListener);
-      Notifications.removeNotificationSubscription(responseListener);
-    };
-
   }, []);
 
-  async function schedulePushNotification(text,user) {
-    await Notifications.scheduleNotificationAsync({
-      content: {
-        title: "Vous avez reçus un message de "+user,
-        body: text,
-        data: { data: 'test' },
+  async function sendPushNotification(text,user,expoPushToken) {
+    //lien utile: https://docs.expo.io/push-notifications/overview/
+    const message = {
+      to: expoPushToken,
+      sound: 'default',
+      title: 'Vous avez reçus un message de '+ user,
+      body: text,
+    };
+    await fetch('https://exp.host/--/api/v2/push/send', {
+      method: 'POST',
+      headers: {
+        Accept: 'application/json',
+        'Accept-encoding': 'gzip, deflate',
+        'Content-Type': 'application/json',
       },
-      trigger: { seconds: 2 },
+      body: JSON.stringify(message),
     });
-  }//fin fonction
+  }
   
   async function registerForPushNotificationsAsync() {
     let token;
@@ -262,9 +256,8 @@ export default function Chat(route, navigation) {
         alert('Failed to get push token for push notification!');
         return;
       }
-      //token = (await Notifications.getExpoPushTokenAsync()).data;
-      token = "ExponentPushToken[oqoweINbgum4lW8nv-dfo8]"
-      console.log(token);
+      token = "ExponentPushToken[oqoweINbgum4lW8nv-dfo8]" //modifier pour récupérer le token de l'autre personnes
+      //console.log(token);
     } else {
       alert('Must use physical device for Push Notifications');
     }
@@ -297,7 +290,7 @@ export default function Chat(route, navigation) {
     if (user) {
       //  const _id = Math.random().toString(36).substring(7);
       const _id = JSON.parse(user).Id;
-      const name = JSON.parse(user).name;
+      let name = JSON.parse(user).name;
       //sender name
       const avatar = JSON.parse(user).avatar;
       setUser({ _id, name, avatar });
@@ -309,8 +302,7 @@ export default function Chat(route, navigation) {
   }
   async function handleSend(messages) {
     lastMessage = messages[0];
-    //last Message
-    schedulePushNotification(lastMessage,"toto")
+    sendPushNotification(lastMessage.text,user.name,expoPushToken)
     const writes = messages.map((m) =>
       chatsRef.doc(chatRoom).collection("message").add(m)
     );

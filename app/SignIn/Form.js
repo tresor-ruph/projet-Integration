@@ -138,7 +138,7 @@ class Form extends React.Component {
       }
 
       //var bonneDate = this.state.dateNaissance.replaceAll('/', ',');
-      fetch('http://localhost:3000/auth/', { //mettre adresse ip de mon pc
+      fetch('http://localhost:3000/auth/', {  //mettre ici ip pc et puis localhost
         method: 'POST',
         body: JSON.stringify({
           nom: this.state.nom,
