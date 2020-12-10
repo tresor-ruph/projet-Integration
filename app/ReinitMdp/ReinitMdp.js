@@ -54,7 +54,7 @@ class Reinit extends React.Component{
 
     componentDidMount(){
         
-
+    const fetch = require('node-fetch');
       fetch(`http://localhost:3000/reinitmdpAll/`)
           .then(response => response.json())
           .then(json => {
@@ -98,14 +98,14 @@ const styles = StyleSheet.create({
     },
 
     Text1: {
-        fontSize: '130%',
+        fontSize: 13,
         marginLeft:'7%',
         marginTop:'5%',
         marginBottom:'3%',
         width:'90%'
     },
     Text2: {
-        fontSize: '120%',
+        fontSize: 13,
         marginTop:'2%',
         width:'90%',
         textAlign:'center'
@@ -117,7 +117,7 @@ const styles = StyleSheet.create({
         marginTop:'5%',
         marginBottom:'5%',
         height:'10%',
-        fontSize:'120%',
+        fontSize:12,
         borderWidth:1,
         borderColor: "#20232a",
         borderRadius:10

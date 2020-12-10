@@ -13,7 +13,7 @@ class ReinitMdp2 extends React.Component{
         super(route,props);
         this.state={
             donnees:"",
-            mail:route.route.params.email,
+            //mail:route.route.params.email,
             questionSec:"",
             reponseSec:"",
             motdepasse:"",
@@ -62,9 +62,6 @@ class ReinitMdp2 extends React.Component{
           
         }
 
-        
-        
-      
         this.props.navigation.navigate('Login');
         alert("Password réinitialisé")
     }
@@ -72,6 +69,9 @@ class ReinitMdp2 extends React.Component{
     
 
     componentDidMount(){
+
+      const fetch = require('node-fetch');
+
         fetch(`http://localhost:3000/reinitmdpR/${this.state.mail}`)
           .then(response => response.json())
           .then(json => {
@@ -157,14 +157,14 @@ const styles = StyleSheet.create({
     },
 
     Text1: {
-        fontSize: '130%',
+        fontSize: 13,
         marginLeft:'7%',
         marginTop:'5%',
         marginBottom:'3%',
         width:'90%'
     },
     Text2: {
-        fontSize: '120%',
+        fontSize: 12,
         marginLeft:'7%',
         marginTop:'2%',
         width:'90%',
@@ -172,7 +172,7 @@ const styles = StyleSheet.create({
     },
 
     Text3:{
-      fontSize: '120%',
+      fontSize: 12,
         marginTop:'7%',
         marginBottom:'5%',
         marginLeft:'7%',
@@ -186,7 +186,7 @@ const styles = StyleSheet.create({
         marginTop:'5%',
         marginBottom:'5%',
         height:'10%',
-        fontSize:'120%',
+        fontSize:12,
         borderWidth:1,
         borderColor: "#20232a",
         borderRadius:10
