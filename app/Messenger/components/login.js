@@ -10,7 +10,7 @@ export default function Login(props) {
   const onLogin = async () => {
     // eslint-disable-next-line no-undef
     //mettre ici ip pc et puis localhost
-    fetch(`http://localhost:3000/contacts/${username}`)
+    fetch(`http://192.168.1.55:3000/contacts/${username}`)
       .then((reponse) => reponse.json())
       .then((json) => {
         console.log(json);

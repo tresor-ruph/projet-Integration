@@ -47,14 +47,14 @@ class ListeDem extends React.Component {
     if (
       (this.state.filtre === "all") & (this.state.codeP === "") ||
       this.state.codeP == NaN
-    ) {//mettre ici ip pc et puis localhost
-      fetch("http://localhost:3000/demande/all")
+    ) {//mettre ici ip pc et puis localhost ou 192.168.1.55
+      fetch("http://192.168.1.55:3000/demande/all")
         .then((response) => response.json())
         .then((json) => {
           this.setState({ demande: json });
         });
     } else if (this.state.codeP === "") {
-      fetch(`http://localhost:3000/demandeCat/'${this.state.filtre}'/`)
+      fetch(`http://192.168.1.55:3000/demandeCat/'${this.state.filtre}'/`)
         .then((response) => response.json())
         .then((json) => {
           this.setState({ demande: json });
@@ -62,7 +62,7 @@ class ListeDem extends React.Component {
           console.log(this.state.demande);
         });
     } else if (this.state.filtre === "all") {
-      fetch(`http://localhost:3000/demandeCode/'${this.state.codeP}'/`)
+      fetch(`http://192.168.1.55:3000/demandeCode/'${this.state.codeP}'/`)
         .then((response) => response.json())
         .then((json) => {
           this.setState({ demande: json });
@@ -71,7 +71,7 @@ class ListeDem extends React.Component {
         });
     } else {
       fetch(
-        `http://localhost:3000/demande/'${this.state.filtre}'/'${this.state.codeP}'/`
+        `http://192.168.1.55:3000/demande/'${this.state.filtre}'/'${this.state.codeP}'/`
       )
         .then((response) => response.json())
         .then((json) => {

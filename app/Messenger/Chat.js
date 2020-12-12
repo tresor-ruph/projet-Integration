@@ -114,7 +114,7 @@ export default function Chat(route, navigation) {
     } else {
       console.log("test request 2")
       fetch(
-        `http://localhost:3000/chat/${route.route.params.senderId}/${route.route.params.recieverId}/${moreInfo}`
+        `http://192.168.1.55:3000/chat/${route.route.params.senderId}/${route.route.params.recieverId}/${moreInfo}`
       )
         .then((reponse) => reponse.json())
         .then((json) => {
@@ -228,16 +228,16 @@ export default function Chat(route, navigation) {
     //lien utile: https://docs.expo.io/push-notifications/overview/
     const message = {
       to: expoPushToken,
-      sound: 'default',
-      title: 'Vous avez reçus un message de '+ user,
+      sound: "default",
+      title: "Vous avez reçus un message de "+ user,
       body: text,
     };
-    await fetch('https://exp.host/--/api/v2/push/send', {
-      method: 'POST',
+    await fetch("https://exp.host/--/api/v2/push/send", {
+      method: "POST",
       headers: {
-        Accept: 'application/json',
-        'Accept-encoding': 'gzip, deflate',
-        'Content-Type': 'application/json',
+        Accept: "application/json",
+        "Accept-encoding": "gzip, deflate",
+        "Content-Type": "application/json",
       },
       body: JSON.stringify(message),
     });
@@ -248,26 +248,26 @@ export default function Chat(route, navigation) {
     if (Constants.isDevice) {
       const { status: existingStatus } = await Permissions.getAsync(Permissions.NOTIFICATIONS);
       let finalStatus = existingStatus;
-      if (existingStatus !== 'granted') {
+      if (existingStatus !== "granted") {
         const { status } = await Permissions.askAsync(Permissions.NOTIFICATIONS);
         finalStatus = status;
       }
-      if (finalStatus !== 'granted') {
-        alert('Failed to get push token for push notification!');
+      if (finalStatus !== "granted") {
+        alert("Failed to get push token for push notification!");
         return;
       }
       token = "ExponentPushToken[oqoweINbgum4lW8nv-dfo8]" //modifier pour récupérer le token de l'autre personnes
       //console.log(token);
     } else {
-      alert('Must use physical device for Push Notifications');
+      alert("Must use physical device for Push Notifications");
     }
   
-    if (Platform.OS === 'android') {
-      Notifications.setNotificationChannelAsync('default', {
-        name: 'default',
+    if (Platform.OS === "android") {
+      Notifications.setNotificationChannelAsync("default", {
+        name: "default",
         importance: Notifications.AndroidImportance.MAX,
         vibrationPattern: [0, 250, 250, 250],
-        lightColor: '#FF231F7C',
+        lightColor: "#FF231F7C",
       });
     }
   

@@ -41,7 +41,9 @@
   },
   "devDependencies": {
     "@babel/core": "~7.9.0",
+    "eslint": "^7.15.0",
     "eslint-config-rallycoding": "^3.2.0",
+    "eslint-plugin-react": "^7.21.5",
     "jest-expo": "^39.0.0"
   },
   "jest": {
