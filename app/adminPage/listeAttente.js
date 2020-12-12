@@ -112,7 +112,7 @@ const styles = StyleSheet.create({
     width: '50%'
   },
   mesde:{
-    fontSize: '140%',
+    fontSize: 18,
     fontWeight: 'bold'
   }
 

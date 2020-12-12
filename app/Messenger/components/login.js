@@ -1,22 +1,20 @@
+/* eslint-disable no-undef */
+/* eslint-disable max-len */
 import AsyncStorage from '@react-native-community/async-storage';
-import React, { Component, useEffect, useState } from 'react';
-import { Button, TextInput, View, StyleSheet,Text } from 'react-native';
+import React from 'react';
+import { Button, TextInput, View, StyleSheet, Text } from 'react-native';
 
-
-export default function Login(props)  {
-
-    const [username, setusername] = useState("");
-    const [password, setPassword] = useState("");
-    const [userId , setUserId] = useState("")
-    const [textValue , setTextValue] = useState("")
-    const [questionValue, setQuestion] = useState(" ");
-    const [reponseValue, setReponse] = useState(" ");
-
-  
+class Login extends React.Component {
+  constructor() {
+    super();
+    this.state = {
+      username: '',
+      password: '',
+      textValue: ''
+    };
+  }
  
-   const onLogin = async ()=> {
-   
-    
+    onLogin = () => {
     // eslint-disable-next-line no-undef
     /*
     fetch(`http://localhost:3000/contacts/${username}`)
@@ -40,47 +38,40 @@ export default function Login(props)  {
     
 
     //var t = this;
-fetch('http://localhost:3000/login/', {
+// eslint-disable-next-line no-undef
+console.log(this.state.username);
+console.log(this.state.password);
+// eslint-disable-next-line no-undef
+fetch('https://help-recover-api.herokuapp.com/login/', {
         method: 'POST',
         body: JSON.stringify({
-          Mail : username,
-          password: password
+          Mail: this.state.username,
+          password: this.state.password,
         }),
         headers: {
           Accept: 'application/json',
           'Content-Type': 'application/json',
-          "Access-Control-Allow-Origin":"true"
+          'Access-Control-Allow-Origin': 'true'
         }
-      }) .then(response => response.json())
+      }).then(response => response.json())
       .then(json => {
-
-
-        if(json.message == "entrée dans l'appli" ){
-
-          
-
+        // eslint-disable-next-line eqeqeq
+        if (json.message == "entrée dans l'appli") {
             const Id = json.id;
-            const user = { Id};
+            const user = { Id };
 
             AsyncStorage.setItem('id', JSON.stringify(json.id));
             AsyncStorage.setItem('user', JSON.stringify(user));
-            setPassword('');
-            setusername('');
-            props.navigation.navigate('HomeScreen', { userid: json.Id });
-
-
-          
-       
+            this.setState({ password: '' });
+            this.setState({ username: '' });
+            this.props.navigation.navigate('HomeScreen', { userid: json.Id });
+        // eslint-disable-next-line eqeqeq
+        } else if (json.message == 'erreur de mot de passe') {
+          this.setState({ textValue: 'mot de passe non valide' });
+        } else {
+          this.setState({ textValue: 'email non valide' });
         }
-        else if (json.message == 'erreur de mot de passe'){
-          
-          handleTextValue('mot de passe non valide');
-        
-        }else{
-          handleTextValue('email non valide');
-        }
-       
-    })
+    });
   
    /* const { username, password } = this.state;
     const requestOptions = {
@@ -101,67 +92,56 @@ fetch('http://localhost:3000/login/', {
   } catch (error) {
     console.error(error);
   }  */
+  };
+ handlePassword = (event) => {
+  this.setState({ password: event.nativeEvent.text });
+};
+ handleUsername = (event) => {
+  this.setState({ username: event.nativeEvent.text });
+};
 
-  }
-  const handleTextValue = (m) => {
-    setTextValue(m);
-  }
-const handlePassword = (event) => {
-  setPassword(event.target.value);
-}
-const handleUsername = (event) => {
-  setusername(event.target.value);
-}
-const handleQuestion =(event)=>{
-  setQuestion(event.target.value);
-}
-
-const handleReponse = (event)=>{
-  setReponse(event.target.value);
-}
-const test = (txt) =>{
-if(txt == ""){
-  return <View></View>
-}else{
-  return <View style={styles.containerr}><View style={styles.rect}><Text style={styles.erreur}>{textValue}</Text></View></View>
-
-}
-}
-  
+ test = () => {
+// eslint-disable-next-line eqeqeq
+if (this.state.textValue === '') {
+  return <View />;
+} 
+  return <View style={styles.containerr}><View style={styles.rect}><Text style={styles.erreur}>{this.state.textValue}</Text></View></View>;
+};
+  render() {
     return (
       <View style={styles.container}>
         <TextInput
                   placeholder={'Username'}
                   
-          onChange={handleUsername}
+          onChange={this.handleUsername}
           style={styles.input}
-          value={username}
+          value={this.state.username}
         />
         <TextInput
            placeholder={'Password'}
-         secureTextEntry={true}
-         value={password}
-          onChange={ handlePassword }
+         secureTextEntry
+         value={this.state.password}
+          onChange={this.handlePassword}
           style={styles.input}
         />
         
         <Button
           title={'Login'}
           style={styles.input}
-          onPress={onLogin}
+          onPress={this.onLogin}
         />
         <View style={styles.rect6}>
           <View style={styles.loremIpsumRow}> 
-            <Text style={styles.loremIpsum} onPress={() => props.navigation.navigate("ReinitMdp")}>Mot de passe oublié ? Cliquez ici</Text>
+            <Text style={styles.loremIpsum} onPress={() => this.props.navigation.navigate('ReinitMdp')}>Mot de passe oublié ? Cliquez ici</Text>
           </View>
         </View>
         
-        {test(textValue)}
+        {this.test()}
     
       </View>
       
     );
-  
+  }
 }
 
 const styles = StyleSheet.create({
@@ -189,25 +169,25 @@ const styles = StyleSheet.create({
   rect: {
     width: 161,
     height: 31,
-    backgroundColor: "rgba(255,0,0,1)"
+    backgroundColor: 'rgba(255,0,0,1)'
   },
   erreur: {
-    fontFamily: "roboto-700",
-    color: "#121212",
-    textAlign: "center",
+    color: '#121212',
+    textAlign: 'center',
     alignItems: 'center',
     marginTop: 7,
     marginLeft: 5
 
   },
   rect6: {
-    marginTop:'15%',
+    marginTop: '15%',
     width: 328,
     height: 50,
-    textAlign:'center',
-    flexDirection: "row",
-    marginLeft:'25%',
+    textAlign: 'center',
+    flexDirection: 'row',
+    marginLeft: '25%',
   },
 
   }
 );
+export default Login;

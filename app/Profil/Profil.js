@@ -1,3 +1,6 @@
+/* eslint-disable eqeqeq */
+/* eslint-disable react/jsx-closing-bracket-location */
+/* eslint-disable no-undef */
 /* eslint-disable no-alert */
 /* eslint-disable jsx-quotes */
 /* eslint-disable no-use-before-define */
@@ -61,7 +64,7 @@ export default function Profil({ navigation: { navigate } }) {
     };
     const init = async () => {
       const test = await retrieveData();
-      fetch(`http://localhost:3000/users/${test}`)
+      fetch(`https://help-recover-api.herokuapp.com/users/${test}`)
       .then((response) => response.json())
       .then((json) => {
         setLoaded(true);
@@ -146,7 +149,7 @@ export default function Profil({ navigation: { navigate } }) {
     };
     console.log(requestOptions.body);
 
-    fetch('http://localhost:3000/updateData', requestOptions)
+    fetch('https://help-recover-api.herokuapp.com/updateData', requestOptions)
       .then()
       .catch((error) => {
         console.log(error);
@@ -162,7 +165,7 @@ export default function Profil({ navigation: { navigate } }) {
   };
 
   const handleCancel = () => {
-    fetch(`http://localhost:3000/users/${userId}`)
+    fetch(`https://help-recover-api.herokuapp.com/users/${userId}`)
       .then((response) => response.json())
       .then((json) => {
         setLoaded(true);
@@ -180,8 +183,8 @@ export default function Profil({ navigation: { navigate } }) {
   };
 
 
- // return !isLoaded ? (isConnected ? <ActivityIndicator size="large" color="blue" /> : <View><Text>No internet Connection !</Text></View>) : 
-  return (<KeyboardAvoidingView
+ return !isLoaded ? (isConnected ? <ActivityIndicator size="large" color="blue" /> : <View><Text>No internet Connection !</Text></View>) : 
+  (<KeyboardAvoidingView
         behavior={Platform.OS == "ios" ? "padding" : "height"}
         style={styles.container}
       >

@@ -1,8 +1,9 @@
+/* eslint-disable max-len */
 import React from 'react';
-import { StyleSheet, View, TouchableOpacity, Text, ImageBackground  } from 'react-native';
+import { StyleSheet, View, TouchableOpacity, Text } from 'react-native';
 //import AsyncStorage from '@react-native-async-storage/async-storage';
 
-
+//<ImageBackground source={require('../img/degrade4.jpg')}>
 
 class Home extends React.Component {
   // eslint-disable-next-line no-useless-constructor
@@ -13,7 +14,6 @@ class Home extends React.Component {
   render() {
     return (
         <View style={styles.container}>
-          <ImageBackground source={require('../img/degrade4.jpg')}>
         <View style={styles.rect}>
             <TouchableOpacity
             onPress={() => this.props.navigation.navigate('Login')}
@@ -35,7 +35,6 @@ class Home extends React.Component {
             </TouchableOpacity>
             
         </View>
-        </ImageBackground>
         </View>
   );
     }

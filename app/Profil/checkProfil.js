@@ -1,3 +1,4 @@
+/* eslint-disable no-undef */
 /* eslint-disable no-nested-ternary */
 /* eslint-disable eqeqeq */
 /* eslint-disable no-empty */
@@ -51,7 +52,7 @@ export default function checkProfil({ navigation, route }) {
       handleConnectivityChange(state.isConnected);
     });
     const init = async () => {
-      fetch(`http://localhost:3000/users/${value}`)
+      fetch(`https://help-recover-api.herokuapp.com/users/${value}`)
       .then((response) => response.json())
       .then((json) => {
         setLoaded(true);
@@ -67,7 +68,7 @@ export default function checkProfil({ navigation, route }) {
     };
 let compte = 0;
 let c = 0;
-    fetch('http://localhost:3000/notation/', {
+    fetch('https://help-recover-api.herokuapp.com/notation/', {
                 method: 'POST',
                 body: JSON.stringify({
                   Id: value

@@ -1,158 +1,156 @@
-import React, { Component } from "react";
-import { StyleSheet, View, Text } from "react-native";
+/* eslint-disable no-empty */
+/* eslint-disable max-len */
+/* eslint-disable no-undef */
+/* eslint-disable react/sort-comp */
+import React from 'react';
+import { StyleSheet, View, Text ,ScrollView } from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-
+import 'localstorage-polyfill';
+let userId = 0;
 class Notation2 extends React.Component {
     constructor(props) {
         super(props);
-        this.state={
-        id : localStorage.getItem("id"),
-        chain : [],
-        chain2 : [],
-        }
-      }
+        this.state = {
+        id: 0,
+        chain: [],
+        chain2: [],
+        };
+      } 
       async storeToken(m) {
         try {
-           await AsyncStorage.setItem("id", JSON.stringify(m));
+           await AsyncStorage.setItem('id', JSON.stringify(m));
         } catch (error) {
-          console.log("Something went wrong", error);
+          console.log('Something went wrong', error);
         }
       }
       async getToken() {
         try {
-          let userData = await AsyncStorage.getItem("id");
-          let data = JSON.parse(userData);
+          const userData = await AsyncStorage.getItem('id');
+          const data = JSON.parse(userData);
           return data;
         } catch (error) {
-          console.log("Something went wrong", error);
+          console.log('Something went wrong', error);
         }
       }
-      componentDidMount(){
-       
-        try{
-        
-        console.log(this.state.id);
-              let t = this;
-              this.getToken().then(function(result) {
-                t.setState({id : result});
-                t.afficher();
-            });
-        }catch{
-            this.props.navigation.navigate('login');
-        }
-                
+      componentDidMount() {
+        try {
+              //const t = this;
+              async function getUserId(){
+              let idr = await AsyncStorage.getItem('id');
+              id = JSON.parse(idr)
+              userId =id ;
+              }
+              getUserId();
+              //this.getToken().then((result) => {
+                //this.setState({ id: idr });
+                this.afficher();
+            //});
+          } catch (err) {
+          console.log(err);
+          }
              }
-      afficher(){
-        let test = [];
-        let test2 =[];
+      afficher() {
+        const test = [];
+        const test2 = [];
         let compte = 0;
         let c = 0;
-         fetch('http://localhost:3000/notation/', {
+         fetch('https://help-recover-api.herokuapp.com/notation/', {
                 method: 'POST',
                 body: JSON.stringify({
-                  Id : this.state.id
+                  Id: userId
                 }),
                 headers: {
                   Accept: 'application/json',
                   'Content-Type': 'application/json',
-                  "Access-Control-Allow-Origin":"true"
+                  'Access-Control-Allow-Origin': 'true'
                 }
-              }) .then(response => response.json())
+              }).then(response => response.json())
               .then(json => {
-                if(json.message == 'pas de demande a ce nom'){
-                }else{
-                  if(json.resultat[0]==undefined){
-                  test2.push(<View style={styles.rect} key = {1}> <Text style={styles.loremIpsum}>aucun utilisateur {'\n'}ne vous a noté pour l'instant</Text> </View>);
-                    this.setState({chain2: test2});
+                console.log(json);
+                if (json.message === 'pas de demande a ce nom') {
+                } else if (json.resultat[0] === undefined) {
+                  test2.push(<View style={styles.rect} key={1}><Text style={styles.loremIpsum}> aucune notation pour l'instant </Text></View>);
+                    this.setState({ chain2: test2 });
                     this.render();
-                  }else{
-                      for(let i = 0;i<json.resultat.length;i++){
-                        compte = compte+json.resultat[i].rating;
+                  } else {
+                      for (let i = 0; i < json.resultat.length; i++) {
+                        compte += json.resultat[i].rating;
                         c++;
                       }
-                      compte = compte/c;
-                    test2.push(<View style={styles.rect} key = {-1}> <Text style={styles.loremIpsum}>votre notation est de : {compte} sur 5</Text> </View>);
-                      for(let i = 0 ; i < json.resultat.length; i++){
-                        
-                       //if(json.resultat[i].donneurId == this.state.donneurId  && json.resultat[i].idDemande == this.state.idDemande){
-                         
-                        
-                        test.push( <View style={styles.rect2} key ={i}><Text style={styles.loremIpsum2}>commentaire de {json.resultat[i].Nom} : </Text><Text style={styles.tresBien}>{json.resultat[i].commentaire}</Text></View>);
-                        this.setState({chain: test});
-                        this.setState({chain2: test2});
+                      compte /= c;
+                      compte = compte.toFixed(2);
+                      
+                    test2.push(<View style={styles.rect} key={-1}><Text style={styles.loremIpsum}>votre notation est de : {compte} sur 5</Text></View>);
+                      for (let i = 0; i < json.resultat.length; i++) {
+                        test.push(<View style={styles.rect2} key={i}><Text style={styles.loremIpsum2}>commentaire de {json.resultat[i].Nom} : </Text><View><Text style={styles.tresBien}>{json.resultat[i].commentaire}</Text></View></View>);
+                        this.setState({ chain: test });
+                        this.setState({ chain2: test2 });
                         this.render();
-                       //}
                 }
                 }
-              }
-            })
-      
-      
+            });
       }
 
 
-      render(){
-        let test = this.state.chain;
-        let titre = this.state.chain2;
+      render() {
+        const test = this.state.chain;
+        const titre = this.state.chain2;
   return (
-    <View style={styles.container}>
-      
-      {titre.map((value, index) => {
-         return value
-        })}
-      {test.map((value, index) => {
-         return value
-        })}
-    </View>
+    <ScrollView style={styles.container}>
+      {titre.map((value) => value)}
+      {test.map((value) => value)}
+    
+    </ScrollView>
 
-  );}
+  ); 
+}
 }
 
 const styles = StyleSheet.create({
   container: {
-    width: 336,
+    width: 375,
     height: 312,
     
   },
   rect: {
-    width: 450,
+    width: 370,
     height: 131,
-    backgroundColor: "rgba(255,231,221,1)",
+    backgroundColor: 'rgba(255,231,221,1)',
     alignItems: 'center',
   },
   loremIpsum: {
     flex: 1,
-    fontFamily: "roboto-regular",
-    color: "#121212",
-    lineHeight: 14,
+    color: '#121212',
+    //lineHeight: 14,
     fontSize: 19,
     marginTop: 59,
     marginLeft: 20
   },
   rect2: {
     
-    width: 375,
+    width: 250,
     height: 129,
-    backgroundColor: "rgba(175,176,181,1)",
+    backgroundColor: 'rgba(175,176,181,1)',
     marginTop: 52,
-    marginLeft: 41,
+    marginLeft: 55,
     marginRight: 41,
     alignItems: 'center',
+    marginBottom:10
   },
   loremIpsum2: {
     flex: 0.2,
-    fontFamily: "roboto-regular",
-    color: "#121212",
+    color: '#121212',
     fontSize: 18,
-    textDecorationLine: "underline",
-    marginLeft: 10
+    textDecorationLine: 'underline',
+    marginLeft: 10,
+    paddingBottom:0
   },
   tresBien: {
-    fontFamily: "roboto-regular",
-    color: "#121212",
+    color: '#121212',
     fontSize: 14,
-    marginTop: 47,
-    marginLeft: 10
+    paddingTop: 0,
+    marginLeft: 10,
+    alignItems: 'center',
   }
 });
 
