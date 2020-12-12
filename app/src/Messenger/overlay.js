@@ -90,6 +90,8 @@ const OverlayExample = (props) => {
   const handleReject = () => {
     // removeServ();
     setServId();
+    setVisible(false);
+
   };
   const handleLater = () => {
     setVisible(false);

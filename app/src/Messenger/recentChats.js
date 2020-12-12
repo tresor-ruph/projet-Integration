@@ -2,6 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
 import {useNavigation, useIsFocused} from '@react-navigation/native';
+import {ListItem, Avatar} from 'react-native-elements';
 
 import Contact from './contact';
 import OverlayExample from './overlay';
@@ -41,27 +42,24 @@ function RecentChat() {
     const arr = [];
     let i = 0;
 
-    Array.from(recentChat).forEach((element) => {
+    Array.from(recentChat).forEach((elt) => {
       arr.push(
-        <Contact
-          key={i}
-          name={element.Nom}
-          imgUrl={element.PhotoProfil}
-          repert={false}
-          lastMess={element.descriptif}
-          onNav={() =>
+        <ListItem
+          key={elt.Id}
+          bottomDivider
+          onPress={() =>
             navigation.navigate('Chat', {
-              recieverId: element.recieverId,
-              senderId: element.senderId,
+              recieverId: elt.recieverId,
+              senderId: elt.senderId,
               check: 'offre',
               //servId : serviceId,
               handleItem: (item) => {
                 if (item === 'confOffre') {
                   setConfOffre(true);
-                  setIdDem(element.recieverId);
-                  setIdOffreur(element.senderId);
-                  setIdServ(element.contact);
-                  setIdNom(element.descriptif);
+                  setIdDem(elt.recieverId);
+                  setIdOffreur(elt.senderId);
+                  setIdServ(elt.contact);
+                  setIdNom(elt.descriptif);
                 }
                 console.log(item);
               },
@@ -69,8 +67,13 @@ function RecentChat() {
                 console.log(item2);
               },
             })
-          }
-        />,
+          }>
+          <Avatar source={{uri: elt.PhotoProfil}} size="meduim" rounded />
+          <ListItem.Content>
+            <ListItem.Title>{elt.Nom}</ListItem.Title>
+            <ListItem.Subtitle>{elt.descriptif}</ListItem.Subtitle>
+          </ListItem.Content>
+        </ListItem>,
       );
       ++i;
     });

@@ -87,19 +87,27 @@ function ChatOption(route) {
         .sort((a, b) => a.Nom.localeCompare(b.Nom))
         .map((l, i) => (
           <ListItem key={i} bottomDivider>
-            <Avatar source={{uri: l.PhotoProfil}} />
+            <Avatar source={{uri: l.PhotoProfil}} rounded />
             <ListItem.Content>
               <ListItem.Title>{l.Nom}</ListItem.Title>
-              {l.userId === userId && (
-                <TouchableOpacity style={styles.retirer}>
-                  <Text style={{color: 'green'}}>Admin</Text>
-                </TouchableOpacity>
-              )}
-              {ownerId === userId && (
-                <TouchableOpacity style={styles.ajouter} onPress={() => leaveGroup(l.userId, true)}>
-                  <Text style={{color: 'red'}}>retirer</Text>
-                </TouchableOpacity>
-              )}
+              {ownerId === userId &&
+                (l.userId === ownerId ? (
+                  <TouchableOpacity style={styles.retirer}>
+                    <Text style={{color: 'green'}}>Admin</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <TouchableOpacity style={styles.ajouter} onPress={() => leaveGroup(l.userId, true)}>
+                    <Text style={{color: 'red'}}>retirer</Text>
+                  </TouchableOpacity>
+                ))}
+              {ownerId !== userId &&
+                (l.userId === ownerId ? (
+                  <TouchableOpacity style={styles.retirer}>
+                    <Text style={{color: 'green'}}>Admin</Text>
+                  </TouchableOpacity>
+                ) : (
+                  <View />
+                ))}
             </ListItem.Content>
           </ListItem>
         ))}

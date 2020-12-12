@@ -1,9 +1,9 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import React, {useEffect, useState} from 'react';
 import {View} from 'react-native';
-import Contact from './contact';
 import {useNavigation, useIsFocused} from '@react-navigation/native';
 //import RecentChatStorage from './recentChat_storage';
+import {ListItem, Avatar} from 'react-native-elements';
 
 let userId = ' ';
 //import Contact from "./contact";
@@ -18,7 +18,7 @@ function GroupScreen(props) {
       id = JSON.parse(id).Id;
       userId = id;
       try {
-        fetch(`https://help-recover-api.herokuapp.com/group/${1}`)
+        fetch(`https://help-recover-api.herokuapp.com/group/${userId}`)
           .then((response) => response.json())
           .then((json) => {
             setGroups(json);
@@ -35,18 +35,17 @@ function GroupScreen(props) {
 
     Array.from(groups)
       .sort((a, b) => a.GroupName.localeCompare(b.GroupName))
-      .forEach((element) => {
+      .forEach((elt) => {
         arr.push(
-          <Contact
-            key={element.Id}
-            id={element.Id}
-            name={element.GroupName}
-            imgUrl={element.GroupImage}
-            lastMess={element.text}
-            grp={true}
-            repert={false}
-            onNav={() => navigation.navigate('Chat', {recieverId: element.Id, senderId: userId, group: true})}
-          />,
+          <ListItem
+            key={elt.Id}
+            bottomDivider
+            onPress={() => navigation.navigate('Chat', {recieverId: elt.Id, senderId: userId, group: true})}>
+            <Avatar source={{uri: elt.GroupImage}} size="large" rounded />
+            <ListItem.Content>
+              <ListItem.Title>{elt.GroupName}</ListItem.Title>
+            </ListItem.Content>
+          </ListItem>,
         );
       });
 
