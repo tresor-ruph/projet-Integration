@@ -36,6 +36,8 @@ import attente from './adminPage/listeAttente';
 import Notation2 from './Homescreen/Notation2';
 import Notation from './Homescreen/Notation';
 import checkProfil from './Profil/checkProfil';
+import CodeVeriication from './auth';
+import HomeHeader from './HomeHeader';
 import VideoWeb from './video';
 // Create the navigator
 const Stack = createStackNavigator();
@@ -43,11 +45,53 @@ function Nav() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
+        <Stack.Screen
+          name="Connexion"
+          component={Login}
+          options={{
+            headerStyle: {
+              backgroundColor: '#4B86D2',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              marginLeft: '36%',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Code de securite"
+          component={CodeVeriication}
+          options={{
+            headerStyle: {
+              backgroundColor: '#4B86D2',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              marginLeft: '20%',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{
+            header: () => <HomeHeader />,
+          }}
+        />
 
-        <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="HomeScreen" component={HomeScreen} />
-
-        <Stack.Screen name="signup" component={Form} />
+        <Stack.Screen
+          name="Creer un compte"
+          component={Form}
+          options={{
+            headerStyle: {
+              backgroundColor: '#4B86D2',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              marginLeft: '18%',
+            },
+          }}
+        />
         <Stack.Screen name="chatvideo" component={VideoWeb} />
 
         <Stack.Screen name="checkProfil" component={checkProfil} />
@@ -56,7 +100,20 @@ function Nav() {
         <Stack.Screen name="succes" component={Succes} />
         <Stack.Screen name="admin" component={attente} />
         <Stack.Screen name="ListeDem" component={ListeDem} />
-        <Stack.Screen name="Demande" component={Demande} />
+        <Stack.Screen
+          name="Demande"
+          component={Demande}
+          options={{
+            headerStyle: {
+              backgroundColor: '#4B86D2',
+            },
+            headerTintColor: '#fff',
+            title: 'Faire une Demande',
+            headerTitleStyle: {
+              marginLeft: '15%',
+            },
+          }}
+        />
         <Stack.Screen name="Notation" component={Notation} />
         <Stack.Screen name="Notation2" component={Notation2} />
         <Stack.Screen name="mesDemandes" component={mesDemandes} />
@@ -98,7 +155,20 @@ function Nav() {
             },
           }}
         />
-        <Stack.Screen name="Profil" component={Profil} />
+        <Stack.Screen
+          name="Profil"
+          component={Profil}
+          options={{
+            headerStyle: {
+              backgroundColor: '#4B86D2',
+            },
+            headerTintColor: '#fff',
+            title: 'Mon Profil',
+            headerTitleStyle: {
+              marginLeft: '20%',
+            },
+          }}
+        />
         <Stack.Screen
           name="Chat"
           component={Chat}

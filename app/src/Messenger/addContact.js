@@ -2,6 +2,7 @@ import React, {useState} from 'react';
 import {StyleSheet, View, Button, TouchableOpacity, TextInput, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-community/async-storage';
+// import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 function Addcontact(props) {
   const [name, setName] = useState('');

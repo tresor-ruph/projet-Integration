@@ -61,7 +61,6 @@ class Form extends React.Component {
   };
 
   submit() {
-    //envoie msg d'erreur si un champ est encore vide
     if (
       this.state.nom == '' ||
       this.state.prenom == '' ||
@@ -69,8 +68,7 @@ class Form extends React.Component {
       this.state.repMotdepasse == '' ||
       this.state.adresse == '' ||
       this.state.dateNaissance == '' ||
-      this.state.mail == '' ||
-      this.state.reponseSec == ''
+      this.state.mail == ''
     ) {
       const simpleAlertHandler = () => {
         alert('Tous les champs ne sont pas remplis !');
@@ -78,7 +76,6 @@ class Form extends React.Component {
       simpleAlertHandler();
       return;
     }
-    //envoie msg d'erreur si dateNaissance est != 10 , ne comprends pas de '/' ou contient autre chose que chiffre et /
     if (
       this.state.dateNaissance.length != 10 ||
       this.state.dateNaissance.includes('/') == false ||
@@ -90,7 +87,6 @@ class Form extends React.Component {
       simpleAlertHandler();
       return;
     }
-    //envoie msg d'erreur si le nbre de chiffre != 8 , si position '/' != 2 et != 5
     if (
       this.state.dateNaissance.match(/[0-9]/g).length != 8 ||
       this.state.dateNaissance.match(/[/]/g).length != 2 ||
@@ -103,7 +99,6 @@ class Form extends React.Component {
       simpleAlertHandler();
       return;
     }
-    //envoie msg d'erreur si email ne contient pas @ et . et est plus petit que 8
     if (
       this.state.mail.includes('@') == false ||
       this.state.mail.includes('.') == false ||
@@ -115,7 +110,6 @@ class Form extends React.Component {
       simpleAlertHandler();
       return;
     }
-    //envoie msg d'erreur si mdp répété est différent
     if (this.state.motdepasse != this.state.repMotdepasse) {
       const simpleAlertHandler = () => {
         alert("Le mot de passe n'est pas correctement répété !");
@@ -123,7 +117,6 @@ class Form extends React.Component {
       simpleAlertHandler();
       return;
     }
-    //envoie msg d'erreur si le mdp est < Ã  8 OU ne contient pas de chiffre OU ne contient pas de majuscule
     if (
       this.state.motdepasse.length < 8 ||
       this.state.motdepasse.match(/\d+/) == null ||
@@ -135,7 +128,6 @@ class Form extends React.Component {
       simpleAlertHandler();
       return;
     }
-    //envoie un msg d'erreur si code postal ne contient pas que des chiffres
     if (this.state.codePostal.match(/[0-9]/g) == null) {
       const simpleAlertHandler = () => {
         alert("Le code postal n'est pas correct, uniquement les chiffres sont acceptés !");
@@ -143,70 +135,16 @@ class Form extends React.Component {
       simpleAlertHandler();
       return;
     }
-    this.envoie();
+    this.props.navigation.navigate('Code de securite', {values: this.state});
+
+    //this.envoie();
   }
 
-  envoie() {
-    fetch('https://help-recover-api.herokuapp.com/reinitmdpE/', {
-      method: 'POST',
-      body: JSON.stringify({
-        mail: this.state.mail,
-        reponseSec: this.state.reponseSec,
-        question: this.state.question,
-      }),
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'true',
-      },
-    });
-
-    let bonneDate = this.state.dateNaissance.replace('/', ',');
-    bonneDate = bonneDate.replace('/', ',');
-    fetch('https://help-recover-api.herokuapp.com/auth/', {
-      //192.168.0.15 localhost
-      method: 'POST',
-      body: JSON.stringify({
-        nom: this.state.nom,
-        prenom: this.state.prenom,
-        adresse: this.state.adresse,
-        dateNaissance: bonneDate,
-        Mail: this.state.mail,
-        codePostal: this.state.codePostal,
-        password: this.state.motdepasse,
-        nombre: this.nombre,
-      }),
-      headers: {
-        Accept: 'application/json',
-        'Content-Type': 'application/json',
-        'Access-Control-Allow-Origin': 'true',
-      },
-    })
-      .then((response) => response.json())
-      .then((json) => {
-        if (json.message == 'inscription finie') {
-          this.storeToken(json.id);
-          this.props.navigation.navigate('HomeScreen');
-
-        }
-      })
-      .catch(() => {
-        alert('Echec de connexion. Réessayez.');
-      });
-  }
+  
   render() {
     return (
       <ScrollView>
         <View style={styles.container}>
-          <Text
-            style={{
-              fontSize: 24,
-              fontWeight: 'bold',
-              textAlign: 'auto',
-              marginBottom: '1%',
-            }}>
-            Formulaire d'inscription
-          </Text>
           <TextInput
             placeholder="Nom"
             maxLength={50}
@@ -273,6 +211,7 @@ class Form extends React.Component {
             minLength={8}
             labels={this.state.label}
           />
+
           <TextInput
             placeholder="Repetition du mot de passe"
             maxLength={50}
@@ -282,69 +221,9 @@ class Form extends React.Component {
             }}
             style={styles.textInput}
           />
-          {/* <Text style={{width: '95%', fontSize: 24, textAlign: 'center'}}>
-            Envoyer votre photo de carte d'identité avec ce nombre à coté de la carte.{' '}
-          </Text>
-          <Text
-            style={{
-              width: '90%',
-              fontSize: 24,
-              fontFamily: 'bold',
-              textAlign: 'center',
-            }}>
-            {this.nombre}{' '}
-          </Text> */}
-          <Text style={styles.textq}>Choisissez votre question secrète</Text>
-          <Picker
-            style={{
-              height: '8%',
-              fontSize: 14,
-              width: '80%',
-              marginLeft: '13%',
-              marginTop: '5%',
-              marginBottom: '3%',
-            }}
-            selectedValue={this.state.question}
-            onValueChange={this.updateQuestion}>
-            <Picker.Item
-              label="Quel était le prénom de votre premier animal domestique ?"
-              value="Quel était le prénom de votre premier animal domestique ?"
-            />
-            <Picker.Item
-              label="Quelle était la marque de votre première voiture ?"
-              value="Quelle était la marque de votre première voiture ?"
-            />
-            <Picker.Item label="Quel est votre lieux de naissance ?" value="Quel est votre lieux de naissance ?" />
-            <Picker.Item
-              label="Quel est le prénom de votre arrière-grand-mère maternelle ?"
-              value="Quel est le prénom de votre arrière-grand-mère maternelle ?"
-            />
-            <Picker.Item label="Où avez vous passé votre enfance ?" value="Où avez vous passé votre enfance ?" />
-            <Picker.Item
-              label="Où êtes-vous parti pour la première fois en voyage ?"
-              value="Où êtes-vous parti pour la première fois en voyage ?"
-            />
-            <Picker.Item
-              label="Dans quelle ville se sont rencontrés vos parents ?"
-              value="Dans quelle ville se sont rencontrés vos parents ?"
-            />
-            <Picker.Item
-              label="Quel est le nom et prénom de votre premier amour ?"
-              value="Quel est le nom et prénom de votre premier amour ?"
-            />
-          </Picker>
-
-          <TextInput
-            placeholder="Entrez votre réponse"
-            onChangeText={(text) => {
-              this.setState({reponseSec: text});
-            }}
-            style={styles.textInput2}
-          />
-
-          <Text style={styles.messageimp}>⚠️ Il est extrêmement important de conserver cette réponse ⚠️</Text>
           <Text style={styles.text}>Cliquer pour afficher les mots de passe</Text>
           <Switch onValueChange={this.toggleSwitch} value={!this.state.showPassword} style={styles.switch} />
+
           <View style={styles.inscrip}>
             <Button
               title="S'inscrire"
@@ -361,49 +240,33 @@ class Form extends React.Component {
 
 const styles = StyleSheet.create({
   container: {
+    margin: 20,
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    marginBottom: 15,
-    marginTop: '5%',
+    marginTop: '7%',
   },
 
   inscrip: {
+    marginTop: 20,
     width: '90%',
   },
   image: {
     flex: 1,
     resizeMode: 'cover',
   },
-
-  // image: {
-  //   width: '100%',
-  //   height: '100%',
-  //   flex: 1,
-  // },
-
   textInput: {
     height: 50,
     width: '93%',
-    paddingHorizontal: 5,
     backgroundColor: 'white',
     marginBottom: '3%',
     borderRadius: 8,
-    fontSize: 20,
+    borderColor: 'black',
   },
 
-  textInput2: {
-    marginTop: 25,
-    borderWidth: 1,
-    borderColor: 'blue',
-    borderRadius: 10,
-    textAlign: 'center',
-    height: 45,
-    marginBottom: '8%',
-  },
   text: {
     textAlign: 'center',
-    fontSize: 15,
+    fontSize: 14,
     marginTop: 10,
   },
   switch: {
@@ -414,44 +277,6 @@ const styles = StyleSheet.create({
   },
   bar: {
     width: '10%',
-  },
-  rect6: {
-    marginTop: '15%',
-    width: 328,
-    height: 50,
-    textAlign: 'center',
-    flexDirection: 'row',
-    marginLeft: '25%',
-  },
-  input: {
-    width: 200,
-    height: 44,
-    padding: 10,
-    borderWidth: 1,
-    borderColor: 'black',
-    marginBottom: 10,
-  },
-  reponseSec: {
-    height: '7%',
-    width: '60%',
-    marginLeft: '20%',
-    marginTop: '4%',
-    marginBottom: '5%',
-    fontSize: 15,
-    textAlign: 'center',
-  },
-
-  textq: {
-    fontSize: 18,
-    marginLeft: '15%',
-    marginTop: '10%',
-  },
-
-  messageimp: {
-    fontSize: 17,
-    textAlign: 'center',
-    marginBottom: '5%',
-    marginTop: '5%',
   },
 });
 

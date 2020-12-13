@@ -1,5 +1,5 @@
 apply plugin: "com.android.application"
-
+apply plugin: 'com.google.gms.google-services'
 import com.android.build.OutputFile
 
 /**
@@ -188,6 +188,7 @@ dependencies {
     // implementation project(':WebRTCModule') // No longer needed due to autolinking
 
     implementation "androidx.swiperefreshlayout:swiperefreshlayout:1.1.0"
+    implementation "androidx.browser:browser:1.2.0"
     
     // Sorry, but couldn't get flipper working. Feel free to submit a PR if you can
     // the .pom is here https://dl.bintray.com/facebook/maven/com/facebook/flipper/flipper/0.66.0/

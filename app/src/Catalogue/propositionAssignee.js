@@ -1,11 +1,7 @@
-/* eslint-disable no-shadow */
-/* eslint-disable no-alert */
-/* eslint-disable react-native/no-inline-styles */
 import React from 'react';
 import {ListItem, Avatar, Overlay} from 'react-native-elements';
-import {View, StyleSheet, Text, Button} from 'react-native';
+import {View, StyleSheet, TextInput, Text, TouchableOpacity, Button} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
-//import Modal from 'modal-react-native-web';
 
 let userId = 0;
 class PropositionAssignee extends React.Component {
@@ -33,7 +29,7 @@ class PropositionAssignee extends React.Component {
     }
     getUserId();
 
-    fetch(`https://help-recover-api.herokuapp.com/propositionA/${userId}`)
+    fetch(`http://localhost:3000/propositionA/${userId}`)
       .then((response) => response.json())
       .then((json) => {
         this.setState({propositions: json});
@@ -45,7 +41,7 @@ class PropositionAssignee extends React.Component {
     this.setState({idD: idDem});
     this.setState({idDo: donneurId});
     this.setState({id: userId});
-    fetch(`https://help-recover-api.herokuapp.com/demandeS/${idDem}`, {
+    fetch(`http://localhost:3000/demandeS/${idDem}`, {
       method: 'delete',
     })
       .then((response) => response.json())
@@ -58,7 +54,7 @@ class PropositionAssignee extends React.Component {
 
   submit2(idDem) {
     alert('Etes vous sur ?');
-    fetch(`https://help-recover-api.herokuapp.com/proposSA/${idDem}`, {
+    fetch(`http://localhost:3000/proposSA/${idDem}`, {
       method: 'delete',
     })
       .then((response) => response.json())
@@ -71,7 +67,7 @@ class PropositionAssignee extends React.Component {
     if (notation) {
       let vis = !this.state.visible;
       this.setState({visible: vis});
-      fetch('https://help-recover-api.herokuapp.com/ajoutNotation/', {
+      fetch('http://localhost:3000/ajoutNotation/', {
         method: 'POST',
         body: JSON.stringify({
           Id: this.state.id,
@@ -97,11 +93,28 @@ class PropositionAssignee extends React.Component {
   }
 
   render() {
+    //this.submit(l.idDemande,l.idServeur)}
+    /*
+  
+  
+  
+  <View>
+        <Text>voulez-vous noter cet utilisateur?</Text>
+        <View style={{flexDirection: 'row', width:'100%'}}>
+              <View style={{flex: 1, marginLeft: '4%'}}>
+                <Button color='blue' title='oui' onPress={() => {this.goToNotation()}}></Button>
+              </View>
+              <View style={{flex: 1}}>
+                <Button color='red' title='non' onPress={() => {this.DontGoToNotation()}}></Button>
+  
+  
+  
+  </View>
+          </View>
+          </View>*/
     return (
       <View>
-        {this.state.propositions.length === 0 && (
-          <Text style={styles.mesde}>Aucun service ne vous a ete assignées pour le moment</Text>
-        )}
+        <Text style={styles.mesde}>Vos demandes assignées</Text>
 
         {this.state.propositions.map((l, i) => (
           <ListItem key={i} bottomDivider>
@@ -118,8 +131,7 @@ class PropositionAssignee extends React.Component {
                     title="Cloturer"
                     onPress={() => {
                       this.submit(l.idDemande, l.idServeur, l.userId);
-                    }}
-                  />
+                    }}></Button>
                 </View>
                 <View style={{flex: 1, marginLeft: '4%'}}>
                   <Button
@@ -127,14 +139,13 @@ class PropositionAssignee extends React.Component {
                     title="Annuler"
                     onPress={() => {
                       this.submit2(l.idPropositionConfirme);
-                    }}
-                  />
+                    }}></Button>
                 </View>
               </View>
             </ListItem.Content>
           </ListItem>
         ))}
-        {/* <Overlay ModalComponent={Modal} isVisible={this.state.visible}>
+        <Overlay isVisible={this.state.visible}>
           <View>
             <Text>Voulez-vous noter cet utilisateur?</Text>
             <View style={{flexDirection: 'row', width: '100%'}}>
@@ -144,8 +155,7 @@ class PropositionAssignee extends React.Component {
                   title="oui"
                   onPress={() => {
                     this.visible(true);
-                  }}
-                />
+                  }}></Button>
               </View>
               <View style={{flex: 1, marginLeft: '4%'}}>
                 <Button
@@ -153,12 +163,11 @@ class PropositionAssignee extends React.Component {
                   title="non"
                   onPress={() => {
                     this.visible(false);
-                  }}
-                />
+                  }}></Button>
               </View>
             </View>
           </View>
-        </Overlay> */}
+        </Overlay>
       </View>
     );
   }
@@ -170,10 +179,8 @@ const styles = StyleSheet.create({
   },
 
   mesde: {
-    margin: 8,
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: 'bold',
-    
   },
 });
 
