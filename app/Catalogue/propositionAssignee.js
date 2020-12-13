@@ -2,7 +2,6 @@ import React from 'react';
 import { ListItem, Avatar,Overlay } from 'react-native-elements';
 import { View, StyleSheet,TextInput,Text,TouchableOpacity, Button} from 'react-native';
 import AsyncStorage from "@react-native-community/async-storage";
-import Modal from 'modal-react-native-web';
 
 let userId = 0
 class PropositionAssignee extends React.Component {
@@ -147,7 +146,7 @@ visible(notation){
           
         ))
       }
-      <Overlay ModalComponent={Modal} isVisible={this.state.visible} >
+      <Overlay isVisible={this.state.visible} >
         <View>
       <Text>Voulez-vous noter cet utilisateur?</Text>
       <View style={{flexDirection: 'row', width:'100%'}}>
