@@ -4,6 +4,8 @@ module.exports = (app) => {
   const demande = require('./../controller/ajoutDem');
   const connexion = require('./../controller/connexion');
   const notation = require('./../controller/notation');
+  const notif = require('./../controller/notif.controller');
+
   //get all contacts
   app.get("/contacts/", contacts.findAll);
   //get the contacts with userIds
@@ -40,6 +42,7 @@ module.exports = (app) => {
   app.post("/login", connexion.access)
   app.post("/auth", connexion.create)
   app.get("/emailVerif/:email", userController.updateEmail)
+  app.get("/recupToken/:id", notif.findOneToken)
 
 
 

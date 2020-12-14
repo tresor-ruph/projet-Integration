@@ -39,7 +39,7 @@ export default function Chat(route, navigation) {
   const [expoPushToken, setExpoPushToken] = useState('');
   const notificationListener = useRef();
   const responseListener = useRef();
-
+  
 
   const chatId = () => {
     const chatterId = route.route.params.senderId;
@@ -67,8 +67,6 @@ export default function Chat(route, navigation) {
   }
   useEffect(() => {
   
-   
-
     if (!groups) {
       if(route.route.params.check === "offre"){
     setServ()
@@ -114,7 +112,7 @@ export default function Chat(route, navigation) {
     } else {
       console.log("test request 2")
       fetch(
-        `http://192.168.1.55:3000/chat/${route.route.params.senderId}/${route.route.params.recieverId}/${moreInfo}`
+        `http://localhost:3000/chat/${route.route.params.senderId}/${route.route.params.recieverId}/${moreInfo}`
       )
         .then((reponse) => reponse.json())
         .then((json) => {
@@ -212,6 +210,13 @@ export default function Chat(route, navigation) {
         });
     }
     registerForPushNotificationsAsync().then(token => setExpoPushToken(token));
+    const tokenNotif = "293" //route.route.params.recieverId //"293"
+    fetch(`http://localhost:3000/recupToken/${tokenNotif}`)
+    .then(response => response.json())
+    .then(json => {
+      token_notif = json[0]["tokenNotif"];
+      //console.log(token_notif)
+    })
 
 
     return async function cleanup() {
@@ -225,7 +230,6 @@ export default function Chat(route, navigation) {
   }, []);
 
   async function sendPushNotification(text,user,expoPushToken) {
-    //lien utile: https://docs.expo.io/push-notifications/overview/
     const message = {
       to: expoPushToken,
       sound: "default",
@@ -254,10 +258,12 @@ export default function Chat(route, navigation) {
       }
       if (finalStatus !== "granted") {
         alert("Failed to get push token for push notification!");
+        token = token_notif
+        console.log("token "+token);
         return;
       }
       token = "ExponentPushToken[oqoweINbgum4lW8nv-dfo8]" //modifier pour récupérer le token de l'autre personnes
-      //console.log(token);
+      //token = token_notif
     } else {
       alert("Must use physical device for Push Notifications");
     }
