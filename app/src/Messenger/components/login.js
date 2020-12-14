@@ -9,7 +9,7 @@ export default function Login(props) {
 
   const onLogin = async () => {
     // eslint-disable-next-line no-undef
-    fetch(`http://192.168.1.52:3000/contacts/${username}/${password}`)
+    fetch(`https://help-recover-api.herokuapp.com/contacts/${username}/${password}`)
       .then((reponse) => reponse.json())
       .then((json) => {
         if (json.length > 0) {
@@ -20,6 +20,7 @@ export default function Login(props) {
           // setUserId(json[0].Id);
 
           const user = {Id, name, avatar};
+          console.log(user);
           AsyncStorage.setItem('user', JSON.stringify(user));
           props.navigation.navigate('HomeScreen', {userid: json[0].Id});
         } else {

@@ -14,7 +14,6 @@ class Proposition extends React.Component {
       idDemandeur: 0,
     };
   }
-
   componentDidMount() {
     async function getUserId() {
       let id = await AsyncStorage.getItem('user');

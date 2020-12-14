@@ -21,6 +21,10 @@ function Addcontact(props) {
         try {
           let userId = await AsyncStorage.getItem('user');
           userId = JSON.parse(userId).Id;
+          console.log('********************************************************');
+          console.log(userId);
+          console.log('********************************************************');
+
           const value = await AsyncStorage.getItem('contact');
           let value2 = JSON.parse(value);
           if (value2.length === 0) {
@@ -46,13 +50,13 @@ function Addcontact(props) {
               }
             }
           }
+          console.log(userId);
         } catch (e) {
-          console.log(e);
+          console.log('something went wrong');
         }
       }
-
       try {
-        fetch(`https://help-recover-api.herokuapp.com/contacts/${email}`)
+        fetch(`https://help-recover-api.herokuapp.com/contacts/${email}/contact85550`)
           .then((response) => response.json())
           .then((json) => {
             if (json.length === 1) {

@@ -27,7 +27,7 @@ const CodeVeriication = (route) => {
   const envoie = () => {
     let bonneDate = state.dateNaissance.replace('/', ',');
     bonneDate = bonneDate.replace('/', ',');
-    fetch('http://192.168.1.52:3000/auth/', {
+    fetch('https://help-recover-api.herokuapp.com/auth/', {
       method: 'POST',
       body: JSON.stringify({
         nom: state.nom,

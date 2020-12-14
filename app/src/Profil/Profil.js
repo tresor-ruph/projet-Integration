@@ -4,6 +4,7 @@ import React, {useEffect, useState} from 'react';
 import {StyleSheet, Button, View, Image, TextInput, ActivityIndicator, Text, KeyboardAvoidingView} from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
 import {Button as Test} from 'react-native-paper';
+import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import * as firebase from 'firebase';
 import AsyncStorage from '@react-native-community/async-storage';
@@ -57,7 +58,7 @@ export default function Profil({navigation: {navigate}}) {
           setImage(json[0].PhotoProfil);
         })
         .catch((error) => {
-          console.error(error);
+          alert('Erreur de connexion');
         });
     };
     unsubscribe();
@@ -70,14 +71,13 @@ export default function Profil({navigation: {navigate}}) {
   };
 
   const pickImage = async () => {
-    const permissionResult = await ImagePicker.requestCameraRollPermissionsAsync();
-
-    if (permissionResult.granted === false) {
-      alert('Permission to access camera roll is required!');
-      return;
+    const {status} = await Permissions.askAsync(Permissions.CAMERA);
+    if (status !== 'granted') {
+      alert('Hey! You might want to enable notifications for my app, they are good.');
     }
+
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
+      mediaTypes: 'Images',
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
@@ -105,33 +105,37 @@ export default function Profil({navigation: {navigate}}) {
   };
 
   const handleSubmit = async () => {
-    const imageName = `profile${userId}`;
+    if (!nom || !prenom || !code || !adresse) {
+      alert('Veuillez remplir tous les champs');
+    } else {
+      const imageName = `profile${userId}`;
 
-    const temp = isPicked ? await uploadImage(image, imageName) : image;
+      const temp = isPicked ? await uploadImage(image, imageName) : image;
 
-    const requestOptions = {
-      method: 'PUT',
-      headers: {
-        'Content-type': 'application/json; charset=UTF-8',
-        'Access-Control-Allow-Origin': '*',
-      },
-      body: JSON.stringify({
-        Nom: nom,
-        Prenom: prenom,
-        CodePostal: code,
-        Adresse: adresse,
-        userId,
-        Photo: temp,
-      }),
-    };
-    fetch('https://help-recover-api.herokuapp.com/updateData', requestOptions)
-      .then()
-      .catch((error) => {
-        console.log(error);
-      });
+      const requestOptions = {
+        method: 'PUT',
+        headers: {
+          'Content-type': 'application/json; charset=UTF-8',
+          'Access-Control-Allow-Origin': '*',
+        },
+        body: JSON.stringify({
+          Nom: nom,
+          Prenom: prenom,
+          CodePostal: code,
+          Adresse: adresse,
+          userId,
+          Photo: temp,
+        }),
+      };
+      fetch('https://help-recover-api.herokuapp.com/updateData', requestOptions)
+        .then()
+        .catch((error) => {
+          console.log(error);
+        });
 
-    setBtn(true);
-    setBool(false);
+      setBtn(true);
+      setBool(false);
+    }
   };
 
   const handleBoutonDisplay = () => {
@@ -151,7 +155,7 @@ export default function Profil({navigation: {navigate}}) {
         setImage(json[0].PhotoProfil);
       })
       .catch((error) => {
-        console.error(error);
+        alert('Erreur de connexion');
       });
     setBtn(true);
     setBool(false);
@@ -168,14 +172,16 @@ export default function Profil({navigation: {navigate}}) {
   ) : (
     <KeyboardAvoidingView style={styles.container}>
       <View style={styles.top}>
-        <Image
-          source={{uri: image || 'http://ssl.gstatic.com/accounts/ui/avatar_2x.png'}}
-          style={{
-            width: 75,
-            height: 75,
-            borderRadius: 200 / 2,
-          }}
-        />
+        <View style={styles.imageFrame}>
+          <Image
+            source={{uri: image || 'http://ssl.gstatic.com/accounts/ui/avatar_2x.png'}}
+            style={{
+              width: 75,
+              height: 75,
+              borderRadius: 200 / 2,
+            }}
+          />
+        </View>
         {bool && (
           <View style={styles.photoButton}>
             <Test onPress={pickImage} icon="camera" />
@@ -247,7 +253,11 @@ const styles = StyleSheet.create({
   },
   photoButton: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'space-around',
+  },
+  imageFrame: {
+    flexDirection: 'row',
+    justifyContent: 'space-around',
   },
   textInput: {
     width: 200,
@@ -262,7 +272,7 @@ const styles = StyleSheet.create({
     borderColor: 'black',
   },
   top: {
-    padding: 10,
+    padding: 15,
   },
   bottom: {
     padding: 10,

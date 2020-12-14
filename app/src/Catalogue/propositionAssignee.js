@@ -24,15 +24,16 @@ class PropositionAssignee extends React.Component {
       let id = await AsyncStorage.getItem('user');
       id = JSON.parse(id).Id;
       console.log(id);
-      console.log(userId);
       userId = id;
     }
     getUserId();
 
-    fetch(`http://localhost:3000/propositionA/${userId}`)
+    fetch(`https://help-recover-api.herokuapp.com/propositionA/${userId}`)
       .then((response) => response.json())
       .then((json) => {
+        console.log(json);
         this.setState({propositions: json});
+        console.log(this.state.propositions);
       });
   }
 
@@ -41,20 +42,18 @@ class PropositionAssignee extends React.Component {
     this.setState({idD: idDem});
     this.setState({idDo: donneurId});
     this.setState({id: userId});
-    fetch(`http://localhost:3000/demandeS/${idDem}`, {
+    fetch(`https://help-recover-api.herokuapp.com/demandeS/${idDem}`, {
       method: 'delete',
     })
       .then((response) => response.json())
       .catch((err) => console.log(err));
     let vis = !this.state.visible;
     this.setState({visible: vis});
-    //this.componentDidMount()
-    //this.forceUpdate()
   }
 
   submit2(idDem) {
     alert('Etes vous sur ?');
-    fetch(`http://localhost:3000/proposSA/${idDem}`, {
+    fetch(`https://help-recover-api.herokuapp.com/proposSA/${idDem}`, {
       method: 'delete',
     })
       .then((response) => response.json())
@@ -67,7 +66,7 @@ class PropositionAssignee extends React.Component {
     if (notation) {
       let vis = !this.state.visible;
       this.setState({visible: vis});
-      fetch('http://localhost:3000/ajoutNotation/', {
+      fetch('https://help-recover-api.herokuapp.com/ajoutNotation/', {
         method: 'POST',
         body: JSON.stringify({
           Id: this.state.id,
@@ -93,25 +92,6 @@ class PropositionAssignee extends React.Component {
   }
 
   render() {
-    //this.submit(l.idDemande,l.idServeur)}
-    /*
-  
-  
-  
-  <View>
-        <Text>voulez-vous noter cet utilisateur?</Text>
-        <View style={{flexDirection: 'row', width:'100%'}}>
-              <View style={{flex: 1, marginLeft: '4%'}}>
-                <Button color='blue' title='oui' onPress={() => {this.goToNotation()}}></Button>
-              </View>
-              <View style={{flex: 1}}>
-                <Button color='red' title='non' onPress={() => {this.DontGoToNotation()}}></Button>
-  
-  
-  
-  </View>
-          </View>
-          </View>*/
     return (
       <View>
         <Text style={styles.mesde}>Vos demandes assignées</Text>

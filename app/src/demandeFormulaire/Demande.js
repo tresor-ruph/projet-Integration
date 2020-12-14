@@ -75,11 +75,10 @@ class Demande extends React.Component {
           }}
           style={styles.desc}
           placeholder="Entrez un descriptif du service"
-          
         />
         {/* <Button title="Envoyer votre demande" color="green" onPress={() => this.submit()} /> */}
         <View style={{marginTop: 40}}>
-        <Button title="Envoyez votre demande" color="green" />
+          <Button title="Envoyez votre demande" onPress={() => this.submit()} color="green" />
         </View>
       </View>
     );
@@ -119,8 +118,7 @@ const styles = StyleSheet.create({
     marginBottom: 10,
     borderRadius: 15,
     backgroundColor: 'white',
-    textAlign:'center',
-
+    textAlign: 'center',
   },
 });
 

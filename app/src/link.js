@@ -45,7 +45,8 @@ function Nav() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
+{/* 
+      <Stack.Screen
           name="Connexion"
           component={Login}
           options={{
@@ -57,7 +58,15 @@ function Nav() {
               marginLeft: '36%',
             },
           }}
+        /> */}
+        <Stack.Screen
+          name="HomeScreen"
+          component={HomeScreen}
+          options={{
+            header: () => <HomeHeader />,
+          }}
         />
+       
         <Stack.Screen
           name="Code de securite"
           component={CodeVeriication}
@@ -71,13 +80,7 @@ function Nav() {
             },
           }}
         />
-        <Stack.Screen
-          name="HomeScreen"
-          component={HomeScreen}
-          options={{
-            header: () => <HomeHeader />,
-          }}
-        />
+    
 
         <Stack.Screen
           name="Creer un compte"

@@ -140,7 +140,6 @@ class Form extends React.Component {
     //this.envoie();
   }
 
-  
   render() {
     return (
       <ScrollView>

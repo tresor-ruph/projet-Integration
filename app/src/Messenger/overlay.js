@@ -61,7 +61,7 @@ const OverlayExample = (props) => {
   };
 
   const handleAccept = () => {
-    setServId();
+    //setServId();
 
     const requestOptions = {
       method: 'POST',
@@ -88,8 +88,8 @@ const OverlayExample = (props) => {
     setVisible(false);
   };
   const handleReject = () => {
-    // removeServ();
-    setServId();
+  
+   // setServId();
     setVisible(false);
 
   };
