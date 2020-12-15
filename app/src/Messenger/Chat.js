@@ -10,22 +10,8 @@ import {StyleSheet, Text} from 'react-native';
 import * as firebase from 'firebase';
 import 'firebase/firestore';
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyDRItqqCOKaYRO3hMHpIc_m1V61oOQcfSY',
-  authDomain: 'help-recover-3984c.firebaseapp.com',
-  databaseURL: 'https://help-recover-3984c.firebaseio.com',
-  projectId: 'help-recover-3984c',
-  storageBucket: 'help-recover-3984c.appspot.com',
-  messagingSenderId: '200817849391',
-  appId: '1:200817849391:web:80c54f2a630d75ce5682da',
-};
 
-//prevent us from initialising the app every time we refresh screen
-if (firebase.apps.length === 0) {
-  firebase.initializeApp(firebaseConfig);
-}
 
-const db = firebase.firestore();
 let chatRoom = '';
 let lastMessage = ' ';
 let moreInfo = 'true';

@@ -15,34 +15,7 @@ import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 import {RTCPeerConnection, RTCView, mediaDevices} from 'react-native-webrtc';
 
-const firebaseConfig = {
-  apiKey: 'AIzaSyDRItqqCOKaYRO3hMHpIc_m1V61oOQcfSY',
-  authDomain: 'help-recover-3984c.firebaseapp.com',
-  databaseURL: 'https://help-recover-3984c.firebaseio.com',
-  projectId: 'help-recover-3984c',
-  storageBucket: 'help-recover-3984c.appspot.com',
-  messagingSenderId: '200817849391',
-  appId: '1:200817849391:web:80c54f2a630d75ce5682da',
-};
 
-if (firebase.apps.length === 0) {
-  firebase.initializeApp(firebaseConfig);
-}
-
-const db = firebase.firestore().collection('video');
-
-const configuration = {
-  iceServers: [
-    {url: 'stun:stun.l.google.com:19302'},
-
-    {
-        url: 'turn:numb.viagenie.ca',
-        credential: 'muazkh',
-        username: 'webrtc@live.com'
-    },
-    
-  ],
-};
 const localPC = new RTCPeerConnection(configuration);
 let userId;
 let chatRoom;
