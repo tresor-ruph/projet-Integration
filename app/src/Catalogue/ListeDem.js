@@ -28,6 +28,7 @@ class ListeDem extends React.Component {
   }
 
   async getUser() {
+<<<<<<< HEAD:app/src/Catalogue/ListeDem.js
     userId = await AsyncStorage.getItem('user');
     userId = JSON.parse(userId).Id;
     console.log(userId);
@@ -36,28 +37,62 @@ class ListeDem extends React.Component {
     console.log(this.state.filtre);
     if ((this.state.filtre === 'all' && this.state.codeP === '') || this.state.codeP == NaN) {
       fetch(`https://help-recover-api.herokuapp.com/demande/all/${userId}`)
+=======
+    userId = await AsyncStorage.getItem("user");
+    userId = JSON.parse(userId).Id;
+    console.log(userId)
+    
+   
+    console.log(this.state.codeP);
+    console.log(this.state.filtre);
+    if (
+      (this.state.filtre === "all") & (this.state.codeP === "") ||
+      this.state.codeP == NaN
+    ) {
+      fetch(`http://localhost:3000/demande/all/${userId}`)
+>>>>>>> 257583b347aa7dca63cc533fac04b97de3f351e7:app/Catalogue/ListeDem.js
         .then((response) => response.json())
         .then((json) => {
           this.setState({demande: json});
         });
+<<<<<<< HEAD:app/src/Catalogue/ListeDem.js
     } else if (this.state.codeP === '') {
       fetch(`https://help-recover-api.herokuapp.com/demandeCat/'${this.state.filtre}'/`)
+=======
+    } 
+    else if (this.state.codeP === "") {
+      fetch(`http://localhost:3000/demandeCat/'${this.state.filtre}'/`)
+>>>>>>> 257583b347aa7dca63cc533fac04b97de3f351e7:app/Catalogue/ListeDem.js
         .then((response) => response.json())
         .then((json) => {
           this.setState({demande: json});
           console.log(json);
           console.log(this.state.demande);
         });
+<<<<<<< HEAD:app/src/Catalogue/ListeDem.js
     } else if (this.state.filtre === 'all') {
       fetch(`https://help-recover-api.herokuapp.com/demandeCode/'${this.state.codeP}'/`)
+=======
+    } 
+    else if (this.state.filtre === "all") {
+      fetch(`http://localhost:3000/demandeCode/'${this.state.codeP}'/`)
+>>>>>>> 257583b347aa7dca63cc533fac04b97de3f351e7:app/Catalogue/ListeDem.js
         .then((response) => response.json())
         .then((json) => {
           this.setState({demande: json});
           console.log(json);
           console.log(this.state.demande);
         });
+<<<<<<< HEAD:app/src/Catalogue/ListeDem.js
     } else {
       fetch(`https://help-recover-api.herokuapp.com/demande/'${this.state.filtre}'/'${this.state.codeP}'/`)
+=======
+    } 
+    else {
+      fetch(
+        `http://localhost:3000/demande/'${this.state.filtre}'/'${this.state.codeP}'/`
+      )
+>>>>>>> 257583b347aa7dca63cc533fac04b97de3f351e7:app/Catalogue/ListeDem.js
         .then((response) => response.json())
         .then((json) => {
           this.setState({demande: json});
@@ -70,9 +105,18 @@ class ListeDem extends React.Component {
   submit() {
     this.componentDidMount();
   }
+<<<<<<< HEAD:app/src/Catalogue/ListeDem.js
 
   componentDidMount() {
     this.getUser();
+=======
+   
+    
+  
+
+  componentDidMount() {
+    this.getUser()
+>>>>>>> 257583b347aa7dca63cc533fac04b97de3f351e7:app/Catalogue/ListeDem.js
   }
 
   updateFiltre = (filtre) => {
@@ -105,7 +149,14 @@ class ListeDem extends React.Component {
           <Picker style={styles.picks} selectedValue={this.state.filtre} onValueChange={this.updateFiltre}>
             <Picker.Item label="Aller faire des courses" value="Courses" />
             <Picker.Item label="Aller chercher un colis" value="Colis" />
+<<<<<<< HEAD:app/src/Catalogue/ListeDem.js
             <Picker.Item label="Récupérer/Emmener une personne" value="Récupérer une personne" />
+=======
+            <Picker.Item
+              label="Récupérer/Emmener une personne"
+              value="Récupérer une personne"
+            />
+>>>>>>> 257583b347aa7dca63cc533fac04b97de3f351e7:app/Catalogue/ListeDem.js
             <Picker.Item label="Aller faire des lessives" value="Lessive" />
             <Picker.Item label="Autres" value="Autres" />
             <Picker.Item label="Tout" value="all" />

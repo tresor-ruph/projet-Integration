@@ -1,0 +1,77 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="ChangeListManager">
+    <list default="true" id="34b62ac1-3a39-4181-97c5-6de5db94fa2b" name="Default Changelist" comment="">
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/.expo/packager-info.json" beforeDir="false" afterPath="$PROJECT_DIR$/app/.expo/packager-info.json" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Catalogue/mesDemandes.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Catalogue/mesDemandes.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Catalogue/proposition.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Catalogue/proposition.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Catalogue/propositionAssignee.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Catalogue/propositionAssignee.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Homescreen/HomeScreen.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Homescreen/HomeScreen.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Homescreen/getuser.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Homescreen/getuser.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/Profil/Profil.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/Profil/Profil.js" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/app/SignIn/Form.js" beforeDir="false" afterPath="$PROJECT_DIR$/app/SignIn/Form.js" afterDir="false" />
+    </list>
+    <option name="SHOW_DIALOG" value="false" />
+    <option name="HIGHLIGHT_CONFLICTS" value="true" />
+    <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
+    <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="Git.Settings">
+    <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
+  </component>
+  <component name="IgnoredFileRootStore">
+    <option name="generatedRoots">
+      <set>
+        <option value="E:\3TI\Integration\projet-Integration\.idea" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectId" id="1lDTwFzpmtsQkhJSMg11fxh11fY" />
+  <component name="ProjectViewState">
+    <option name="hideEmptyMiddlePackages" value="true" />
+    <option name="showExcludedFiles" value="true" />
+    <option name="showLibraryContents" value="true" />
+  </component>
+  <component name="PropertiesComponent">
+    <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
+    <property name="android.sdk.path" value="$USER_HOME$/AppData/Local/Android/Sdk" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
+    <property name="settings.editor.selected.configurable" value="AndroidSdkUpdater" />
+  </component>
+  <component name="SvnConfiguration">
+    <configuration />
+  </component>
+  <component name="TaskManager">
+    <task active="true" id="Default" summary="Default task">
+      <changelist id="34b62ac1-3a39-4181-97c5-6de5db94fa2b" name="Default Changelist" comment="" />
+      <created>1607130899668</created>
+      <option name="number" value="Default" />
+      <option name="presentableId" value="Default" />
+      <updated>1607130899668</updated>
+    </task>
+    <servers />
+  </component>
+  <component name="WindowStateProjectService">
+    <state x="421" y="82" key="FileChooserDialogImpl" timestamp="1607132301828">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="421" y="82" key="FileChooserDialogImpl/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1607132301828" />
+    <state x="142" y="0" key="SettingsEditor" timestamp="1607207146536">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="142" y="0" key="SettingsEditor/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1607207146536" />
+    <state x="93" y="93" width="1095" height="495" key="com.android.tools.idea.avdmanager.AvdListDialog" timestamp="1607207236512">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="93" y="93" width="1095" height="495" key="com.android.tools.idea.avdmanager.AvdListDialog/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1607207236512" />
+    <state x="123" y="51" key="com.intellij.ide.util.TipDialog" timestamp="1607207058283">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="123" y="51" key="com.intellij.ide.util.TipDialog/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1607207058283" />
+    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup" timestamp="1607132318721">
+      <screen x="0" y="0" width="1280" height="680" />
+    </state>
+    <state x="303" y="1" width="672" height="678" key="search.everywhere.popup/0.0.1280.680/1920.0.1920.1040@0.0.1280.680" timestamp="1607132318721" />
+  </component>
+</project>

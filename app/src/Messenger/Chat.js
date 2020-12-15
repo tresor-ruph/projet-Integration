@@ -54,11 +54,19 @@ export default function Chat(route, navigation) {
   let chatsRef = db.collection('chats');
 
   const setServ = async () => {
+<<<<<<< HEAD:app/src/Messenger/Chat.js
     console.log('test');
     console.log(route.route.params);
     await AsyncStorage.setItem('serv', JSON.stringify(route.route.params.idDem));
     console.log(route.route.params.iddem);
   };
+=======
+    console.log("test")
+    console.log(route.route.params)
+    await  AsyncStorage.setItem("serv", JSON.stringify(route.route.params.idDem))
+    console.log(route.route.params.iddem)
+  }
+>>>>>>> 257583b347aa7dca63cc533fac04b97de3f351e7:app/Messenger/Chat.js
   useEffect(() => {
     if (!groups) {
       if (route.route.params.check === 'offre') {
@@ -109,10 +117,17 @@ export default function Chat(route, navigation) {
         .then((json) => {
           if (json.length === 0) {
             chatRoom = chatId();
+<<<<<<< HEAD:app/src/Messenger/Chat.js
             if (route.route.params.check === 'offre') {
               moreInfo = route.route.params.iddem;
             } else {
               moreInfo = -1;
+=======
+            if(route.route.params.check ==="offre"){
+              moreInfo =route.route.params.iddem;
+            }else {
+              moreInfo = -1
+>>>>>>> 257583b347aa7dca63cc533fac04b97de3f351e7:app/Messenger/Chat.js
             }
 
             //chatsRef = db.collection('chats').doc(chatId()).collection('message');
@@ -131,8 +146,13 @@ export default function Chat(route, navigation) {
               }),
             };
             try {
+<<<<<<< HEAD:app/src/Messenger/Chat.js
               console.log('try request');
               fetch('https://help-recover-api.herokuapp.com/chat/addroom', requestOptions)
+=======
+              console.log("try request");
+              fetch("http://localhost:3000/chat/addroom", requestOptions)
+>>>>>>> 257583b347aa7dca63cc533fac04b97de3f351e7:app/Messenger/Chat.js
                 .then((response) => response.json())
                 .then((data) => {
                   console.log('hello');

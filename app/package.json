@@ -14,17 +14,26 @@
     "@react-native-community/cameraroll": "^4.0.1",
     "@react-native-community/masked-view": "^0.1.10",
     "@react-native-community/netinfo": "^5.9.9",
+<<<<<<< HEAD
     "@react-native-firebase/app": "^10.2.0",
     "@react-native-firebase/auth": "^10.2.0",
     "@react-navigation/drawer": "^5.11.2",
     "@react-navigation/native": "^5.8.10",
     "@react-navigation/stack": "^5.12.8",
     "detox": "^17.14.3",
+=======
+    "@react-native-firebase/app": "^8.4.3",
+    "@react-navigation/drawer": "^5.11.2",
+    "@react-navigation/native": "^5.7.3",
+    "@react-navigation/stack": "^5.9.0",
+    "crypto": "^1.0.1",
+>>>>>>> 257583b347aa7dca63cc533fac04b97de3f351e7
     "expo": "~39.0.2",
     "expo-device": "~2.3.0",
     "expo-image-picker": "^9.2.1",
     "expo-permissions": "^10.0.0",
     "expo-status-bar": "~1.0.2",
+<<<<<<< HEAD
     "firebase": "^8.1.1",
     "modal-react-native-web": "^0.2.0",
     "react": "16.13.1",
@@ -38,6 +47,22 @@
     "react-native-paper": "^4.4.1",
     "react-native-passmeter": "^0.0.5",
     "react-native-phone-number-input": "^2.0.0",
+=======
+    "firebase": "7.9.0",
+    "jsonwebtoken": "^8.5.1",
+    "localstorage-polyfill": "^1.0.1",
+    "modal-react-native-web": "^0.2.0",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "react-native": "https://github.com/expo/react-native/archive/sdk-39.0.3.tar.gz",
+    "react-native-crypto-js": "^1.0.0",
+    "react-native-elements": "^3.0.0-alpha.1",
+    "react-native-gesture-handler": "^1.8.0",
+    "react-native-gifted-chat": "^0.16.3",
+    "react-native-linear-gradient": "^2.5.6",
+    "react-native-paper": "^4.3.0",
+    "react-native-passmeter": "0.0.5",
+>>>>>>> 257583b347aa7dca63cc533fac04b97de3f351e7
     "react-native-reanimated": "^1.13.2",
     "react-native-safe-area-context": "^3.1.9",
     "react-native-screens": "^2.15.0",
@@ -50,10 +75,33 @@
     "react-navigation-stack": "^2.8.3"
   },
   "devDependencies": {
+<<<<<<< HEAD
     "@babel/core": "7.12.9",
     "@babel/runtime": "7.12.5",
     "@react-native-community/eslint-config": "^2.0.0",
     "eslint": "^7.14.0",
     "metro-react-native-babel-preset": "^0.64.0"
   }
+=======
+    "@babel/core": "~7.9.0",
+    "eslint": "^7.15.0",
+    "eslint-config-rallycoding": "^3.2.0",
+    "jest-expo": "^39.0.0"
+  },
+  "jest": {
+    "preset": "jest-expo",
+    "transformIgnorePatterns": [
+      "node_modules/(?!(jest-)?react-native|react-clone-referenced-element|@react-native-community|expo(nent)?|@expo(nent)?/.*|react-navigation|@react-navigation/.*|@unimodules/.*|unimodules|sentry-expo|native-base|@sentry/.*)"
+    ],
+    "collectCoverage": true,
+    "collectCoverageFrom": [
+      "**/*.{js,jsx}",
+      "!**/coverage/**",
+      "!**/node_modules/**",
+      "!**/babel.config.js",
+      "!**/jest.setup.js"
+    ]
+  },
+  "private": true
+>>>>>>> 257583b347aa7dca63cc533fac04b97de3f351e7
 }

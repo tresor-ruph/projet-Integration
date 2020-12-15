@@ -38,6 +38,12 @@ function Homescreen(props) {
 
   return (
     <View style={styles.container}>
+
+      <TouchableOpacity  onPress={handleAdmin}>
+          <Text style={styles.joffreMonService1}>
+            Administration
+          </Text>
+      </TouchableOpacity>
       <View style={styles.buttonRow}>
         <TouchableOpacity style={styles.button} onPress={handleListeDem}>
           <Text style={styles.joffreMonService1}>J&#39;offre mon{'\n'}service</Text>
@@ -69,7 +75,6 @@ const styles = StyleSheet.create({
     borderRadius: 22,
   },
   joffreMonService1: {
-    fontFamily: 'roboto-300',
     color: '#121212',
     lineHeight: 18,
     textAlign: 'center',
@@ -86,7 +91,6 @@ const styles = StyleSheet.create({
     marginTop: 2,
   },
   demandeDaide: {
-    fontFamily: 'roboto-300',
     color: '#121212',
     fontSize: 18,
     textAlign: 'center',
@@ -96,7 +100,7 @@ const styles = StyleSheet.create({
   buttonRow: {
     height: 196,
     flexDirection: 'row',
-    marginTop: 157,
+    marginTop: '5%',
     marginLeft: 9,
     marginRight: 4,
   },
@@ -107,7 +111,6 @@ const styles = StyleSheet.create({
     borderRadius: 22,
   },
   profile: {
-    fontFamily: 'arial-regular',
     color: '#121212',
     fontSize: 18,
     marginTop: 73,
@@ -121,7 +124,6 @@ const styles = StyleSheet.create({
     marginLeft: 23,
   },
   discussion: {
-    fontFamily: 'roboto-300',
     color: '#121212',
     fontSize: 21,
     textAlign: 'center',
@@ -131,7 +133,7 @@ const styles = StyleSheet.create({
   button3Row: {
     height: 194,
     flexDirection: 'row',
-    marginTop: 10,
+    marginTop: '5%',
     marginLeft: 9,
     marginRight: 4,
   },
