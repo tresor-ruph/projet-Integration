@@ -1,3 +1,4 @@
+/* eslint-disable no-shadow */
 /* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-alert */
@@ -19,12 +20,11 @@ function Signaler(route) {
     try {
       const value = await AsyncStorage.getItem('user');
       if (value !== null) {
-        // We have data!!
         const result = JSON.parse(value);
         userId = result.Id;
       }
     } catch (error) {
-      // Error retrieving data
+      console.log('an error occured');
     }
   };
   useEffect(() => {
