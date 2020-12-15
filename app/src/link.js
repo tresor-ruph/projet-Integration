@@ -46,7 +46,7 @@ function Nav() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        <Stack.Screen
+        {/* <Stack.Screen
           name="Connexion"
           component={Login}
           options={{
@@ -58,7 +58,7 @@ function Nav() {
               marginLeft: '36%',
             },
           }}
-        />
+        /> */}
         <Stack.Screen
           name="HomeScreen"
           component={HomeScreen}
