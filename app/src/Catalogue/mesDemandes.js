@@ -62,7 +62,7 @@ class ListeDem extends React.Component {
 
         {this.state.demande.map((l, i) => (
           <ListItem key={i} bottomDivider>
-            <Avatar source={{uri: l.PhotoProfil}} />
+            <Avatar source={{uri: l.PhotoProfil}} size="large" rounded />
             <ListItem.Content>
               <ListItem.Title>{l.userName}</ListItem.Title>
               <ListItem.Subtitle>{l.categorie}</ListItem.Subtitle>

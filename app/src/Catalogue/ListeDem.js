@@ -132,6 +132,7 @@ class ListeDem extends React.Component {
         {this.state.demande.reverse().map((l, i) => (
           <ListItem key={i} bottomDivider>
             <Avatar
+              rounded
               onPress={() =>
                 this.props.navigation.navigate('checkProfil', {
                   id: l.userId,

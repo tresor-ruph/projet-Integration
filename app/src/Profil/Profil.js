@@ -1,13 +1,19 @@
+/* eslint-disable no-undef */
+/* eslint-disable import/no-unresolved */
+/* eslint-disable import/imports-first */
+/* eslint-disable no-nested-ternary */
 /* eslint-disable no-alert */
-
+/* eslint-disable jsx-quotes */
+/* eslint-disable no-use-before-define */
+/* eslint-disable max-len */
+/* eslint-disable quotes */
 import React, {useEffect, useState} from 'react';
 import {StyleSheet, Button, View, Image, TextInput, ActivityIndicator, Text, KeyboardAvoidingView} from 'react-native';
 import NetInfo from '@react-native-community/netinfo';
-import {Button as Test} from 'react-native-paper';
-import * as Permissions from 'expo-permissions';
 import * as ImagePicker from 'expo-image-picker';
 import * as firebase from 'firebase';
 import AsyncStorage from '@react-native-community/async-storage';
+import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 
 //import App from './firebase'
 
@@ -71,13 +77,14 @@ export default function Profil({navigation: {navigate}}) {
   };
 
   const pickImage = async () => {
-    const {status} = await Permissions.askAsync(Permissions.CAMERA);
-    if (status !== 'granted') {
-      alert('Hey! You might want to enable notifications for my app, they are good.');
-    }
+    const permissionResult = await ImagePicker.requestMediaLibraryPermissionsAsync();
 
+    if (permissionResult.granted === false) {
+      alert('Permission to access camera roll is required!');
+      return;
+    }
     const result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: 'Images',
+      mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
       aspect: [4, 3],
       quality: 1,
@@ -142,6 +149,9 @@ export default function Profil({navigation: {navigate}}) {
     setBtn(false);
     setBool(true);
   };
+  function logout() {
+    navigate('Connexion');
+  }
 
   const handleCancel = () => {
     fetch(`https://help-recover-api.herokuapp.com/users/${userId}`)
@@ -171,75 +181,83 @@ export default function Profil({navigation: {navigate}}) {
     )
   ) : (
     <KeyboardAvoidingView style={styles.container}>
-      <View style={styles.top}>
-        <View style={styles.imageFrame}>
-          <Image
-            source={{uri: image || 'http://ssl.gstatic.com/accounts/ui/avatar_2x.png'}}
-            style={{
-              width: 75,
-              height: 75,
-              borderRadius: 200 / 2,
-            }}
+      <View style={{flexDirection: 'row', marginTop: 60}}>
+        <View style={styles.top}>
+          <View style={styles.imageFrame}>
+            <Image
+              source={{uri: image || 'http://ssl.gstatic.com/accounts/ui/avatar_2x.png'}}
+              style={{
+                width: 120,
+                height: 120,
+                borderRadius: 200 / 2,
+              }}
+            />
+          </View>
+          {bool && (
+            <View style={styles.photoButton}>
+              <Icon name="camera" style={{fontSize: 25, color: 'green', left: -20}} onPress={pickImage} />
+              <Icon name="delete" style={{fontSize: 25, color: 'red', left: 10}} onPress={deleteImage} />
+
+              {/* <Button onPress={pickImage} icon="camera" style={{color: 'green'}} />
+              <Button onPress={deleteImage} icon="delete" /> */}
+            </View>
+          )}
+        </View>
+
+        <View style={{marginTop: 20, marginLeft: 15}}>
+          <TextInput
+            value={nom}
+            style={!bool ? styles.textInput : styles.textInput2}
+            name="Nom"
+            editable={bool}
+            onChangeText={(text) => setNom(text)}
+          />
+          <TextInput
+            value={prenom}
+            style={!bool ? styles.textInput : styles.textInput2}
+            editable={bool}
+            name="Prenom"
+            onChangeText={(text) => setPrenom(text)}
+          />
+          <TextInput
+            value={adresse}
+            style={!bool ? styles.textInput : styles.textInput2}
+            editable={bool}
+            name="adresse"
+            onChangeText={(text) => setAdresse(text)}
+          />
+          <TextInput
+            value={code}
+            style={!bool ? styles.textInput : styles.textInput2}
+            editable={bool}
+            name="code"
+            onChangeText={(text) => setCode(text)}
           />
         </View>
-        {bool && (
-          <View style={styles.photoButton}>
-            <Test onPress={pickImage} icon="camera" />
-            <Test onPress={deleteImage} icon="delete" />
-          </View>
-        )}
-      </View>
-
-      <View>
-        <TextInput
-          value={nom}
-          style={styles.textInput}
-          name="Nom"
-          editable={bool}
-          onChangeText={(text) => setNom(text)}
-        />
-        <TextInput
-          value={prenom}
-          style={styles.textInput}
-          editable={bool}
-          name="Prenom"
-          onChangeText={(text) => setPrenom(text)}
-        />
-        <TextInput
-          value={adresse}
-          style={styles.textInput}
-          editable={bool}
-          name="adresse"
-          onChangeText={(text) => setAdresse(text)}
-        />
-        <TextInput
-          value={code}
-          style={styles.textInput}
-          editable={bool}
-          name="code"
-          onChangeText={(text) => setCode(text)}
-        />
       </View>
       <View style={styles.bottom}>
         {btnDisplay ? (
           <View style={styles.bottomButton}>
-            <View style={styles.bottomButton1}>
-              <Button title="Modifier" onPress={handleBoutonDisplay} color="blue" />
+            <View style={{marginRight: 20, width: 150, borderRadius: 20}}>
+              <Button title="Modifier" onPress={handleBoutonDisplay} color="green" />
             </View>
-            <View>
-              <Button title="voir mes notations" onPress={() => navigate('Notation2')} />
+            <View style={{width: 150}}>
+              <Button title="Mes Notes" onPress={() => navigate('Notation2')} />
             </View>
           </View>
         ) : (
           <View style={styles.bottomButton}>
-            <View style={styles.bottomButton1}>
+            <View style={{marginRight: 20, width: 150, borderRadius: 20}}>
               <Button title="Enregistrer" onPress={handleSubmit} color="green" />
             </View>
-            <View>
+            <View style={{width: 150}}>
               <Button title="Annuler" onPress={handleCancel} color="red" />
             </View>
           </View>
         )}
+        <View style={{width: 200, marginLeft: 100, marginTop: 100}}>
+          <Button title="Deconnexion" color="red" onPress={() => logout()} />
+        </View>
       </View>
     </KeyboardAvoidingView>
   );
@@ -260,7 +278,20 @@ const styles = StyleSheet.create({
     justifyContent: 'space-around',
   },
   textInput: {
-    width: 200,
+    width: 210,
+    alignItems: 'center',
+    alignContent: 'center',
+    marginBottom: 10,
+    color: 'black',
+    paddingLeft: 75,
+    paddingTop: 5,
+    borderRadius: 10,
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: 'rgba(212,212,212,0.8)',
+  },
+  textInput2: {
+    width: 210,
     alignItems: 'center',
     alignContent: 'center',
     marginBottom: 10,
@@ -279,6 +310,7 @@ const styles = StyleSheet.create({
     margin: 15,
   },
   bottomButton: {
+    flexDirection: 'row',
     margin: 20,
     padding: 15,
   },

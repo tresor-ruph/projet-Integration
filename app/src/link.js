@@ -39,14 +39,14 @@ import checkProfil from './Profil/checkProfil';
 import CodeVeriication from './auth';
 import HomeHeader from './HomeHeader';
 import VideoWeb from './video';
+import Signaler from './signaler'
 // Create the navigator
 const Stack = createStackNavigator();
 function Nav() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-{/* 
-      <Stack.Screen
+        <Stack.Screen
           name="Connexion"
           component={Login}
           options={{
@@ -58,7 +58,7 @@ function Nav() {
               marginLeft: '36%',
             },
           }}
-        /> */}
+        />
         <Stack.Screen
           name="HomeScreen"
           component={HomeScreen}
@@ -66,7 +66,7 @@ function Nav() {
             header: () => <HomeHeader />,
           }}
         />
-       
+
         <Stack.Screen
           name="Code de securite"
           component={CodeVeriication}
@@ -80,7 +80,19 @@ function Nav() {
             },
           }}
         />
-    
+        <Stack.Screen
+          name="signaler"
+          component={Signaler}
+          options={{
+            headerStyle: {
+              backgroundColor: '#4B86D2',
+            },
+            headerTintColor: '#fff',
+            headerTitleStyle: {
+              marginLeft: '20%',
+            },
+          }}
+        />
 
         <Stack.Screen
           name="Creer un compte"

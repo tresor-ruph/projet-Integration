@@ -13,6 +13,9 @@ export default function HomeHeader() {
         centerComponent={{
           text: 'Accueille', style: {fontSize: 19, padding: 10}
         }}
+        leftComponent = {{
+          
+        }}
       />
     </View>
   );

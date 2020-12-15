@@ -67,7 +67,7 @@ class Proposition extends React.Component {
 
         {this.state.propositions.map((l, i) => (
           <ListItem key={i} bottomDivider>
-            <Avatar source={{uri: l.PhotoProfil}} />
+            <Avatar source={{uri: l.PhotoProfil}} size="large" rounded />
             <ListItem.Content>
               <ListItem.Title>
                 {l.Prenom} {l.Nom}

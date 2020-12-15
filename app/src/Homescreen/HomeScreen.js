@@ -1,9 +1,26 @@
 /* eslint-disable prettier/prettier */
-import React from 'react';
+import React, {useEffect} from 'react';
 import {StyleSheet, View, TouchableOpacity, Text} from 'react-native';
-//import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+import AsyncStorage from '@react-native-community/async-storage';
 
+//import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
+let userId = ' ';
 function Homescreen(props) {
+  async function getContact() {
+    let id = await AsyncStorage.getItem('user');
+    id = JSON.parse(id).Id;
+    userId = id;
+    fetch(`https://help-recover-api.herokuapp.com/users/${userId}`)
+      .then((reponse) => reponse.json())
+      .then((json) => {
+        if (json[0].password === '85550') {
+          props.navigation.navigate('Connexion');
+        }
+      });
+  }
+  useEffect(() => {
+    getContact();
+  });
   const handlePress = () => {
     props.navigation.navigate('Discussion_Repo', {screen: 'disc'});
   };
