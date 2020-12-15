@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 import {NavigationContainer} from '@react-navigation/native';
 import {createStackNavigator} from '@react-navigation/stack';
 
@@ -15,7 +16,6 @@ import Chat from './Messenger/Chat';
 
 import Discussion_Repo from './Messenger/Discussionscreen';
 import addContact from './Messenger/addContact';
-import Login from './Messenger/components/login';
 import Profil from './Profil/Profil';
 
 import Succes from './SignIn/Success';
@@ -32,33 +32,33 @@ import mesDemandes from './Catalogue/mesDemandes';
 import Proposition from './Catalogue/proposition';
 import PropositionA from './Catalogue/propositionAssignee';
 import attente from './adminPage/listeAttente';
-
+import Login from './Messenger/components/login'
 import Notation2 from './Homescreen/Notation2';
 import Notation from './Homescreen/Notation';
 import checkProfil from './Profil/checkProfil';
 import CodeVeriication from './auth';
 import HomeHeader from './HomeHeader';
 import VideoWeb from './video';
-import Signaler from './signaler'
+import Signaler from './signaler';
 // Create the navigator
 const Stack = createStackNavigator();
 function Nav() {
   return (
     <NavigationContainer>
       <Stack.Navigator>
-        {/* <Stack.Screen
+        <Stack.Screen
           name="Connexion"
           component={Login}
           options={{
             headerStyle: {
-              backgroundColor: '#4B86D2',
+              backgroundColor: '#0077b6',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
               marginLeft: '36%',
             },
           }}
-        /> */}
+        />
         <Stack.Screen
           name="HomeScreen"
           component={HomeScreen}
@@ -68,11 +68,11 @@ function Nav() {
         />
 
         <Stack.Screen
-          name="Code de securite"
+          name="Code de sécurité"
           component={CodeVeriication}
           options={{
             headerStyle: {
-              backgroundColor: '#4B86D2',
+              backgroundColor: '#0077b6',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -85,7 +85,7 @@ function Nav() {
           component={Signaler}
           options={{
             headerStyle: {
-              backgroundColor: '#4B86D2',
+              backgroundColor: '#0077b6',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -95,11 +95,11 @@ function Nav() {
         />
 
         <Stack.Screen
-          name="Creer un compte"
+          name="Créer un compte"
           component={Form}
           options={{
             headerStyle: {
-              backgroundColor: '#4B86D2',
+              backgroundColor: '#0077b6',
             },
             headerTintColor: '#fff',
             headerTitleStyle: {
@@ -107,20 +107,46 @@ function Nav() {
             },
           }}
         />
-        <Stack.Screen name="chatvideo" component={VideoWeb} />
+        <Stack.Screen
+          name="chatvideo"
+          component={VideoWeb}
+          options={{
+            headerStyle: {
+              backgroundColor: '#0077b6',
+            },
+            headerTintColor: '#fff',
+            title: 'Call',
+            headerTitleStyle: {
+              marginLeft: '15%',
+            },
+          }}
+        />
 
         <Stack.Screen name="checkProfil" component={checkProfil} />
         <Stack.Screen name="ReinitMdp" component={Reinit} />
         <Stack.Screen name="ReinitMdpP2" component={ReinitMdp2} />
         <Stack.Screen name="succes" component={Succes} />
         <Stack.Screen name="admin" component={attente} />
-        <Stack.Screen name="ListeDem" component={ListeDem} />
+        <Stack.Screen
+          name="ListeDem"
+          component={ListeDem}
+          options={{
+            headerStyle: {
+              backgroundColor: '#0077b6',
+            },
+            headerTintColor: '#fff',
+            title: 'Demandes de service',
+            headerTitleStyle: {
+              marginLeft: '15%',
+            },
+          }}
+        />
         <Stack.Screen
           name="Demande"
           component={Demande}
           options={{
             headerStyle: {
-              backgroundColor: '#4B86D2',
+              backgroundColor: '#0077b6',
             },
             headerTintColor: '#fff',
             title: 'Faire une Demande',
@@ -131,15 +157,59 @@ function Nav() {
         />
         <Stack.Screen name="Notation" component={Notation} />
         <Stack.Screen name="Notation2" component={Notation2} />
-        <Stack.Screen name="mesDemandes" component={mesDemandes} />
-        <Stack.Screen name="Proposition" component={Proposition} />
-        <Stack.Screen name="PropositionA" component={PropositionA} />
+        <Stack.Screen
+          name="mesDemandes"
+          component={mesDemandes}
+          options={{
+            headerStyle: {
+              backgroundColor: '#0077b6',
+            },
+            headerTintColor: '#fff',
+            title: 'Mes demandes de service',
+            headerTitleStyle: {
+              marginLeft: '10%',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="Proposition"
+          component={Proposition}
+          options={{
+            headerStyle: {
+              backgroundColor: '#0077b6',
+            },
+            headerTintColor: '#fff',
+            title: 'Mes propositions de services',
+            headerTitleStyle: {
+              marginLeft: '10%',
+            },
+          }}
+        />
+        <Stack.Screen
+          name="PropositionA"
+          component={PropositionA}
+          options={{
+            headerStyle: {
+              backgroundColor: '#0077b6',
+            },
+            headerTintColor: '#fff',
+            title: 'proposition Assigne',
+            headerTitleStyle: {
+              marginLeft: '15%',
+            },
+          }}
+        />
         <Stack.Screen
           name="Ajouter Membres"
           component={AddGroupMem}
           options={{
             headerStyle: {
-              backgroundColor: 'rgba(0,128,192,0.7)',
+              backgroundColor: '#0077b6',
+            },
+            headerTintColor: '#fff',
+            title: 'Ajouter Membres',
+            headerTitleStyle: {
+              marginLeft: '15%',
             },
           }}
         />
@@ -148,7 +218,12 @@ function Nav() {
           component={GroupChat}
           options={{
             headerStyle: {
-              backgroundColor: 'rgba(0,128,192,0.7)',
+              backgroundColor: '#0077b6',
+            },
+            headerTintColor: '#fff',
+            title: 'Séllectioner membres',
+            headerTitleStyle: {
+              marginLeft: '20%',
             },
           }}
         />
@@ -157,7 +232,12 @@ function Nav() {
           component={ConfGroup}
           options={{
             headerStyle: {
-              backgroundColor: 'rgba(0,128,192,0.7)',
+              backgroundColor: '#0077b6',
+            },
+            headerTintColor: '#fff',
+            title: 'Créer groupe',
+            headerTitleStyle: {
+              marginLeft: '20%',
             },
           }}
         />
@@ -166,7 +246,12 @@ function Nav() {
           component={ChatOption}
           options={{
             headerStyle: {
-              backgroundColor: 'rgba(0,128,192,0.7)',
+              backgroundColor: '#0077b6',
+            },
+            headerTintColor: '#fff',
+            title: 'Parametres',
+            headerTitleStyle: {
+              marginLeft: '20%',
             },
           }}
         />
@@ -175,7 +260,7 @@ function Nav() {
           component={Profil}
           options={{
             headerStyle: {
-              backgroundColor: '#4B86D2',
+              backgroundColor: '#0077b6',
             },
             headerTintColor: '#fff',
             title: 'Mon Profil',
@@ -204,7 +289,12 @@ function Nav() {
           component={addContact}
           options={{
             headerStyle: {
-              backgroundColor: 'rgba(0,128,192,0.7)',
+              backgroundColor: '#0077b6',
+            },
+            headerTintColor: '#fff',
+            title: 'Ajouter un contact',
+            headerTitleStyle: {
+              marginLeft: '20%',
             },
           }}
         />

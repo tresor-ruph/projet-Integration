@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable eqeqeq */
 /* eslint-disable no-unused-vars */
@@ -146,7 +147,7 @@ function Discussion_Repo(route, props) {
           }}
           style={styles.activeButtonWrapper}>
           <MaterialCommunityIconsIcon name={'account-group'} style={styles.Icon3} />
-          <Text style={styles.activeContent}>Groups</Text>
+          <Text style={styles.activeContent}>Groupes</Text>
         </TouchableOpacity>
         <TouchableOpacity
           onPress={() => {

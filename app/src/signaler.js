@@ -97,7 +97,7 @@ function Signaler(route) {
         multiline={true}
         onChangeText={(text) => setDescriptif(text)}
         style={styles.desc}
-        placeholder="Entrez un descriptif du service"
+        placeholder="Entrez un descriptif du problem"
       />
       {/* <Button title="Envoyer votre demande" color="green" onPress={() => this.submit()} /> */}
       <View style={{marginTop: 40}}>
@@ -108,8 +108,7 @@ function Signaler(route) {
           </View>
         </View>
         <Text style={styles.para}>
-          ceci peux etre une capture d'ecran de votre conversation ou une toute image pouvons justifier les faits
-          decrite en desous
+        ceci peut être une capture d'écran de votre conversation ou une toute image pouvant justifier les faits décrits ci-dessus
         </Text>
         <View style={{marginTop: 60}}>
           <Button title="Envoyer" onPress={() => submit()} color="blue" />

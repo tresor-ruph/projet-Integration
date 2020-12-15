@@ -1,7 +1,9 @@
+/* eslint-disable prettier/prettier */
 import React from 'react';
 import {ListItem, Avatar} from 'react-native-elements';
 import {View, StyleSheet, Text, Button} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import LinearGradient from 'react-native-linear-gradient';
 
 let userId = 0;
 class Proposition extends React.Component {
@@ -60,11 +62,16 @@ class Proposition extends React.Component {
 
   render() {
     return (
-      <View>
+      <LinearGradient
+        start={{x: 0.5, y: 0}}
+        end={{x: 0.8, y: 0.8}}
+        locations={[0, 0.9]}
+        colors={['#0077b6', '#ffffff']}
+        style={styles.linearGradient}>
+      
         {this.state.propositions.length === 0 && (
           <Text style={styles.mesde}>Vous n'avez aucune proposition en cours</Text>
         )}
-
         {this.state.propositions.map((l, i) => (
           <ListItem key={i} bottomDivider>
             <Avatar source={{uri: l.PhotoProfil}} size="large" rounded />
@@ -83,7 +90,7 @@ class Proposition extends React.Component {
             </ListItem.Content>
           </ListItem>
         ))}
-      </View>
+      </LinearGradient>
     );
   }
 }
@@ -91,6 +98,12 @@ class Proposition extends React.Component {
 const styles = StyleSheet.create({
   picks: {
     width: '50%',
+  },
+  linearGradient: {
+    flex: 1,
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderRadius: 5,
   },
   mesde: {
     marginTop: 20,

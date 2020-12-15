@@ -238,7 +238,7 @@ class Notation extends React.Component {
             return value;
           })}
         </View>
-        <Overlay ModalComponent={Modal} isVisible={this.state.visible}>
+        <Overlay isVisible={this.state.visible}>
           <View>
             <Text>Votre notation a bien été envoyée</Text>
             <View style={{flexDirection: 'row', width: '100%'}}>

@@ -18,7 +18,7 @@ function DiscHeader(props) {
     } else if (screenName.screen === 'groups') {
       setName('Groupes');
     } else if (screenName.screen === 'contacts') {
-      setName('Repertoire');
+      setName('Répertoire');
     }
   });
 

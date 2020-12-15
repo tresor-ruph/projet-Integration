@@ -1,6 +1,6 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable no-undef */
-/* eslint-disable import/no-unresolved */
-/* eslint-disable import/imports-first */
+
 /* eslint-disable no-nested-ternary */
 /* eslint-disable no-alert */
 /* eslint-disable jsx-quotes */
@@ -14,6 +14,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as firebase from 'firebase';
 import AsyncStorage from '@react-native-community/async-storage';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import LinearGradient from 'react-native-linear-gradient';
 
 //import App from './firebase'
 
@@ -150,6 +151,7 @@ export default function Profil({navigation: {navigate}}) {
     setBool(true);
   };
   function logout() {
+    AsyncStorage.removeItem('user');
     navigate('Connexion');
   }
 
@@ -180,86 +182,93 @@ export default function Profil({navigation: {navigate}}) {
       </View>
     )
   ) : (
-    <KeyboardAvoidingView style={styles.container}>
-      <View style={{flexDirection: 'row', marginTop: 60}}>
-        <View style={styles.top}>
-          <View style={styles.imageFrame}>
-            <Image
-              source={{uri: image || 'http://ssl.gstatic.com/accounts/ui/avatar_2x.png'}}
-              style={{
-                width: 120,
-                height: 120,
-                borderRadius: 200 / 2,
-              }}
+    <LinearGradient
+      start={{x:0.5, y: 0}}
+      end={{x: 0.8, y: 0.8}}
+      locations={[0, 0.9]}
+      colors={[  '#0077b6','#ffffff']}
+      style={styles.linearGradient}>
+      <KeyboardAvoidingView style={styles.container}>
+        <View style={{flexDirection: 'row', marginTop: 60}}>
+          <View style={styles.top}>
+            <View style={styles.imageFrame}>
+              <Image
+                source={{uri: image || 'http://ssl.gstatic.com/accounts/ui/avatar_2x.png'}}
+                style={{
+                  width: 120,
+                  height: 120,
+                  borderRadius: 200 / 2,
+                }}
+              />
+            </View>
+            {bool && (
+              <View style={styles.photoButton}>
+                <Icon name="camera" style={{fontSize: 25, color: 'green', left: -20}} onPress={pickImage} />
+                <Icon name="delete" style={{fontSize: 25, color: 'red', left: 10}} onPress={deleteImage} />
+
+                {/* <Button onPress={pickImage} icon="camera" style={{color: 'green'}} />
+              <Button onPress={deleteImage} icon="delete" /> */}
+              </View>
+            )}
+          </View>
+
+          <View style={{marginTop: 20, marginLeft: 15}}>
+            <TextInput
+              value={nom}
+              style={!bool ? styles.textInput : styles.textInput2}
+              name="Nom"
+              editable={bool}
+              onChangeText={(text) => setNom(text)}
+            />
+            <TextInput
+              value={prenom}
+              style={!bool ? styles.textInput : styles.textInput2}
+              editable={bool}
+              name="Prenom"
+              onChangeText={(text) => setPrenom(text)}
+            />
+            <TextInput
+              value={adresse}
+              style={!bool ? styles.textInput : styles.textInput2}
+              editable={bool}
+              name="adresse"
+              onChangeText={(text) => setAdresse(text)}
+            />
+            <TextInput
+              value={code}
+              style={!bool ? styles.textInput : styles.textInput2}
+              editable={bool}
+              name="code"
+              onChangeText={(text) => setCode(text)}
             />
           </View>
-          {bool && (
-            <View style={styles.photoButton}>
-              <Icon name="camera" style={{fontSize: 25, color: 'green', left: -20}} onPress={pickImage} />
-              <Icon name="delete" style={{fontSize: 25, color: 'red', left: 10}} onPress={deleteImage} />
-
-              {/* <Button onPress={pickImage} icon="camera" style={{color: 'green'}} />
-              <Button onPress={deleteImage} icon="delete" /> */}
+        </View>
+        <View style={styles.bottom}>
+          {btnDisplay ? (
+            <View style={styles.bottomButton}>
+              <View style={{marginRight: 20, width: 150, borderRadius: 20}}>
+                <Button title="Modifier" onPress={handleBoutonDisplay} color="green" />
+              </View>
+              <View style={{width: 150}}>
+                <Button title="Mes Notes" onPress={() => navigate('Notation2')} />
+              </View>
+            </View>
+          ) : (
+            <View style={styles.bottomButton}>
+              <View style={{marginRight: 20, width: 150, borderRadius: 20}}>
+                <Button title="Enregistrer" onPress={handleSubmit} color="green" />
+              </View>
+              <View style={{width: 150}}>
+                <Button title="Annuler" onPress={handleCancel} color="red" />
+              </View>
             </View>
           )}
-        </View>
-
-        <View style={{marginTop: 20, marginLeft: 15}}>
-          <TextInput
-            value={nom}
-            style={!bool ? styles.textInput : styles.textInput2}
-            name="Nom"
-            editable={bool}
-            onChangeText={(text) => setNom(text)}
-          />
-          <TextInput
-            value={prenom}
-            style={!bool ? styles.textInput : styles.textInput2}
-            editable={bool}
-            name="Prenom"
-            onChangeText={(text) => setPrenom(text)}
-          />
-          <TextInput
-            value={adresse}
-            style={!bool ? styles.textInput : styles.textInput2}
-            editable={bool}
-            name="adresse"
-            onChangeText={(text) => setAdresse(text)}
-          />
-          <TextInput
-            value={code}
-            style={!bool ? styles.textInput : styles.textInput2}
-            editable={bool}
-            name="code"
-            onChangeText={(text) => setCode(text)}
-          />
-        </View>
-      </View>
-      <View style={styles.bottom}>
-        {btnDisplay ? (
-          <View style={styles.bottomButton}>
-            <View style={{marginRight: 20, width: 150, borderRadius: 20}}>
-              <Button title="Modifier" onPress={handleBoutonDisplay} color="green" />
-            </View>
-            <View style={{width: 150}}>
-              <Button title="Mes Notes" onPress={() => navigate('Notation2')} />
-            </View>
+          <View style={{width: 200, marginLeft: 100, marginTop: 100}}>
+            <Button title="Deconnexion" color="red" onPress={() => logout()} />
           </View>
-        ) : (
-          <View style={styles.bottomButton}>
-            <View style={{marginRight: 20, width: 150, borderRadius: 20}}>
-              <Button title="Enregistrer" onPress={handleSubmit} color="green" />
-            </View>
-            <View style={{width: 150}}>
-              <Button title="Annuler" onPress={handleCancel} color="red" />
-            </View>
-          </View>
-        )}
-        <View style={{width: 200, marginLeft: 100, marginTop: 100}}>
-          <Button title="Deconnexion" color="red" onPress={() => logout()} />
         </View>
-      </View>
-    </KeyboardAvoidingView>
+      </KeyboardAvoidingView>
+    </LinearGradient>
   );
 }
 
@@ -267,7 +276,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     alignItems: 'center',
-    backgroundColor: '#fff',
+  },
+  linearGradient: {
+    flex: 1,
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderRadius: 5,
   },
   photoButton: {
     flexDirection: 'row',
@@ -286,7 +300,6 @@ const styles = StyleSheet.create({
     paddingLeft: 75,
     paddingTop: 5,
     borderRadius: 10,
-    borderWidth: 1,
     borderColor: 'black',
     backgroundColor: 'rgba(212,212,212,0.8)',
   },

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-alert */
 /* eslint-disable consistent-this */
@@ -5,6 +6,7 @@
 import React from 'react';
 import {StyleSheet, Button, View, TextInput, TouchableOpacity, Text, Alert, Picker} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import LinearGradient from 'react-native-linear-gradient';
 
 let userId = 0;
 class Demande extends React.Component {
@@ -54,41 +56,58 @@ class Demande extends React.Component {
 
   render() {
     return (
-      <View style={styles.container}>
-        <View>
-          <Text style={styles.para}> Selectionez le type de service :</Text>
+      <LinearGradient
+        start={{x: 0.5, y: 0}}
+        end={{x: 0.8, y: 0.8}}
+        locations={[0, 0.9]}
+        colors={['#0077b6', '#ffffff']}
+        style={styles.linearGradient}>
+        
+        <View style={styles.container}>
+          <View>
+            <Text style={styles.para}> Selectionez le type de service :</Text>
+          </View>
+          <View style={styles.picker1}>
+            <Picker style={styles.picker2} selectedValue={this.state.categorie} onValueChange={this.updateCategorie}>
+              <Picker.Item label="Aller faire des courses" value="Courses" />
+              <Picker.Item label="Aller chercher un colis" value="Colis" />
+              <Picker.Item label="Récupérer/Emmener une personne" value="Récupérer une personne" />
+              <Picker.Item label="Aller faire des lessives" value="Lessive" />
+              <Picker.Item label="Autres" value="Autres" />
+            </Picker>
+          </View>
+          <TextInput
+            mode="outlined"
+            multiline={true}
+            onChangeText={(text) => {
+              this.setState({descriptif: text});
+            }}
+            style={styles.desc}
+            placeholder="Entrez un descriptif du service"
+          />
+          {/* <Button title="Envoyer votre demande" color="green" onPress={() => this.submit()} /> */}
+          <View style={{marginTop: 40}}>
+            <Button title="Envoyez votre demande" onPress={() => this.submit()} color="green" />
+          </View>
         </View>
-        <View style={styles.picker1}>
-          <Picker style={styles.picker2} selectedValue={this.state.categorie} onValueChange={this.updateCategorie}>
-            <Picker.Item label="Aller faire des courses" value="Courses" />
-            <Picker.Item label="Aller chercher un colis" value="Colis" />
-            <Picker.Item label="Récupérer/Emmener une personne" value="Récupérer une personne" />
-            <Picker.Item label="Aller faire des lessives" value="Lessive" />
-            <Picker.Item label="Autres" value="Autres" />
-          </Picker>
-        </View>
-        <TextInput
-          mode="outlined"
-          multiline={true}
-          onChangeText={(text) => {
-            this.setState({descriptif: text});
-          }}
-          style={styles.desc}
-          placeholder="Entrez un descriptif du service"
-        />
-        {/* <Button title="Envoyer votre demande" color="green" onPress={() => this.submit()} /> */}
-        <View style={{marginTop: 40}}>
-          <Button title="Envoyez votre demande" onPress={() => this.submit()} color="green" />
-        </View>
-      </View>
+      </LinearGradient>
     );
   }
 }
 
 const styles = StyleSheet.create({
   container: {
+    backgroundColor: 'white',
+    margin: 20,
+    padding: 20,
+    height: '90%',
+    borderRadius: 20,
+  },
+  linearGradient: {
     flex: 1,
-    margin: 30,
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderRadius: 5,
   },
 
   para: {
@@ -103,7 +122,7 @@ const styles = StyleSheet.create({
   },
   picker1: {
     borderRadius: 10,
-    backgroundColor: 'grey',
+    backgroundColor: 'white',
     marginTop: 20,
     borderWidth: 1,
     borderColor: 'black',

@@ -9,6 +9,7 @@ import {SafeAreaView, TextInput, StyleSheet, Button, View, StatusBar, TouchableO
 import PhoneInput from 'react-native-phone-number-input';
 import {Colors} from 'react-native/Libraries/NewAppScreen';
 import {useNavigation} from '@react-navigation/native';
+import LinearGradient from 'react-native-linear-gradient';
 
 import firebaseSetup from './setup';
 let state;
@@ -48,12 +49,12 @@ const CodeVeriication = (route) => {
       .then((json) => {
         console.log(json);
         if (json.message == 'inscription finie') {
-          alert('inscription reussi vous pouvez vous connecter')
+          alert('Inscription réussiée  vous pouvez vous connecter');
           navigation.navigate('Connexion');
         }
       })
       .catch((err) => {
-        console.log(err)
+        console.log(err);
       });
   };
   const signInWithPhoneNumber = async (phoneNumber) => {
@@ -62,7 +63,7 @@ const CodeVeriication = (route) => {
   };
   const confirmcode = async () => {
     try {
-      //await confirm.confirm(code);
+      await confirm.confirm(code);
       envoie();
     } catch (err) {
       alert(err);
@@ -99,10 +100,10 @@ const CodeVeriication = (route) => {
               style={styles.button}
               onPress={() => {
                 console.log(formattedValue);
-                // signInWithPhoneNumber(formattedValue);
+                signInWithPhoneNumber(formattedValue);
                 setConfirm(true);
               }}>
-              <Text style={styles.buttonText}>Verifier</Text>
+              <Text style={styles.buttonText}>Vérifier</Text>
             </TouchableOpacity>
           </SafeAreaView>
         </View>
@@ -113,12 +114,17 @@ const CodeVeriication = (route) => {
   return (
     <View>
       <View style={styles.text}>
-        <Text style={{textAlign: 'center', margin: 5}}>Le code de securite viens d'etre envoye par sms au</Text>
+        <Text style={{textAlign: 'center', margin: 5}}>Le code de sécurité vient d'être envoyé par SMS au</Text>
         <Text style={{fontSize: 15, textAlign: 'center', fontWeight: 'bold'}}>{formattedValue}</Text>
       </View>
       {/* <TextInput placeholder="code de securite" style={styles.input2} /> */}
 
-      <TextInput value={code} style={styles.input2} onChangeText={(text) => setCode(text)} />
+      <TextInput
+        value={code}
+        placeholder="Entrez le code"
+        style={styles.input2}
+        onChangeText={(text) => setCode(text)}
+      />
       <View style={styles.login2}>
         <Button title="confirmer" onPress={() => confirmcode()} />
       </View>
@@ -129,9 +135,9 @@ const CodeVeriication = (route) => {
         <TouchableOpacity
           style={{marginTop: 30, left: 60}}
           onPress={() => {
-            //  signInWithPhoneNumber(formattedValue);
+            signInWithPhoneNumber(formattedValue);
           }}>
-          <Text style={{color: 'blue', textDecorationLine: 'underline'}}>pas recu de code ?</Text>
+          <Text style={{color: 'blue', textDecorationLine: 'underline'}}>Pas reçu de code ?</Text>
         </TouchableOpacity>
       </View>
     </View>
@@ -181,7 +187,7 @@ const styles = StyleSheet.create({
     borderRadius: 30,
   },
   text: {
-    marginTop: '50%',
+    marginTop: '30%',
     textAlign: 'center',
   },
   message: {

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-alert */
 import React, {useState} from 'react';
@@ -7,6 +8,7 @@ import * as ImagePicker from 'expo-image-picker';
 import * as firebase from 'firebase';
 import AsyncStorage from '@react-native-community/async-storage';
 import {useNavigation} from '@react-navigation/native';
+import LinearGradient from 'react-native-linear-gradient';
 
 function ConfGroup(route, props) {
   const [image, setImage] = useState(null);
@@ -103,6 +105,12 @@ function ConfGroup(route, props) {
   };
 
   return (
+    <LinearGradient
+    start={{x: 0, y: 0}}
+    end={{x: 0.1, y: 1.2}}
+    locations={[0.1,0.5, 1]}
+    colors={['#ffffff','#ffffff','#0077b6' ]}
+    style={styles.linearGradient}>
     <View style={styles.container}>
       <TouchableOpacity style={styles.ellipseRow}>
         <TouchableOpacity onPress={pickImage}>
@@ -141,10 +149,12 @@ function ConfGroup(route, props) {
           <Text style={styles.caption}>{props.caption || 'Annuler'}</Text>
         </TouchableOpacity>
         <TouchableOpacity style={[styles.violet1, styles.materialButtonViolet1]} onPress={handleSent}>
-          <Text style={styles.caption}>{props.caption || 'Creer'}</Text>
+          <Text style={styles.caption}>{props.caption || 'Créer'}</Text>
         </TouchableOpacity>
       </View>
     </View>
+    </LinearGradient>
+
   );
 }
 
@@ -157,6 +167,11 @@ const styles = StyleSheet.create({
     fontSize: 40,
     marginTop: 39,
     marginLeft: -262,
+  },  linearGradient: {
+    flex: 1,
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderRadius: 5,
   },
   ellipse: {
     width: 98,
@@ -223,7 +238,7 @@ const styles = StyleSheet.create({
     marginRight: 32,
   },
   violet1: {
-    backgroundColor: '#3F51B5',
+    backgroundColor: 'green',
     justifyContent: 'center',
     alignItems: 'center',
     flexDirection: 'row',

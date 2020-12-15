@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-hooks/rules-of-hooks */
 /* eslint-disable eqeqeq */
@@ -16,6 +17,7 @@ export default function checkProfil({navigation, route}) {
   const [prenom1, onChangePrenom] = React.useState(route.params.prenom);
   const title1 = `${nom1} ${prenom1}`;
 
+  // eslint-disable-next-line prettier/prettier
   const [nom, setNom] = useState(' ');
   const [prenom, setPrenom] = useState(' ');
   const [adresse, setAdresse] = useState(' ');
@@ -30,6 +32,13 @@ export default function checkProfil({navigation, route}) {
   React.useLayoutEffect(() => {
     navigation.setOptions({
       title: title1 === '' ? 'No title' : title1,
+      headerStyle: {
+            backgroundColor: '#0077b6',
+          },
+          headerTitleStyle: {
+            marginLeft: '20%',
+            color:'white'
+          },
     });
   }, [navigation, title1]);
 
@@ -101,7 +110,12 @@ export default function checkProfil({navigation, route}) {
       </View>
     )
   ) : (
-    <LinearGradient colors={['#4c669f', '#3b5998', '#192f6a']} style={styles.linearGradient}>
+    <LinearGradient
+      start={{x: 0.5, y: 0}}
+      end={{x: 0.6, y: 0.6}}
+      locations={[0, 0.9]}
+      colors={['#0077b6', '#ffffff']}
+      style={styles.linearGradient}>
       <KeyboardAvoidingView style={styles.container}>
         <View style={{flexDirection: 'row', marginTop: 60}}>
           <View style={styles.top}>
@@ -149,13 +163,13 @@ export default function checkProfil({navigation, route}) {
         </View>
         <View>
           <TouchableOpacity style={styles.note}>
-            <Text style={styles.noteText2}>Note de L'utilisateur</Text>
+            <Text style={styles.noteText2}>Note de L' utilisateur</Text>
             <Text style={styles.noteText}>{rating}/5</Text>
           </TouchableOpacity>
         </View>
         <View style={{marginTop: 60}}>
           <Button
-            title="signaler cette utilisateur"
+            title="signaler cet utilisateur"
             onPress={() => {
               navigation.navigate('signaler', {id: Id});
             }}
@@ -199,9 +213,7 @@ const styles = StyleSheet.create({
   },
   note: {
     marginTop: 60,
-    // backgroundColor: '#E0E0E0',
-    borderWidth: 2,
-    borderColor: 'black',
+     backgroundColor: '#E0E0E0',
     borderRadius: 15,
     height: 110,
     width: 200,

@@ -2,6 +2,7 @@
 import React, {useEffect} from 'react';
 import {StyleSheet, View, TouchableOpacity, Text} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
+import LinearGradient from 'react-native-linear-gradient';
 
 //import MaterialCommunityIconsIcon from 'react-native-vector-icons/MaterialCommunityIcons';
 let userId = ' ';
@@ -37,13 +38,18 @@ function Homescreen(props) {
   };
 
   return (
-    <View style={styles.container}>
+    <LinearGradient
+      start={{x: 0, y: 0.1}}
+      end={{x: 0.9, y: 0.9}}
+       locations={[0, 0.4, 0.8]}
+      colors={['#bde0fe','#ffffff', '#bde0fe']}
+      style={styles.linearGradient}>
       <View style={styles.buttonRow}>
         <TouchableOpacity style={styles.button} onPress={handleListeDem}>
           <Text style={styles.joffreMonService1}>J&#39;offre mon{'\n'}service</Text>
         </TouchableOpacity>
         <TouchableOpacity style={styles.button2} onPress={handleDemande}>
-          <Text style={styles.demandeDaide}>Demande {'\n'}d&#39;aide</Text>
+          <Text style={styles.demandeDaide}>Demande de Service</Text>
         </TouchableOpacity>
       </View>
       <View style={styles.button3Row}>
@@ -54,19 +60,32 @@ function Homescreen(props) {
           <Text style={styles.discussion}>Discussion</Text>
         </TouchableOpacity>
       </View>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
+  linearGradient: {
     flex: 1,
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderRadius: 5,
   },
   button: {
     width: '46%',
     height: 194,
-    backgroundColor: 'rgba(227,144,153,1)',
+    backgroundColor: '#7CDB8A',
+
+    // backgroundColor: 'rgba(227,144,153,1)',
     borderRadius: 22,
+    shadowColor: 'rgba(0,0,0,0.4)',
+    shadowOffset: {
+      width: 1,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 10,
   },
   joffreMonService1: {
     fontFamily: 'roboto-300',
@@ -75,7 +94,7 @@ const styles = StyleSheet.create({
     textAlign: 'center',
     fontSize: 18,
     marginTop: 77,
-    marginLeft: 40,
+    marginLeft: 20,
   },
   button2: {
     width: '46%',
@@ -84,6 +103,15 @@ const styles = StyleSheet.create({
     borderRadius: 22,
     marginLeft: 23,
     marginTop: 2,
+    shadowColor: 'rgba(0,0,0,0.4)',
+    shadowOffset: {
+      width: 1,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 10,
+
   },
   demandeDaide: {
     fontFamily: 'roboto-300',
@@ -91,7 +119,7 @@ const styles = StyleSheet.create({
     fontSize: 18,
     textAlign: 'center',
     marginTop: 75,
-    marginLeft: 41,
+    marginLeft: 20,
   },
   buttonRow: {
     height: 196,
@@ -105,6 +133,14 @@ const styles = StyleSheet.create({
     height: 194,
     backgroundColor: 'rgba(189,244,123,1)',
     borderRadius: 22,
+    shadowColor: 'rgba(0,0,0,0.4)',
+    shadowOffset: {
+      width: 1,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 10,
   },
   profile: {
     fontFamily: 'arial-regular',
@@ -119,6 +155,14 @@ const styles = StyleSheet.create({
     backgroundColor: 'rgba(183,154,209,1)',
     borderRadius: 22,
     marginLeft: 23,
+    shadowColor: 'rgba(0,0,0,0.4)',
+    shadowOffset: {
+      width: 1,
+      height: 5,
+    },
+    shadowOpacity: 0.34,
+    shadowRadius: 6.27,
+    elevation: 10,
   },
   discussion: {
     fontFamily: 'roboto-300',
@@ -126,7 +170,7 @@ const styles = StyleSheet.create({
     fontSize: 21,
     textAlign: 'center',
     marginTop: 73,
-    marginLeft: 30,
+    marginLeft: 20,
   },
   button3Row: {
     height: 194,

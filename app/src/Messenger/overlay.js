@@ -100,7 +100,7 @@ const OverlayExample = (props) => {
     <View>
       {load ? (
         <Overlay isVisible={visible} onBackdropPress={toggleOverlay}>
-          <Text>Allez vous rendre service a cette personne ?</Text>
+          <Text>Allez vous rendre service à cette personne ?</Text>
           <Text style={{color: 'gray'}}>service :{props.descrip}</Text>
           <View style={styles.container}>
             <View>{console.log('found')}</View>

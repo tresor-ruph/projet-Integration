@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable use-isnan */
 /* eslint-disable radix */
 /* eslint-disable eqeqeq */
@@ -8,6 +9,7 @@ import {ListItem, Avatar} from 'react-native-elements';
 import {View, StyleSheet, TextInput, Picker, Button} from 'react-native';
 import AsyncStorage from '@react-native-community/async-storage';
 import OverlayExample from './../Messenger/overlay';
+import LinearGradient from 'react-native-linear-gradient';
 
 let userId = ' ';
 class ListeDem extends React.Component {
@@ -92,101 +94,114 @@ class ListeDem extends React.Component {
 
   render() {
     return (
-      <View>
-        {this.state.confOffre && (
-          <OverlayExample
-            idDem={this.state.idDem}
-            idOffre={this.state.idOffre}
-            userId={userId}
-            descrip={this.state.idNom}
-          />
-        )}
-        <View style={{flexDirection: 'row'}}>
-          <Picker style={styles.picks} selectedValue={this.state.filtre} onValueChange={this.updateFiltre}>
-            <Picker.Item label="Aller faire des courses" value="Courses" />
-            <Picker.Item label="Aller chercher un colis" value="Colis" />
-            <Picker.Item label="Récupérer/Emmener une personne" value="Récupérer une personne" />
-            <Picker.Item label="Aller faire des lessives" value="Lessive" />
-            <Picker.Item label="Autres" value="Autres" />
-            <Picker.Item label="Tout" value="all" />
-          </Picker>
-          <TextInput
-            onChangeText={(text) => {
-              this.modifietext(text);
-            }}
-            style={styles.inputt}
-          />
-        </View>
-        <View style={styles.boutonTri}>
-          <Button
-            title="Filtrer"
-            onPress={() => {
-              this.submit();
-            }}
-          />
-        </View>
-        <View style={styles.boutonDem}>
-          <Button color="green" title="Mes demandes" onPress={this.click_MesDem} />
-        </View>
-
-        {this.state.demande.reverse().map((l, i) => (
-          <ListItem key={i} bottomDivider>
-            <Avatar
-              rounded
-              onPress={() =>
-                this.props.navigation.navigate('checkProfil', {
-                  id: l.userId,
-                  nom: l.Nom,
-                  prenom: l.Prenom,
-                })
-              }
-              size={70}
-              source={{uri: l.PhotoProfil}}
+      <LinearGradient
+        start={{x: 0.5, y: 0}}
+        end={{x: 0.8, y: 0.8}}
+        locations={[0, 0.9]}
+        colors={['#ffffff', '#0077b6']}
+        style={styles.linearGradient}>
+        <View style={{height: '100%', backgroundColor: 'white'}}>
+          {this.state.confOffre && (
+            <OverlayExample
+              idDem={this.state.idDem}
+              idOffre={this.state.idOffre}
+              userId={userId}
+              descrip={this.state.idNom}
             />
-            <ListItem.Content>
-              <ListItem.Title>
-                {l.Prenom} {l.Nom}
-              </ListItem.Title>
-              <ListItem.Subtitle style={styles.descri}>{l.categorie}</ListItem.Subtitle>
-              <ListItem.Subtitle>{l.descriptif}</ListItem.Subtitle>
-              <View style={styles.boutsss}>
-                <Button
-                  title="Chat"
-                  onPress={() => {
-                    AsyncStorage.setItem('serv', JSON.stringify(l.idDemande), (err, res) => {
-                      if (err) {
-                        console.log(error);
-                      } else {
-                        console.log('value set');
-                      }
-                    });
-                    this.props.navigation.navigate('Chat', {
-                      senderId: userId,
-                      recieverId: l.userId,
-                      iddem: l.idDemande,
-                      check: 'offre',
-                      handleItem: (item) => {
-                        this.setState({
-                          confOffre: true,
-                          idDem: l.userId,
-                          idOffre: l.idDemande,
-                          idNom: l.descriptif,
-                        });
-                        console.log(item);
-                      },
-                    });
-                  }}
-                />
-              </View>
-            </ListItem.Content>
-          </ListItem>
-        ))}
-      </View>
+          )}
+
+          <View style={{flexDirection: 'row'}}>
+            <Picker style={styles.picks} selectedValue={this.state.filtre} onValueChange={this.updateFiltre}>
+              <Picker.Item label="Aller faire des courses" value="Courses" />
+              <Picker.Item label="Aller chercher un colis" value="Colis" />
+              <Picker.Item label="Récupérer/Emmener une personne" value="Récupérer une personne" />
+              <Picker.Item label="Aller faire des lessives" value="Lessive" />
+              <Picker.Item label="Autres" value="Autres" />
+              <Picker.Item label="Tout" value="all" />
+            </Picker>
+            <TextInput
+              onChangeText={(text) => {
+                this.modifietext(text);
+              }}
+              style={styles.inputt}
+            />
+          </View>
+          <View style={styles.boutonTri}>
+            <Button
+              title="Filtrer"
+              onPress={() => {
+                this.submit();
+              }}
+            />
+          </View>
+          <View style={styles.boutonDem}>
+            <Button color="green" title="Mes demandes" onPress={this.click_MesDem} />
+          </View>
+          {this.state.demande.reverse().map((l, i) => (
+            <ListItem key={i} bottomDivider>
+              <Avatar
+                rounded
+                onPress={() =>
+                  this.props.navigation.navigate('checkProfil', {
+                    id: l.userId,
+                    nom: l.Nom,
+                    prenom: l.Prenom,
+                  })
+                }
+                size={70}
+                source={{uri: l.PhotoProfil}}
+              />
+              <ListItem.Content>
+                <ListItem.Title>
+                  {l.Prenom} {l.Nom}
+                </ListItem.Title>
+                <ListItem.Subtitle style={styles.descri}>{l.categorie}</ListItem.Subtitle>
+                <ListItem.Subtitle>{l.descriptif}</ListItem.Subtitle>
+                <View style={styles.boutsss}>
+                  <Button
+                    title="Chat"
+                    onPress={() => {
+                      AsyncStorage.setItem('serv', JSON.stringify(l.idDemande), (err, res) => {
+                        if (err) {
+                          console.log(error);
+                        } else {
+                          console.log('value set');
+                        }
+                      });
+                      this.props.navigation.navigate('Chat', {
+                        senderId: userId,
+                        recieverId: l.userId,
+                        iddem: l.idDemande,
+                        check: 'offre',
+                        handleItem: (item) => {
+                          this.setState({
+                            confOffre: true,
+                            idDem: l.userId,
+                            idOffre: l.idDemande,
+                            idNom: l.descriptif,
+                          });
+                          console.log(item);
+                        },
+                      });
+                    }}
+                  />
+                </View>
+              </ListItem.Content>
+            </ListItem>
+          ))}
+        </View>
+      </LinearGradient>
     );
   }
 }
 
 const styles = StyleSheet.create({
+  linearGradient: {
+    flex: 1,
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderRadius: 5,
+  },
   picks: {
     width: '70%',
     marginTop: '1%',

@@ -1,3 +1,4 @@
+/* eslint-disable prettier/prettier */
 /* eslint-disable react-native/no-inline-styles */
 /* eslint-disable no-alert */
 /* eslint-disable eqeqeq */
@@ -5,8 +6,8 @@ import React from 'react';
 import {StyleSheet, View, Button, TextInput, ScrollView, Switch, Text, ImageBackground, Picker} from 'react-native';
 import PassMeter from 'react-native-passmeter';
 import AsyncStorage from '@react-native-community/async-storage';
+import LinearGradient from 'react-native-linear-gradient';
 
-console.disableYellowBox = true;
 
 class Form extends React.Component {
   constructor() {
@@ -135,13 +136,19 @@ class Form extends React.Component {
       simpleAlertHandler();
       return;
     }
-    this.props.navigation.navigate('Code de securite', {values: this.state});
+    this.props.navigation.navigate('Code de sécurité', {values: this.state});
 
     //this.envoie();
   }
 
   render() {
     return (
+      <LinearGradient
+      start={{x:0.5, y: 0}}
+      end={{x: 0.8, y: 0.8}}
+      locations={[0, 0.9]}
+      colors={[  '#0077b6','#ffffff']}
+      style={styles.linearGradient}>
       <ScrollView>
         <View style={styles.container}>
           <TextInput
@@ -212,7 +219,7 @@ class Form extends React.Component {
           />
 
           <TextInput
-            placeholder="Repetition du mot de passe"
+            placeholder="Répétition du mot de passe"
             maxLength={50}
             secureTextEntry={this.state.showPassword}
             onChangeText={(text) => {
@@ -233,6 +240,8 @@ class Form extends React.Component {
           </View>
         </View>
       </ScrollView>
+          </LinearGradient>
+
     );
   }
 }
@@ -253,6 +262,12 @@ const styles = StyleSheet.create({
   image: {
     flex: 1,
     resizeMode: 'cover',
+  },
+  linearGradient: {
+    flex: 1,
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderRadius: 5,
   },
   textInput: {
     height: 50,

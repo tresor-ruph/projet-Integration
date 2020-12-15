@@ -1,8 +1,10 @@
+/* eslint-disable prettier/prettier */
 import React, {useState} from 'react';
 import {StyleSheet, View, Button, TouchableOpacity, TextInput, Text} from 'react-native';
 import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
 import AsyncStorage from '@react-native-community/async-storage';
 // import Icon from 'react-native-vector-icons/MaterialCommunityIcons';
+import LinearGradient from 'react-native-linear-gradient';
 
 function Addcontact(props) {
   const [name, setName] = useState('');
@@ -21,9 +23,7 @@ function Addcontact(props) {
         try {
           let userId = await AsyncStorage.getItem('user');
           userId = JSON.parse(userId).Id;
-          console.log('********************************************************');
-          console.log(userId);
-          console.log('********************************************************');
+         
 
           const value = await AsyncStorage.getItem('contact');
           let value2 = JSON.parse(value);
@@ -56,7 +56,7 @@ function Addcontact(props) {
         }
       }
       try {
-        fetch(`https://help-recover-api.herokuapp.com/contacts/${email}/contact85550`)
+        fetch(`https://help-recover-api.herokuapp.com/contacts/${email}/contact1999`)
           .then((response) => response.json())
           .then((json) => {
             if (json.length === 1) {
@@ -91,33 +91,46 @@ function Addcontact(props) {
   }
 
   return (
-    <View style={styles.container}>
-      {renderMessageLog()}
-      <View style={[styles.input1, props.style]}>
-        <Icon name="email" style={styles.iconStyle} />
-        <TextInput placeholder="Email" style={styles.inputStyle} onChangeText={(text) => setEmail(text)} />
-      </View>
-      <View style={[styles.input2, props.style]}>
-        <Icon name="account" style={styles.iconStyle2} />
-        <TextInput placeholder="Nom." style={styles.inputStyle2} onChangeText={(text) => setName(text)} />
-      </View>
-      <View style={styles.footer}>
-        <View style={styles.btnWrapper1Row}>
-          <TouchableOpacity style={styles.btnWrapper1}>
-            <Button title="Annuler" onPress={() => props.navigation.navigate('Discussion_Repo')} />
-          </TouchableOpacity>
-          <TouchableOpacity style={styles.btnWrapper4}>
-            <Button title="Enregistrer" onPress={() => enregistrer()} />
-          </TouchableOpacity>
+    <LinearGradient
+      start={{x: 0, y: 0}}
+      end={{x: 0.1, y: 1.2}}
+      locations={[0.1,0.5, 1]}
+      colors={['#ffffff','#ffffff','#0077b6' ]}
+      style={styles.linearGradient}>
+      <View style={styles.container}>
+        {renderMessageLog()}
+        <View style={[styles.input1, props.style]}>
+          <Icon name="email" style={styles.iconStyle} />
+          <TextInput placeholder="Email" style={styles.inputStyle} onChangeText={(text) => setEmail(text)} />
+        </View>
+        <View style={[styles.input2, props.style]}>
+          <Icon name="account" style={styles.iconStyle2} />
+          <TextInput placeholder="Nom." style={styles.inputStyle2} onChangeText={(text) => setName(text)} />
+        </View>
+        <View style={styles.footer}>
+          <View style={styles.btnWrapper1Row}>
+            <TouchableOpacity style={styles.btnWrapper1}>
+              <Button title="Annuler" onPress={() => props.navigation.navigate('Discussion_Repo')} color='green'/>
+            </TouchableOpacity>
+            <TouchableOpacity style={styles.btnWrapper4}>
+              <Button title="Enregistrer" onPress={() => enregistrer()} color='green'/>
+            </TouchableOpacity>
+          </View>
         </View>
       </View>
-    </View>
+    </LinearGradient>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  linearGradient: {
+    flex: 1,
+    paddingLeft: 15,
+    paddingRight: 15,
+    borderRadius: 5,
   },
   input1: {
     backgroundColor: 'transparent',
@@ -216,7 +229,7 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     overflow: 'visible',
     height: 49,
-    width: 188,
+    width: 200,
   },
   textInput2: {
     fontSize: 16,

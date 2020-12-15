@@ -9,16 +9,12 @@ export default function HomeHeader() {
   return (
     <View>
       <Header
-        containerStyle={{height: 65}}
+        containerStyle={{color: '#0077b6'}}
         centerComponent={{
-          text: 'Accueille', style: {fontSize: 19, padding: 10}
-        }}
-        leftComponent = {{
-          
+          text: 'Accueil',
+          style: {fontSize: 21, padding: 10},
         }}
       />
     </View>
   );
 }
-
-
